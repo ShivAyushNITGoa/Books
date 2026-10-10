@@ -1,0 +1,124 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function isAdmin() { 
+      return isSignedIn() && 
+             (exists(/databases/$(database)/documents/admins/$(request.auth.uid)) || 
+              (request.auth.token.get('email_verified', false) == true &&
+               request.auth.token.email in ['shivshivamxyz@gmail.com', 'ashivamone@gmail.com'])); 
+    }
+    function isStrategist() {
+      return isSignedIn() && (isAdmin() || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isStrategist == true);
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'xp', 'level', 'completedDays', 'updatedAt']) &&
+             data.email is string && data.email.size() <= 200 &&
+             data.xp is int && data.xp >= 0 &&
+             data.level is int && data.level >= 1 &&
+             data.completedDays is list && data.completedDays.size() <= 100 &&
+             (data.get('presenceDays', []) is list) &&
+             (data.get('streak', 0) is int) &&
+             (data.get('displayName', '') is string || data.get('displayName', null) == null) &&
+             (data.get('bio', '') is string || data.get('bio', null) == null) &&
+             (data.get('uid', '') is string) &&
+             (data.get('photoURL', '') is string || data.get('photoURL', null) == null) &&
+             (data.get('referredBy', '') is string || data.get('referredBy', null) == null) &&
+             (data.get('isStrategist', false) is bool) &&
+             (data.get('isAdmin', false) is bool) &&
+             (data.get('premiumRequestStatus', '') is string || data.get('premiumRequestStatus', null) == null) &&
+             (data.get('premiumRequestPlan', '') is string || data.get('premiumRequestPlan', null) == null) &&
+             (data.get('premiumRequestPlanName', '') is string || data.get('premiumRequestPlanName', null) == null) &&
+             (data.get('premiumRequestPaymentMethod', '') is string || data.get('premiumRequestPaymentMethod', null) == null) &&
+             (data.get('premiumRequestDetails', '') is string || data.get('premiumRequestDetails', null) == null) &&
+             (data.get('premiumRequestTransactionId', '') is string || data.get('premiumRequestTransactionId', null) == null) &&
+             (data.get('premiumRequestDate', request.time) is timestamp || data.get('premiumRequestDate', null) == null) &&
+             (data.get('lastLoginAt', request.time) is timestamp || data.get('lastLoginAt', null) == null) &&
+             (data.get('lastCompletedAt', request.time) is timestamp || data.get('lastCompletedAt', null) == null) &&
+             (data.get('dailyReflections', {}) is map || data.get('dailyReflections', null) == null) &&
+             (data.get('updatedAt', request.time) is timestamp);
+    }
+
+    match /users/{userId} {
+      allow get, list: if isSignedIn();
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if (isOwner(userId) && isValidUser(request.resource.data) && (
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'xp', 'level', 'completedDays', 'updatedAt', 'lastLoginAt', 'streak', 
+          'displayName', 'bio', 'photoURL', 'isStrategist', 'presenceDays', 
+          'lastCompletedAt', 'dailyReflections',
+          'premiumRequestStatus', 'premiumRequestPlan', 'premiumRequestPlanName', 
+          'premiumRequestPaymentMethod', 'premiumRequestDetails', 'premiumRequestTransactionId', 
+          'premiumRequestDate'
+        ])
+      )) || (isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+        'isStrategist', 'premiumRequestStatus', 'isAdmin', 'completedDays', 'streak', 'xp', 'level', 'updatedAt', 'lastCompletedAt', 'presenceDays', 'dailyReflections', 'displayName', 'bio', 'photoURL'
+      ]));
+      allow delete: if isAdmin();
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll(['authorId', 'authorName', 'content', 'createdAt', 'likes']) &&
+             data.authorId == request.auth.uid &&
+             data.authorName is string && data.authorName.size() <= 100 &&
+             (data.get('authorPhotoURL', null) == null || (data.authorPhotoURL is string && data.authorPhotoURL.size() <= 2000000)) &&
+             data.content is string && data.content.size() <= 5000 &&
+             data.likes is int;
+    }
+
+    match /posts/{postId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidPost(request.resource.data);
+      allow update: if isSignedIn();
+      allow delete: if isSignedIn() && (isOwner(resource.data.authorId) || isAdmin());
+    }
+
+    // Content Management
+    match /journey/{dayId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /archives/{videoId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /library/{bookId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /shop/{productId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if false; // Only manageable through Firebase Console for security
+    }
+
+    match /test/connection {
+      allow get: if true;
+    }
+  }
+}

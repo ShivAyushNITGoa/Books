@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="hi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Talk2Society | सीखें, सोचें, आगे बढ़ें</title>
+    <meta name="description" content="हर दिन कुछ मिनट निकालकर बेहतर सवाल पूछना और साफ़ सोच बनाना सीखें। किताबें, वीडियो और अपनी गति से पूरे किए जाने वाले छोटे दैनिक अभ्यास।" />
+    <meta property="og:title" content="Talk2Society — सीखें, सोचें, आगे बढ़ें" />
+    <meta property="og:description" content="किताबें, वीडियो और 100-दिन की सोच यात्रा। अपनी गति से सीखें और हर दिन एक छोटा कदम बढ़ाएं।" />
+    <meta property="og:locale" content="hi_IN" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Talk2Society" />
+
+    <!-- Performance: Preconnect to font domains for non-blocking parallel fetch -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+  </head>
+  <body style="background-color: #060709; margin: 0; padding: 0;">
+    <div id="root">
+      <!-- Instant Zero-Latency Initial Render Shell (Replaced automatically when React boots) -->
+      <div id="initial-shell" style="position:fixed;inset:0;background:#060709;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;z-index:99999;color:#fff;">
+        <div style="position:relative;width:60px;height:60px;margin-bottom:18px;display:flex;align-items:center;justify-content:center;">
+          <div style="position:absolute;inset:0;border-radius:16px;background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);animation:t2s-pulse 1.8s infinite ease-in-out;"></div>
+          <span style="font-size:22px;color:#f59e0b;font-weight:900;letter-spacing:-1px;">T2S</span>
+        </div>
+        <div style="font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:4px;">TALK2SOCIETY</div>
+        <div style="font-size:10px;font-weight:500;letter-spacing:0;color:#a1a1aa;margin-bottom:20px;">सीखें, सोचें और अपनी राह चुनें</div>
+        <div style="width:120px;height:2.5px;background:rgba(255,255,255,0.08);border-radius:99px;overflow:hidden;position:relative;">
+          <div style="position:absolute;top:0;left:0;height:100%;width:40%;background:linear-gradient(90deg, #f59e0b, #fbbf24);border-radius:99px;animation:t2s-bar 1.2s infinite ease-in-out;"></div>
+        </div>
+        <style>
+          @keyframes t2s-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 25px rgba(245,158,11,0.25); }
+          }
+          @keyframes t2s-bar {
+            0% { left: -40%; width: 30%; }
+            50% { left: 30%; width: 50%; }
+            100% { left: 100%; width: 30%; }
+          }
+        </style>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

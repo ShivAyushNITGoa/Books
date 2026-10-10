@@ -1,0 +1,6 @@
+{
+  "name": "T2S Nexus",
+  "description": "India-centric Social Reality & Life Guidance platform by A. K. Chandradipti. Explore hidden social systems, documentaries, mental models, the 5 foundational manuals, and a 100-day conscious thinking journey.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

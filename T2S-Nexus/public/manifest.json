@@ -1,0 +1,36 @@
+{
+  "name": "Talk2Society - Social Reality & Life Guidance",
+  "short_name": "Talk2Society",
+  "description": "India-centric Social Reality & Life Guidance platform by A. K. Chandradipti. Explore hidden social systems, documentaries, mental models, and a 100-day conscious thinking journey.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/Logo-real.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/Logo-real.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
