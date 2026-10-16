@@ -2,3 +2,4 @@
 output/
 audio/tv6_master.mp3
 *.mp4
+__pycache__/
