@@ -1,0 +1,4 @@
+# generated build artifacts
+output/
+audio/tv6_master.mp3
+*.mp4
