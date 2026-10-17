@@ -212,10 +212,11 @@ def render_segment(ffmpeg, seg, img: Path, out: Path):
 
 # ---------------------------------------------------------------- build
 def build(args):
-    global W, H, CRF
+    global W, H, CRF, IMG_DIR
     w, _, h = args.res.partition("x")
     W, H = int(w), int(h)
     CRF = args.crf
+    IMG_DIR = ROOT / args.images
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
@@ -348,4 +349,7 @@ if __name__ == "__main__":
                          "26-28 keeps 720p under GitHub's 100 MB cap)")
     ap.add_argument("--no-captions", action="store_true",
                     help="skip burned-in captions (fast stream-copy final mux)")
+    ap.add_argument("--images", default="images",
+                    help="image source directory relative to repo root "
+                         "(default 'images'; use 'images_up4x' for AI-upscaled art)")
     sys.exit(build(ap.parse_args()))

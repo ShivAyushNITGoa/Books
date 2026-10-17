@@ -1,1 +1,4 @@
 output/
+models/
+images_up4x/
+__pycache__/
