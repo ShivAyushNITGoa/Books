@@ -54,6 +54,7 @@ FONT_DIR = ROOT / "fonts"          # Noto Sans Devanagari (Devanagari glyphs)
 FPS = 24
 W, H = 1280, 720          # 720p keeps the repo file under GitHub's 100 MB cap
 ZOOM = 0.10                # Ken Burns zoom range
+CRF = 24                   # x264 quality (higher = smaller file)
 TAIL_AFTER_VO = 2.0        # seconds of held final image after the VO ends
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
 AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
@@ -201,7 +202,7 @@ def render_segment(ffmpeg, seg, img: Path, out: Path):
            "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
            "-frames:v", str(seg["frames"]),
            "-vf", vf,
-           "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
+           "-c:v", "libx264", "-preset", "veryfast", "-crf", str(CRF),
            "-pix_fmt", "yuv420p", "-r", str(FPS),
            str(out)]
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -211,9 +212,10 @@ def render_segment(ffmpeg, seg, img: Path, out: Path):
 
 # ---------------------------------------------------------------- build
 def build(args):
-    global W, H
+    global W, H, CRF
     w, _, h = args.res.partition("x")
     W, H = int(w), int(h)
+    CRF = args.crf
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
@@ -295,31 +297,42 @@ def build(args):
         print("concat failed:", r.stderr[-800:])
         return r.returncode
 
-    # stage 3: burn in SRT captions + mux the master VO (single encode pass)
+    # stage 3: mux the master VO (optionally with burned-in SRT captions)
     out = OUT_DIR / (f"tv6_test_{args.limit}.mp4" if args.limit else "tv6_final.mp4")
-    style = ("FontName=Noto Sans Devanagari,Fontsize=18,"
-             "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
-             "BorderStyle=1,Outline=2,Shadow=0,MarginV=34,Alignment=2")
-    vf = (f"subtitles={SRT_PATH}:fontsdir={FONT_DIR}:"
-          f"force_style='{style}'")
-    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
-           "-i", str(vid), "-i", str(vo),
-           "-map", "0:v:0", "-map", "1:a:0",
-           "-vf", vf,
-           "-c:v", "libx264", "-preset", "veryfast", "-crf", "24",
-           "-pix_fmt", "yuv420p",
-           "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
-           "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    if args.no_captions:
+        cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
+               "-i", str(vid), "-i", str(vo),
+               "-map", "0:v:0", "-map", "1:a:0",
+               "-c:v", "copy",
+               "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
+               "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    else:
+        style = ("FontName=Noto Sans Devanagari,Fontsize=18,"
+                 "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
+                 "BorderStyle=1,Outline=2,Shadow=0,MarginV=34,Alignment=2")
+        vf = (f"subtitles={SRT_PATH}:fontsdir={FONT_DIR}:"
+              f"force_style='{style}'")
+        cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
+               "-i", str(vid), "-i", str(vo),
+               "-map", "0:v:0", "-map", "1:a:0",
+               "-vf", vf,
+               "-c:v", "libx264", "-preset", "veryfast", "-crf", str(CRF),
+               "-pix_fmt", "yuv420p",
+               "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
+               "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
     r = subprocess.run(cmd)
     if r.returncode != 0:
-        print("caption/mux pass failed")
+        print("final pass failed")
         return r.returncode
 
-    shutil.copy(SRT_PATH, OUT_DIR / "tv6.srt")
     size_mb = out.stat().st_size / 1e6
     print(f"\nDONE: {out}  ({size_mb:.1f} MB)")
-    print("Captions      : burned in from tv6.srt (Noto Sans Devanagari)")
-    print(f"Sidecar subtitles: {OUT_DIR / 'tv6.srt'}")
+    if args.no_captions:
+        print("Captions      : none (clean build)")
+    else:
+        shutil.copy(SRT_PATH, OUT_DIR / "tv6.srt")
+        print("Captions      : burned in from tv6.srt (Noto Sans Devanagari)")
+        print(f"Sidecar subtitles: {OUT_DIR / 'tv6.srt'}")
     return 0
 
 
@@ -330,4 +343,9 @@ if __name__ == "__main__":
     ap.add_argument("--res", default="1280x720",
                     help="render resolution WxH (default 1280x720; "
                          "use 854x480 to keep the final MP4 under GitHub's 100 MB cap)")
+    ap.add_argument("--crf", type=int, default=24,
+                    help="x264 CRF for the segments (higher = smaller file; "
+                         "26-28 keeps 720p under GitHub's 100 MB cap)")
+    ap.add_argument("--no-captions", action="store_true",
+                    help="skip burned-in captions (fast stream-copy final mux)")
     sys.exit(build(ap.parse_args()))
