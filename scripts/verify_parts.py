@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Acceptance checks A1/A2 for the TV7 parts. No ffprobe - parses ffmpeg -i stderr."""
-import subprocess, sys
+"""Acceptance checks A1/A2 for episode parts. No ffprobe - parses ffmpeg -i stderr.
+
+Usage: python3 scripts/verify_parts.py --ep tv8 --cues 330
+"""
+import argparse
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRT = ROOT / "tv7.srt"
 FF = None
 import imageio_ffmpeg
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -32,10 +36,19 @@ def srt_cues(path):
 
 
 def main():
-    parts = sorted(ROOT.glob("tv7_2k_part*.mp4"))
-    cues = srt_cues(SRT)
-    print(f"A1: SRT cues = {cues}")
-    ok = cues == 202
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--ep", default="tv7", help="episode slug (files <ep>.srt, <ep>_2k_part*.mp4)")
+    ap.add_argument("--cues", type=int, default=None, help="expected cue count (A1)")
+    args = ap.parse_args()
+    srt = ROOT / f"{args.ep}.srt"
+    parts = sorted(ROOT.glob(f"{args.ep}_2k_part*.mp4"))
+    print(f"episode: {args.ep} | parts: {[p.name for p in parts]}")
+    if not parts:
+        print("OVERALL: FAIL (no parts)")
+        return 1
+    cues = srt_cues(srt)
+    print(f"A1: SRT cues = {cues} (expected {args.cues})")
+    ok = (args.cues is None or cues == args.cues)
     total = 0.0
     for p in parts:
         i = probe(p)

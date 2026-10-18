@@ -1,0 +1,4 @@
+TV8 image generation progress (10/turn cap)
+done: 10/330 scenes + #Host plate (batch 1: cues 1-10)
+next: batch 2 = cues 11-20 -> #0-36 #0-41 #0-46 #0-50 #0-53 #0-56 #1-00 #1-03 #1-08 #1-12
+batches remaining: 32
