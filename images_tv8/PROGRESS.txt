@@ -1,8 +1,6 @@
-TV8 image generation progress (10/turn cap)
-REWRITE NOTE: Stage-3 compositions were re-audited against tv8.srt cue texts and
-~35 drifted entries were replaced (pack rebuilt). Already-generated batch-1 images
-#0-00 #0-03 #0-07 #0-10 #0-24 #0-28 #0-34 were made from the OLD comps -> REGENERATE.
-Keep from batch 1: #0-16 #0-20 #0-35 (host shots match corrected comps).
-done: 10/330 generated (7 need regen) + #Host plate
-next calls: regen #0-00 #0-03 #0-07 #0-10 #0-24 #0-28 #0-34 (7) + #0-36 #0-41 #0-46 (3)
-then batches of 10 through cue 330 per prompts/TV8_Image_Prompts_full.txt
+TV8 image generation progress (10/turn cap) — RECREATE ALL from corrected pack
+pack 1 (cues 1-10): DONE regenerated from corrected prompts (0-00 0-03 0-07 0-10 0-16 0-20 0-24 0-28 0-34 0-35)
+pack 2 (cues 11-20): next -> 0-36 0-41 0-46 0-50 0-53 0-56 1-00 1-03 1-08 1-12
+remaining after pack 2: 31 packs (cues 21-330)
+note: every [P] prompt now carries the protagonist descriptor (late twenties, short black hair, plain dark-grey shirt)
+host scenes pass refs/#Host.jpg; 39 host cues total
