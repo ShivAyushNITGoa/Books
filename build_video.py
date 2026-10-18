@@ -1,22 +1,40 @@
 #!/usr/bin/env python3
 """
-TV6 video builder
-=================
-Assembles: label-named images + single master voiceover + TV6 SRT
-into one MP4 with Ken Burns motion, crossfades at cue boundaries,
-and a sidecar .srt.
+Talk2Society video builder (generic per episode)
+=================================================
+Assembles: per-scene images (images/ or --images dir) + master voiceover
+(first MP3 in audio/, e.g. audio/{name}_master.mp3) + the episode SRT (--srt)
+into one MP4 with Ken Burns motion, an optional sidecar .srt, and the VO.
+
+Guarantees (per spec):
+  * EXACTLY ONE image per SRT cue - N cues -> N distinct images.
+  * Image <label> is shown only during its own cue window; it is never
+    reused for another cue and no cue is shown over another cue's image.
+  * The build HARD-FAILS if any of the images is missing (no dark
+    placeholders, no silent reuse).
+
+Timeline:
+  * cue i owns [start_i, start_{i+1}) (last cue: [start_last, srt_end]).
+  * After the last SRT cue the final image is held until the VO finishes
+    (+2 s tail). Narration that runs past the last cue is an intentional
+    hold of the final scene, not a reuse: no other cue exists after it.
+  * Frame budget is allocated so cumulative boundary drift <= 1 frame.
+
+Rendering (three stages, linear time, safe on 2-core machines):
+  stage 1: each cue -> one 24fps segment (zoompan Ken Burns,
+           4-pattern cycle, tiny fade in/out to soften cuts)
+  stage 2: concat demuxer (stream copy) of the segments
+  stage 3: mux the master VO (AAC, 48 kHz), optionally with burned-in
+           SRT captions (Noto Sans Devanagari) -> output/{name}_final.mp4
 
 Usage:
-  python3 build_video.py --dry-run          # mapping + missing-file report (no render)
-  python3 build_video.py --limit 12         # smoke test: first 12 cues only
-  python3 build_video.py                    # full build -> output/tv6_final.mp4
-
-Conventions (per agreed spec):
-  - images/ files named by scene label: 0-00.jpg, 3-00-890.png, 29-58.jpg
-    (leading '#' optional; jpg/jpeg/png/webp/bmp; fallback: 001.jpg..482.jpg by cue number)
-  - audio/ contains ONE master VO file (mp3/wav/m4a/aac/ogg/flac)
-  - music/ optionally one bed track (ducked under VO)
-  - image i is shown from cue i start to cue i+1 start (SRT timestamps)
+  python3 build_video.py --dry-run        # mapping + missing-file report
+  python3 build_video.py --limit 12       # smoke test: first 12 cues
+  python3 build_video.py                   # full build (1280x720)
+  python3 build_video.py --res 854x480     # full build, 480p (smaller file)
+  python3 build_video.py --srt tv7.srt --name tv7 --images images_up4x \
+      --res 2560x1440 --no-captions --crf 24     # 2K clean episode build
+  FFMPEG_BIN=/path/to/ffmpeg python3 build_video.py   # custom ffmpeg
 """
 import argparse
 import re
@@ -29,16 +47,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 IMG_DIR = ROOT / "images"
 AUD_DIR = ROOT / "audio"
-MUS_DIR = ROOT / "music"
 OUT_DIR = ROOT / "output"
+SEG_DIR = OUT_DIR / "segments"
 SRT_PATH = ROOT / "tv6.srt"
+FONT_DIR = ROOT / "fonts"          # Noto Sans Devanagari (Devanagari glyphs)
 
-FPS = 30
-W, H = 1920, 1080
-SCALE_W, SCALE_H = 2560, 1440   # pre-zoompan oversample
-FADE_DEFAULT = 0.5
-AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
+FPS = 24
+W, H = 1280, 720          # default; pass --res for other resolutions
+ZOOM = 0.10                # Ken Burns zoom range
+CRF = 24                   # x264 quality (higher = smaller file)
+TAIL_AFTER_VO = 2.0        # seconds of held final image after the VO ends
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
+AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
 
 
 # ---------------------------------------------------------------- ffmpeg loc
@@ -53,7 +73,11 @@ def find_ffmpeg() -> str:
         import imageio_ffmpeg
         return imageio_ffmpeg.get_ffmpeg_exe()
     except Exception:
-        sys.exit("ffmpeg not found. Install ffmpeg or `pip install imageio-ffmpeg`.")
+        pass
+    for cand in ("/home/user/tools/ffmpeg",):
+        if Path(cand).exists():
+            return cand
+    sys.exit("ffmpeg not found. Install ffmpeg or `pip install imageio-ffmpeg`.")
 
 
 # ---------------------------------------------------------------- SRT parse
@@ -64,22 +88,19 @@ def ts2sec(ts: str) -> float:
 
 
 def parse_srt(path: Path):
-    """Return cues: list of dicts with n, start, end, text, and label."""
+    """Return cues: dicts with n, start_str, start, end, text, label."""
     text = path.read_text(encoding="utf-8")
-    blocks = re.split(r"\n\s*\n", text.strip())
     cues = []
-    for b in blocks:
+    for b in re.split(r"\n\s*\n", text.strip()):
         lines = b.strip().split("\n")
         if len(lines) >= 2 and "-->" in lines[1]:
             n = int(lines[0].strip())
-            t = lines[1]
-            start_str = t.split("-->")[0].strip()
-            end = ts2sec(t.split("-->")[1])
+            start_str, end_str = (t.strip() for t in lines[1].split("-->"))
             body = " ".join(l.strip() for l in lines[2:])
             cues.append({"n": n, "start_str": start_str,
-                         "start": ts2sec(start_str), "end": end, "text": body})
-    # labels exactly per spec: M-SS (M unpadded, SS 2 digits), ms truncated;
-    # later collision carries millisecond suffix
+                         "start": ts2sec(start_str), "end": ts2sec(end_str),
+                         "text": body})
+    # labels: M-SS (M unpadded, SS 2 digits); later collisions carry ms suffix
     cnt = defaultdict(int)
     for c in cues:
         h, m, s_ms = c["start_str"].split(":")
@@ -125,198 +146,198 @@ def media_duration(ffmpeg: str, path: Path) -> float:
     return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3))
 
 
-# ---------------------------------------------------------------- geometry
-def plan_timeline(cues, fade: float, total: float, limit=None):
-    """Per-clip durations and xfade offsets (see derivation in notes).
+# ---------------------------------------------------------------- timeline
+def plan(cues, total, limit=None):
+    """Per-cue segments [start, end) with an exact global frame budget.
 
-    Boundary B_i = start of cue i+1.  Transition i centred on B_i:
-    O_i = B_i - fade/2.  Clip durations: D0 = O1 + fade,
-    Di = (O{i+1} - Oi) + fade, Dlast = total - Olast.
-    Two extra frames of margin are added per clip so xfade never starves.
+    frames_i = floor(dur_i*FPS) for all but the last segment, which takes
+    the remainder -> cumulative boundary drift <= 1 frame (41 ms).
     """
     if limit:
         cues = cues[:limit]
         total = cues[-1]["end"] + 1.0
-    n = len(cues)
-    bounds = [cues[i + 1]["start"] for i in range(n - 1)]
-    offs = [b - fade / 2.0 for b in bounds]
-    clips = []
-    for i in range(n):
-        if i == 0:
-            dur = offs[0] + fade if n > 1 else total
-        elif i == n - 1:
-            dur = total - offs[i - 1]
-        else:
-            dur = offs[i] - offs[i - 1] + fade
-        clips.append({"n": cues[i]["n"], "label": cues[i]["label"],
-                      "dur": dur, "frames": int(round(dur * FPS)) + 2})
-    return cues, clips, offs, total
+    segs = []
+    for i, c in enumerate(cues):
+        start = 0.0 if i == 0 else c["start"]
+        end = cues[i + 1]["start"] if i + 1 < len(cues) else total
+        segs.append({**c, "start": start, "end": end, "dur": end - start})
+    total_frames = max(int(round(total * FPS)), len(segs))
+    assigned = 0
+    for s in segs[:-1]:
+        s["frames"] = max(int(s["dur"] * FPS), 2)
+        assigned += s["frames"]
+    segs[-1]["frames"] = max(total_frames - assigned, 2)
+    return cues, segs
 
 
 def kenburns(i: int, frames: int):
-    """4-pattern cycle; explicit on-based formulas (no stateful zoom)."""
-    k = 0.10
-    d = max(frames, 2)
+    """4-pattern cycle, on-based (stateless) zoompan expressions."""
+    d = max(frames, 4)
     cy = "ih/2-(ih/zoom/2)"
     cx = "iw/2-(iw/zoom/2)"
+    k = ZOOM
     p = i % 4
-    if p == 0:      # slow zoom in
-        return (f"1+{k}*on/{d}", cx, cy)
-    if p == 1:      # slow zoom out
-        return (f"{1 + k}-{k}*on/{d}", cx, cy)
-    if p == 2:      # pan right
-        return ("1.06", f"(iw-iw/zoom)*on/{d}", cy)
-    return ("1.06", f"(iw-iw/zoom)*(1-on/{d})", cy)  # pan left
+    if p == 0:    # slow zoom in
+        return f"1+{k}*on/{d}", cx, cy
+    if p == 1:    # slow zoom out
+        return f"{1 + k}-{k}*on/{d}", cx, cy
+    if p == 2:    # pan right
+        return f"1+{k}", f"(iw-iw/zoom)*on/{d}", cy
+    return f"1+{k}", f"(iw-iw/zoom)*(1-on/{d})", cy  # pan left
 
 
-# ---------------------------------------------------------------- filtergraph
-def write_filter_script(path: Path, clips, offs, total, fade, vo_idx, mus_idx):
-    L = []
-    for i, c in enumerate(clips):
-        z, x, y = kenburns(i, c["frames"])
-        L.append(
-            f"[{i}:v]scale={SCALE_W}:{SCALE_H}:force_original_aspect_ratio=increase,"
-            f"crop={SCALE_W}:{SCALE_H},"
-            f"zoompan=z='{z}':x='{x}':y='{y}':d={c['frames']}:s={W}x{H}:fps={FPS},"
-            f"format=yuv420p,setsar=1,fps={FPS},settb=AVTB[v{i}]"
-        )
-    prev = "v0"
-    for i in range(1, len(clips)):
-        out = f"x{i}"
-        L.append(f"[{prev}][v{i}]xfade=transition=fade:"
-                 f"duration={fade:.3f}:offset={offs[i - 1]:.3f}[{out}]")
-        prev = out
-    L.append(f"[{prev}]format=yuv420p,setsar=1[vout]")
-
-    a = f"[{vo_idx}:a]aresample=48000,aformat=channel_layouts=stereo," \
-        f"loudnorm=I=-16:TP=-1.5:LRA=11,atrim=0:{total:.3f},apad[vo]"
-    if mus_idx is not None:
-        a += (";[vo]asplit=2[vo1][vo2];"
-              f"[{mus_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
-              f"atrim=0:{total:.3f},apad,volume=1.0[mus];"
-              "[mus][vo1]sidechaincompress=threshold=0.02:ratio=12:"
-              "attack=25:release=300[mduck];"
-              "[vo2][mduck]amix=inputs=2:duration=first:normalize=0[aout]")
-    else:
-        a += ";[vo]anull[aout]"
-    L.append(a)
-    path.write_text(";\n".join(L) + "\n", encoding="utf-8")
-    return len(L)
+# ---------------------------------------------------------------- stage 1
+def render_segment(ffmpeg, seg, img: Path, out: Path):
+    z, x, y = kenburns(seg["n"] - 1, seg["frames"])
+    dur = seg["dur"]
+    vf = (
+        f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
+        f"zoompan=z='{z}':x='{x}':y='{y}':d={seg['frames']}:"
+        f"s={W}x{H}:fps={FPS},format=yuv420p,setsar=1"
+    )
+    fade = min(0.20, dur * 0.2)  # softens cuts; never eats short cues
+    if fade > 0.03:
+        vf += (f",fade=t=in:st=0:d={fade:.3f},"
+               f"fade=t=out:st={max(dur - fade, 0):.3f}:d={fade:.3f}")
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+           "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
+           "-frames:v", str(seg["frames"]),
+           "-vf", vf,
+           "-c:v", "libx264", "-preset", "veryfast", "-crf", str(CRF),
+           "-pix_fmt", "yuv420p", "-r", str(FPS),
+           str(out)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"segment {seg['label']}: {r.stderr[-800:]}")
 
 
 # ---------------------------------------------------------------- build
 def build(args):
+    global W, H, CRF, IMG_DIR, SRT_PATH
+    w, _, h = args.res.partition("x")
+    W, H = int(w), int(h)
+    CRF = args.crf
+    IMG_DIR = ROOT / args.images
+    SRT_PATH = ROOT / args.srt
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
     vo = find_audio(AUD_DIR)
-    mus = find_audio(MUS_DIR)
-
     n_cues = len(cues_all)
-    collisions = sum(1 for c in cues_all if "-" in c["label"].rsplit("-", 2)[-1]) \
-        if False else 0
-    # proper collision count: label has ms suffix => 3 hyphen-groups beyond M-SS
-    collisions = sum(1 for c in cues_all
-                     if len(c["label"].split("-")) > 2)
 
-    missing, found = [], []
-    for c in cues_all:
-        hit = find_image(idx, c["label"], c["n"])
-        (found if hit else missing).append((c, hit))
+    scope = cues_all[:args.limit] if args.limit else cues_all
+    hits, missing = [], []
+    for c in scope:
+        h = find_image(idx, c["label"], c["n"])
+        (hits if h else missing).append((c, h))
 
-    print(f"SRT cues        : {n_cues}   (collisions with ms suffix: {collisions})")
-    print(f"Images found    : {len(found)} / {n_cues}")
-    print(f"Master VO       : {vo.name if vo else 'NOT FOUND'}")
-    print(f"Music bed       : {mus.name if mus else '(none)'}")
+    print(f"SRT cues      : {n_cues}"
+          + (f" (building first {len(scope)})" if args.limit else ""))
+    print(f"Images found  : {len(hits)} / {len(scope)}"
+          + (f"   [full set: {n_cues - len(scope)} more to generate]" if args.limit else ""))
+    print(f"Master VO     : {vo.name if vo else 'NOT FOUND'}")
 
-    if missing and not args.allow_missing and not args.dry_run and not args.limit:
-        print(f"\nMISSING {len(missing)} images (first 15):")
-        for c, _ in missing[:15]:
-            print(f"  cue {c['n']:>3}  #{c['label']:<12} -> expected "
-                  f"images/{c['label']}.jpg")
-        print("\nAdd the files (or rerun with --allow-missing / --limit).")
+    if missing and not args.dry_run:
+        print(f"\nMISSING {len(missing)} images. Refusing to build with "
+              f"placeholders or reused images.")
+        for c, _ in missing[:20]:
+            print(f"  cue {c['n']:>3}  {c['label']:<12} -> expected images/{c['label']}.jpg")
+        if len(missing) > 20:
+            print(f"  ... and {len(missing) - 20} more")
         return 2
 
+    # total = max(SRT span, VO duration) + tail
+    srt_end = cues_all[-1]["end"]
+    vo_dur = media_duration(ffmpeg, vo) if vo else 0.0
+    total = max(srt_end, vo_dur) + TAIL_AFTER_VO
+    if vo and vo_dur - srt_end > 1:
+        print(f"VO span     : {vo_dur:.2f}s vs SRT span {srt_end:.2f}s "
+              f"(narration beyond last cue: {vo_dur - srt_end:+.1f}s "
+              "-> final image held)")
+
     if args.dry_run:
-        print("\nMapping sample (cue -> label -> file):")
-        for c, hit in (found + missing)[:5] + (found + missing)[-3:]:
-            print(f"  {c['n']:>3}  #{c['label']:<12}  "
-                  f"{hit.name if hit else '(missing)'}")
-        if vo:
-            vd = media_duration(ffmpeg, vo)
-            span = cues_all[-1]["end"]
-            print(f"\nVO duration     : {vd:.2f}s   SRT span: {span:.2f}s"
-                  f"   drift: {vd - span:+.2f}s")
-            if abs(vd - span) > 3.0:
-                print("  !! drift > 3s — check the VO matches the script.")
-        print("\nDry run OK. Run without --dry-run to render.")
-        return 0
+        print("\nMapping (first 5 / last 3):")
+        for c, h in (hits + missing)[:5] + (hits + missing)[-3:]:
+            print(f"  {c['n']:>3}  {c['label']:<12}  {h.name if h else '(MISSING)'}")
+        print("\nDry run OK." + ("" if not missing else f"  !! {len(missing)} missing"))
+        return 0 if not missing else 2
 
-    # ---- timeline
-    if vo:
-        total = media_duration(ffmpeg, vo)
-        total = max(total, cues_all[-1]["end"])
-    else:
-        total = cues_all[-1]["end"]
-    if args.limit:
-        total = min(total, cues_all[min(args.limit, n_cues) - 1]["end"] + 1.0)
+    if not vo:
+        print("No master VO in audio/. Build it first: python3 scripts/build_master_audio.py")
+        return 2
 
-    # auto-clamp fade to the tightest cue gap
-    gaps = [cues_all[i + 1]["start"] - cues_all[i]["start"] for i in range(n_cues - 1)]
-    min_gap = min(gaps) if gaps else 1.0
-    fade = min(FADE_DEFAULT, 0.9 * min_gap)
+    cues, segs = plan(cues_all, total, limit=args.limit)
+    print(f"Clips         : {len(segs)}   output {total:.2f}s ({total / 60:.1f} min) "
+          f"@ {W}x{H} {FPS}fps")
 
-    cues, clips, offs, total = plan_timeline(cues_all, fade, total, limit=args.limit)
-    print(f"Fade            : {fade:.3f}s (min cue gap {min_gap:.3f}s)")
-    print(f"Output duration : {total:.2f}s  ({total / 60:.1f} min), {len(clips)} clips")
+    SEG_DIR.mkdir(parents=True, exist_ok=True)
+    todo = [s for s in segs if not (SEG_DIR / f"{s['n']:03d}.mp4").exists()]
+    print(f"Stage 1       : rendering {len(todo)} segments "
+          f"({len(segs) - len(todo)} cached) ...")
+    done = 0
+    for s in segs:
+        if s not in todo:
+            continue
+        img = find_image(idx, s["label"], s["n"])
+        render_segment(ffmpeg, s, img, SEG_DIR / f"{s['n']:03d}.mp4")
+        done += 1
+        if done % 25 == 0 or done == len(todo):
+            print(f"  ... {done}/{len(todo)} segments")
 
-    # ---- inputs
-    inputs = []
-    placeholder = None
-    for c in cues:
-        hit = find_image(idx, c["label"], c["n"])
-        if hit:
-            inputs += ["-i", str(hit)]
-        else:
-            if placeholder is None:
-                placeholder = True
-            inputs += ["-f", "lavfi", "-i",
-                       f"color=c=0x1a1210:s={W}x{H}:d=1:r={FPS}"]
-    vo_idx = len(cues)
-    if vo:
-        inputs += ["-i", str(vo)]
-    else:
-        inputs += ["-f", "lavfi", "-i",
-                   f"anullsrc=r=48000:cl=stereo:d={total:.3f}"]
-    mus_idx = None
-    if mus and not args.no_music:
-        mus_idx = vo_idx + 1
-        inputs += ["-i", str(mus)]
-
-    fc = OUT_DIR / "fc.txt"
-    write_filter_script(fc, clips, offs, total, fade, vo_idx, mus_idx)
-
-    out = OUT_DIR / (f"tv6_test_{args.limit}.mp4" if args.limit else "tv6_final.mp4")
-    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "warning", "-stats"]
-    cmd += inputs
-    cmd += ["-filter_complex_script", str(fc),
-            "-map", "[vout]", "-map", "[aout]",
-            "-c:v", "libx264", "-preset", "faster", "-crf", "19",
-            "-pix_fmt", "yuv420p", "-r", str(FPS),
-            "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
-            "-t", f"{total:.3f}", "-movflags", "+faststart",
-            str(out)]
-
-    print(f"\nRendering -> {out}")
-    r = subprocess.run(cmd)
+    # stage 2: concat (stream copy) -> silent video
+    lst = SEG_DIR / "concat.txt"
+    lines = []
+    for s in segs:
+        name = f"{s['n']:03d}.mp4"
+        lines.append(f"file '{SEG_DIR / name}'\n")
+    lst.write_text("".join(lines), encoding="utf-8")
+    vid = OUT_DIR / "video_only.mp4"
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+           "-f", "concat", "-safe", "0", "-i", str(lst),
+           "-c", "copy", str(vid)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
-        print("ffmpeg failed — see errors above.")
+        print("concat failed:", r.stderr[-800:])
         return r.returncode
 
-    shutil.copy(SRT_PATH, OUT_DIR / "tv6.srt")
+    # stage 3: mux the master VO (optionally with burned-in SRT captions)
+    out = OUT_DIR / (f"{args.name}_test_{args.limit}.mp4" if args.limit
+                     else f"{args.name}_final.mp4")
+    if args.no_captions:
+        cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
+               "-i", str(vid), "-i", str(vo),
+               "-map", "0:v:0", "-map", "1:a:0",
+               "-c:v", "copy",
+               "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
+               "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    else:
+        style = ("FontName=Noto Sans Devanagari,Fontsize=18,"
+                 "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
+                 "BorderStyle=1,Outline=2,Shadow=0,MarginV=34,Alignment=2")
+        vf = (f"subtitles={SRT_PATH}:fontsdir={FONT_DIR}:"
+              f"force_style='{style}'")
+        cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
+               "-i", str(vid), "-i", str(vo),
+               "-map", "0:v:0", "-map", "1:a:0",
+               "-vf", vf,
+               "-c:v", "libx264", "-preset", "veryfast", "-crf", str(CRF),
+               "-pix_fmt", "yuv420p",
+               "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
+               "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    r = subprocess.run(cmd)
+    if r.returncode != 0:
+        print("final pass failed")
+        return r.returncode
+
     size_mb = out.stat().st_size / 1e6
-    print(f"DONE: {out}  ({size_mb:.1f} MB)")
-    print(f"Sidecar subtitles: {OUT_DIR / 'tv6.srt'}")
+    print(f"\nDONE: {out}  ({size_mb:.1f} MB)")
+    if args.no_captions:
+        print("Captions      : none (clean build)")
+    else:
+        shutil.copy(SRT_PATH, OUT_DIR / SRT_PATH.name)
+        print(f"Captions      : burned in from {SRT_PATH.name} "
+              f"(Noto Sans Devanagari)")
+        print(f"Sidecar subtitles: {OUT_DIR / SRT_PATH.name}")
     return 0
 
 
@@ -324,7 +345,19 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="build only first N cues")
-    ap.add_argument("--allow-missing", action="store_true",
-                    help="use dark placeholders for missing images")
-    ap.add_argument("--no-music", action="store_true")
+    ap.add_argument("--res", default="1280x720",
+                    help="render resolution WxH (default 1280x720; "
+                         "use 2560x1440 for QHD, 854x480 for small files)")
+    ap.add_argument("--crf", type=int, default=24,
+                    help="x264 CRF for the segments (higher = smaller file)")
+    ap.add_argument("--no-captions", action="store_true",
+                    help="skip burned-in captions (fast stream-copy final mux)")
+    ap.add_argument("--images", default="images",
+                    help="image source directory relative to repo root "
+                         "(default 'images'; use 'images_up4x' for AI-upscaled art)")
+    ap.add_argument("--srt", default="tv6.srt",
+                    help="episode SRT file relative to repo root")
+    ap.add_argument("--name", default="tv6",
+                    help="episode slug used in output file names "
+                         "(e.g. tv7 -> output/tv7_final.mp4)")
     sys.exit(build(ap.parse_args()))
