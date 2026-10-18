@@ -1,5 +1,6 @@
-TV8 image generation progress (10/turn cap) — parallel workflow (load once -> 10 parallel generate calls)
+TV8 image generation progress (10/turn cap) — parallel workflow (load once -> parallel generate calls)
 packs 1-4 + cue 3 redo (cues 1-39): DONE
-pack 5 (cues 40-49): DONE (parallel)
-next: cues 50-59 (labels from tv8_label_map lines 50-59)
-done: 49 scenes + #Host (50 files) | remaining: 281 scenes
+pack 5 (cues 40-49): DONE
+pack 6 (cues 50-59): DONE (de-texted: 51/55/56/57/58 synced into pack)
+next: cues 60-69 (labels from tv8_label_map lines 60-69) — host book plugs 60/61 + कदम तीन marker at 69
+done: 59 scenes + #Host (60 files) | remaining: 271 scenes
