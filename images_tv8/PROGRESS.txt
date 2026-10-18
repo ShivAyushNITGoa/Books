@@ -1,6 +1,6 @@
 TV8 image generation progress (10/turn cap) — RECREATE ALL from corrected pack
-pack 1 (cues 1-10): DONE
-pack 2 (cues 11-20): DONE
-pack 3 (cues 21-29): DONE + cue 3 RECREATED (refined prompt: stone lift, no text-risk props)
-next: cues 30-39 (labels per tv8_label_map lines 30-39)
-done: 29 scenes + #Host | remaining: 301 scenes
+packs 1-2 (cues 1-20): DONE
+pack 3 (cues 21-29): DONE + cue 3 RECREATED
+pack 4 (cues 30-39): DONE (incl. host book plugs 31/32/34 + collision pair 2-04 / 2-04-810)
+next: cues 40-49 (labels from tv8_label_map lines 40-49)
+done: 39 scenes + #Host (40 files) | remaining: 291 scenes
