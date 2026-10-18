@@ -1,6 +1,5 @@
-TV8 image generation progress (10/turn cap) — RECREATE ALL from corrected pack
-packs 1-2 (cues 1-20): DONE
-pack 3 (cues 21-29): DONE + cue 3 RECREATED
-pack 4 (cues 30-39): DONE (incl. host book plugs 31/32/34 + collision pair 2-04 / 2-04-810)
-next: cues 40-49 (labels from tv8_label_map lines 40-49)
-done: 39 scenes + #Host (40 files) | remaining: 291 scenes
+TV8 image generation progress (10/turn cap) — parallel workflow (load once -> 10 parallel generate calls)
+packs 1-4 + cue 3 redo (cues 1-39): DONE
+pack 5 (cues 40-49): DONE (parallel)
+next: cues 50-59 (labels from tv8_label_map lines 50-59)
+done: 49 scenes + #Host (50 files) | remaining: 281 scenes
