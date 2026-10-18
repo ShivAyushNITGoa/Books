@@ -3,8 +3,8 @@
 > Hand this whole document to one agent and it does the entire job for **any similar Talk2Society video**.
 > Complete, validated recipe: raw transcript → ElevenLabs v4 tagged transcript (single run)
 > → voiceover → image prompt pack from the episode SRT (single run) → images (packs of 10)
-> → 2K AI-sharpened video → multi-part GitHub delivery.
-> The build scripts are **integrated below** (Stages 6–7) — the document is self-contained.
+> → 2K video → multi-part GitHub delivery.
+> The build scripts are **integrated below** (Stages 5–6) — the document is self-contained.
 >
 > Episode parameters: `{ep}` = episode slug (e.g. `tv6`), `{N}` = number of SRT cues (e.g. 482 for TV6).
 > Every episode-specific number (cue count, VO part lengths, part sizes) is **measured from the actual files**, never assumed.
@@ -78,7 +78,7 @@ After tagging, rate the tagged transcript **out of 10** on five criteria, writin
 
 - **Path B (default for new episodes):** synthesize with the ElevenLabs TTS API, model `eleven_v4` — tags inline in the text; ≤ 10,000 characters per generation, so split the tagged transcript at chapter/paragraph boundaries, generate each take, and concatenate in order → `audio/{ep}_master.mp3`.
 - **Path A (episode with provided VO):** raw-concatenate the provided MP3s in order → `audio/{ep}_master.mp3` (or reuse the existing master). No edits (R4).
-- **Record the actual part boundaries** (seconds, measured from the files) — they drive Stage 7's part splits.
+- **Record the actual part boundaries** (seconds, measured from the files) — they drive Stage 6's part splits.
 - Tail rule: if the SRT ends before the VO, that tail is narration without cues — the final image is held over it (intentional, not a reuse).
 
 ## Stage 3 — SRT → image prompt pack (single run, per R2)
@@ -135,20 +135,14 @@ not cartoon, not photorealistic, not cinematic, no text, 16:9
 3. After **every** pack: verify all 10 files exist and are non-empty; keep a running counter until **{N}+1 / {N}+1**. A cue without a valid image = stop and regenerate it (R3).
 4. Extra/orphan images are allowed (they stay unused); a moderated/failed generation gets a **minimal reword** (keep the Locked Style Phrase) and is retried in the next pack.
 
-## Stage 5 — AI super-resolution 2× (for the 2K build)
-
-- Upscale all {N}+1 images with **Real-ESRGAN, anime-6B model**: run the 4× model on **half-size input** (INTER_AREA downscale, `outscale=4`), `tile=256` (4 GB-safe), save at **2×** → `images_up4x/<label>.jpg` (2752×1536, q93).
-- Weights: `RealESRGAN_x4plus_anime_6B.pth`, **sha256 `f872d837d3c90ed2e05227bed711af5671a6fd1c9f7d7e91c911a61f155e99da`** (xinntao/Real-ESRGAN release v0.2.2.4, or any mirror — verify the hash).
-- Budget: ~20 s/image on a 2-core CPU (≈ 2.6 h for 483 images). Run **resumable** (skip existing outputs), log progress every 25 images.
-
-## Stage 6 — final video (3-stage build)
+## Stage 5 — final video (3-stage build)
 
 Build in three stages with the integrated builder below:
 
-- **6a Segments** — per cue, one 24 fps segment covering its exact window (last cue: until VO end + 2 s tail). Effects/transitions: **Ken Burns** from a 4-pattern cycle (slow zoom-in / zoom-out / pan-right / pan-left), 10 % zoom range; **0.2 s fade in/out at every cut**. Frame budget: `frames_i = floor(dur_i × 24)`, the last segment takes the remainder → **boundary drift ≤ 1 frame**; total = `max(SRT span, VO duration) + 2 s`. Missing images hard-fail the build (R3).
-- **6b Concat** — stream-copy all {N} segments → `output/video_only.mp4` (silent).
-- **6c Final mux** — mux the master VO (AAC, 48 kHz stereo), `-movflags +faststart`, `-t <total>` → `output/{ep}_final.mp4`. **No captions (R6)** via `--no-captions`.
-- Encode: **h264 yuv420p, 2560×1440 (QHD), CRF 24, 24 fps**. (Only for a single-file 720p deliverable: `--res 1280x720 --crf 27`.)
+- **5a Segments** — per cue, one 24 fps segment covering its exact window (last cue: until VO end + 2 s tail). Effects/transitions: **Ken Burns** from a 4-pattern cycle (slow zoom-in / zoom-out / pan-right / pan-left), 10 % zoom range; **0.2 s fade in/out at every cut**. Frame budget: `frames_i = floor(dur_i × 24)`, the last segment takes the remainder → **boundary drift ≤ 1 frame**; total = `max(SRT span, VO duration) + 2 s`. Missing images hard-fail the build (R3).
+- **5b Concat** — stream-copy all {N} segments → `output/video_only.mp4` (silent).
+- **5c Final mux** — mux the master VO (AAC, 48 kHz stereo), `-movflags +faststart`, `-t <total>` → `output/{ep}_final.mp4`. **No captions (R6)** via `--no-captions`.
+- Encode: **h264 yuv420p, 2560×1440 (QHD), CRF 24, 24 fps**. (Only for a single-file 720p deliverable: `--res 1280x720 --crf 27`.) The 1376×768 native art is scaled onto the 2560×1440 canvas by the builder (no AI super-resolution in this pipeline).
 
 **Write the following to `build_video.py` (repo root) verbatim, then run:**
 
@@ -156,7 +150,7 @@ Build in three stages with the integrated builder below:
 python3 build_video.py --dry-run                    # mapping + missing report
 python3 build_video.py --limit 12 --res 2560x1440   # smoke test first
 python3 build_video.py --res 2560x1440 --no-captions --crf 24 \
-    --images images_up4x --srt {ep}.srt --name {ep} # full build
+    --srt {ep}.srt --name {ep}                      # full build (images/)
 ```
 
 ```python
@@ -525,7 +519,7 @@ if __name__ == "__main__":
     sys.exit(build(ap.parse_args()))
 ```
 
-## Stage 7 — split into parts (per R5)
+## Stage 6 — split into parts (per R5)
 
 - Split at the **VO chapter boundaries measured in Stage 2** (first = 0, last = total incl. the +2 s tail; each interior boundary maps to the first cue starting at/after it); aim for parts in the ~4–9 min range.
 - Per part: stream-copy concat of that cue's segment range + its VO slice (AAC 92 k) → `output/{ep}_2k_partN.mp4`.
@@ -637,12 +631,12 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-## Stage 8 — ship to GitHub
+## Stage 7 — ship to GitHub
 
 1. Copy the parts to the repo root.
 2. Commit with the build scripts (`build_video.py`, `scripts/split_parts.py`, `scripts/build_master_audio.py`), the raw transcript + tagged transcript + `tagging_rationale.md`, `{ep}.srt`, `images/`, `audio/`, `prompts/`, `fonts/`, and a README (part order, specs, rebuild commands).
 3. Push to the working branch; open a PR to `main` when asked.
-4. `.gitignore`: `output/`, `images_up4x/`, `models/`, `__pycache__/`.
+4. `.gitignore`: `output/`, `__pycache__/`.
 
 ## Acceptance checks (ALL must pass before declaring done)
 
@@ -657,5 +651,5 @@ if __name__ == "__main__":
 
 - No `ffprobe` available: parse `ffmpeg -i` output. ffmpeg via `pip install --break-system-packages imageio-ffmpeg` (`imageio_ffmpeg.get_ffmpeg_exe()`).
 - ElevenLabs: use model id `eleven_v4` (tags work on `eleven_v4`, `eleven_v4_turbo`, `eleven_v3`); **no SSML** — tags + punctuation control pauses/pacing/emphasis; ≤ 10,000 characters per generation; audition any unusual tag on a short line before using it in the full transcript.
-- 2-core / 4 GB CPU box: torch CPU `set_num_threads(2)`, Real-ESRGAN `tile=256`; 2K segment stage ≈ 35 min per 482 cues; pushing ~320 MB ≈ 20–30 min.
+- 2-core / 4 GB CPU box: 2K segment stage ≈ 35 min per 482 cues; pushing ~320 MB ≈ 20–30 min.
 - The sandbox can be wiped between turns: **push as soon as anything valuable exists**; recover with `git fetch origin <branch> && git reset --hard <sha>`.
