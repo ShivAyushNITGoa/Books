@@ -1,7 +1,6 @@
 TV8 image generation progress (10 generation calls/turn cap)
 packs 1-6 + cue 3 redo (cues 1-59): DONE
-pack 7 (cues 60-69): 7/10 DONE (3-44 3-49 3-52 3-56 4-02 4-11 4-11-850)
-  NOTE: 4-11/4-11-850 were initially mismapped (handshake/pen) -> FIXED (pen/diorama now correct)
-  MISSING (turn cap): #4-01 (cue64 eyes) #4-06 (cue66 handshake) #4-16 (cue69 host step-three marker)
-next turn: those 3 first, then cues 70-77
-done: 66 scenes + #Host (67 files) | remaining: 264 scenes
+pack 7 (cues 60-69): DONE
+cues 70-76: DONE (4-20 4-22 4-25 4-29 4-31 4-36 4-41)
+next: cues 77-86 (labels from tv8_label_map lines 77-86)
+done: 76 scenes + #Host (77 files) | remaining: 254 scenes
