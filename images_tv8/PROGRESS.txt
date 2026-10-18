@@ -1,6 +1,7 @@
-TV8 image generation progress (10 generation calls/turn cap)
-packs 1-6 + cue 3 redo (cues 1-59): DONE
-pack 7 (cues 60-69): DONE
-cues 70-76: DONE (4-20 4-22 4-25 4-29 4-31 4-36 4-41)
-next: cues 77-86 (labels from tv8_label_map lines 77-86)
-done: 76 scenes + #Host (77 files) | remaining: 254 scenes
+TV8 image generation — RESTART after workspace wipe
+Wipe note: 77 earlier scene images were untracked and LOST in a sandbox reset.
+All prompts/SRT/label-map/VO restored from git (tip 762290c). Regenerating from cue 1.
+NEW RULE: commit every pack's images immediately.
+pack 1 (cues 1-10): DONE+COMMITTED (0-00 0-03 0-07 0-10 0-16 0-20 0-24 0-28 0-34 0-35)
+next: cues 11-20 (0-36 0-41 0-46 0-50 0-53 0-56 1-00 1-03 1-08 1-12)
+done: 10/330 scenes + #Host | remaining: 320 scenes
