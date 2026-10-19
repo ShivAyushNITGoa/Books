@@ -74,7 +74,33 @@ def vo_energy(ffmpeg, vo: Path, cues, out_dir: Path):
         vals.append(rms)
     ordered = sorted(v for v in vals if v > 0)
     p90 = ordered[int(len(ordered) * 0.9)] if ordered else 1.0
-    return [min(1.0, v / p90) for v in vals]
+    return [round(min(1.0, v / max(p90, 1.0)), 3) for v in vals]
+
+
+def vo_onsets(raw_path: Path, cues, sr=8000):
+    """Per-cue position (0..1) of the VO energy centroid — where a pro
+    editor would land the visual 'hit' (punch-in) inside the cue."""
+    a = array.array("h")
+    a.frombytes(raw_path.read_bytes())
+    res = []
+    for c in cues:
+        i0 = max(0, int(c["start"] * sr))
+        i1 = min(len(a), max(i0 + sr // 10, int(c["end"] * sr)))
+        hop = max(1, (i1 - i0) // 240)
+        env, num, den = [], 0.0, 0.0
+        for j in range(i0, i1, hop):
+            w = a[j:min(j + hop, i1)]
+            e = (sum(v * v for v in w) / max(len(w), 1)) ** 0.5 if w else 0.0
+            env.append(e)
+            k = len(env) - 1
+            num += k * e
+            den += e
+        if den <= 0 or len(env) < 4:
+            res.append(0.62)
+            continue
+        frac = (num / den) / (len(env) - 1)
+        res.append(round(min(0.82, max(0.45, frac)), 3))
+    return res
 
 
 def main():
@@ -105,13 +131,14 @@ def main():
     chapters = {int(x) for x in args.chapters.split(",") if x.strip()}
 
     # energy z-scores adapt to the VO's own dynamics
+    onset_v = vo_onsets(ROOT / "output" / "vo_pcm_s16le_8k.raw", cues)
     nz = [e for e in energies if e > 0]
     mean = sum(nz) / max(len(nz), 1)
     var = sum((e - mean) ** 2 for e in nz) / max(len(nz), 1)
     std = var ** 0.5 or 1.0
 
     out = {}
-    for c, e in zip(cues, energies):
+    for k, (c, e) in enumerate(zip(cues, energies)):
         n, text = c["n"], c["text"]
         if n in chapters:
             cls = "chapter"
@@ -132,6 +159,7 @@ def main():
             "mood": mood,
             "lit": bool(LIT_RE.search(text)),
             "energy": round(e, 3),
+            "onset": onset_v[k],
         }
 
     Path(ROOT / args.out).parent.mkdir(parents=True, exist_ok=True)

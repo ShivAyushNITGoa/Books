@@ -25,15 +25,15 @@ python3 editing/gen_cue_classes.py --srt tvN.srt --vo audio/tvN_master.mp3 \
 # plan only: frame table + mapping check
 python3 editing/build_video.py --dry-run --srt tvN.srt --name tvN \
   --images images_tvN --cue-class prompts/cue_classes.json \
-  --chapter-cues "CH" --style pro --res 2560x1440
+  --chapter-cues "CH" --style pro --res 1920x1080
 
 # 12-cue smoke (renders + muxes output/tvN_test_12.mp4)
-python3 editing/build_video.py --limit 12 --res 2560x1440 --no-captions \
+python3 editing/build_video.py --limit 12 --res 1920x1080 --no-captions \
   --crf 24 --srt tvN.srt --name tvN --images images_tvN \
   --cue-class prompts/cue_classes.json --chapter-cues "CH" --style pro
 
 # FULL build -> output/tvN_final.mp4  (total = max(SRT span, VO) + 2s)
-python3 editing/build_video.py --res 2560x1440 --no-captions --crf 24 \
+python3 editing/build_video.py --res 1920x1080 --no-captions --crf 24 \
   --srt tvN.srt --name tvN --images images_tvN \
   --cue-class prompts/cue_classes.json --chapter-cues "CH" --style pro
 ```

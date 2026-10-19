@@ -35,7 +35,7 @@ imageio-ffmpeg; no ffprobe needed).
 
 ## What the builder produces
 
-A filmic, human-edited 2560×1440 24fps video from 1 cue = 1 image = 1
+A filmic, human-edited 1920×1080 24fps video from 1 cue = 1 image = 1
 duration (strict R3 timing): eased hand-held camera moves, subject-aware
 framing, class-paced cuts/dips/fades with chapter beats, intra-cue
 punch-ins, emotional colour grading with day→night drift, bloom + lamp

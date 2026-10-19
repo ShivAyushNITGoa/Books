@@ -26,9 +26,10 @@ absolutely:
   cards, echo frames, or timing edits.
 - R4 — Voiceover is Path A: copy/concat the provided raw VO only. No TTS,
   no re-record, no music, no ambience, no loudness processing.
-- R5 — Deliver few parts (3–5), 2560×1440 24fps h264 CRF 24 yuv420p +
-  AAC 48kHz, each < 100 MB, no LFS; parts at the project root, exact-
-  abutting seams (audio never clipped/padded), rejoined by concat copy.
+- R5 — Deliver few parts (3–5), 1920×1080 (≤1080p — never higher) 24fps
+  h264 CRF 24 yuv420p + AAC 48kHz, each < 100 MB, no LFS; parts at the
+  project root, exact-abutting seams (audio never clipped/padded),
+  rejoined by concat stream-copy.
 - R6 — No burned captions on delivered parts.
 - Never upscale generated images. Image prompts must match the actual spoken
   cue text in the SRT. Ship the full image-prompt pack in one file, at once.
@@ -53,7 +54,7 @@ absolutely:
    tvN_label_map.txt --chapters "<comma cue-start list>" --out
    prompts/cue_classes.json`
 7. Build (dry-run → smoke `--limit 12` → full):
-   `python3 editing/build_video.py --res 2560x1440 --no-captions --crf 24
+   `python3 editing/build_video.py --res 1920x1080 --no-captions --crf 24
    --srt tvN.srt --name tvN --images images_tvN --chapter-cues "<same
    list>" --cue-class prompts/cue_classes.json --style pro`
    Output: `output/tvN_final.mp4`, total = max(SRT span, VO) + 2 s, with

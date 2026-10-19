@@ -283,7 +283,8 @@ def policy_for(n, dur, cls_map, energy=0.5):
     mood = info.get("mood", "neutral")
     lit = bool(info.get("lit", False))
     e = float(info.get("energy", energy))
-    return dict(cls=cls, mood=mood, lit=lit, energy=e)
+    return dict(cls=cls, mood=mood, lit=lit, energy=e,
+                onset=float(info.get("onset", 0.62)))
 
 
 # ---------------------------------------------------------------- timeline
@@ -320,11 +321,15 @@ def motion_script(n, frames, dur, ax, ay, pol, style):
     h = _h("cam", STYLE_TAG, n)
     e_mul = 0.85 + 0.30 * pol["energy"]                # loud cues move more
     k = max(0.05, min(0.11, (0.02 + dur * 0.012) * style["k"] * e_mul))
+    if n <= 6:
+        k *= 0.82                                      # gentle establishing pace
     sh = style["shake"]
     wob_x = (f"({0.0012 * sh:.4f})*(iw-iw/zoom)*(sin(on*0.117+{(h % 31):.1f})"
-             f"+0.6*sin(on*0.041+{(h >> 5) % 23:.1f}))")
+             f"+0.6*sin(on*0.041+{(h >> 5) % 23:.1f})"
+             f"+0.35*sin(on*0.023+{(h >> 18) % 41:.1f}))")
     wob_y = (f"({0.0012 * sh:.4f})*(ih-ih/zoom)*(sin(on*0.093+{(h >> 9) % 29:.1f})"
-             f"+0.6*sin(on*0.053+{(h >> 14) % 19:.1f}))")
+             f"+0.6*sin(on*0.053+{(h >> 14) % 19:.1f})"
+             f"+0.35*sin(on*0.019+{(h >> 21) % 37:.1f}))")
     br = f"(1+{0.0020:.4f}*sin(on*0.047+{(h >> 3) % 17:.1f}))"   # breathing
     if pol["cls"] == "word":
         k *= 0.45                                         # near-frozen beats
@@ -407,7 +412,8 @@ def grade_exprs(pol, n, n_total, style, leak):
     drift = (n / max(n_total, 1))
     settle = "(-0.075)*exp(-2.4*t)"
     flick = ("(0)" if not (pol["lit"] and fl > 0)
-             else f"({0.012 * fl:.4f})*sin(2*PI*3.0*t+1.3)")
+             else f"({0.010 * fl * (0.6 + 0.9 * pol['energy']):.4f})"
+                  f"*sin(2*PI*3.0*t+{(_h('fl', n) % 63) / 10:.1f})")
     leakp = "0.05*exp(-3.2*t)" if leak else "0"
     br = f"({settle})+{flick}+({leakp})"
     if pol["cls"] == "word":
@@ -481,17 +487,20 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
 
     br, eq_fixed, cb, vg = grade_exprs(pol, seg["n"], LAST_CUE_N, style,
                                        seg.get("_leak", False))
-    chain = [f"scale={W}:{H}:force_original_aspect_ratio=increase,"
+    chain = [f"scale={W}:{H}:force_original_aspect_ratio=increase:"
+             f"flags=lanczos,"
              f"crop={W}:{H}",
              f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:"
              f"s={W}x{H}:fps={FPS}"]
-    if pat in (4, 5) and style["shake"] > 0 and mode == "full":
-        chain.append("tmix=frames=2:weights='0.55 0.45'")   # motion blend
-    if pol["cls"] in ("word", "punch") and mode.endswith("b"):
+    if mode == "full" and pol["cls"] != "word":
+        chain.append("tmix=frames=2:weights='0.72 0.28'")   # 180-deg shutter
+    elif mode.endswith("b") and pol["cls"] in ("word", "punch"):
         chain.append("tmix=frames=2:weights='0.65 0.35'")
-    bloom = style["bloom"] * (1.35 if pol["lit"] else 0.55)
+    bl = style["bloom"] * (1.6 if pol["lit"] else 0.0)      # halation, lit only
     chain.append(f"eq=brightness='{br}':{eq_fixed}:eval=frame")
     chain.append(f"colorbalance={cb}")
+    chain.append("curves=master='0/0.035 0.25/0.245 0.5/0.5 0.75/0.775 1/0.965'")
+    chain.append("gradfun=strength=0.8:radius=10")          # deband polish
     chain.append("rgbashift=rh=1:bh=-1")
     chain.append("boxblur=luma_radius=3:luma_power=1:enable='lt(t,0.22)'")
     chain.append("boxblur=luma_radius=2:luma_power=1:"
@@ -522,20 +531,16 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
     vchain = ",".join(chain)
     cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
            "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img)]
-    if sweep is not None and style["sweep"] > 0:
-        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(sweep)]
-        d = 1 if _h("sw", seg["n"]) % 2 == 0 else -1
-        nfr = max(frames, 4)
-        ox = (f"-w+(W+w)*(n/{nfr})" if d > 0
-              else f"W-(W+w)*(n/{nfr})")
-        op = 0.42 * style["sweep"]
+    if bl > 0.01:                                       # warm luma-keyed halation
         fg = (f"[0:v]{vchain}[base];"
-              f"[1:v]format=rgba,colorchannelmixer=aa={op:.2f}[sw];"
-              f"[base][sw]overlay=x='{ox}':y=0:eval=frame,"
-              f"format=yuv420p,setsar=1[v]")
-        cmd += ["-filter_complex", fg, "-map", "[v]"]
+              "[base]split[b1][b2];"
+              "[b2]curves=master='0/0 0.72/0.02 1/1',gblur=sigma=14:steps=2,"
+              "eq=brightness=0.015:saturation=0.55[glow];"
+              f"[b1][glow]blend=screen:all_opacity={min(0.28, bl):.2f},"
+              "format=yuv420p,setsar=1[v]")
     else:
-        cmd += ["-vf", vchain + ",format=yuv420p,setsar=1"]
+        fg = f"[0:v]{vchain},format=yuv420p,setsar=1[v]"
+    cmd += ["-filter_complex", fg, "-map", "[v]"]
     cmd += ["-frames:v", str(frames),
             "-c:v", "libx264", "-preset", "medium", "-crf", str(CRF),
             "-pix_fmt", "yuv420p", "-r", str(FPS), str(out)]
@@ -555,8 +560,9 @@ def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
                     "full")
         return
     h = _h("punch", seg["n"])
-    f2 = min(int(frames * 0.38), int(2.2 * FPS))
-    f2 = max(f2, int(0.9 * FPS))
+    on = min(0.82, max(0.45, float(pol.get("onset", 0.62))))
+    f2 = frames - int(frames * on)                     # punch lands on VO stress
+    f2 = max(int(0.9 * FPS), min(f2, int(2.2 * FPS)))
     f1 = frames - f2
     d1, d2 = f1 / FPS, f2 / FPS
     a = OUT_DIR / f"_pa_{seg['n']:03d}.mp4"

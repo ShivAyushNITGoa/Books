@@ -24,10 +24,10 @@ images → build → split → verify → commit.
 - **R4 — Path A audio.** VO is copied/concatenated from the raw record only.
   No TTS, no re-record, no music/ambience/LUFS processing.
 - **R5 — delivery.** Few parts (typically 3–5, never more than needed),
-  each < 100 MB, 2560×1440 24fps h264 (CRF 24) yuv420p + AAC 48 kHz
-  stereo, no LFS; parts land at repo root. Parts must abut exactly
-  (frame-exact seams, audio never clipped/padded) and re-integrate with a
-  concat stream-copy.
+  each < 100 MB, **1920×1080 (≤1080p — never higher)** 24fps h264
+  (CRF 24) yuv420p + AAC 48 kHz stereo, no LFS; parts land at repo root.
+  Parts must abut exactly (frame-exact seams, audio never clipped/padded)
+  and re-integrate with a concat stream-copy.
 - **R6 — no burned captions.** Clean build = `--no-captions`.
 - No upscaling of generated images. Prompt images must match the actual
   spoken cue texts (verify against the episode SRT). Prompt packs ship at
@@ -54,7 +54,7 @@ images → build → split → verify → commit.
    --chapters "<cue-start list>" --out prompts/cue_classes.json`
    → per-cue class (chapter/host/word/soft/punch/story), mood, lit, VO energy.
 6. **Build** (dry-run → smoke `--limit 12` → full, one run):
-   `python3 build_video.py --res 2560x1440 --no-captions --crf 24 --srt
+   `python3 build_video.py --res 1920x1080 --no-captions --crf 24 --srt
    tvN.srt --name tvN --images images_tvN --chapter-cues "<chapter list>"
    --cue-class prompts/cue_classes.json --style pro`
    Styles: `pro` (filmic), `art` (dreamy), `doc` (clean), `classic` (= kbv2).

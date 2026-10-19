@@ -55,7 +55,7 @@ def main():
         total += i["dur"] or 0
         size_mb = i["bytes"] / 1e6
         checks = [
-            i.get("w") == 2560 and i.get("h") == 1440,
+            i.get("w") == 1920 and i.get("h") == 1080,
             i.get("fps") == 24.0,
             i.get("vcodec") == "h264",
             i.get("acodec") == "aac",

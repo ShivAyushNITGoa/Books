@@ -3,1980 +3,2310 @@
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.774
+  "energy": 0.774,
+  "onset": 0.45
  },
  "2": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.731
+  "energy": 0.731,
+  "onset": 0.471
  },
  "3": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.834
+  "energy": 0.834,
+  "onset": 0.45
  },
  "4": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.997
+  "energy": 0.997,
+  "onset": 0.45
  },
  "5": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.869
+  "energy": 0.869,
+  "onset": 0.509
  },
  "6": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.709
+  "energy": 0.709,
+  "onset": 0.478
  },
  "7": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.982
+  "energy": 0.982,
+  "onset": 0.45
  },
  "8": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.976
+  "energy": 0.976,
+  "onset": 0.504
  },
  "9": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.323
+  "energy": 0.323,
+  "onset": 0.45
  },
  "10": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.227
+  "energy": 0.227,
+  "onset": 0.45
  },
  "11": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.897
+  "energy": 0.897,
+  "onset": 0.45
  },
  "12": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.829
+  "energy": 0.829,
+  "onset": 0.482
  },
  "13": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.806
+  "energy": 0.806,
+  "onset": 0.45
  },
  "14": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.826
+  "energy": 0.826,
+  "onset": 0.45
  },
  "15": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.75
+  "energy": 0.75,
+  "onset": 0.45
  },
  "16": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.519
+  "energy": 0.519,
+  "onset": 0.463
  },
  "17": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.731
+  "energy": 0.731,
+  "onset": 0.45
  },
  "18": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.824
+  "energy": 0.824,
+  "onset": 0.45
  },
  "19": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.508
  },
  "20": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.154
+  "energy": 0.154,
+  "onset": 0.45
  },
  "21": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.824
+  "energy": 0.824,
+  "onset": 0.489
  },
  "22": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.602
  },
  "23": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.861
+  "energy": 0.861,
+  "onset": 0.45
  },
  "24": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.621
  },
  "25": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.857
+  "energy": 0.857,
+  "onset": 0.45
  },
  "26": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.553
  },
  "27": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.896
+  "energy": 0.896,
+  "onset": 0.45
  },
  "28": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.872
+  "energy": 0.872,
+  "onset": 0.45
  },
  "29": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.904
+  "energy": 0.904,
+  "onset": 0.45
  },
  "30": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.844
+  "energy": 0.844,
+  "onset": 0.52
  },
  "31": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.49
  },
  "32": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.978
+  "energy": 0.978,
+  "onset": 0.467
  },
  "33": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.147
+  "energy": 0.147,
+  "onset": 0.45
  },
  "34": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.462
  },
  "35": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.792
+  "energy": 0.792,
+  "onset": 0.45
  },
  "36": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.944
+  "energy": 0.944,
+  "onset": 0.479
  },
  "37": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.607
+  "energy": 0.607,
+  "onset": 0.45
  },
  "38": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.862
+  "energy": 0.862,
+  "onset": 0.45
  },
  "39": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.811
+  "energy": 0.811,
+  "onset": 0.45
  },
  "40": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.745
  },
  "41": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.91
+  "energy": 0.91,
+  "onset": 0.494
  },
  "42": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.776
+  "energy": 0.776,
+  "onset": 0.45
  },
  "43": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.972
+  "energy": 0.972,
+  "onset": 0.45
  },
  "44": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.835
+  "energy": 0.835,
+  "onset": 0.45
  },
  "45": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.916
+  "energy": 0.916,
+  "onset": 0.502
  },
  "46": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.262
+  "energy": 0.262,
+  "onset": 0.45
  },
  "47": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.936
+  "energy": 0.936,
+  "onset": 0.456
  },
  "48": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.813
+  "energy": 0.813,
+  "onset": 0.45
  },
  "49": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.826
+  "energy": 0.826,
+  "onset": 0.45
  },
  "50": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.834
+  "energy": 0.834,
+  "onset": 0.486
  },
  "51": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.714
+  "energy": 0.714,
+  "onset": 0.45
  },
  "52": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.758
+  "energy": 0.758,
+  "onset": 0.45
  },
  "53": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.521
  },
  "54": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.819
+  "energy": 0.819,
+  "onset": 0.45
  },
  "55": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.621
  },
  "56": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.933
+  "energy": 0.933,
+  "onset": 0.45
  },
  "57": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.56
  },
  "58": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.879
+  "energy": 0.879,
+  "onset": 0.45
  },
  "59": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.845
+  "energy": 0.845,
+  "onset": 0.45
  },
  "60": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.905
+  "energy": 0.905,
+  "onset": 0.45
  },
  "61": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.874
+  "energy": 0.874,
+  "onset": 0.452
  },
  "62": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.967
+  "energy": 0.967,
+  "onset": 0.45
  },
  "63": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.878
+  "energy": 0.878,
+  "onset": 0.493
  },
  "64": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.17
+  "energy": 0.17,
+  "onset": 0.45
  },
  "65": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.782
+  "energy": 0.782,
+  "onset": 0.45
  },
  "66": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.883
+  "energy": 0.883,
+  "onset": 0.46
  },
  "67": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.225
+  "energy": 0.225,
+  "onset": 0.45
  },
  "68": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "69": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.907
+  "energy": 0.907,
+  "onset": 0.45
  },
  "70": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.745
+  "energy": 0.745,
+  "onset": 0.45
  },
  "71": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.909
+  "energy": 0.909,
+  "onset": 0.467
  },
  "72": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.909
+  "energy": 0.909,
+  "onset": 0.492
  },
  "73": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "74": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.488
  },
  "75": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.801
+  "energy": 0.801,
+  "onset": 0.45
  },
  "76": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.877
+  "energy": 0.877,
+  "onset": 0.45
  },
  "77": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.786
+  "energy": 0.786,
+  "onset": 0.45
  },
  "78": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.877
+  "energy": 0.877,
+  "onset": 0.511
  },
  "79": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.277
+  "energy": 0.277,
+  "onset": 0.45
  },
  "80": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.802
+  "energy": 0.802,
+  "onset": 0.45
  },
  "81": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.921
+  "energy": 0.921,
+  "onset": 0.45
  },
  "82": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.952
+  "energy": 0.952,
+  "onset": 0.482
  },
  "83": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.458
+  "energy": 0.458,
+  "onset": 0.45
  },
  "84": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.473
  },
  "85": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.81
+  "energy": 0.81,
+  "onset": 0.506
  },
  "86": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.892
+  "energy": 0.892,
+  "onset": 0.498
  },
  "87": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.564
+  "energy": 0.564,
+  "onset": 0.45
  },
  "88": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.901
+  "energy": 0.901,
+  "onset": 0.495
  },
  "89": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.331
+  "energy": 0.331,
+  "onset": 0.45
  },
  "90": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.891
+  "energy": 0.891,
+  "onset": 0.45
  },
  "91": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.963
+  "energy": 0.963,
+  "onset": 0.45
  },
  "92": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.829
+  "energy": 0.829,
+  "onset": 0.549
  },
  "93": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.392
+  "energy": 0.392,
+  "onset": 0.45
  },
  "94": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.969
+  "energy": 0.969,
+  "onset": 0.467
  },
  "95": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.632
+  "energy": 0.632,
+  "onset": 0.45
  },
  "96": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.925
+  "energy": 0.925,
+  "onset": 0.45
  },
  "97": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.945
+  "energy": 0.945,
+  "onset": 0.506
  },
  "98": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.562
+  "energy": 0.562,
+  "onset": 0.45
  },
  "99": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.883
+  "energy": 0.883,
+  "onset": 0.45
  },
  "100": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.506
  },
  "101": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "102": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "103": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.999
+  "energy": 0.999,
+  "onset": 0.48
  },
  "104": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.853
+  "energy": 0.853,
+  "onset": 0.472
  },
  "105": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.1
+  "energy": 0.1,
+  "onset": 0.45
  },
  "106": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.796
+  "energy": 0.796,
+  "onset": 0.45
  },
  "107": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.783
+  "energy": 0.783,
+  "onset": 0.45
  },
  "108": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.988
+  "energy": 0.988,
+  "onset": 0.45
  },
  "109": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.811
+  "energy": 0.811,
+  "onset": 0.45
  },
  "110": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.927
+  "energy": 0.927,
+  "onset": 0.478
  },
  "111": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.85
+  "energy": 0.85,
+  "onset": 0.45
  },
  "112": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.799
+  "energy": 0.799,
+  "onset": 0.45
  },
  "113": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.936
+  "energy": 0.936,
+  "onset": 0.517
  },
  "114": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.697
+  "energy": 0.697,
+  "onset": 0.45
  },
  "115": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.831
+  "energy": 0.831,
+  "onset": 0.526
  },
  "116": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.828
+  "energy": 0.828,
+  "onset": 0.515
  },
  "117": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.813
+  "energy": 0.813,
+  "onset": 0.45
  },
  "118": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.893
+  "energy": 0.893,
+  "onset": 0.45
  },
  "119": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.751
+  "energy": 0.751,
+  "onset": 0.45
  },
  "120": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.778
+  "energy": 0.778,
+  "onset": 0.45
  },
  "121": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.589
+  "energy": 0.589,
+  "onset": 0.45
  },
  "122": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.708
+  "energy": 0.708,
+  "onset": 0.45
  },
  "123": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.821
+  "energy": 0.821,
+  "onset": 0.473
  },
  "124": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.887
+  "energy": 0.887,
+  "onset": 0.45
  },
  "125": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.832
+  "energy": 0.832,
+  "onset": 0.45
  },
  "126": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.833
+  "energy": 0.833,
+  "onset": 0.45
  },
  "127": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.824
+  "energy": 0.824,
+  "onset": 0.45
  },
  "128": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.762
+  "energy": 0.762,
+  "onset": 0.45
  },
  "129": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.765
+  "energy": 0.765,
+  "onset": 0.45
  },
  "130": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "131": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.959
+  "energy": 0.959,
+  "onset": 0.45
  },
  "132": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.881
+  "energy": 0.881,
+  "onset": 0.451
  },
  "133": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.971
+  "energy": 0.971,
+  "onset": 0.45
  },
  "134": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.867
+  "energy": 0.867,
+  "onset": 0.45
  },
  "135": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.935
+  "energy": 0.935,
+  "onset": 0.45
  },
  "136": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.896
+  "energy": 0.896,
+  "onset": 0.45
  },
  "137": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.648
+  "energy": 0.648,
+  "onset": 0.45
  },
  "138": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.821
+  "energy": 0.821,
+  "onset": 0.473
  },
  "139": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.151
+  "energy": 0.151,
+  "onset": 0.45
  },
  "140": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.76
+  "energy": 0.76,
+  "onset": 0.45
  },
  "141": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.803
+  "energy": 0.803,
+  "onset": 0.45
  },
  "142": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.73
+  "energy": 0.73,
+  "onset": 0.45
  },
  "143": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.755
+  "energy": 0.755,
+  "onset": 0.45
  },
  "144": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.865
+  "energy": 0.865,
+  "onset": 0.45
  },
  "145": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.896
+  "energy": 0.896,
+  "onset": 0.463
  },
  "146": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.623
+  "energy": 0.623,
+  "onset": 0.45
  },
  "147": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.975
+  "energy": 0.975,
+  "onset": 0.45
  },
  "148": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.914
+  "energy": 0.914,
+  "onset": 0.45
  },
  "149": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.805
+  "energy": 0.805,
+  "onset": 0.45
  },
  "150": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.829
+  "energy": 0.829,
+  "onset": 0.45
  },
  "151": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.809
+  "energy": 0.809,
+  "onset": 0.45
  },
  "152": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.802
+  "energy": 0.802,
+  "onset": 0.517
  },
  "153": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.731
+  "energy": 0.731,
+  "onset": 0.579
  },
  "154": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.972
+  "energy": 0.972,
+  "onset": 0.45
  },
  "155": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "156": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.502
+  "energy": 0.502,
+  "onset": 0.479
  },
  "157": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.9
+  "energy": 0.9,
+  "onset": 0.45
  },
  "158": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.882
+  "energy": 0.882,
+  "onset": 0.45
  },
  "159": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.724
+  "energy": 0.724,
+  "onset": 0.45
  },
  "160": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.887
+  "energy": 0.887,
+  "onset": 0.45
  },
  "161": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.463
  },
  "162": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.866
+  "energy": 0.866,
+  "onset": 0.451
  },
  "163": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "164": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.85
+  "energy": 0.85,
+  "onset": 0.45
  },
  "165": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.925
+  "energy": 0.925,
+  "onset": 0.5
  },
  "166": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.841
+  "energy": 0.841,
+  "onset": 0.501
  },
  "167": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.832
+  "energy": 0.832,
+  "onset": 0.45
  },
  "168": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.754
+  "energy": 0.754,
+  "onset": 0.45
  },
  "169": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.634
+  "energy": 0.634,
+  "onset": 0.45
  },
  "170": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.864
+  "energy": 0.864,
+  "onset": 0.45
  },
  "171": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.824
+  "energy": 0.824,
+  "onset": 0.45
  },
  "172": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.821
+  "energy": 0.821,
+  "onset": 0.45
  },
  "173": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.839
+  "energy": 0.839,
+  "onset": 0.45
  },
  "174": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "175": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.47
  },
  "176": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.279
+  "energy": 0.279,
+  "onset": 0.45
  },
  "177": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.827
+  "energy": 0.827,
+  "onset": 0.45
  },
  "178": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.894
+  "energy": 0.894,
+  "onset": 0.454
  },
  "179": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.948
+  "energy": 0.948,
+  "onset": 0.45
  },
  "180": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.969
+  "energy": 0.969,
+  "onset": 0.45
  },
  "181": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.881
+  "energy": 0.881,
+  "onset": 0.488
  },
  "182": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.648
+  "energy": 0.648,
+  "onset": 0.45
  },
  "183": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.76
+  "energy": 0.76,
+  "onset": 0.45
  },
  "184": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.514
+  "energy": 0.514,
+  "onset": 0.482
  },
  "185": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.669
+  "energy": 0.669,
+  "onset": 0.482
  },
  "186": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.824
+  "energy": 0.824,
+  "onset": 0.45
  },
  "187": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.727
+  "energy": 0.727,
+  "onset": 0.45
  },
  "188": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.953
+  "energy": 0.953,
+  "onset": 0.45
  },
  "189": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.953
+  "energy": 0.953,
+  "onset": 0.45
  },
  "190": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.932
+  "energy": 0.932,
+  "onset": 0.45
  },
  "191": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.93
+  "energy": 0.93,
+  "onset": 0.473
  },
  "192": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.521
+  "energy": 0.521,
+  "onset": 0.45
  },
  "193": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.948
+  "energy": 0.948,
+  "onset": 0.479
  },
  "194": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.474
+  "energy": 0.474,
+  "onset": 0.45
  },
  "195": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.86
+  "energy": 0.86,
+  "onset": 0.45
  },
  "196": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.853
+  "energy": 0.853,
+  "onset": 0.45
  },
  "197": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.692
+  "energy": 0.692,
+  "onset": 0.45
  },
  "198": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.839
+  "energy": 0.839,
+  "onset": 0.45
  },
  "199": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.922
+  "energy": 0.922,
+  "onset": 0.45
  },
  "200": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.943
+  "energy": 0.943,
+  "onset": 0.463
  },
  "201": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.802
+  "energy": 0.802,
+  "onset": 0.472
  },
  "202": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.704
+  "energy": 0.704,
+  "onset": 0.454
  },
  "203": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.63
+  "energy": 0.63,
+  "onset": 0.45
  },
  "204": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "205": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.774
+  "energy": 0.774,
+  "onset": 0.45
  },
  "206": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.866
+  "energy": 0.866,
+  "onset": 0.45
  },
  "207": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.873
+  "energy": 0.873,
+  "onset": 0.45
  },
  "208": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.923
+  "energy": 0.923,
+  "onset": 0.45
  },
  "209": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.743
+  "energy": 0.743,
+  "onset": 0.45
  },
  "210": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.975
+  "energy": 0.975,
+  "onset": 0.503
  },
  "211": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.674
+  "energy": 0.674,
+  "onset": 0.45
  },
  "212": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.816
+  "energy": 0.816,
+  "onset": 0.45
  },
  "213": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "214": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.278
+  "energy": 0.278,
+  "onset": 0.45
  },
  "215": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.942
+  "energy": 0.942,
+  "onset": 0.45
  },
  "216": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.752
+  "energy": 0.752,
+  "onset": 0.45
  },
  "217": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.843
+  "energy": 0.843,
+  "onset": 0.45
  },
  "218": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.55
  },
  "219": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.908
+  "energy": 0.908,
+  "onset": 0.45
  },
  "220": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.937
+  "energy": 0.937,
+  "onset": 0.45
  },
  "221": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.786
+  "energy": 0.786,
+  "onset": 0.45
  },
  "222": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.594
  },
  "223": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.903
+  "energy": 0.903,
+  "onset": 0.45
  },
  "224": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.908
+  "energy": 0.908,
+  "onset": 0.45
  },
  "225": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.531
  },
  "226": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.867
+  "energy": 0.867,
+  "onset": 0.45
  },
  "227": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.883
+  "energy": 0.883,
+  "onset": 0.45
  },
  "228": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.892
+  "energy": 0.892,
+  "onset": 0.45
  },
  "229": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.93
+  "energy": 0.93,
+  "onset": 0.484
  },
  "230": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.813
+  "energy": 0.813,
+  "onset": 0.45
  },
  "231": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.842
+  "energy": 0.842,
+  "onset": 0.45
  },
  "232": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "233": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.929
+  "energy": 0.929,
+  "onset": 0.45
  },
  "234": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.828
+  "energy": 0.828,
+  "onset": 0.45
  },
  "235": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.841
+  "energy": 0.841,
+  "onset": 0.45
  },
  "236": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.952
+  "energy": 0.952,
+  "onset": 0.45
  },
  "237": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.925
+  "energy": 0.925,
+  "onset": 0.45
  },
  "238": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.886
+  "energy": 0.886,
+  "onset": 0.45
  },
  "239": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.947
+  "energy": 0.947,
+  "onset": 0.45
  },
  "240": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.402
+  "energy": 0.402,
+  "onset": 0.45
  },
  "241": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.805
+  "energy": 0.805,
+  "onset": 0.45
  },
  "242": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.106
+  "energy": 0.106,
+  "onset": 0.45
  },
  "243": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.775
+  "energy": 0.775,
+  "onset": 0.45
  },
  "244": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.884
+  "energy": 0.884,
+  "onset": 0.45
  },
  "245": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.23
+  "energy": 0.23,
+  "onset": 0.45
  },
  "246": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.771
+  "energy": 0.771,
+  "onset": 0.45
  },
  "247": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.767
+  "energy": 0.767,
+  "onset": 0.45
  },
  "248": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.84
+  "energy": 0.84,
+  "onset": 0.45
  },
  "249": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.692
+  "energy": 0.692,
+  "onset": 0.45
  },
  "250": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.706
+  "energy": 0.706,
+  "onset": 0.45
  },
  "251": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.856
+  "energy": 0.856,
+  "onset": 0.45
  },
  "252": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.602
+  "energy": 0.602,
+  "onset": 0.45
  },
  "253": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.868
+  "energy": 0.868,
+  "onset": 0.45
  },
  "254": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.743
+  "energy": 0.743,
+  "onset": 0.45
  },
  "255": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.883
+  "energy": 0.883,
+  "onset": 0.45
  },
  "256": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.895
+  "energy": 0.895,
+  "onset": 0.45
  },
  "257": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.455
  },
  "258": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.578
+  "energy": 0.578,
+  "onset": 0.45
  },
  "259": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.857
+  "energy": 0.857,
+  "onset": 0.45
  },
  "260": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.937
+  "energy": 0.937,
+  "onset": 0.45
  },
  "261": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.997
+  "energy": 0.997,
+  "onset": 0.45
  },
  "262": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.956
+  "energy": 0.956,
+  "onset": 0.501
  },
  "263": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.116
+  "energy": 0.116,
+  "onset": 0.45
  },
  "264": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.952
+  "energy": 0.952,
+  "onset": 0.45
  },
  "265": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.797
+  "energy": 0.797,
+  "onset": 0.45
  },
  "266": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.837
+  "energy": 0.837,
+  "onset": 0.45
  },
  "267": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.796
+  "energy": 0.796,
+  "onset": 0.45
  },
  "268": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.854
+  "energy": 0.854,
+  "onset": 0.473
  },
  "269": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.492
+  "energy": 0.492,
+  "onset": 0.45
  },
  "270": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.722
+  "energy": 0.722,
+  "onset": 0.45
  },
  "271": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.604
+  "energy": 0.604,
+  "onset": 0.45
  },
  "272": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.782
+  "energy": 0.782,
+  "onset": 0.45
  },
  "273": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.663
+  "energy": 0.663,
+  "onset": 0.45
  },
  "274": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.811
+  "energy": 0.811,
+  "onset": 0.45
  },
  "275": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.901
+  "energy": 0.901,
+  "onset": 0.45
  },
  "276": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.712
+  "energy": 0.712,
+  "onset": 0.45
  },
  "277": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.454
  },
  "278": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.996
+  "energy": 0.996,
+  "onset": 0.475
  },
  "279": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.43
+  "energy": 0.43,
+  "onset": 0.45
  },
  "280": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.811
+  "energy": 0.811,
+  "onset": 0.45
  },
  "281": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.84
+  "energy": 0.84,
+  "onset": 0.45
  },
  "282": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.906
+  "energy": 0.906,
+  "onset": 0.45
  },
  "283": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.819
+  "energy": 0.819,
+  "onset": 0.45
  },
  "284": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.853
+  "energy": 0.853,
+  "onset": 0.45
  },
  "285": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.717
+  "energy": 0.717,
+  "onset": 0.45
  },
  "286": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.911
+  "energy": 0.911,
+  "onset": 0.479
  },
  "287": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.296
+  "energy": 0.296,
+  "onset": 0.45
  },
  "288": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.785
+  "energy": 0.785,
+  "onset": 0.45
  },
  "289": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.858
+  "energy": 0.858,
+  "onset": 0.45
  },
  "290": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.866
+  "energy": 0.866,
+  "onset": 0.45
  },
  "291": {
   "class": "chapter",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.903
+  "energy": 0.903,
+  "onset": 0.45
  },
  "292": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.94
+  "energy": 0.94,
+  "onset": 0.45
  },
  "293": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.897
+  "energy": 0.897,
+  "onset": 0.45
  },
  "294": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.784
+  "energy": 0.784,
+  "onset": 0.45
  },
  "295": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.941
+  "energy": 0.941,
+  "onset": 0.45
  },
  "296": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.834
+  "energy": 0.834,
+  "onset": 0.45
  },
  "297": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.864
+  "energy": 0.864,
+  "onset": 0.45
  },
  "298": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.901
+  "energy": 0.901,
+  "onset": 0.45
  },
  "299": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.877
+  "energy": 0.877,
+  "onset": 0.45
  },
  "300": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.873
+  "energy": 0.873,
+  "onset": 0.45
  },
  "301": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.887
+  "energy": 0.887,
+  "onset": 0.465
  },
  "302": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.585
+  "energy": 0.585,
+  "onset": 0.45
  },
  "303": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.667
+  "energy": 0.667,
+  "onset": 0.45
  },
  "304": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.837
+  "energy": 0.837,
+  "onset": 0.45
  },
  "305": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.813
+  "energy": 0.813,
+  "onset": 0.45
  },
  "306": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.977
+  "energy": 0.977,
+  "onset": 0.45
  },
  "307": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.84
+  "energy": 0.84,
+  "onset": 0.45
  },
  "308": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.832
+  "energy": 0.832,
+  "onset": 0.45
  },
  "309": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.952
+  "energy": 0.952,
+  "onset": 0.45
  },
  "310": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.734
+  "energy": 0.734,
+  "onset": 0.45
  },
  "311": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.837
+  "energy": 0.837,
+  "onset": 0.45
  },
  "312": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.45
  },
  "313": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.963
+  "energy": 0.963,
+  "onset": 0.45
  },
  "314": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.911
+  "energy": 0.911,
+  "onset": 0.45
  },
  "315": {
   "class": "punch",
   "mood": "neutral",
   "lit": false,
-  "energy": 1.0
+  "energy": 1.0,
+  "onset": 0.457
  },
  "316": {
   "class": "soft",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.553
+  "energy": 0.553,
+  "onset": 0.45
  },
  "317": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.998
+  "energy": 0.998,
+  "onset": 0.48
  },
  "318": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.863
+  "energy": 0.863,
+  "onset": 0.497
  },
  "319": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.742
+  "energy": 0.742,
+  "onset": 0.575
  },
  "320": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.94
+  "energy": 0.94,
+  "onset": 0.472
  },
  "321": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.831
+  "energy": 0.831,
+  "onset": 0.461
  },
  "322": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.882
+  "energy": 0.882,
+  "onset": 0.494
  },
  "323": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.864
+  "energy": 0.864,
+  "onset": 0.505
  },
  "324": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.738
+  "energy": 0.738,
+  "onset": 0.45
  },
  "325": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.837
+  "energy": 0.837,
+  "onset": 0.51
  },
  "326": {
   "class": "story",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.838
+  "energy": 0.838,
+  "onset": 0.501
  },
  "327": {
   "class": "word",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.339
+  "energy": 0.339,
+  "onset": 0.51
  },
  "328": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.95
+  "energy": 0.95,
+  "onset": 0.534
  },
  "329": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.771
+  "energy": 0.771,
+  "onset": 0.45
  },
  "330": {
   "class": "host",
   "mood": "neutral",
   "lit": false,
-  "energy": 0.869
+  "energy": 0.869,
+  "onset": 0.45
  }
 }

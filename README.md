@@ -1,7 +1,7 @@
 # TV7 — Talk2Society production repo
 
 2K documentary build for episode **TV7** ("नेताजी सुभाष चंद्र बोस" — Subhas Chandra Bose).
-202 scene images (AI, V6 style) + provided voice-over, assembled into a 2560×1440 24fps film
+202 scene images (AI, V6 style) + provided voice-over, assembled into a 1920×1080 24fps film
 with Ken Burns motion, xfade transitions and a subtitle sidecar (no burned-in captions).
 
 ## Watch order (the files at repo root)
@@ -11,7 +11,7 @@ with Ken Burns motion, xfade transitions and a subtitle sidecar (no burned-in ca
 | `tv7_2k_part1.mp4` | Episode part 1 (cues 1–100) | 321.85s | 58.2 MB |
 | `tv7_2k_part2.mp4` | Episode part 2 (cues 101–202) | 331.83s | 60.0 MB |
 
-Play `part1` then `part2`, back to back. Parts are h264 2560×1440 24fps + AAC 48kHz stereo.
+Play `part1` then `part2`, back to back. Parts are h264 1920×1080 24fps + AAC 48kHz stereo.
 Each part is <100MB (Git LFS is not used). Subtitles: `tv7.srt` sidecar.
 
 ## Rebuild from scratch
@@ -24,8 +24,8 @@ python3 scripts/build_master_audio.py          # -> audio/tv7_master.mp3 + bound
 
 # Stage 6 — assemble (dry-run, smoke, full)
 python3 build_video.py --dry-run --srt tv7.srt --name tv7
-python3 build_video.py --limit 12 --res 2560x1440 --srt tv7.srt --name tv7   # smoke
-python3 build_video.py --res 2560x1440 --no-captions --crf 24 \
+python3 build_video.py --limit 12 --res 1920x1080 --srt tv7.srt --name tv7   # smoke
+python3 build_video.py --res 1920x1080 --no-captions --crf 24 \
         --srt tv7.srt --name tv7                                             # full (from images/)
 
 # Stage 7 — parts sized for git (bounds = VO chapter boundaries)
@@ -53,8 +53,8 @@ Same pipeline as TV7 with `--srt tv8.srt --name tv8 --images images_tv8` at ever
 
 ```bash
 python3 build_video.py --dry-run --srt tv8.srt --name tv8 --images images_tv8
-python3 build_video.py --limit 12 --res 2560x1440 --srt tv8.srt --name tv8 --images images_tv8   # smoke
-python3 build_video.py --res 2560x1440 --no-captions --crf 24 \
+python3 build_video.py --limit 12 --res 1920x1080 --srt tv8.srt --name tv8 --images images_tv8   # smoke
+python3 build_video.py --res 1920x1080 --no-captions --crf 24 \
         --srt tv8.srt --name tv8 --images images_tv8                                              # full
 
 # Stage 6 — chapter splits (cue starts 14,69,100,117,143,165,189,215,239,291 -> 11 parts)
@@ -72,7 +72,7 @@ python3 scripts/verify_parts.py --ep tv8 --cues 330
 - Build: max(SRT, VO) + 2s tail = 1171.74s; 330 segments, 1:1 cue:segment
 - Images: 330 scenes + #Host plate, label-named (`#0-00.jpg` … `#19-28.jpg`), no upscale step
 - Parts: `tv8_2k_part1.mp4` … `tv8_2k_part11.mp4` (chapter cuts at cues 14/69/100/117/143/165/189/215/239/291)
-- All parts 2560×1440 24fps h264+aac 48kHz, each <100MB, no LFS; no captions burned in (R6)
+- All parts 1920×1080 24fps h264+aac 48kHz, each <100MB, no LFS; no captions burned in (R6)
 
 ## Pro editor (kb proedit1) — humanistic motion & transitions
 

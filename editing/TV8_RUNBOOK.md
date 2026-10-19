@@ -39,10 +39,10 @@
 | Cue classes | `prompts/cue_classes.json` (committed) |
 | Chapter cue-starts | `14,69,100,117,143,165,189,215,239,291` |
 | Style | `pro` (subtle "invisible editing" — no sweep overlay, no whips) |
-| Output spec | 2560×1440, 24fps, h264 CRF 24 yuv420p + AAC 48kHz, no captions |
+| Output spec | **1920×1080 (≤1080p — mandatory)**, 24fps, h264 CRF 24 yuv420p + AAC 48kHz, no captions |
 | Total duration | 1171.74s = max(SRT 1169.74s, VO 1169.74s) + 2s |
-| Split bounds (seconds) | `0,256.57,536.07,861.03,1171.74` |
-| Parts | 4 files `tv8_2k_part1..4.mp4` (256.57 / 279.50 / 324.96 / 310.71s), each < 100MB, at repo root |
+| Split bounds (seconds) | `0,369.93,785.75,1171.74` |
+| Parts | 3 files `tv8_2k_part1..3.mp4` (369.93 / 415.82 / 385.99s), each < 100MB, at repo root |
 | Integration | concat stream-copy (command printed by the splitter) |
 | Cues check | `verify_parts --ep tv8 --cues 330` |
 
@@ -53,20 +53,20 @@
 pip install -q --break-system-packages pillow imageio-ffmpeg numpy
 
 # 1. smoke (12 cues) — optional but recommended once
-python3 editing/build_video.py --limit 12 --res 2560x1440 --no-captions \
+python3 editing/build_video.py --limit 12 --res 1920x1080 --no-captions \
   --crf 24 --srt tv8.srt --name tv8 --images images_tv8 \
   --cue-class prompts/cue_classes.json \
   --chapter-cues "14,69,100,117,143,165,189,215,239,291" --style pro
 
 # 2. FULL BUILD (one run, ~75-80 min on 2 cores) -> output/tv8_final.mp4
-python3 editing/build_video.py --res 2560x1440 --no-captions --crf 24 \
+python3 editing/build_video.py --res 1920x1080 --no-captions --crf 24 \
   --srt tv8.srt --name tv8 --images images_tv8 \
   --cue-class prompts/cue_classes.json \
   --chapter-cues "14,69,100,117,143,165,189,215,239,291" --style pro
 
-# 3. split into 4 parts — exact seams, audio unaffected (auto +2CRF if >cap)
+# 3. split into 3 parts — exact seams, audio unaffected (auto +2CRF if >cap)
 python3 editing/split_parts.py --name tv8 \
-  --bounds "0,256.57,536.07,861.03,1171.74"
+  --bounds "0,369.93,785.75,1171.74"
 
 # 4. parts must be at repo root before verify (verify globs cwd)
 cp output/tv8_2k_part*.mp4 .
@@ -92,7 +92,7 @@ git add tv8_2k_part*.mp4 README.md && git commit -m "TV8 proedit: 11 verified 2K
 
 - A1: 330 cues → 330 segments → 330 frame counts (build plan shows exact
   frame table; drift ≤ 1 frame).
-- A2: 4 parts, 2560×1440 24fps h264+aac 48kHz, each < 100MB; part
+- A2: 3 parts, 1920×1080 24fps h264+aac 48kHz, each < 100MB; part
   durations sum EXACTLY to 1171.74s (frame-exact seams, audio unaffected);
   concat stream-copy rejoins the master.
 - A3: ≥2 distinct QA frames per part, no captions burned.
