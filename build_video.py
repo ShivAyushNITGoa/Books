@@ -222,7 +222,13 @@ def build(args):
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
-    vo = find_audio(AUD_DIR)
+    vo = None
+    if args.name:
+        cand = AUD_DIR / f"{args.name}_master.mp3"
+        if cand.exists():
+            vo = cand
+    if vo is None:
+        vo = find_audio(AUD_DIR)
     n_cues = len(cues_all)
 
     scope = cues_all[:args.limit] if args.limit else cues_all
