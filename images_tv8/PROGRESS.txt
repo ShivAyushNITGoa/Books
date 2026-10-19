@@ -1,3 +1,2 @@
-pack 32 (cues 311-320): DONE+COMMITTED (18-03 18-06 18-09 18-10 18-13 18-19 18-20 18-25 18-31 18-33)
-next: cues 321-330 (18-38 18-48 18-54 18-59 19-05 19-10 19-14 19-15 19-21 19-28)
-done: 320/330 scenes + #Host | remaining: 10
+pack 33 (cues 321-330): DONE (18-38 18-48 18-54 18-59 19-05 19-10 19-14 19-15 19-21 19-28)
+STAGE 4 COMPLETE: 330/330 scenes + #Host | next: Stage 5 build
