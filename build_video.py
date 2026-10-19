@@ -21,11 +21,23 @@ Timeline:
   * Frame budget is allocated so cumulative boundary drift <= 1 frame.
 
 Rendering (three stages, linear time, safe on 2-core machines):
-  stage 1: each cue -> one 24fps segment (zoompan Ken Burns,
-           4-pattern cycle, tiny fade in/out to soften cuts)
+  stage 1: each cue -> one 24fps segment (eased, varied Ken Burns motion;
+           humanistic cut rhythm: hard cuts, gentle dips through warm dark,
+           soft breathing fades, and pure-black beats at chapter markers /
+           open / close) -- see fades_for()/kenburns()
   stage 2: concat demuxer (stream copy) of the segments
   stage 3: mux the master VO (AAC, 48 kHz), optionally with burned-in
            SRT captions (Noto Sans Devanagari) -> output/{name}_final.mp4
+
+Motion & transitions are deterministic per cue (md5 of cue number + style
+tag) so builds are reproducible, but no longer mechanical:
+  * smoothstep-eased pans/zooms, amplitude scaled with cue duration
+  * six motion patterns (push/pull/drift/pan), short cues never whip-pan
+  * cut rhythm per cue: ~20% hard cut, ~50% gentle dip, ~30% soft fade
+  * chapter cues (--chapter-cues) get punctuation through pure black
+  * episode opens from black and closes to black; dips use warm dark
+    (0x160909) matching the art palette instead of dead black
+  * subtle vignette for a lens feel; x264 medium preset
 
 Usage:
   python3 build_video.py --dry-run        # mapping + missing-file report
@@ -37,6 +49,7 @@ Usage:
   FFMPEG_BIN=/path/to/ffmpeg python3 build_video.py   # custom ffmpeg
 """
 import argparse
+import hashlib
 import re
 import shutil
 import subprocess
@@ -48,15 +61,19 @@ ROOT = Path(__file__).resolve().parent
 IMG_DIR = ROOT / "images"
 AUD_DIR = ROOT / "audio"
 OUT_DIR = ROOT / "output"
-SEG_DIR = OUT_DIR / "segments"
+STYLE_TAG = "kbv2"                   # motion/transition style id (cache key)
+SEG_DIR = OUT_DIR / f"segments_{STYLE_TAG}"
 SRT_PATH = ROOT / "tv6.srt"
 FONT_DIR = ROOT / "fonts"          # Noto Sans Devanagari (Devanagari glyphs)
 
 FPS = 24
 W, H = 1280, 720          # default; pass --res for other resolutions
-ZOOM = 0.10                # Ken Burns zoom range
 CRF = 24                   # x264 quality (higher = smaller file)
 TAIL_AFTER_VO = 2.0        # seconds of held final image after the VO ends
+FADE_WARM = "0x160909"     # dip-through warm dark (art palette)
+FADE_BLACK = "black"       # punctuation beats only
+CHAPTER_CUES = set()       # cue numbers -> black beats (from --chapter-cues)
+LAST_CUE_N = 0
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
 AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
 
@@ -167,43 +184,99 @@ def plan(cues, total, limit=None):
         s["frames"] = max(int(s["dur"] * FPS), 2)
         assigned += s["frames"]
     segs[-1]["frames"] = max(total_frames - assigned, 2)
+    global LAST_CUE_N
+    LAST_CUE_N = segs[-1]["n"] if segs else 0
     return cues, segs
 
 
-def kenburns(i: int, frames: int):
-    """4-pattern cycle, on-based (stateless) zoompan expressions."""
+def _h(*parts) -> int:
+    """Deterministic per-cue seed (md5) -> reproducible builds."""
+    return int(hashlib.md5("|".join(str(p) for p in parts).encode()).hexdigest(), 16)
+
+
+def kenburns(n: int, frames: int, dur: float):
+    """Eased, varied Ken Burns: 6 deterministic patterns, smoothstep timing.
+
+    Amplitude scales with cue duration (short cues barely move, long holds
+    travel further); very short cues never pan. The focus anchor jitters
+    slightly per cue so framing is not always dead-centre.
+    """
     d = max(frames, 4)
-    cy = "ih/2-(ih/zoom/2)"
-    cx = "iw/2-(iw/zoom/2)"
-    k = ZOOM
-    p = i % 4
-    if p == 0:    # slow zoom in
-        return f"1+{k}*on/{d}", cx, cy
-    if p == 1:    # slow zoom out
-        return f"{1 + k}-{k}*on/{d}", cx, cy
-    if p == 2:    # pan right
-        return f"1+{k}", f"(iw-iw/zoom)*on/{d}", cy
-    return f"1+{k}", f"(iw-iw/zoom)*(1-on/{d})", cy  # pan left
+    t = f"(on/{d})"
+    e = f"({t}*{t}*(3-2*{t}))"                     # smoothstep ease-in-out
+    h = _h(STYLE_TAG, n)
+    k = max(0.05, min(0.13, 0.02 + dur * 0.012))   # zoom/travel amplitude
+    cy = f"(ih-ih/zoom)*{0.42 + (h % 17) / 100:.3f}"
+    cxc = f"(iw-iw/zoom)*{0.44 + ((h >> 8) % 13) / 100:.3f}"
+    pat = (h % 2) if dur < 2.2 else (h % 6)        # short: push/pull only
+    if pat == 0:                                   # slow push in
+        return f"1+{k:.4f}*{e}", cxc, cy
+    if pat == 1:                                   # slow pull out
+        return f"{1 + k:.4f}-{k:.4f}*{e}", cxc, cy
+    if pat == 2:                                   # push in, drift up-right
+        return (f"1+{k:.4f}*{e}",
+                f"(iw-iw/zoom)*(0.18+0.64*{e})", cy)
+    if pat == 3:                                   # pull out, drift back left
+        return (f"{1 + k:.4f}-{k:.4f}*{e}",
+                f"(iw-iw/zoom)*(0.80-0.56*{e})", cy)
+    if pat == 4:                                   # lateral pan right
+        return f"1+{k / 2:.4f}", f"(iw-iw/zoom)*{e}", cy
+    return f"1+{k / 2:.4f}", f"(iw-iw/zoom)*(1-{e})", cy  # lateral pan left
+
+
+def fades_for(n: int, dur: float):
+    """Humanistic cut rhythm -> (fade_in, fade_out, colour).
+
+    ~20% hard cut (punch), ~50% gentle dip through warm dark, ~30% soft
+    breathing fade. Chapter markers, the opening and the closing get longer
+    punctuation through pure black. All fades stay inside the segment, so
+    the R3 frame budget is untouched.
+    """
+    h = _h("fade", STYLE_TAG, n)
+    fam = h % 10
+    if fam <= 1:
+        din = dout = 0.0                                    # hard cut
+        col = FADE_WARM
+    elif fam <= 4:
+        din = dout = min(0.42, dur * 0.32)                  # soft beat
+        col = FADE_WARM
+    else:
+        din = dout = min(0.15, dur * 0.22)                  # gentle dip
+        col = FADE_WARM
+    if n in CHAPTER_CUES:                                   # chapter in-beat
+        din, col = max(din, min(0.55, dur * 0.35)), FADE_BLACK
+    if (n + 1) in CHAPTER_CUES:                             # chapter out-beat
+        dout = max(dout, min(0.50, dur * 0.35))
+        col = FADE_BLACK
+    if n == 1:                                              # episode opens
+        din, col = max(din, min(0.90, dur * 0.45)), FADE_BLACK
+    if n == LAST_CUE_N:                                     # episode closes
+        dout = max(dout, min(1.50, dur * 0.50))
+        col = FADE_BLACK
+    return min(din, dur * 0.40), min(dout, dur * 0.40), col
 
 
 # ---------------------------------------------------------------- stage 1
 def render_segment(ffmpeg, seg, img: Path, out: Path):
-    z, x, y = kenburns(seg["n"] - 1, seg["frames"])
+    z, x, y = kenburns(seg["n"], seg["frames"], seg["dur"])
     dur = seg["dur"]
     vf = (
         f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
         f"zoompan=z='{z}':x='{x}':y='{y}':d={seg['frames']}:"
-        f"s={W}x{H}:fps={FPS},format=yuv420p,setsar=1"
+        f"s={W}x{H}:fps={FPS},"
+        f"vignette=angle=PI/4.2,format=yuv420p,setsar=1"
     )
-    fade = min(0.20, dur * 0.2)  # softens cuts; never eats short cues
-    if fade > 0.03:
-        vf += (f",fade=t=in:st=0:d={fade:.3f},"
-               f"fade=t=out:st={max(dur - fade, 0):.3f}:d={fade:.3f}")
+    din, dout, col = fades_for(seg["n"], dur)
+    if din >= 0.5 / FPS:
+        vf += f",fade=t=in:st=0:d={din:.3f}:color={col}"
+    if dout >= 0.5 / FPS:
+        vf += (f",fade=t=out:st={max(dur - dout, 0):.3f}:"
+               f"d={dout:.3f}:color={col}")
     cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
            "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
            "-frames:v", str(seg["frames"]),
            "-vf", vf,
-           "-c:v", "libx264", "-preset", "veryfast", "-crf", str(CRF),
+           "-c:v", "libx264", "-preset", "medium", "-crf", str(CRF),
            "-pix_fmt", "yuv420p", "-r", str(FPS),
            str(out)]
     r = subprocess.run(cmd, capture_output=True, text=True)
@@ -213,22 +286,17 @@ def render_segment(ffmpeg, seg, img: Path, out: Path):
 
 # ---------------------------------------------------------------- build
 def build(args):
-    global W, H, CRF, IMG_DIR, SRT_PATH
+    global W, H, CRF, IMG_DIR, SRT_PATH, CHAPTER_CUES
     w, _, h = args.res.partition("x")
     W, H = int(w), int(h)
     CRF = args.crf
+    CHAPTER_CUES = {int(x) for x in args.chapter_cues.split(",") if x.strip()}
     IMG_DIR = ROOT / args.images
     SRT_PATH = ROOT / args.srt
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
-    vo = None
-    if args.name:
-        cand = AUD_DIR / f"{args.name}_master.mp3"
-        if cand.exists():
-            vo = cand
-    if vo is None:
-        vo = find_audio(AUD_DIR)
+    vo = find_audio(AUD_DIR)
     n_cues = len(cues_all)
 
     scope = cues_all[:args.limit] if args.limit else cues_all
@@ -366,4 +434,7 @@ if __name__ == "__main__":
     ap.add_argument("--name", default="tv6",
                     help="episode slug used in output file names "
                          "(e.g. tv7 -> output/tv7_final.mp4)")
+    ap.add_argument("--chapter-cues", default="",
+                    help="comma-separated cue numbers that open a chapter; "
+                         "those boundaries get pure-black punctuation beats")
     sys.exit(build(ap.parse_args()))
