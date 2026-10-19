@@ -73,3 +73,16 @@ python3 scripts/verify_parts.py --ep tv8 --cues 330
 - Images: 330 scenes + #Host plate, label-named (`#0-00.jpg` … `#19-28.jpg`), no upscale step
 - Parts: `tv8_2k_part1.mp4` … `tv8_2k_part11.mp4` (chapter cuts at cues 14/69/100/117/143/165/189/215/239/291)
 - All parts 2560×1440 24fps h264+aac 48kHz, each <100MB, no LFS; no captions burned in (R6)
+
+## Pro editor (kb proedit1) — humanistic motion & transitions
+
+`build_video.py --style pro|art|doc|classic` plus `--cue-class prompts/cue_classes.json`
+(from `scripts/gen_cue_classes.py`): cue classes (chapter/host/word/soft/punch/story),
+text-driven mood, per-cue VO energy, lamp/lit tags. Camera: eased 6-pattern Ken Burns
+with handheld wobble + breathing, saliency-anchored framing, motion-continuity pan runs,
+intra-cue punch-ins/whips. Transitions: hard cut / warm dip / soft fade vocabulary,
+chapter & open/close black beats with light-leak pulses, paint-settle focus. Grade:
+emotional colour per cue, day→night drift, bloom on lit cues, lamp flicker, exposure
+settle, chromatic fringe, animated grain, class vignette, living-paint light sweep.
+QC: same-shot duplicate warnings + pacing report. Timing stays R3-exact (all effects
+in-segment), VO stays Path A raw, no burned captions.
