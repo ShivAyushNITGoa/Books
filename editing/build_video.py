@@ -636,6 +636,10 @@ def build(args):
     srt_end = cues_all[-1]["end"]
     vo_dur = media_duration(ffmpeg, vo) if vo else 0.0
     total = max(srt_end, vo_dur) + TAIL_AFTER_VO
+    # A limited smoke build must stay limited through the final mux as well
+    # as the segment render; otherwise it appends the full episode VO.
+    if args.limit:
+        total = min(total, cues_all[min(args.limit, len(cues_all)) - 1]["end"] + 1.0)
     if vo and vo_dur - srt_end > 1:
         print(f"VO span     : {vo_dur:.2f}s vs SRT span {srt_end:.2f}s "
               f"(narration beyond last cue: {vo_dur - srt_end:+.1f}s "

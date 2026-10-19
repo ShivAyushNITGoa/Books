@@ -65,7 +65,7 @@ def main():
 
         segs = list(range(i0 + 1, i1 + 1))
         lst = OUT_DIR / f"part{k + 1}_list.txt"
-        paths = [str(OUT_DIR / "segments" / f"{n:03d}.mp4") for n in segs]
+        paths = [str(OUT_DIR / "segments_pro_proedit1" / f"{n:03d}.mp4") for n in segs]
         lst.write_text("".join("file '" + p + "'\n" for p in paths),
                        encoding="utf-8")
 
