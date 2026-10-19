@@ -766,7 +766,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="build only first N cues")
-    ap.add_argument("--res", default="1280x720",
+    ap.add_argument("--res", default="1920x1080",
                     help="render resolution WxH (default 1280x720; "
                          "use 2560x1440 for QHD, 854x480 for small files)")
     ap.add_argument("--crf", type=int, default=24,
