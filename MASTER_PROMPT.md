@@ -92,3 +92,11 @@ origin/arena/927251ad-books` (first copy any modified tracked files to
 `~/`). Reinstall pip deps. `verify_parts` globs the REPO ROOT — always
 `cp output/*_part*.mp4 .` first. Long builds go to a background process;
 keep steps short (chained long commands get aborted).
+
+**Builds are resumable.** Segment renders are atomic (`.tmp` → rename) and
+cached in `output/segments_{style}_proedit1/`; if a full build is killed or
+the sandbox restarts mid-run, just re-run the identical build command —
+cached segments are skipped and only the missing ones re-render. Never
+"repair" a partial segment by hand; a missing/corrupt file simply re-renders.
+After any restart, re-check progress with `ls output/segments_*/ | wc -l`
+(log counters can be ahead of the surviving cache).
