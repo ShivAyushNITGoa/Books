@@ -4,6 +4,12 @@ What `editing/build_video.py` applies automatically, and how to tune it.
 Everything below stays inside R3 (1 cue : 1 image : 1 duration) — effects
 are in-segment or re-frame the cue's own image inside its own window.
 
+**THE SUBTLETY RULE (user-mandated):** effects and transitions must NEVER
+attract the viewer's attention to the effect. Their only job is to avoid a
+slideshow feel. No overlay sweeps (the vertical blur pass was removed as
+distraction), no whip moves, rare and gentle punch-ins, blink-short dips,
+soft vignettes, quiet grain. If an effect is noticeable, it is wrong.
+
 ## 1. Input intelligence (`editing/gen_cue_classes.py` → `cue_classes.json`)
 
 Per cue, the sidecar carries:
@@ -28,9 +34,10 @@ word frames), text regexes, and energy z-scores.
 - Subject-aware framing: PIL saliency analysis caches face/subject anchors
   (`output/anchors_cache.json`); pans prefer motion continuity (neighbour
   cues with similar anchors continue the pan direction).
-- Intra-cue punch-ins: on long holds (≥4.5 s), ~60% of story cues and all
-  punch cues get a punch-in/punch-out or whip reframe mid-cue — same image,
-  own window, timing untouched. Word cues never punch (stillness = impact).
+- Intra-cue punch-ins: on long holds (≥4.5 s), rare (~12% of story cues)
+  and gentle (~1.05×) push-ins with a slow settle back; impact cues get one
+  calm push-in — same image, own window, timing untouched. Word cues never
+  punch (stillness = impact). No whips, no fast travels.
 
 ## 3. Transitions & timeline
 
@@ -50,11 +57,11 @@ Vocabulary chosen per cut pair (class + energy):
   stark (word/punch), true (chapter) via eq + colorbalance.
 - Day→night drift across the episode (brightness/gamma curve) and
   bleach-bypass look on chapter cues.
-- Lit cues: bloom/halation (split + gblur + screen), lamp flicker on
-  `lit` cues. All cues: chromatic fringe (rgbashift ±1px), animated grain
-  (`noise=allf=t+u`), class-scaled vignette.
-- Living-paint light sweep: soft diagonal sweep PNG overlay drifting
-  across the frame once per segment (direction alternates).
+- Lit cues: bloom/halation (split + gblur + screen), subtle lamp flicker
+  on `lit` cues. All cues: near-invisible chromatic fringe (rgbashift
+  ±1px), quiet animated grain (`noise=allf=t+u`), soft class vignette.
+- (REMOVED — user-rejected: the living-paint vertical sweep overlay. It
+  read as a blur bar crossing the frame and pulled attention. Never re-add.)
 - Style presets: `pro` (full chain above), `art` (softer, dreamier: more
   blur/grain/sweep, lighter grade), `doc` (clean: minimal grade, no sweep,
   light grain), `classic` (kbv2-era neutral Ken Burns + dips only).

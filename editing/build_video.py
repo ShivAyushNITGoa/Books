@@ -94,16 +94,17 @@ LAST_CUE_N = 0
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
 AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
 
-# per-style look parameters
+# per-style look parameters (subtle "invisible editing": effects never call
+# attention to themselves — no sweep overlay, no whip moves)
 STYLES = {
     #           k_amp shake bloom grain sweep grade warm flicker
-    "pro":     dict(k=1.00, shake=1.00, bloom=0.15, grain=5, sweep=1.00,
-                    grade=1.00, warm=1.00, flicker=1.00),
-    "art":     dict(k=0.80, shake=0.55, bloom=0.22, grain=7, sweep=1.40,
-                    grade=1.30, warm=1.35, flicker=1.20),
-    "doc":     dict(k=1.15, shake=1.30, bloom=0.09, grain=4, sweep=0.65,
-                    grade=0.80, warm=0.70, flicker=0.60),
-    "classic": dict(k=1.00, shake=0.00, bloom=0.00, grain=0, sweep=0.00,
+    "pro":     dict(k=1.00, shake=0.55, bloom=0.13, grain=4, sweep=0,
+                    grade=1.00, warm=1.00, flicker=0.70),
+    "art":     dict(k=0.85, shake=0.35, bloom=0.18, grain=5, sweep=0,
+                    grade=1.20, warm=1.25, flicker=0.85),
+    "doc":     dict(k=1.10, shake=0.70, bloom=0.08, grain=3, sweep=0,
+                    grade=0.80, warm=0.70, flicker=0.50),
+    "classic": dict(k=1.00, shake=0.00, bloom=0.00, grain=0, sweep=0,
                     grade=0.00, warm=0.00, flicker=0.00),
 }
 
@@ -318,13 +319,13 @@ def motion_script(n, frames, dur, ax, ay, pol, style):
     e = f"({hold}*{hold}*(3-2*{hold}))"                # smoothstep of hold
     h = _h("cam", STYLE_TAG, n)
     e_mul = 0.85 + 0.30 * pol["energy"]                # loud cues move more
-    k = max(0.05, min(0.14, (0.02 + dur * 0.012) * style["k"] * e_mul))
+    k = max(0.05, min(0.11, (0.02 + dur * 0.012) * style["k"] * e_mul))
     sh = style["shake"]
-    wob_x = (f"({0.0022 * sh:.4f})*(iw-iw/zoom)*(sin(on*0.117+{(h % 31):.1f})"
+    wob_x = (f"({0.0012 * sh:.4f})*(iw-iw/zoom)*(sin(on*0.117+{(h % 31):.1f})"
              f"+0.6*sin(on*0.041+{(h >> 5) % 23:.1f}))")
-    wob_y = (f"({0.0022 * sh:.4f})*(ih-ih/zoom)*(sin(on*0.093+{(h >> 9) % 29:.1f})"
+    wob_y = (f"({0.0012 * sh:.4f})*(ih-ih/zoom)*(sin(on*0.093+{(h >> 9) % 29:.1f})"
              f"+0.6*sin(on*0.053+{(h >> 14) % 19:.1f}))")
-    br = f"(1+{0.0028:.4f}*sin(on*0.047+{(h >> 3) % 17:.1f}))"   # breathing
+    br = f"(1+{0.0020:.4f}*sin(on*0.047+{(h >> 3) % 17:.1f}))"   # breathing
     if pol["cls"] == "word":
         k *= 0.45                                         # near-frozen beats
     if dur < 2.2:
@@ -370,32 +371,32 @@ def fades_for(n, dur, pol):
     din = dout = 0.0
     col, leak = FADE_WARM, False
     if cls == "word":
-        din = dout = min(0.45, dur * 0.33)
+        din = dout = min(0.32, dur * 0.30)
         col = FADE_DEEP
     elif cls == "host":
-        din = dout = min(0.28, dur * 0.25)
+        din = dout = min(0.22, dur * 0.22)
     elif cls == "soft":
-        din = dout = min(0.42, dur * 0.30)
+        din = dout = min(0.28, dur * 0.26)
     elif cls == "punch":
         din = dout = 0.0                                  # hard cuts
     elif cls == "chapter":
         din = dout = 0.0
     else:                                                 # story mix
         fam = h % 10
-        if fam <= 1 + int(e > 0.72):                      # loud -> more cuts
+        if fam <= 3 + int(e > 0.72):                      # loud -> more cuts
             din = dout = 0.0
-        elif fam <= 4:
-            din = dout = min(0.42, dur * 0.32)
+        elif fam <= 6:
+            din = dout = min(0.22, dur * 0.25)            # gentle blink-dip
         else:
-            din = dout = min(0.15, dur * 0.22)
+            din = dout = min(0.12, dur * 0.18)            # near-invisible
     if n in CHAPTER_CUES:
-        din, col, leak = max(din, min(0.55, dur * 0.35)), FADE_BLACK, True
+        din, col, leak = max(din, min(0.40, dur * 0.30)), FADE_BLACK, True
     if (n + 1) in CHAPTER_CUES:
-        dout, col = max(dout, min(0.50, dur * 0.35)), FADE_BLACK
+        dout, col = max(dout, min(0.35, dur * 0.28)), FADE_BLACK
     if n == 1:
-        din, col, leak = max(din, min(0.90, dur * 0.45)), FADE_BLACK, True
+        din, col, leak = max(din, min(0.70, dur * 0.40)), FADE_BLACK, True
     if n == LAST_CUE_N:
-        dout, col = max(dout, min(1.50, dur * 0.50)), FADE_BLACK
+        dout, col = max(dout, min(1.10, dur * 0.45)), FADE_BLACK
     return min(din, dur * 0.40), min(dout, dur * 0.40), col, leak
 
 
@@ -407,7 +408,7 @@ def grade_exprs(pol, n, n_total, style, leak):
     settle = "(-0.075)*exp(-2.4*t)"
     flick = ("(0)" if not (pol["lit"] and fl > 0)
              else f"({0.012 * fl:.4f})*sin(2*PI*3.0*t+1.3)")
-    leakp = "0.11*exp(-3.2*t)" if leak else "0"
+    leakp = "0.05*exp(-3.2*t)" if leak else "0"
     br = f"({settle})+{flick}+({leakp})"
     if pol["cls"] == "word":
         c, s, gam = 1.06 + 0.04 * g, 1.02, 1.00
@@ -419,7 +420,7 @@ def grade_exprs(pol, n, n_total, style, leak):
         c, s = c + 0.02 * g, max(0.75, s - 0.12 * g)
     elif pol["mood"] == "light":
         c, s = c, min(1.25, s + 0.07 * g)
-    sat_leak = 1.04 if leak else 1.0
+    sat_leak = 1.02 if leak else 1.0
     eq_fixed = (f"contrast={c:.3f}:saturation={s * sat_leak:.3f}:"
                 f"gamma={gam:.3f}")
     rs = 0.015 * warm
@@ -435,11 +436,11 @@ def grade_exprs(pol, n, n_total, style, leak):
     cb = (f"rs={rs:.3f}:gs={0.004 * warm:.3f}:bs={bs:.3f}:"
           f"rm={rm:.3f}:bm={bm:.3f}")
     if pol["cls"] == "word":
-        vg = "PI/3.4"
-    elif pol["cls"] == "chapter":
         vg = "PI/4.6"
+    elif pol["cls"] == "chapter":
+        vg = "PI/5.8"
     else:
-        vg = f"PI/{4.0 + (_h('vg', n) % 5) / 10:.1f}"
+        vg = f"PI/{5.2 + (_h('vg', n) % 5) / 10:.1f}"
     return br, eq_fixed, cb, vg
 
 
@@ -473,16 +474,10 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
     """Render one clip. mode: 'full' | 'punch_a' | 'punch_b' | 'whip_b'."""
     ax, ay = seg["_anchor"]
     z, x, y, pat = motion_script(seg["n"], frames, dur, ax, ay, pol, style)
-    if mode == "punch_b":
-        z = f"(1+{0.16 * style['k']:.4f})*(1-0.25*((on/{max(frames, 4)})))"
+    if mode == "punch_b":                                 # gentle settle back
+        z = f"(1+{0.08 * style['k']:.4f})*(1-0.14*((on/{max(frames, 4)})))"
         x = f"(iw-iw/zoom)*{min(0.62, ax + 0.10):.3f}"
         y = f"(ih-ih/zoom)*{min(0.62, ay + 0.06):.3f}"
-    elif mode == "whip_b":
-        d = max(frames, 4)
-        z = f"1+{0.10 * style['k']:.4f}"
-        x = f"(iw-iw/zoom)*(0.15+0.70*(on/{d}))"      # fast travel
-        y = f"(ih-ih/zoom)*{ay:.3f}"
-        pat = 4
 
     br, eq_fixed, cb, vg = grade_exprs(pol, seg["n"], LAST_CUE_N, style,
                                        seg.get("_leak", False))
@@ -554,7 +549,7 @@ def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
     dur, frames = seg["dur"], seg["frames"]
     punch = (dur >= 4.5 and style["shake"] > 0 and (
         pol["cls"] == "punch"
-        or (pol["cls"] == "story" and _h("pk", seg["n"]) % 5 < 2)))
+        or (pol["cls"] == "story" and _h("pk", seg["n"]) % 8 < 1)))
     if not punch:
         render_clip(ffmpeg, seg, img, out, frames, dur, pol, style, sweep,
                     "full")
@@ -570,8 +565,7 @@ def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
     seg.update(_leak=leak, _dout=dout, _col=col, _din_on_first=True)
     render_clip(ffmpeg, seg, img, a, f1, d1, pol, style, sweep, "punch_a")
     seg["_leak"] = False
-    render_clip(ffmpeg, seg, img, b, f2, d2, pol, style, sweep,
-                "whip_b" if h % 3 == 0 else "punch_b")
+    render_clip(ffmpeg, seg, img, b, f2, d2, pol, style, sweep, "punch_b")
     lst = OUT_DIR / f"_pl_{seg['n']:03d}.txt"
     lst.write_text(f"file '{a}'\nfile '{b}'\n", encoding="utf-8")
     r = subprocess.run([ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
@@ -663,7 +657,7 @@ def build(args):
     qw = qc_duplicates(hits)
     if qw:
         print(f"QC            : {qw} same-shot warning(s)")
-    sweep = make_sweep_png() if style["sweep"] > 0 else None
+    sweep = None   # sweep overlay removed: vertical blur passes distract
 
     seg_dir = OUT_DIR / f"segments_{args.style}_{STYLE_TAG}"
     seg_dir.mkdir(parents=True, exist_ok=True)

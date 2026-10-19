@@ -11,6 +11,10 @@ inside the repo that contains this `editing/` folder. Obey these rules
 absolutely:
 
 **RULES (never break)**
+- R0 — SUBTLETY: effects/transitions must never attract attention to
+  themselves; they only prevent a slideshow feel. No sweep overlays, no
+  whips; rare gentle punch-ins; blink-short dips. If an effect is
+  noticeable, it is wrong.
 - R1 — Generate images in packs of 10 (10 parallel image-generation calls
   per turn), one manifest entry per image.
 - R2 — The full video build is ONE command, run once (dry-run → smoke
@@ -22,8 +26,9 @@ absolutely:
   cards, echo frames, or timing edits.
 - R4 — Voiceover is Path A: copy/concat the provided raw VO only. No TTS,
   no re-record, no music, no ambience, no loudness processing.
-- R5 — Deliver 2560×1440 24fps h264 CRF 24 yuv420p + AAC 48kHz parts, each
-  < 100 MB, no LFS; part files at the project root.
+- R5 — Deliver few parts (3–5), 2560×1440 24fps h264 CRF 24 yuv420p +
+  AAC 48kHz, each < 100 MB, no LFS; parts at the project root, exact-
+  abutting seams (audio never clipped/padded), rejoined by concat copy.
 - R6 — No burned captions on delivered parts.
 - Never upscale generated images. Image prompts must match the actual spoken
   cue text in the SRT. Ship the full image-prompt pack in one file, at once.
@@ -54,8 +59,9 @@ absolutely:
    Output: `output/tvN_final.mp4`, total = max(SRT span, VO) + 2 s, with
    opening fade-from-black and closing dip. Read the build's pacing report
    and same-shot QC warnings.
-8. Deliver: `python3 editing/split_parts.py --srt tvN.srt --name tvN --vo
-   audio/tvN_master.mp3 --bounds "0.0,<chapter times...>,<total>"` →
+8. Deliver: `python3 editing/split_parts.py --name tvN --bounds
+   "0.0,<chapter times...>,<total>"` (exact seams, auto +2CRF under the
+   97MB cap) →
    `cp output/tvN_2k_part*.mp4 .` → `python3 editing/verify_parts.py --ep
    tvN --cues <N>` (must print OVERALL PASS) → extract ≥2 frames per part
    (ONE ffmpeg call per frame) and eyeball them → write README → commit +
@@ -68,7 +74,8 @@ framing, motion-continuity pans, class-paced motion, intra-cue punch-ins on
 long holds; hard cuts on punch/word, warm dips on story, soft fades on
 soft/host, chapter black beats + light-leak pulses; emotional colour grade,
 day→night drift, bloom + lamp flicker on lit cues, exposure settle, film
-grain, class vignette, living-paint light sweep. Four styles: `pro`
+grain, soft class vignette (NO sweep overlays — removed as distracting).
+Four styles: `pro`
 (filmic, default), `art` (dreamy), `doc` (clean), `classic` (neutral).
 NEVER add: title/chapter/end cards, idents, ghost-echo/PiP/recap shots,
 cross-dissolves, music/ambience, 60fps optical flow, per-pixel procedural

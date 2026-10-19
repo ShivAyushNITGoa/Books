@@ -42,15 +42,20 @@ Styles: `--style pro` (filmic, default) | `art` (dreamy) | `doc` (clean) |
 `classic` (neutral Ken Burns). Segment cache `output/segments_{style}_proedit1/`
 — **re-run the same command to resume** after any interruption.
 
-## 3. Split into parts (R5: <100 MB each)
+## 3. Split into few, integration-ready parts (R5: <100 MB each)
 
 ```bash
-# bounds = 0.0, <chapter time list from your split plan>, <total seconds>
-python3 editing/split_parts.py --srt tvN.srt --name tvN \
-  --vo audio/tvN_master.mp3 --bounds "0.0,T1,T2,...,TOTAL"
+# bounds = 0.0, <chapter times>, <total seconds> — exact seams, audio
+# unaffected; a part over the cap is auto re-encoded at +2 CRF
+python3 editing/split_parts.py --name tvN \
+  --bounds "0.0,T1,T2,T3,TOTAL"
 
 cp output/tvN_2k_part*.mp4 .
 python3 editing/verify_parts.py --ep tvN --cues 330   # expect OVERALL PASS
+
+# integrate the parts back into one file (frame-exact, no re-encode):
+printf "file '%s'\n" tvN_2k_part*.mp4 > list.txt
+ffmpeg -f concat -safe 0 -i list.txt -c copy tvN_full_joined.mp4
 ```
 
 ## 4. Frame QA (ONE ffmpeg call per frame — multi-output writes identical frames)

@@ -23,8 +23,11 @@ images → build → split → verify → commit.
   cue's own image within its own window. No inserts, no echoes, no cards.
 - **R4 — Path A audio.** VO is copied/concatenated from the raw record only.
   No TTS, no re-record, no music/ambience/LUFS processing.
-- **R5 — delivery.** Parts ≤ 100 MB each, 2560×1440 24fps h264 (CRF 24)
-  yuv420p + AAC 48 kHz stereo, no LFS; parts land at repo root.
+- **R5 — delivery.** Few parts (typically 3–5, never more than needed),
+  each < 100 MB, 2560×1440 24fps h264 (CRF 24) yuv420p + AAC 48 kHz
+  stereo, no LFS; parts land at repo root. Parts must abut exactly
+  (frame-exact seams, audio never clipped/padded) and re-integrate with a
+  concat stream-copy.
 - **R6 — no burned captions.** Clean build = `--no-captions`.
 - No upscaling of generated images. Prompt images must match the actual
   spoken cue texts (verify against the episode SRT). Prompt packs ship at
@@ -57,11 +60,12 @@ images → build → split → verify → commit.
    Styles: `pro` (filmic), `art` (dreamy), `doc` (clean), `classic` (= kbv2).
    Cache `output/segments_{style}_proedit1`; atomic segment writes; final
    total = max(SRT span, VO) + 2 s with opening fade + closing dip.
-7. **Deliver** — split at chapter bounds:
-   `python3 scripts/split_parts.py --srt tvN.srt --name tvN --vo
-   audio/tvN_master.mp3 --bounds "…"` → `cp output/tvN_2k_part*.mp4 .` →
+7. **Deliver** — split into few, exact-seam parts at chapter bounds:
+   `python3 scripts/split_parts.py --name tvN --bounds "…"` (auto +2CRF
+   retry under the 97MB cap) → `cp output/tvN_2k_part*.mp4 .` →
    `python3 scripts/verify_parts.py --ep tvN --cues <N>` (expect OVERALL
    PASS) → one-ffmpeg-call-per-frame spot-checks → README + commit + push.
+   Integration command (concat stream-copy) is printed by the splitter.
 
 ## 2. The proedit1 editing language (what the builder applies automatically)
 
@@ -78,6 +82,11 @@ Driven by cue classes + mood + lit + VO energy from `cue_classes.json`:
   after cuts, chromatic fringe, animated grain, class vignette,
   living-paint light sweep.
 - **QC**: same-shot phash duplicate warnings + pacing report per build.
+
+**THE SUBTLETY RULE (user-mandated):** effects/transitions must never
+attract attention to themselves — their only job is to avoid a slideshow
+feel. No sweep overlays, no whip moves; rare gentle punch-ins; blink-short
+dips; quiet grain and vignettes. If an effect is noticeable, it is wrong.
 
 Deliberately out (rule-touch decisions; documented so nobody re-adds them
 inside the 1:1 contract): title/chapter/end cards & idents (R6, total
