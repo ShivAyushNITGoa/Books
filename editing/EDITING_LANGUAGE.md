@@ -66,7 +66,24 @@ Vocabulary chosen per cut pair (class + energy):
   blur/grain/sweep, lighter grade), `doc` (clean: minimal grade, no sweep,
   light grain), `classic` (kbv2-era neutral Ken Burns + dips only).
 
-## 5. Audio & text (policy)
+## 5. Motion graphics (user-requested pass — "dynamic")
+
+- **Chapter title lockups** — Devanagari titles rendered to RGBA PNGs
+  (Noto Sans Devanagari, `fonts/`), animated: fade+rise on the chapter
+  cue's own window, with a small TALK2SOCIETY kicker. Titles via
+  `--chapter-titles "…|…|…"` (chapter order) or auto-derived from the cue.
+- **Kinetic word type** — word cues show the spoken word as a warm
+  typographic element (fade+rise, mid-frame), timed inside the cue.
+- **Feathered light streaks** — a soft 2D-falloff warm glow sweeps once
+  across chapter openings (reads as light, never as a bar).
+- **2.5D parallax depth** — chapter/host/long-story cues composite a
+  soft-masked foreground layer drifting at a different rate than a
+  slightly blurred background (single-image parallax feel).
+- **Dynamic motion grammar** — punch/word cues accelerate into the cut
+  (no end settle), story/soft settle both ends; motion amplitude scales
+  with VO energy.
+
+## 6. Audio & text (policy)
 
 - VO is muxed raw (Path A / R4). No music/ambience/ducking/LUFS work.
 - No burned captions in delivered builds (`--no-captions`). The caption

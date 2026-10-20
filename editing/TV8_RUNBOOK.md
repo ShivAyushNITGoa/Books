@@ -56,13 +56,17 @@ pip install -q --break-system-packages pillow imageio-ffmpeg numpy
 python3 editing/build_video.py --limit 12 --res 1920x1080 --no-captions \
   --crf 24 --srt tv8.srt --name tv8 --images images_tv8 \
   --cue-class prompts/cue_classes.json \
-  --chapter-cues "14,69,100,117,143,165,189,215,239,291" --style pro
+  --chapter-cues "14,69,100,117,143,165,189,215,239,291" \
+  --chapter-titles "कदम 1 — असली हालत मानो|कदम 3 — काबिलियत को काम में दिखाओ|कदम 4|कदम 5 — मना होने पर सीखो|कदम 6 — खुद को संभालना सीखो|कदम 7 — समस्या से भागो मत|कदम 8|कदम 9 — तरीका जो रोज काम आय|कदम 10 — अकेले रहना ताकत नहीं|आखिरी बात — दिशा खुद तय करो" \
+  --style pro
 
-# 2. FULL BUILD (one run, ~75-80 min on 2 cores) -> output/tv8_final.mp4
+# 2. FULL BUILD (one run, ~2h on 2 cores) -> output/tv8_final.mp4
 python3 editing/build_video.py --res 1920x1080 --no-captions --crf 24 \
   --srt tv8.srt --name tv8 --images images_tv8 \
   --cue-class prompts/cue_classes.json \
-  --chapter-cues "14,69,100,117,143,165,189,215,239,291" --style pro
+  --chapter-cues "14,69,100,117,143,165,189,215,239,291" \
+  --chapter-titles "कदम 1 — असली हालत मानो|कदम 3 — काबिलियत को काम में दिखाओ|कदम 4|कदम 5 — मना होने पर सीखो|कदम 6 — खुद को संभालना सीखो|कदम 7 — समस्या से भागो मत|कदम 8|कदम 9 — तरीका जो रोज काम आय|कदम 10 — अकेले रहना ताकत नहीं|आखिरी बात — दिशा खुद तय करो" \
+  --style pro
 
 # 3. split into 3 parts — exact seams, audio unaffected (auto +2CRF if >cap)
 python3 editing/split_parts.py --name tv8 \

@@ -90,6 +90,7 @@ FADE_DEEP = "0x120806"       # deeper warm dark for word frames
 FADE_BLACK = "black"         # punctuation only
 STYLE_TAG = "proedit1"
 CHAPTER_CUES = set()
+CHAPTER_TITLES = {}
 LAST_CUE_N = 0
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
 AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
@@ -316,13 +317,16 @@ def motion_script(n, frames, dur, ax, ay, pol, style):
     Returns (zoom_expr, x_expr, y_expr, pattern_id)."""
     d = max(frames, 4)
     t = f"(on/{d})"
-    hold = f"(min(max(({t}-0.07)/0.86,0),1))"          # settle at both ends
+    if pol["cls"] in ("punch", "word"):
+        hold = f"(min(max(({t}-0.05)/0.95,0),1))"      # accelerate into cut
+    else:
+        hold = f"(min(max(({t}-0.07)/0.86,0),1))"      # settle at both ends
     e = f"({hold}*{hold}*(3-2*{hold}))"                # smoothstep of hold
     h = _h("cam", STYLE_TAG, n)
-    e_mul = 0.85 + 0.30 * pol["energy"]                # loud cues move more
-    k = max(0.05, min(0.11, (0.02 + dur * 0.012) * style["k"] * e_mul))
+    e_mul = 0.95 + 0.45 * pol["energy"]                # loud cues move more
+    k = max(0.05, min(0.13, (0.025 + dur * 0.0135) * style["k"] * e_mul))
     if n <= 6:
-        k *= 0.82                                      # gentle establishing pace
+        k *= 0.85                                      # gentle establishing pace
     sh = style["shake"]
     wob_x = (f"({0.0012 * sh:.4f})*(iw-iw/zoom)*(sin(on*0.117+{(h % 31):.1f})"
              f"+0.6*sin(on*0.041+{(h >> 5) % 23:.1f})"
@@ -475,78 +479,213 @@ def make_sweep_png():
     return p
 
 
+
+# ------------------------------------------------------- motion graphics
+FONT_BOLD = ROOT / "fonts" / "NotoSansDevanagari_700Bold.ttf"
+FONT_REG = ROOT / "fonts" / "NotoSansDevanagari_400Regular.ttf"
+GFX_DIR = OUT_DIR / "graphics"
+
+
+def _text_png(text, key, size, color=(255, 226, 194), bold=True):
+    """Render Devanagari/Latin text once to a cached RGBA PNG."""
+    GFX_DIR.mkdir(parents=True, exist_ok=True)
+    p = GFX_DIR / f"txt_{key}.png"
+    if p.exists():
+        return p
+    from PIL import Image, ImageFont, ImageDraw
+    font = ImageFont.truetype(str(FONT_BOLD if bold else FONT_REG), size)
+    probe = ImageDraw.Draw(Image.new("RGBA", (4, 4)))
+    bb = probe.textbbox((0, 0), text, font=font)
+    im = Image.new("RGBA", (bb[2] - bb[0] + 56, bb[3] - bb[1] + 40),
+                   (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.text((28 - bb[0], 20 - bb[1]), text, font=font, fill=(*color, 255))
+    im.save(p)
+    return p
+
+
+def make_flare_png():
+    """Feathered warm glow streak (2D falloff — reads as light, never a bar)."""
+    GFX_DIR.mkdir(parents=True, exist_ok=True)
+    p = GFX_DIR / "flare.png"
+    if p.exists():
+        return p
+    import math
+    from PIL import Image
+    w, h = 1500, 320
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = im.load()
+    for j in range(h):
+        vy = math.sin(math.pi * j / (h - 1)) ** 2.6
+        for i in range(w):
+            vx = (1 - abs(2 * i / (w - 1) - 1)) ** 2.0
+            px[i, j] = (255, 178, 120, int(210 * vx * vy))
+    im.save(p)
+    return p
+
+
+def make_fgmask_png():
+    """Soft elliptical alpha mask for the 2.5D parallax foreground."""
+    GFX_DIR.mkdir(parents=True, exist_ok=True)
+    p = GFX_DIR / "fgmask.png"
+    if p.exists():
+        return p
+    from PIL import Image, ImageDraw
+    w, h = 1920, 1080
+    im = Image.new("L", (w, h), 0)
+    d = ImageDraw.Draw(im)
+    steps = 60
+    for i in range(steps, 0, -1):
+        t = i / steps
+        rx, ry = int(w * 0.60 * t), int(h * 0.70 * t)
+        v = int(255 * (1 - t) ** 1.35)
+        d.ellipse([w // 2 - rx, h // 2 - ry, w // 2 + rx, h // 2 + ry],
+                  fill=v)
+    im.save(p)
+    return p
+
+
 def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
-                sweep: Path, mode):
-    """Render one clip. mode: 'full' | 'punch_a' | 'punch_b' | 'whip_b'."""
+                sweep, mode):
+    """One clip: picture -> grade -> halation -> motion graphics -> fades.
+    mode: 'full' | 'punch_a' | 'punch_b'."""
+    n = seg["n"]
     ax, ay = seg["_anchor"]
-    z, x, y, pat = motion_script(seg["n"], frames, dur, ax, ay, pol, style)
+    z, x, y, pat = motion_script(n, frames, dur, ax, ay, pol, style)
     if mode == "punch_b":                                 # gentle settle back
         z = f"(1+{0.08 * style['k']:.4f})*(1-0.14*((on/{max(frames, 4)})))"
         x = f"(iw-iw/zoom)*{min(0.62, ax + 0.10):.3f}"
         y = f"(ih-ih/zoom)*{min(0.62, ay + 0.06):.3f}"
-
-    br, eq_fixed, cb, vg = grade_exprs(pol, seg["n"], LAST_CUE_N, style,
+    br, eq_fixed, cb, vg = grade_exprs(pol, n, LAST_CUE_N, style,
                                        seg.get("_leak", False))
-    chain = [f"scale={W}:{H}:force_original_aspect_ratio=increase:"
-             f"flags=lanczos,"
-             f"crop={W}:{H}",
-             f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:"
-             f"s={W}x{H}:fps={FPS}"]
+
+    def pic(z, x, y):
+        return (f"scale={W}:{H}:force_original_aspect_ratio=increase:"
+                f"flags=lanczos,crop={W}:{H},"
+                f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:"
+                f"s={W}x{H}:fps={FPS}")
+
     if mode == "full" and pol["cls"] != "word":
-        chain.append("tmix=frames=2:weights='0.72 0.28'")   # 180-deg shutter
+        tm = ",tmix=frames=2:weights='0.72 0.28'"          # 180-deg shutter
     elif mode.endswith("b") and pol["cls"] in ("word", "punch"):
-        chain.append("tmix=frames=2:weights='0.65 0.35'")
-    bl = style["bloom"] * (1.6 if pol["lit"] else 0.0)      # halation, lit only
-    chain.append(f"eq=brightness='{br}':{eq_fixed}:eval=frame")
-    chain.append(f"colorbalance={cb}")
-    chain.append("curves=master='0/0.035 0.25/0.245 0.5/0.5 0.75/0.775 1/0.965'")
-    chain.append("gradfun=strength=0.8:radius=10")          # deband polish
-    chain.append("rgbashift=rh=1:bh=-1")
-    chain.append("boxblur=luma_radius=3:luma_power=1:enable='lt(t,0.22)'")
-    chain.append("boxblur=luma_radius=2:luma_power=1:"
-                 "enable='between(t,0.22,0.5)'")
-    chain.append(f"vignette=angle={vg}")
+        tm = ",tmix=frames=2:weights='0.65 0.35'"
+    else:
+        tm = ""
+    grade = (f"eq=brightness='{br}':{eq_fixed}:eval=frame,"
+             f"colorbalance={cb},"
+             f"curves=master='0/0.035 0.25/0.245 0.5/0.5 0.75/0.775 1/0.965',"
+             f"gradfun=strength=0.8:radius=10,rgbashift=rh=1:bh=-1,"
+             f"boxblur=luma_radius=3:luma_power=1:enable='lt(t,0.22)',"
+             f"boxblur=luma_radius=2:luma_power=1:"
+             f"enable='between(t,0.22,0.5)',"
+             f"vignette=angle={vg}")
     if style["grain"]:
-        chain.append(f"noise=alls={style['grain']}:allf=t+u")
+        grade += f",noise=alls={style['grain']}:allf=t+u"
+
+    parallax = (mode == "full" and style["shake"] > 0 and (
+        pol["cls"] in ("chapter", "host")
+        or (pol["cls"] == "story" and dur >= 7.0)))
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error"]
+    if parallax:
+        z1, x1, y1, _ = motion_script(n, frames, dur, ax, ay, pol,
+                                      {**style, "k": style["k"] * 1.30})
+        z2, x2, y2, _ = motion_script(n, frames, dur, ax, ay, pol,
+                                      {**style, "k": style["k"] * 0.55,
+                                       "shake": 0.0})
+        mask = make_fgmask_png()
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
+                "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
+                "-loop", "1", "-t", f"{dur:.3f}", "-i", str(mask)]
+        fg = (f"[0:v]{pic(z1, x1, y1)},gblur=sigma=0.8[bgl];"
+              f"[1:v]{pic(z2, x2, y2)}[fgl];"
+              f"[2:v]format=gray[mk];"
+              f"[fgl][mk]alphamerge[fga];"
+              f"[bgl][fga]overlay=0:0{tm}[pic]")
+        gi = 3
+    else:
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(img)]
+        fg = f"[0:v]{pic(z, x, y)}{tm}[pic]"
+        gi = 1
+    fg += f";[pic]{grade}[pg]"
+    bl = style["bloom"] * (1.6 if pol["lit"] else 0.0)      # halation, lit only
+    if bl > 0.01:
+        fg += (";[pg]split[b1][b2];"
+               "[b2]curves=master='0/0 0.72/0.02 1/1',gblur=sigma=14:steps=2,"
+               "eq=brightness=0.015:saturation=0.55[glow];"
+               f"[b1][glow]blend=screen:all_opacity={min(0.28, bl):.2f}[ph]")
+    else:
+        fg += ";[pg]null[ph]"
+
+    cur = "ph"
+    if mode == "full" and pol["cls"] == "chapter":
+        title = CHAPTER_TITLES.get(n) or (seg.get("text", "") or "")[:40]
+        tp = _text_png(title, f"ch{n}",
+                       92 if len(title) <= 22 else
+                       (72 if len(title) <= 32 else 58))
+        kp = _text_png("TALK2SOCIETY", f"kick{n}", 30,
+                       color=(255, 196, 156), bold=False)
+        flp = make_flare_png()
+        nfl = max(int(1.1 * FPS), 4)
+        tend = min(dur - 0.15, 3.6)
+        tout = max(tend - 0.5, 0.6)
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(flp)]
+        fg += (f";[{gi}:v]format=rgba,colorchannelmixer=aa=0.20[flr];"
+               f"[{cur}][flr]overlay=x='-w+(W+w)*(n/{nfl})':"
+               f"y='H*0.42':enable='lt(t,0.95)':eval=frame[gxf]")
+        cur, gi = "gxf", gi + 1
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(kp)]
+        fg += (f";[{gi}:v]format=rgba,fade=t=in:st=0.30:d=0.45:alpha=1,"
+               f"fade=t=out:st={tout:.3f}:d=0.45:alpha=1[kck];"
+               f"[{cur}][kck]overlay=x='(W-w)/2':"
+               f"y='H*0.635-6+6*min(1,max(0,(n-8)/14))':"
+               f"enable='between(t,0.30,{tend:.3f})':eval=frame[gxk]")
+        cur, gi = "gxk", gi + 1
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(tp)]
+        fg += (f";[{gi}:v]format=rgba,fade=t=in:st=0.32:d=0.45:alpha=1,"
+               f"fade=t=out:st={tout:.3f}:d=0.45:alpha=1[ttl];"
+               f"[{cur}][ttl]overlay=x='(W-w)/2':"
+               f"y='H*0.70-6+6*min(1,max(0,(n-8)/14))':"
+               f"enable='between(t,0.32,{tend:.3f})':eval=frame[gxt]")
+        cur, gi = "gxt", gi + 1
+    elif mode == "full" and pol["cls"] == "word":
+        raw = (seg.get("text", "") or "").strip().rstrip("।.!?, \"") or "…"
+        txt = raw[:22]
+        wp = _text_png(txt, f"w{n}", 118)
+        w0 = 0.18
+        w1 = max(dur - 0.18, 0.7)
+        wout = max(w1 - 0.4, w0 + 0.35)
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(wp)]
+        fg += (f";[{gi}:v]format=rgba,fade=t=in:st={w0:.2f}:d=0.35:alpha=1,"
+               f"fade=t=out:st={wout:.2f}:d=0.35:alpha=1[wrd];"
+               f"[{cur}][wrd]overlay=x='(W-w)/2':"
+               f"y='H*0.56-8+8*min(1,max(0,(n-5)/12))':"
+               f"enable='between(t,{w0:.2f},{w1:.2f})':eval=frame[gxw]")
+        cur, gi = "gxw", gi + 1
 
     din, dout, col, leak = fades_for(seg["n"], dur, pol)
-    if mode == "punch_a" or mode == "whip_b":
+    if mode == "punch_a":
         dout = 0.0
-    if mode in ("punch_b",):
+        din = din if seg.get("_din_on_first", True) else 0.0
+    elif mode == "punch_b":
         din = 0.0
-    if mode == "full":
-        pass
-    else:
-        if mode == "punch_a":
-            din = din if seg.get("_din_on_first", True) else 0.0
-        if mode == "punch_b":
-            dout = seg.get("_dout", 0.0)
-            col = seg.get("_col", col)
+        dout = seg.get("_dout", 0.0)
+        col = seg.get("_col", col)
+    fin = ""
     if din >= 0.5 / FPS:
-        chain.append(f"fade=t=in:st=0:d={din:.3f}:color={col}")
+        fin += f",fade=t=in:st=0:d={din:.3f}:color={col}"
     if dout >= 0.5 / FPS:
-        chain.append(f"fade=t=out:st={max(dur - dout, 0):.3f}:"
-                     f"d={dout:.3f}:color={col}")
-
-    vchain = ",".join(chain)
-    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
-           "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img)]
-    if bl > 0.01:                                       # warm luma-keyed halation
-        fg = (f"[0:v]{vchain}[base];"
-              "[base]split[b1][b2];"
-              "[b2]curves=master='0/0 0.72/0.02 1/1',gblur=sigma=14:steps=2,"
-              "eq=brightness=0.015:saturation=0.55[glow];"
-              f"[b1][glow]blend=screen:all_opacity={min(0.28, bl):.2f},"
-              "format=yuv420p,setsar=1[v]")
-    else:
-        fg = f"[0:v]{vchain},format=yuv420p,setsar=1[v]"
-    cmd += ["-filter_complex", fg, "-map", "[v]"]
-    cmd += ["-frames:v", str(frames),
+        fin += (f",fade=t=out:st={max(dur - dout, 0):.3f}:"
+                f"d={dout:.3f}:color={col}")
+    tail = fin[1:] if fin else "null"
+    fg += f";[{cur}]{tail},format=yuv420p,setsar=1[v]"
+    cmd += ["-filter_complex", fg, "-map", "[v]",
+            "-frames:v", str(frames),
             "-c:v", "libx264", "-preset", "medium", "-crf", str(CRF),
             "-pix_fmt", "yuv420p", "-r", str(FPS), str(out)]
     r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
         raise RuntimeError(f"segment {seg['label']} ({mode}): {r.stderr[-800:]}")
+
 
 
 def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
@@ -592,6 +731,13 @@ def build(args):
     W, H = int(w), int(h)
     CRF = args.crf
     CHAPTER_CUES = {int(x) for x in args.chapter_cues.split(",") if x.strip()}
+    global CHAPTER_TITLES
+    if getattr(args, "chapter_titles", ""):
+        CHAPTER_TITLES = dict(zip(sorted(CHAPTER_CUES),
+                                  [t.strip() for t in
+                                   args.chapter_titles.split("|")]))
+    else:
+        CHAPTER_TITLES = {}
     style = STYLES[args.style]
     IMG_DIR = ROOT / args.images
     SRT_PATH = ROOT / args.srt
@@ -787,6 +933,8 @@ if __name__ == "__main__":
     ap.add_argument("--cue-class", default="",
                     help="JSON sidecar with per-cue class/mood/lit/energy "
                          "(from scripts/gen_cue_classes.py)")
+    ap.add_argument("--chapter-titles", default="",
+                    help="pipe-separated chapter titles (chapter order)")
     ap.add_argument("--style", default="pro", choices=sorted(STYLES),
                     help="look style: pro | art | doc | classic")
     sys.exit(build(ap.parse_args()))
