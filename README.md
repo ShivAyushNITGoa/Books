@@ -86,3 +86,17 @@ emotional colour per cue, day→night drift, bloom on lit cues, lamp flicker, ex
 settle, chromatic fringe, animated grain, class vignette, living-paint light sweep.
 QC: same-shot duplicate warnings + pacing report. Timing stays R3-exact (all effects
 in-segment), VO stays Path A raw, no burned captions.
+
+## TV8 — professional rebuild (proedit + motion graphics) — 2026-10-20
+
+Full re-edit of TV8 with the motion-graphics builder (`build_video.py
+--style pro` + `--chapter-titles`): chapter title lockups (Noto Sans
+Devanagari, TALK2SOCIETY kicker), kinetic word type on word cues,
+feathered warm light streaks at chapter openings, 2.5D parallax depth on
+hero cues, VO-stress-timed punch-ins, film print curve + luma-keyed
+halation + deband + 180-degree shutter cadence. Delivery is now **3 parts
+at 1920x1080** (24fps h264 CRF24 + AAC 48kHz, exact-abutting seams,
+audio stream-untouched): part1 369.96s/78.3MB, part2 415.83s/89.8MB,
+part3 386.00s/84.2MB — `verify_parts --ep tv8 --cues 330` OVERALL PASS.
+Integrate: `printf "file '%s'\n" tv8_2k_part*.mp4 > list.txt && ffmpeg -f
+concat -safe 0 -i list.txt -c copy tv8_full_joined.mp4`.
