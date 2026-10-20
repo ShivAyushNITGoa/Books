@@ -24,6 +24,7 @@ Usage:
 """
 import argparse
 import hashlib
+import os
 import re
 import shutil
 import subprocess
@@ -215,8 +216,66 @@ def kenburns(i: int, frames: int, energy: float, ax: float, ay: float):
 
 
 # ---------------------------------------------------------------- filtergraph
+def plan_pack(cues_all, fades, total, a, b):
+    """Clips/offsets for cues[a..b] (0-based, inclusive) as a pack-local
+    timeline. Cue images cover gaps (fade centers on the next cue's start),
+    exactly like the full-run plan_timeline; the slice simply shifts time
+    by t0 so the pack begins at its own t=0. First clip keeps its head
+    half-fade margin, last clip its tail half-fade margin, so packs stitch
+    with one crossfade per seam.
+    """
+    n = len(cues_all)
+    t0 = 0.0 if a == 0 else cues_all[a]["start"] - fades[a - 1] / 2.0
+    subset = []
+    for c in cues_all[a:b + 1]:
+        c2 = dict(c)
+        c2["start"] = c["start"] - t0
+        c2["end"] = c["end"] - t0
+        subset.append(c2)
+    if a == 0:
+        subset[0]["start"] = 0.0
+    if b == n - 1:
+        pack_total = total - t0
+    else:
+        pack_total = cues_all[b + 1]["start"] - t0 + fades[b] / 2.0
+    fs = list(fades[a:b])
+    cues, clips, offs, pack_total = plan_timeline(subset, fs, pack_total)
+    return cues, clips, offs, fs, pack_total
+
+
+def write_assemble_script(path: Path, lens, seams, offs, total,
+                          vo_idx, mus_idx):
+    """xfade-concat pre-rendered packs + global grade + master audio."""
+    L = []
+    prev = "0:v"
+    for i in range(1, len(lens)):
+        out = f"x{i}"
+        L.append(f"[{prev}][{i}:v]xfade=transition=fade:"
+                 f"duration={seams[i - 1]:.3f}:offset={offs[i - 1]:.3f}[{out}]")
+        prev = out
+    tout = max(total - 1.2, 1.0)
+    L.append(f"[{prev}]curves=master='0/0.02 0.5/0.5 1/0.98',"
+             f"vignette=angle=PI/4.5,"
+             f"fade=t=in:st=0:d=0.5,fade=t=out:st={tout:.3f}:d=1.2,"
+             f"format=yuv420p,setsar=1[vout]")
+    a = (f"[{vo_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
+         f"atrim=0:{total:.3f},apad[vo]")
+    if mus_idx is not None:
+        a += (";[vo]asplit=2[vo1][vo2];"
+              f"[{mus_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
+              f"atrim=0:{total:.3f},apad,volume=1.0[mus];"
+              "[mus][vo1]sidechaincompress=threshold=0.02:ratio=12:"
+              "attack=25:release=300[mduck];"
+              "[vo2][mduck]amix=inputs=2:duration=first:normalize=0[aout]")
+    else:
+        a += ";[vo]anull[aout]"
+    L.append(a)
+    path.write_text(";\n".join(L) + "\n", encoding="utf-8")
+    return len(L)
+
+
 def write_filter_script(path: Path, clips, offs, fades, total,
-                        vo_idx, mus_idx, w, h, sw, sh):
+                        vo_idx, mus_idx, w, h, sw, sh, grade=True):
     L = []
     for i, c in enumerate(clips):
         z, x, y = kenburns(i, c["frames"], c.get("energy", 0.5),
@@ -235,29 +294,39 @@ def write_filter_script(path: Path, clips, offs, fades, total,
                  f"duration={fades[i - 1]:.3f}:offset={offs[i - 1]:.3f}[{out}]")
         prev = out
     tout = max(total - 1.2, 1.0)
-    L.append(f"[{prev}]curves=master='0/0.02 0.5/0.5 1/0.98',"
-             f"vignette=angle=PI/4.5,"
-             f"fade=t=in:st=0:d=0.5,fade=t=out:st={tout:.3f}:d=1.2,"
-             f"format=yuv420p,setsar=1[vout]")
-
-    a = (f"[{vo_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
-         f"atrim=0:{total:.3f},apad[vo]")
-    if mus_idx is not None:
-        a += (";[vo]asplit=2[vo1][vo2];"
-              f"[{mus_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
-              f"atrim=0:{total:.3f},apad,volume=1.0[mus];"
-              "[mus][vo1]sidechaincompress=threshold=0.02:ratio=12:"
-              "attack=25:release=300[mduck];"
-              "[vo2][mduck]amix=inputs=2:duration=first:normalize=0[aout]")
+    if grade:
+        L.append(f"[{prev}]curves=master='0/0.02 0.5/0.5 1/0.98',"
+                 f"vignette=angle=PI/4.5,"
+                 f"fade=t=in:st=0:d=0.5,fade=t=out:st={tout:.3f}:d=1.2,"
+                 f"format=yuv420p,setsar=1[vout]")
     else:
-        a += ";[vo]anull[aout]"
-    L.append(a)
+        L.append(f"[{prev}]format=yuv420p,setsar=1[vout]")
+
+    if vo_idx is not None:
+        a = (f"[{vo_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
+             f"atrim=0:{total:.3f},apad[vo]")
+        if mus_idx is not None:
+            a += (";[vo]asplit=2[vo1][vo2];"
+                  f"[{mus_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
+                  f"atrim=0:{total:.3f},apad,volume=1.0[mus];"
+                  "[mus][vo1]sidechaincompress=threshold=0.02:ratio=12:"
+                  "attack=25:release=300[mduck];"
+                  "[vo2][mduck]amix=inputs=2:duration=first:normalize=0[aout]")
+        else:
+            a += ";[vo]anull[aout]"
+        L.append(a)
     path.write_text(";\n".join(L) + "\n", encoding="utf-8")
     return len(L)
 
 
 # ---------------------------------------------------------------- build
 def build(args):
+    if getattr(args, "assemble", False):
+        return assemble(args)
+    if getattr(args, "pack_start", None) is not None:
+        if args.pack_end is None:
+            args.pack_end = args.pack_start
+        return pack(args)
     ffmpeg = find_ffmpeg()
     srt_path = ROOT / args.srt
     img_dir = ROOT / args.images
@@ -377,6 +446,170 @@ def build(args):
     return 0
 
 
+# ---------------------------------------------------------------- packs
+def _timeline_totals(ffmpeg, args, cues_all):
+    """(total, fades_all) — identical math to the full build."""
+    vo = None
+    if args.name:
+        cand = ROOT / "audio" / f"{args.name}_master.mp3"
+        if cand.exists():
+            vo = cand
+    if vo is None:
+        vo = find_audio(ROOT / "audio")
+    if vo:
+        total = max(media_duration(ffmpeg, vo), cues_all[-1]["end"])
+    else:
+        total = cues_all[-1]["end"]
+    total += args.tail
+    if args.limit:
+        total = min(total, cues_all[min(args.limit, len(cues_all)) - 1]["end"]
+                    + 1.0)
+    fades = pick_fades(cues_all, args.fade)
+    return total, fades, vo
+
+
+def pack(args):
+    """Render cues[pack_start..pack_end] as one cached pack (video only)."""
+    ffmpeg = find_ffmpeg()
+    cues_all = parse_srt(ROOT / args.srt)
+    idx = index_images(ROOT / args.images)
+    a, b = args.pack_start, args.pack_end
+    n = len(cues_all)
+    if not (0 <= a <= b < n):
+        print(f"bad pack range {a}:{b} (n={n})")
+        return 2
+
+    total, fades_all, _vo = _timeline_totals(ffmpeg, args, cues_all)
+    cues, clips, offs, fades, pack_total = plan_pack(
+        cues_all, fades_all, total, a, b)
+
+    energies = load_energies(ROOT / args.cue_class) if args.cue_class else {}
+    img_dir = ROOT / args.images
+    for c in clips:
+        c["energy"] = energies.get(c["n"], 0.5)
+        hit = find_image(idx, c["label"], c["n"])
+        if not hit and not args.allow_missing:
+            print(f"missing image for cue {c['n']} {c['label']}")
+            return 2
+        c["anchor"] = img_anchor(hit or img_dir / "missing.jpg")
+
+    pack_dir = ROOT / args.pack_dir
+    pack_dir.mkdir(parents=True, exist_ok=True)
+    out = pack_dir / f"pack_{a:03d}_{b:03d}.mp4"
+    if out.exists():
+        d = media_duration(ffmpeg, out)
+        if abs(d - pack_total) < 0.75:
+            print(f"SKIP cached {out.name}  ({d:.2f}s)")
+            return 0
+        out.unlink()
+
+    W, H = (int(x) for x in args.res.lower().split("x"))
+    SW, SH = int(W * 4 / 3), int(H * 4 / 3)
+    inputs = []
+    for c in cues:
+        hit = find_image(idx, c["label"], c["n"])
+        inputs += ["-i", str(hit)] if hit else [
+            "-f", "lavfi", "-i",
+            f"color=c=0x1a1210:s={W}x{H}:d=1:r={FPS}"]
+
+    fc = pack_dir / f"fc_pack_{a:03d}_{b:03d}.txt"
+    write_filter_script(fc, clips, offs, fades, pack_total,
+                        None, None, W, H, SW, SH, grade=False)
+
+    tmp = out.with_suffix(".tmp.mp4")
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "warning", "-stats"]
+    cmd += inputs
+    cmd += ["-filter_complex_script", str(fc), "-map", "[vout]",
+            "-c:v", "libx264", "-preset", args.preset, "-crf", str(args.crf),
+            "-pix_fmt", "yuv420p", "-r", str(FPS),
+            "-t", f"{pack_total:.3f}", "-movflags", "+faststart", str(tmp)]
+    print(f"Pack {a}-{b}  {len(clips)} clips  {pack_total:.2f}s -> {out.name}")
+    r = subprocess.run(cmd)
+    if r.returncode != 0:
+        print("ffmpeg failed — see errors above.")
+        return r.returncode
+    os.replace(tmp, out)
+    print(f"DONE: {out.name}  ({out.stat().st_size / 1e6:.1f} MB)")
+    return 0
+
+
+def assemble(args):
+    """xfade-concat packs + grade + master audio -> output/{name}_final.mp4."""
+    import re
+    ffmpeg = find_ffmpeg()
+    cues_all = parse_srt(ROOT / args.srt)
+    total, fades_all, vo = _timeline_totals(ffmpeg, args, cues_all)
+
+    pack_dir = ROOT / args.pack_dir
+    meta = []
+    for p in pack_dir.glob("pack_[0-9][0-9][0-9]_[0-9][0-9][0-9].mp4"):
+        m = re.match(r"pack_(\d+)_(\d+)\.mp4$", p.name)
+        if not m:
+            continue
+        meta.append((int(m.group(1)), int(m.group(2)), p,
+                     media_duration(ffmpeg, p)))
+    meta.sort()
+    if not meta:
+        print(f"no packs in {pack_dir}")
+        return 2
+    for i in range(1, len(meta)):
+        if meta[i][0] != meta[i - 1][1] + 1:
+            print(f"pack gap between {meta[i-1][2].name} and {meta[i][2].name}")
+            return 2
+    if meta[0][0] != 0 or meta[-1][1] != len(cues_all) - 1:
+        print(f"packs cover {meta[0][0]}..{meta[-1][1]}, "
+              f"cues are 0..{len(cues_all) - 1}")
+        return 2
+
+    lens = [m[3] for m in meta]
+    seams = [fades_all[meta[i][1]] for i in range(len(meta) - 1)]
+    offs, t = [], 0.0
+    for i in range(len(meta) - 1):
+        t += lens[i] - seams[i]
+        offs.append(t)
+    v_total = sum(lens) - sum(seams)
+    print(f"Packs: {len(meta)}  lens={[f'{x:.2f}' for x in lens]}")
+    print(f"Seam fades : {[f'{s:.2f}' for s in seams]}s")
+    print(f"Video total: {v_total:.2f}s   plan total: {total:.2f}s")
+
+    W, H = (int(x) for x in args.res.lower().split("x"))
+    inputs = []
+    for _a, _b, p, _l in meta:
+        inputs += ["-i", str(p)]
+    vo_idx = len(meta)
+    if vo:
+        inputs += ["-i", str(vo)]
+    else:
+        inputs += ["-f", "lavfi", "-i",
+                   f"anullsrc=r=48000:cl=stereo:d={total:.3f}"]
+    mus = find_audio(MUS_DIR)
+    mus_idx = None
+    if mus and not args.no_music:
+        mus_idx = vo_idx + 1
+        inputs += ["-i", str(mus)]
+
+    OUT_DIR.mkdir(exist_ok=True)
+    fc = OUT_DIR / "fc_tv7plus_assemble.txt"
+    write_assemble_script(fc, lens, seams, offs, total, vo_idx, mus_idx)
+
+    out = OUT_DIR / f"{args.name}_final.mp4"
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "warning", "-stats"]
+    cmd += inputs
+    cmd += ["-filter_complex_script", str(fc),
+            "-map", "[vout]", "-map", "[aout]",
+            "-c:v", "libx264", "-preset", args.preset, "-crf", str(args.crf),
+            "-pix_fmt", "yuv420p", "-r", str(FPS),
+            "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
+            "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    print(f"\nAssembling -> {out}")
+    r = subprocess.run(cmd)
+    if r.returncode != 0:
+        print("ffmpeg failed — see errors above.")
+        return r.returncode
+    print(f"DONE: {out}  ({out.stat().st_size / 1e6:.1f} MB)")
+    return 0
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
@@ -394,4 +627,10 @@ if __name__ == "__main__":
     ap.add_argument("--fade", type=float, default=0.55,
                     help="base crossfade length (varied per boundary)")
     ap.add_argument("--tail", type=float, default=2.0)
+    ap.add_argument("--pack-start", type=int, default=None,
+                    help="render only cues[pack_start..pack_end] as a pack")
+    ap.add_argument("--pack-end", type=int, default=None)
+    ap.add_argument("--pack-dir", default="output/tv8_packs")
+    ap.add_argument("--assemble", action="store_true",
+                    help="stitch packs in --pack-dir into {name}_final.mp4")
     sys.exit(build(ap.parse_args()))
