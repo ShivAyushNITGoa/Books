@@ -47,19 +47,19 @@ python3 scripts/verify_parts.py
 
 # Talk2Society — Episode 8 (TV8)
 
-Same pipeline as TV7 with `--srt tv8.srt --name tv8 --images images_tv8` at every build call.
+Final look = TV7 language (Ken Burns + gentle crossfades, clean picture),
+built with `build_tv7plus.py` — see `editing/TV8_RUNBOOK.md` §5.
 
-## Stage 5–7 (TV8)
+## Build (TV8, TV7-plus)
 
 ```bash
-python3 build_video.py --dry-run --srt tv8.srt --name tv8 --images images_tv8
-python3 build_video.py --limit 12 --res 1920x1080 --srt tv8.srt --name tv8 --images images_tv8   # smoke
-python3 build_video.py --res 1920x1080 --no-captions --crf 24 \
-        --srt tv8.srt --name tv8 --images images_tv8                                              # full
+python3 build_tv7plus.py --dry-run --srt tv8.srt --name tv8 --images images_tv8 \
+        --cue-class prompts/cue_classes.json
+bash run_tv7plus_full.sh    # 17 packs of 20 cues -> assemble, ~60 min (4GB-safe)
 
-# Stage 6 — chapter splits (cue starts 14,69,100,117,143,165,189,215,239,291 -> 11 parts)
-python3 scripts/split_parts.py --srt tv8.srt --name tv8 --vo audio/tv8_master.mp3 \
-        --bounds "0.0,50.55,256.57,369.93,450.77,536.07,609.79,689.77,785.75,861.03,1015.61,1171.74"
+# Stage 6 — 3 delivery parts (exact master cuts, CRF 24, 97MB cap)
+python3 scripts/split_parts.py --name tv8 --bounds "0,369.93,785.75,1171.74"
+cp -f output/tv8_2k_part*.mp4 .
 
 # Acceptance
 python3 scripts/verify_parts.py --ep tv8 --cues 330
@@ -69,9 +69,12 @@ python3 scripts/verify_parts.py --ep tv8 --cues 330
 
 - SRT: 330 cues, span 00:00:00,370–00:19:29,490 (`tv8.srt`)
 - VO: provided "video 8 full.mp3", raw copy = 1169.74s (Path A; no edits)
-- Build: max(SRT, VO) + 2s tail = 1171.74s; 330 segments, 1:1 cue:segment
+- Build: max(SRT, VO) + 2s tail = 1171.74s; 330 clips, 1:1 cue:clip
 - Images: 330 scenes + #Host plate, label-named (`#0-00.jpg` … `#19-28.jpg`), no upscale step
-- Parts: `tv8_2k_part1.mp4` … `tv8_2k_part11.mp4` (chapter cuts at cues 14/69/100/117/143/165/189/215/239/291)
+- Style: TV7 crossfade Ken Burns (eased 6-pattern motion, subject anchors,
+  varied 0.22–0.84s fade rhythm, whisper-ducked music, light grade + vignette)
+- Parts: `tv8_2k_part1.mp4` … `tv8_2k_part3.mp4` (369.96s / 415.83s / 386.00s;
+  93.7 / 81.4 / 78.2 MB), seams abut, concat stream-copy rejoins the master
 - All parts 1920×1080 24fps h264+aac 48kHz, each <100MB, no LFS; no captions burned in (R6)
 
 ## Pro editor (kb proedit1) — humanistic motion & transitions

@@ -111,3 +111,33 @@ git add tv8_2k_part*.mp4 README.md && git commit -m "TV8 proedit: 11 verified 2K
 - `verify_parts` finds "parts: []": parts were not copied to cwd (step 4).
 - Never rebuild parts with different bounds; the bounds above match the
   shipped v1 split and the episode's chapter structure.
+
+## 5. TV7-plus final (current delivery, build_tv7plus.py)
+
+The delivered TV8 look is the TV7 language — one Ken Burns clip per cue,
+gentle xfade crossfades at every cue boundary, clean picture (no overlays,
+no grain) — refined with eased 6-pattern motion, subject anchors, varied
+fade rhythm, whisper-ducked music and a light grade. Builder:
+`build_tv7plus.py` (repo root).
+
+Memory-safe pack pipeline (the 330-chain single graph OOMs on the 4GB
+box — 20 chains per ffmpeg run max):
+
+```bash
+# 17 packs of 20 cues (last pack 10) — each is video-only, xfade-internal,
+# with half-fade margins at the outer edges; cached in output/tv8_packs/
+bash run_tv7plus_full.sh        # packs + assemble, ~60 min total
+# or manually:
+python3 build_tv7plus.py --srt tv8.srt --pack-start 0 --pack-end 19
+python3 build_tv7plus.py --srt tv8.srt --assemble      # -> output/tv8_final.mp4
+```
+
+- Assemble stitches packs with the SAME per-boundary seam fades (0.22–0.84s
+  hashed), then applies the global grade + master VO (raw, atrim'd only).
+- Split + verify exactly as before:
+  `python3 scripts/split_parts.py --name tv8 --bounds "0,369.93,785.75,1171.74"`
+  (re-encodes each part at CRF 24, auto +2 under the 97MB cap), copy the
+  three `output/tv8_2k_part*.mp4` to the repo root, then
+  `python3 scripts/verify_parts.py --ep tv8`.
+- TV7-plus master runs ~0.4s long (per-pack frame rounding); the split
+  bounds are unchanged and seams still abut exactly.
