@@ -32,7 +32,7 @@
       "#19-35-920"
     ]
   },
-  "style_version": "V7",
+  "style_version": "V7+text-errata",
   "visual_policy": "modern urban Indian default (offices, city streets, apartments, phones/laptops); traditional or historical look only where the narration mandates it (Gandhi/charkha, Draupadi assembly, Vivekananda, history beats)",
   "host_cues": [
     1,

@@ -52,6 +52,30 @@ HOST_PLATE = (
     "cinematic, no text, 16:9"
 )
 
+# On-image text allowed where relevant to the video (user errata over V7 no-text rule).
+# Only these cues carry generated text; everything else stays text-free.
+ON_IMAGE_TEXT = {
+    27: "Talk2Society",
+    32: "मैं तैयार हूँ।",
+    33: "PART 1 — हर बात को अपनी लड़ाई मत बनाओ",
+    84: "PART 2 — अपने मन पर नियंत्रण रखना सीखो",
+    124: "PART 3 — जवाब देने से पहले रुकना सीखो",
+    158: "मैं पहले सोचूंगा, फिर जवाब दूँगा।",
+    159: "मैं अपनी प्रतिक्रिया चुनूंगा।",
+    160: "PART 4 — द्रौपदी की तरह जरूरी सवाल उठाना भी सीखो",
+    196: "PART 5 — अपनी खामोशी को कमजोरी मत बनने दो",
+    226: "मैं खुद का सम्मान करता हूँ।",
+    231: "PART 6 — शब्द कम नहीं, काम मजबूत करो",
+    255: "मैं खामोशी में मेहनत करूँगा।",
+    257: "PAUSE",
+    261: "OBSERVE",
+    273: "CHOOSE",
+    285: "PAUSE. OBSERVE. CHOOSE.",
+    307: "मैं बदलाव के लिए तैयार हूँ।",
+    313: "खामोशी की असली ताकत",
+    318: "रास्ता बनाओ",
+}
+
 # n -> (kind, scene description)   kind: "host" | "scene"
 # Composition order: SHOT TYPE, who/what + action/pose + key objects + setting tier
 # + metaphor (where abstract) + camera. The locked style phrase is appended by the builder.
@@ -420,7 +444,15 @@ def main():
         kind, desc = SCENES[c["n"]]
         if kind == "host":
             host_cues.append(c["n"])
-        prompt = f"{desc}, {STYLE}"
+        if c["n"] in ON_IMAGE_TEXT:
+            txt = ON_IMAGE_TEXT[c["n"]]
+            style = STYLE.replace(
+                "no text, no lettering, no numbers, no captions, no logos, no watermark",
+                "clear legible title text allowed where specified, no other captions, no logos, no watermark")
+            prompt = (f"{desc}, on the image the clear title text \"{txt}\" written in elegant "
+                      f"Devanagari script as a refined title treatment, {style}")
+        else:
+            prompt = f"{desc}, {STYLE}"
         assert prompt.endswith("16:9 horizontal composition")
         out.append(f"#{c['label']}")
         out.append(prompt)
@@ -445,7 +477,7 @@ def main():
         "images_dir": "images_tv9/",
         "label_range": [f"#{cues[0]['label']}", f"#{cues[-1]['label']}"],
         "collisions": collisions,
-        "style_version": "V7",
+        "style_version": "V7+text-errata",
         "visual_policy": "modern urban Indian default (offices, city streets, apartments, phones/laptops); traditional or historical look only where the narration mandates it (Gandhi/charkha, Draupadi assembly, Vivekananda, history beats)",
         "host_cues": host_cues,
         "labels": [f"#{c['label']}" for c in cues],
@@ -459,8 +491,10 @@ def main():
     print(f"pack={pack} bytes={pack.stat().st_size}")
     # sanity: locked phrase byte-identical across scenes
     body = pack.read_text(encoding="utf-8")
-    assert body.count(STYLE) == n_cues + 0, "style phrase mismatch"
-    print("locked style phrase byte-identical on all scenes: OK")
+    n_text = len(ON_IMAGE_TEXT)
+    assert body.count(STYLE) == n_cues - n_text, "style phrase mismatch"
+    assert body.count("clear legible title text allowed where specified") == n_text
+    print(f"locked style phrase on {n_cues - n_text} scenes, text-variant on {n_text} scenes: OK")
 
 
 if __name__ == "__main__":
