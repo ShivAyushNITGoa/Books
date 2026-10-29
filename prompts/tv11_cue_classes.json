@@ -2184,14 +2184,14 @@
     "onset": 0.466
   },
   "313": {
-    "class": "punch",
+    "class": "host",
     "mood": "neutral",
     "lit": false,
     "energy": 1.0,
     "onset": 0.535
   },
   "314": {
-    "class": "punch",
+    "class": "host",
     "mood": "neutral",
     "lit": false,
     "energy": 1.0,
@@ -2205,7 +2205,7 @@
     "onset": 0.512
   },
   "316": {
-    "class": "story",
+    "class": "host",
     "mood": "neutral",
     "lit": false,
     "energy": 0.829,
