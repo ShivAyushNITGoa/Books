@@ -2100,14 +2100,14 @@
     "onset": 0.648
   },
   "301": {
-    "class": "story",
+    "class": "host",
     "mood": "neutral",
     "lit": false,
     "energy": 0.837,
     "onset": 0.494
   },
   "302": {
-    "class": "story",
+    "class": "host",
     "mood": "neutral",
     "lit": false,
     "energy": 0.863,
@@ -2128,7 +2128,7 @@
     "onset": 0.457
   },
   "305": {
-    "class": "story",
+    "class": "host",
     "mood": "neutral",
     "lit": false,
     "energy": 0.946,
