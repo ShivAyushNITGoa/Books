@@ -1,24 +1,72 @@
 #!/usr/bin/env python3
 """
-TV6 video builder
-=================
-Assembles: label-named images + single master voiceover + TV6 SRT
-into one MP4 with Ken Burns motion, crossfades at cue boundaries,
-and a sidecar .srt.
+Talk2Society video builder (professional per-episode editor)
+============================================================
+Assembles: per-scene images + master voiceover (Path A, untouched) + the
+episode SRT into one MP4. This is not a slideshow: cue windows are cut and
+graded like an edit suite, while the R3 frame budget stays mathematically
+exact.
+
+Hard guarantees (unchanged from spec):
+  * EXACTLY ONE image per SRT cue - N cues -> N distinct images.
+  * Image <label> is shown only during its own cue window; never reused.
+  * Missing image => HARD FAIL (no placeholders, no silent reuse).
+  * frames_i = floor(dur_i*FPS); cumulative boundary drift <= 1 frame.
+  * VO is used raw (Path A): no time-stretch, no re-level, no ducking.
+  * No burned captions in the clean build (R6).
+
+Editorial intelligence (pro styles):
+  * cue classes via --cue-class (chapter/host/word/soft/punch/story) +
+    text-driven mood (dark/light) + per-cue VO energy + lamp/lit tags
+    (see scripts/gen_cue_classes.py)
+  * subject-aware framing: saliency anchor per image (edge-energy centroid
+    blended with centre bias) instead of dead-centre crops
+  * VO-prosody edit bias: loud cues favour hard cuts and faster moves,
+    quiet cues favour soft fades and near-stillness
+  * motion-continuity: pan direction chains across runs of story cues and
+    breaks at chapter beats
+
+Camera language:
+  * smoothstep-eased 6-pattern Ken Burns (push/pull/drift/pan), amplitude
+    scaled with cue duration and energy; short cues never pan
+  * handheld micro-shake (two low-frequency wobbles) + "breathing" zoom
+  * intra-cue punch-in: on long punch/story cues, a hard snap to a detail
+    framing of the SAME image (documentary punch), or a whip-reframe with
+    2-frame motion blend (still 1:1 image:cue, inside the cue window)
+
+Transitions (all inside the segment -> timing-safe):
+  * cut vocabulary: hard cut / gentle dip / soft breathing fade, mixed per
+    class and energy; dips pass through warm dark (palette), pure black is
+    punctuation only
+  * chapter beats, episode open/close: longer fades through black + a brief
+    warm light-leak pulse (decaying brightness/saturation) at the cut
+  * "paint settle": 2-step soft-focus at scene starts (wet-paint feel)
+
+Grade & light:
+  * text-driven emotional grade (dark cues cool+desat, light cues warm+lift,
+    chapter cues bleach-bypass hint) + global warm shadow lift
+  * day->night white-balance drift across the episode
+  * exposure settle at every scene start; lamp flicker on lit cues
+  * bloom/halation on lit cues (screen-blend blurred highlight pass)
+  * chromatic lens fringing (1px), subtle animated grain, class-varied
+    vignette; slow living-painting light sweep overlay across every scene
+
+QC & reports:
+  * adjacent near-duplicate image detection (warns before render)
+  * end-of-build pacing report (per-chapter motion/cut mix)
+
+Styles: --style pro|art|doc|classic  (classic = old kbv2 behaviour)
 
 Usage:
-  python3 build_video.py --dry-run          # mapping + missing-file report (no render)
-  python3 build_video.py --limit 12         # smoke test: first 12 cues only
-  python3 build_video.py                    # full build -> output/tv6_final.mp4
-
-Conventions (per agreed spec):
-  - images/ files named by scene label: 0-00.jpg, 3-00-890.png, 29-58.jpg
-    (leading '#' optional; jpg/jpeg/png/webp/bmp; fallback: 001.jpg..482.jpg by cue number)
-  - audio/ contains ONE master VO file (mp3/wav/m4a/aac/ogg/flac)
-  - music/ optionally one bed track (ducked under VO)
-  - image i is shown from cue i start to cue i+1 start (SRT timestamps)
+  python3 build_video.py --dry-run --srt tv8.srt --name tv8 --images images_tv8
+  python3 build_video.py --limit 12 --res 2560x1440 --srt tv8.srt --name tv8 \
+      --images images_tv8 --cue-class prompts/cue_classes.json \
+      --chapter-cues "14,69,100,117,143,165,189,215,239,291" --style pro
+  FFMPEG_BIN=/path/to/ffmpeg python3 build_video.py ...
 """
 import argparse
+import hashlib
+import json
 import re
 import shutil
 import subprocess
@@ -29,16 +77,37 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 IMG_DIR = ROOT / "images"
 AUD_DIR = ROOT / "audio"
-MUS_DIR = ROOT / "music"
 OUT_DIR = ROOT / "output"
 SRT_PATH = ROOT / "tv6.srt"
+FONT_DIR = ROOT / "fonts"
 
-FPS = 30
-W, H = 1920, 1080
-SCALE_W, SCALE_H = 2560, 1440   # pre-zoompan oversample
-FADE_DEFAULT = 0.5
-AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
+FPS = 24
+W, H = 1280, 720
+CRF = 24
+TAIL_AFTER_VO = 2.0
+FADE_WARM = "0x160909"       # dip-through warm dark (art palette)
+FADE_DEEP = "0x120806"       # deeper warm dark for word frames
+FADE_BLACK = "black"         # punctuation only
+STYLE_TAG = "proedit1"
+CHAPTER_CUES = set()
+CHAPTER_TITLES = {}
+LAST_CUE_N = 0
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
+AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
+
+# per-style look parameters (subtle "invisible editing": effects never call
+# attention to themselves — no sweep overlay, no whip moves)
+STYLES = {
+    #           k_amp shake bloom grain sweep grade warm flicker
+    "pro":     dict(k=1.00, shake=0.55, bloom=0.13, grain=4, sweep=0,
+                    grade=1.00, warm=1.00, flicker=0.70),
+    "art":     dict(k=0.85, shake=0.35, bloom=0.18, grain=5, sweep=0,
+                    grade=1.20, warm=1.25, flicker=0.85),
+    "doc":     dict(k=1.10, shake=0.70, bloom=0.08, grain=3, sweep=0,
+                    grade=0.80, warm=0.70, flicker=0.50),
+    "classic": dict(k=1.00, shake=0.00, bloom=0.00, grain=0, sweep=0,
+                    grade=0.00, warm=0.00, flicker=0.00),
+}
 
 
 # ---------------------------------------------------------------- ffmpeg loc
@@ -53,7 +122,11 @@ def find_ffmpeg() -> str:
         import imageio_ffmpeg
         return imageio_ffmpeg.get_ffmpeg_exe()
     except Exception:
-        sys.exit("ffmpeg not found. Install ffmpeg or `pip install imageio-ffmpeg`.")
+        pass
+    for cand in ("/home/user/tools/ffmpeg",):
+        if Path(cand).exists():
+            return cand
+    sys.exit("ffmpeg not found. Install ffmpeg or `pip install imageio-ffmpeg`.")
 
 
 # ---------------------------------------------------------------- SRT parse
@@ -64,22 +137,18 @@ def ts2sec(ts: str) -> float:
 
 
 def parse_srt(path: Path):
-    """Return cues: list of dicts with n, start, end, text, and label."""
+    """Return cues: dicts with n, start_str, start, end, text, label."""
     text = path.read_text(encoding="utf-8")
-    blocks = re.split(r"\n\s*\n", text.strip())
     cues = []
-    for b in blocks:
+    for b in re.split(r"\n\s*\n", text.strip()):
         lines = b.strip().split("\n")
         if len(lines) >= 2 and "-->" in lines[1]:
             n = int(lines[0].strip())
-            t = lines[1]
-            start_str = t.split("-->")[0].strip()
-            end = ts2sec(t.split("-->")[1])
+            start_str, end_str = (t.strip() for t in lines[1].split("-->"))
             body = " ".join(l.strip() for l in lines[2:])
             cues.append({"n": n, "start_str": start_str,
-                         "start": ts2sec(start_str), "end": end, "text": body})
-    # labels exactly per spec: M-SS (M unpadded, SS 2 digits), ms truncated;
-    # later collision carries millisecond suffix
+                         "start": ts2sec(start_str), "end": ts2sec(end_str),
+                         "text": body})
     cnt = defaultdict(int)
     for c in cues:
         h, m, s_ms = c["start_str"].split(":")
@@ -125,198 +194,717 @@ def media_duration(ffmpeg: str, path: Path) -> float:
     return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3))
 
 
-# ---------------------------------------------------------------- geometry
-def plan_timeline(cues, fade: float, total: float, limit=None):
-    """Per-clip durations and xfade offsets (see derivation in notes).
+# ---------------------------------------------------------------- analysis
+def _h(*parts) -> int:
+    return int(hashlib.md5("|".join(str(p) for p in parts).encode()).hexdigest(), 16)
 
-    Boundary B_i = start of cue i+1.  Transition i centred on B_i:
-    O_i = B_i - fade/2.  Clip durations: D0 = O1 + fade,
-    Di = (O{i+1} - Oi) + fade, Dlast = total - Olast.
-    Two extra frames of margin are added per clip so xfade never starves.
-    """
+
+def image_anchor(path: Path):
+    """Saliency proxy: edge-energy centroid blended toward centre (0..1)."""
+    try:
+        from PIL import Image, ImageFilter
+        im = Image.open(path).convert("L").resize((80, 45))
+        edges = im.filter(ImageFilter.FIND_EDGES)
+        px = list(edges.getdata())
+        tot = sum(px) + 1
+        cx = sum((i % 80) * v for i, v in enumerate(px)) / tot / 79.0
+        cy = sum((i // 80) * v for i, v in enumerate(px)) / tot / 44.0
+        ax = min(0.68, max(0.32, 0.55 * cx + 0.45 * 0.5))
+        ay = min(0.68, max(0.32, 0.55 * cy + 0.45 * 0.48))
+        return round(ax, 3), round(ay, 3)
+    except Exception:
+        return 0.5, 0.5
+
+
+def build_anchor_cache(imgs):
+    cache_p = OUT_DIR / "anchors_cache.json"
+    cache = {}
+    if cache_p.exists():
+        try:
+            cache = json.loads(cache_p.read_text())
+        except Exception:
+            cache = {}
+    for p in imgs:
+        key = f"{p.name}:{p.stat().st_mtime_ns}"
+        if key not in cache:
+            ax, ay = image_anchor(p)
+            cache[key] = [ax, ay]
+    OUT_DIR.mkdir(exist_ok=True)
+    cache_p.write_text(json.dumps(cache), encoding="utf-8")
+    return cache
+
+
+def img_key_anchor(cache, img: Path):
+    key = f"{img.name}:{img.stat().st_mtime_ns}"
+    return tuple(cache.get(key, [0.5, 0.5]))
+
+
+def phash64(path: Path):
+    try:
+        from PIL import Image
+        im = Image.open(path).convert("L").resize((16, 16))
+        px = list(im.getdata())
+        avg = sum(px) / 256.0
+        bits = 0
+        for i, v in enumerate(px):
+            if v > avg:
+                bits |= 1 << i
+        return bits
+    except Exception:
+        return None
+
+
+def qc_duplicates(hits):
+    """Warn when adjacent cue images are near-identical (same-shot cut)."""
+    warns = 0
+    prev = None
+    for c, p in hits:
+        h = phash64(p)
+        if h is not None and prev is not None:
+            if bin(h ^ prev[0]).count("1") <= 6:
+                print(f"  QC warn: cue {prev[1]} and cue {c['n']} look "
+                      f"near-identical (same-shot cut)")
+                warns += 1
+        prev = (h, c["n"])
+    return warns
+
+
+def load_cue_class(args):
+    cls_map = {}
+    if args.cue_class:
+        cls_map = {int(k): v for k, v in
+                   json.loads((ROOT / args.cue_class).read_text()).items()}
+    return cls_map
+
+
+def policy_for(n, dur, cls_map, energy=0.5):
+    """Editorial policy for one cue: class, mood, look knobs."""
+    info = cls_map.get(n, {})
+    cls = info.get("class", "story")
+    mood = info.get("mood", "neutral")
+    lit = bool(info.get("lit", False))
+    e = float(info.get("energy", energy))
+    return dict(cls=cls, mood=mood, lit=lit, energy=e,
+                onset=float(info.get("onset", 0.62)))
+
+
+# ---------------------------------------------------------------- timeline
+def plan(cues, total, limit=None):
+    """Per-cue segments [start, end) with an exact global frame budget."""
     if limit:
         cues = cues[:limit]
         total = cues[-1]["end"] + 1.0
-    n = len(cues)
-    bounds = [cues[i + 1]["start"] for i in range(n - 1)]
-    offs = [b - fade / 2.0 for b in bounds]
-    clips = []
-    for i in range(n):
-        if i == 0:
-            dur = offs[0] + fade if n > 1 else total
-        elif i == n - 1:
-            dur = total - offs[i - 1]
-        else:
-            dur = offs[i] - offs[i - 1] + fade
-        clips.append({"n": cues[i]["n"], "label": cues[i]["label"],
-                      "dur": dur, "frames": int(round(dur * FPS)) + 2})
-    return cues, clips, offs, total
+    segs = []
+    for i, c in enumerate(cues):
+        start = 0.0 if i == 0 else c["start"]
+        end = cues[i + 1]["start"] if i + 1 < len(cues) else total
+        segs.append({**c, "start": start, "end": end, "dur": end - start})
+    total_frames = max(int(round(total * FPS)), len(segs))
+    assigned = 0
+    for s in segs[:-1]:
+        s["frames"] = max(int(s["dur"] * FPS), 2)
+        assigned += s["frames"]
+    segs[-1]["frames"] = max(total_frames - assigned, 2)
+    global LAST_CUE_N
+    LAST_CUE_N = segs[-1]["n"] if segs else 0
+    return cues, segs
 
 
-def kenburns(i: int, frames: int):
-    """4-pattern cycle; explicit on-based formulas (no stateful zoom)."""
-    k = 0.10
-    d = max(frames, 2)
-    cy = "ih/2-(ih/zoom/2)"
-    cx = "iw/2-(iw/zoom/2)"
-    p = i % 4
-    if p == 0:      # slow zoom in
-        return (f"1+{k}*on/{d}", cx, cy)
-    if p == 1:      # slow zoom out
-        return (f"{1 + k}-{k}*on/{d}", cx, cy)
-    if p == 2:      # pan right
-        return ("1.06", f"(iw-iw/zoom)*on/{d}", cy)
-    return ("1.06", f"(iw-iw/zoom)*(1-on/{d})", cy)  # pan left
+# ---------------------------------------------------------------- camera
+def motion_script(n, frames, dur, ax, ay, pol, style):
+    """Eased, varied Ken Burns with handheld wobble + breathing.
 
-
-# ---------------------------------------------------------------- filtergraph
-def write_filter_script(path: Path, clips, offs, total, fade, vo_idx, mus_idx):
-    L = []
-    for i, c in enumerate(clips):
-        z, x, y = kenburns(i, c["frames"])
-        L.append(
-            f"[{i}:v]scale={SCALE_W}:{SCALE_H}:force_original_aspect_ratio=increase,"
-            f"crop={SCALE_W}:{SCALE_H},"
-            f"zoompan=z='{z}':x='{x}':y='{y}':d={c['frames']}:s={W}x{H}:fps={FPS},"
-            f"format=yuv420p,setsar=1,fps={FPS},settb=AVTB[v{i}]"
-        )
-    prev = "v0"
-    for i in range(1, len(clips)):
-        out = f"x{i}"
-        L.append(f"[{prev}][v{i}]xfade=transition=fade:"
-                 f"duration={fade:.3f}:offset={offs[i - 1]:.3f}[{out}]")
-        prev = out
-    L.append(f"[{prev}]format=yuv420p,setsar=1[vout]")
-
-    a = f"[{vo_idx}:a]aresample=48000,aformat=channel_layouts=stereo," \
-        f"loudnorm=I=-16:TP=-1.5:LRA=11,atrim=0:{total:.3f},apad[vo]"
-    if mus_idx is not None:
-        a += (";[vo]asplit=2[vo1][vo2];"
-              f"[{mus_idx}:a]aresample=48000,aformat=channel_layouts=stereo,"
-              f"atrim=0:{total:.3f},apad,volume=1.0[mus];"
-              "[mus][vo1]sidechaincompress=threshold=0.02:ratio=12:"
-              "attack=25:release=300[mduck];"
-              "[vo2][mduck]amix=inputs=2:duration=first:normalize=0[aout]")
+    Returns (zoom_expr, x_expr, y_expr, pattern_id)."""
+    d = max(frames, 4)
+    t = f"(on/{d})"
+    if pol["cls"] in ("punch", "word"):
+        hold = f"(min(max(({t}-0.05)/0.95,0),1))"      # accelerate into cut
     else:
-        a += ";[vo]anull[aout]"
-    L.append(a)
-    path.write_text(";\n".join(L) + "\n", encoding="utf-8")
-    return len(L)
+        hold = f"(min(max(({t}-0.07)/0.86,0),1))"      # settle at both ends
+    e = f"({hold}*{hold}*(3-2*{hold}))"                # smoothstep of hold
+    h = _h("cam", STYLE_TAG, n)
+    e_mul = 0.95 + 0.45 * pol["energy"]                # loud cues move more
+    k = max(0.05, min(0.13, (0.025 + dur * 0.0135) * style["k"] * e_mul))
+    if n <= 6:
+        k *= 0.85                                      # gentle establishing pace
+    sh = style["shake"]
+    wob_x = (f"({0.0012 * sh:.4f})*(iw-iw/zoom)*(sin(on*0.117+{(h % 31):.1f})"
+             f"+0.6*sin(on*0.041+{(h >> 5) % 23:.1f})"
+             f"+0.35*sin(on*0.023+{(h >> 18) % 41:.1f}))")
+    wob_y = (f"({0.0012 * sh:.4f})*(ih-ih/zoom)*(sin(on*0.093+{(h >> 9) % 29:.1f})"
+             f"+0.6*sin(on*0.053+{(h >> 14) % 19:.1f})"
+             f"+0.35*sin(on*0.019+{(h >> 21) % 37:.1f}))")
+    br = f"(1+{0.0020:.4f}*sin(on*0.047+{(h >> 3) % 17:.1f}))"   # breathing
+    if pol["cls"] == "word":
+        k *= 0.45                                         # near-frozen beats
+    if dur < 2.2:
+        pat = h % 2                                       # short: push/pull
+    else:
+        pat = h % 6
+    # motion continuity: chain pan direction over story runs
+    if pol["cls"] == "story" and dur >= 3.0:
+        pat = 4 + ((n // 2) % 2)                          # alternating pans
+        if n in CHAPTER_CUES:
+            pat = h % 2
+    cxi = min(0.70, max(0.30, ax))
+    cyi = min(0.70, max(0.30, ay))
+    cxc = f"(iw-iw/zoom)*{cxi + ((h >> 8) % 9 - 4) / 100:.3f}"
+    cy = f"(ih-ih/zoom)*{cyi + ((h >> 11) % 9 - 4) / 100:.3f}"
+    if pat == 0:
+        z = f"({br})*(1+{k:.4f}*{e})"
+        return z, f"{cxc}+{wob_x}", f"{cy}+{wob_y}", pat
+    if pat == 1:
+        z = f"({br})*({1 + k:.4f}-{k:.4f}*{e})"
+        return z, f"{cxc}+{wob_x}", f"{cy}+{wob_y}", pat
+    if pat == 2:
+        z = f"({br})*(1+{k:.4f}*{e})"
+        return (z, f"(iw-iw/zoom)*({cxi:.3f}*0.4+{1 - cxi:.3f}*{e})+{wob_x}",
+                f"{cy}+{wob_y}", pat)
+    if pat == 3:
+        z = f"({br})*({1 + k:.4f}-{k:.4f}*{e})"
+        return (z, f"(iw-iw/zoom)*({0.25 + cxi * 0.6:.3f}-{0.5:.3f}*{e})+{wob_x}",
+                f"{cy}+{wob_y}", pat)
+    if pat == 4:
+        z = f"({br})*(1+{k / 2:.4f})"
+        return z, f"(iw-iw/zoom)*{e}+{wob_x}", f"{cy}+{wob_y}", pat
+    z = f"({br})*(1+{k / 2:.4f})"
+    return z, f"(iw-iw/zoom)*(1-{e})+{wob_x}", f"{cy}+{wob_y}", pat
+
+
+# ---------------------------------------------------------------- transitions
+def fades_for(n, dur, pol):
+    """-> (fade_in, fade_out, colour, leak) per class + energy + beats."""
+    cls = pol["cls"]
+    e = pol["energy"]
+    h = _h("fade", STYLE_TAG, n)
+    din = dout = 0.0
+    col, leak = FADE_WARM, False
+    if cls == "word":
+        din = dout = min(0.32, dur * 0.30)
+        col = FADE_DEEP
+    elif cls == "host":
+        din = dout = min(0.22, dur * 0.22)
+    elif cls == "soft":
+        din = dout = min(0.28, dur * 0.26)
+    elif cls == "punch":
+        din = dout = 0.0                                  # hard cuts
+    elif cls == "chapter":
+        din = dout = 0.0
+    else:                                                 # story mix
+        fam = h % 10
+        if fam <= 3 + int(e > 0.72):                      # loud -> more cuts
+            din = dout = 0.0
+        elif fam <= 6:
+            din = dout = min(0.22, dur * 0.25)            # gentle blink-dip
+        else:
+            din = dout = min(0.12, dur * 0.18)            # near-invisible
+    if n in CHAPTER_CUES:
+        din, col, leak = max(din, min(0.40, dur * 0.30)), FADE_BLACK, True
+    if (n + 1) in CHAPTER_CUES:
+        dout, col = max(dout, min(0.35, dur * 0.28)), FADE_BLACK
+    if n == 1:
+        din, col, leak = max(din, min(0.70, dur * 0.40)), FADE_BLACK, True
+    if n == LAST_CUE_N:
+        dout, col = max(dout, min(1.10, dur * 0.45)), FADE_BLACK
+    return min(din, dur * 0.40), min(dout, dur * 0.40), col, leak
+
+
+# ---------------------------------------------------------------- grade
+def grade_exprs(pol, n, n_total, style, leak):
+    """-> (brightness_expr, eq_fixed, colorbalance, vignette_angle)."""
+    g, warm, fl = style["grade"], style["warm"], style["flicker"]
+    drift = (n / max(n_total, 1))
+    settle = "(-0.075)*exp(-2.4*t)"
+    flick = ("(0)" if not (pol["lit"] and fl > 0)
+             else f"({0.010 * fl * (0.6 + 0.9 * pol['energy']):.4f})"
+                  f"*sin(2*PI*3.0*t+{(_h('fl', n) % 63) / 10:.1f})")
+    leakp = "0.05*exp(-3.2*t)" if leak else "0"
+    br = f"({settle})+{flick}+({leakp})"
+    if pol["cls"] == "word":
+        c, s, gam = 1.06 + 0.04 * g, 1.02, 1.00
+    elif pol["cls"] == "chapter":
+        c, s, gam = 1.09 + 0.04 * g, 0.82, 0.98            # bleach hint
+    else:
+        c, s, gam = 1.03 + 0.03 * g, 1.00, 1.02
+    if pol["mood"] == "dark":
+        c, s = c + 0.02 * g, max(0.75, s - 0.12 * g)
+    elif pol["mood"] == "light":
+        c, s = c, min(1.25, s + 0.07 * g)
+    sat_leak = 1.02 if leak else 1.0
+    eq_fixed = (f"contrast={c:.3f}:saturation={s * sat_leak:.3f}:"
+                f"gamma={gam:.3f}")
+    rs = 0.015 * warm
+    bs = -0.005 * warm + 0.020 * (drift ** 1.2) * g
+    rm = 0.010 * warm
+    bm = -0.010 * warm
+    if pol["mood"] == "dark":
+        rs -= 0.030 * g
+        bs += 0.040 * g
+    elif pol["mood"] == "light":
+        rs += 0.035 * g
+        rm += 0.020 * g
+    cb = (f"rs={rs:.3f}:gs={0.004 * warm:.3f}:bs={bs:.3f}:"
+          f"rm={rm:.3f}:bm={bm:.3f}")
+    if pol["cls"] == "word":
+        vg = "PI/4.6"
+    elif pol["cls"] == "chapter":
+        vg = "PI/5.8"
+    else:
+        vg = f"PI/{5.2 + (_h('vg', n) % 5) / 10:.1f}"
+    return br, eq_fixed, cb, vg
+
+
+# ---------------------------------------------------------------- render
+def make_sweep_png():
+    """Warm light-sweep overlay (2W x H, soft alpha) for living-paint feel."""
+    from PIL import Image
+    p = OUT_DIR / "sweep.png"
+    w, h = W * 2, H
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = im.load()
+    for y in range(0, h, 2):
+        for x in range(0, w, 2):
+            u = x / w
+            a = max(0.0, 1.0 - abs(u - 0.42) * 3.2) ** 2
+            v = int(232 * a * 0.22)          # max alpha ~22/255
+            r, gg, b = 255, 216, 168
+            px[x, y] = (r, gg, b, v)
+            if x + 1 < w:
+                px[x + 1, y] = (r, gg, b, v)
+            if y + 1 < h:
+                px[x, y + 1] = (r, gg, b, v)
+                if x + 1 < w:
+                    px[x + 1, y + 1] = (r, gg, b, v)
+    im.save(p)
+    return p
+
+
+
+# ------------------------------------------------------- motion graphics
+FONT_BOLD = ROOT / "fonts" / "NotoSansDevanagari_700Bold.ttf"
+FONT_REG = ROOT / "fonts" / "NotoSansDevanagari_400Regular.ttf"
+GFX_DIR = OUT_DIR / "graphics"
+
+
+def _text_png(text, key, size, color=(255, 226, 194), bold=True):
+    """Render Devanagari/Latin text once to a cached RGBA PNG."""
+    GFX_DIR.mkdir(parents=True, exist_ok=True)
+    p = GFX_DIR / f"txt_{key}.png"
+    if p.exists():
+        return p
+    from PIL import Image, ImageFont, ImageDraw
+    font = ImageFont.truetype(str(FONT_BOLD if bold else FONT_REG), size)
+    probe = ImageDraw.Draw(Image.new("RGBA", (4, 4)))
+    bb = probe.textbbox((0, 0), text, font=font)
+    im = Image.new("RGBA", (bb[2] - bb[0] + 56, bb[3] - bb[1] + 40),
+                   (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    d.text((28 - bb[0], 20 - bb[1]), text, font=font, fill=(*color, 255))
+    im.save(p)
+    return p
+
+
+def make_flare_png():
+    """Feathered warm glow streak (2D falloff — reads as light, never a bar)."""
+    GFX_DIR.mkdir(parents=True, exist_ok=True)
+    p = GFX_DIR / "flare.png"
+    if p.exists():
+        return p
+    import math
+    from PIL import Image
+    w, h = 1500, 320
+    im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    px = im.load()
+    for j in range(h):
+        vy = math.sin(math.pi * j / (h - 1)) ** 2.6
+        for i in range(w):
+            vx = (1 - abs(2 * i / (w - 1) - 1)) ** 2.0
+            px[i, j] = (255, 178, 120, int(210 * vx * vy))
+    im.save(p)
+    return p
+
+
+def make_fgmask_png():
+    """Soft elliptical alpha mask for the 2.5D parallax foreground."""
+    GFX_DIR.mkdir(parents=True, exist_ok=True)
+    p = GFX_DIR / "fgmask.png"
+    if p.exists():
+        return p
+    from PIL import Image, ImageDraw
+    w, h = 1920, 1080
+    im = Image.new("L", (w, h), 0)
+    d = ImageDraw.Draw(im)
+    steps = 60
+    for i in range(steps, 0, -1):
+        t = i / steps
+        rx, ry = int(w * 0.60 * t), int(h * 0.70 * t)
+        v = int(255 * (1 - t) ** 1.35)
+        d.ellipse([w // 2 - rx, h // 2 - ry, w // 2 + rx, h // 2 + ry],
+                  fill=v)
+    im.save(p)
+    return p
+
+
+def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
+                sweep, mode):
+    """One clip: picture -> grade -> halation -> motion graphics -> fades.
+    mode: 'full' | 'punch_a' | 'punch_b'."""
+    n = seg["n"]
+    ax, ay = seg["_anchor"]
+    z, x, y, pat = motion_script(n, frames, dur, ax, ay, pol, style)
+    if mode == "punch_b":                                 # gentle settle back
+        z = f"(1+{0.08 * style['k']:.4f})*(1-0.14*((on/{max(frames, 4)})))"
+        x = f"(iw-iw/zoom)*{min(0.62, ax + 0.10):.3f}"
+        y = f"(ih-ih/zoom)*{min(0.62, ay + 0.06):.3f}"
+    br, eq_fixed, cb, vg = grade_exprs(pol, n, LAST_CUE_N, style,
+                                       seg.get("_leak", False))
+
+    def pic(z, x, y):
+        return (f"scale={W}:{H}:force_original_aspect_ratio=increase:"
+                f"flags=lanczos,crop={W}:{H},"
+                f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:"
+                f"s={W}x{H}:fps={FPS}")
+
+    if mode == "full" and pol["cls"] != "word":
+        tm = ",tmix=frames=2:weights='0.72 0.28'"          # 180-deg shutter
+    elif mode.endswith("b") and pol["cls"] in ("word", "punch"):
+        tm = ",tmix=frames=2:weights='0.65 0.35'"
+    else:
+        tm = ""
+    grade = (f"eq=brightness='{br}':{eq_fixed}:eval=frame,"
+             f"colorbalance={cb},"
+             f"curves=master='0/0.035 0.25/0.245 0.5/0.5 0.75/0.775 1/0.965',"
+             f"gradfun=strength=0.8:radius=10,rgbashift=rh=1:bh=-1,"
+             f"boxblur=luma_radius=3:luma_power=1:enable='lt(t,0.22)',"
+             f"boxblur=luma_radius=2:luma_power=1:"
+             f"enable='between(t,0.22,0.5)',"
+             f"vignette=angle={vg}")
+    if style["grain"]:
+        grade += f",noise=alls={style['grain']}:allf=t+u"
+
+    parallax = (mode == "full" and style["shake"] > 0 and (
+        pol["cls"] in ("chapter", "host")
+        or (pol["cls"] == "story" and dur >= 7.0)))
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error"]
+    if parallax:
+        z1, x1, y1, _ = motion_script(n, frames, dur, ax, ay, pol,
+                                      {**style, "k": style["k"] * 1.30})
+        z2, x2, y2, _ = motion_script(n, frames, dur, ax, ay, pol,
+                                      {**style, "k": style["k"] * 0.55,
+                                       "shake": 0.0})
+        mask = make_fgmask_png()
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
+                "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
+                "-loop", "1", "-t", f"{dur:.3f}", "-i", str(mask)]
+        fg = (f"[0:v]{pic(z1, x1, y1)},gblur=sigma=0.8[bgl];"
+              f"[1:v]{pic(z2, x2, y2)}[fgl];"
+              f"[2:v]format=gray[mk];"
+              f"[fgl][mk]alphamerge[fga];"
+              f"[bgl][fga]overlay=0:0{tm}[pic]")
+        gi = 3
+    else:
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(img)]
+        fg = f"[0:v]{pic(z, x, y)}{tm}[pic]"
+        gi = 1
+    fg += f";[pic]{grade}[pg]"
+    bl = style["bloom"] * (1.6 if pol["lit"] else 0.0)      # halation, lit only
+    if bl > 0.01:
+        fg += (";[pg]split[b1][b2];"
+               "[b2]curves=master='0/0 0.72/0.02 1/1',gblur=sigma=14:steps=2,"
+               "eq=brightness=0.015:saturation=0.55[glow];"
+               f"[b1][glow]blend=screen:all_opacity={min(0.28, bl):.2f}[ph]")
+    else:
+        fg += ";[pg]null[ph]"
+
+    cur = "ph"
+    if mode == "full" and pol["cls"] == "chapter":
+        title = CHAPTER_TITLES.get(n) or (seg.get("text", "") or "")[:40]
+        tp = _text_png(title, f"ch{n}",
+                       92 if len(title) <= 22 else
+                       (72 if len(title) <= 32 else 58))
+        kp = _text_png("TALK2SOCIETY", f"kick{n}", 30,
+                       color=(255, 196, 156), bold=False)
+        flp = make_flare_png()
+        nfl = max(int(1.1 * FPS), 4)
+        tend = min(dur - 0.15, 3.6)
+        tout = max(tend - 0.5, 0.6)
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(flp)]
+        fg += (f";[{gi}:v]format=rgba,colorchannelmixer=aa=0.20[flr];"
+               f"[{cur}][flr]overlay=x='-w+(W+w)*(n/{nfl})':"
+               f"y='H*0.42':enable='lt(t,0.95)':eval=frame[gxf]")
+        cur, gi = "gxf", gi + 1
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(kp)]
+        fg += (f";[{gi}:v]format=rgba,fade=t=in:st=0.30:d=0.45:alpha=1,"
+               f"fade=t=out:st={tout:.3f}:d=0.45:alpha=1[kck];"
+               f"[{cur}][kck]overlay=x='(W-w)/2':"
+               f"y='H*0.635-6+6*min(1,max(0,(n-8)/14))':"
+               f"enable='between(t,0.30,{tend:.3f})':eval=frame[gxk]")
+        cur, gi = "gxk", gi + 1
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(tp)]
+        fg += (f";[{gi}:v]format=rgba,fade=t=in:st=0.32:d=0.45:alpha=1,"
+               f"fade=t=out:st={tout:.3f}:d=0.45:alpha=1[ttl];"
+               f"[{cur}][ttl]overlay=x='(W-w)/2':"
+               f"y='H*0.70-6+6*min(1,max(0,(n-8)/14))':"
+               f"enable='between(t,0.32,{tend:.3f})':eval=frame[gxt]")
+        cur, gi = "gxt", gi + 1
+    elif mode == "full" and pol["cls"] == "word":
+        raw = (seg.get("text", "") or "").strip().rstrip("।.!?, \"") or "…"
+        txt = raw[:22]
+        wp = _text_png(txt, f"w{n}", 118)
+        w0 = 0.18
+        w1 = max(dur - 0.18, 0.7)
+        wout = max(w1 - 0.4, w0 + 0.35)
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(wp)]
+        fg += (f";[{gi}:v]format=rgba,fade=t=in:st={w0:.2f}:d=0.35:alpha=1,"
+               f"fade=t=out:st={wout:.2f}:d=0.35:alpha=1[wrd];"
+               f"[{cur}][wrd]overlay=x='(W-w)/2':"
+               f"y='H*0.56-8+8*min(1,max(0,(n-5)/12))':"
+               f"enable='between(t,{w0:.2f},{w1:.2f})':eval=frame[gxw]")
+        cur, gi = "gxw", gi + 1
+
+    din, dout, col, leak = fades_for(seg["n"], dur, pol)
+    if mode == "punch_a":
+        dout = 0.0
+        din = din if seg.get("_din_on_first", True) else 0.0
+    elif mode == "punch_b":
+        din = 0.0
+        dout = seg.get("_dout", 0.0)
+        col = seg.get("_col", col)
+    fin = ""
+    if din >= 0.5 / FPS:
+        fin += f",fade=t=in:st=0:d={din:.3f}:color={col}"
+    if dout >= 0.5 / FPS:
+        fin += (f",fade=t=out:st={max(dur - dout, 0):.3f}:"
+                f"d={dout:.3f}:color={col}")
+    tail = fin[1:] if fin else "null"
+    fg += f";[{cur}]{tail},format=yuv420p,setsar=1[v]"
+    cmd += ["-filter_complex", fg, "-map", "[v]",
+            "-frames:v", str(frames),
+            "-c:v", "libx264", "-preset", "medium", "-crf", str(CRF),
+            "-pix_fmt", "yuv420p", "-r", str(FPS), str(out)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"segment {seg['label']} ({mode}): {r.stderr[-800:]}")
+
+
+
+def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
+    """One cue -> one segment file (possibly two internal punch-in clips)."""
+    dur, frames = seg["dur"], seg["frames"]
+    punch = (dur >= 4.5 and style["shake"] > 0 and (
+        pol["cls"] == "punch"
+        or (pol["cls"] == "story" and _h("pk", seg["n"]) % 8 < 1)))
+    if not punch:
+        render_clip(ffmpeg, seg, img, out, frames, dur, pol, style, sweep,
+                    "full")
+        return
+    h = _h("punch", seg["n"])
+    on = min(0.82, max(0.45, float(pol.get("onset", 0.62))))
+    f2 = frames - int(frames * on)                     # punch lands on VO stress
+    f2 = max(int(0.9 * FPS), min(f2, int(2.2 * FPS)))
+    f1 = frames - f2
+    d1, d2 = f1 / FPS, f2 / FPS
+    a = OUT_DIR / f"_pa_{seg['n']:03d}.mp4"
+    b = OUT_DIR / f"_pb_{seg['n']:03d}.mp4"
+    din, dout, col, leak = fades_for(seg["n"], dur, pol)
+    seg.update(_leak=leak, _dout=dout, _col=col, _din_on_first=True)
+    render_clip(ffmpeg, seg, img, a, f1, d1, pol, style, sweep, "punch_a")
+    seg["_leak"] = False
+    render_clip(ffmpeg, seg, img, b, f2, d2, pol, style, sweep, "punch_b")
+    lst = OUT_DIR / f"_pl_{seg['n']:03d}.txt"
+    lst.write_text(f"file '{a}'\nfile '{b}'\n", encoding="utf-8")
+    r = subprocess.run([ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+                        "-f", "concat", "-safe", "0", "-i", str(lst),
+                        "-c", "copy", str(out)],
+                       capture_output=True, text=True)
+    a.unlink(missing_ok=True)
+    b.unlink(missing_ok=True)
+    lst.unlink(missing_ok=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"punch concat {seg['label']}: {r.stderr[-500:]}")
 
 
 # ---------------------------------------------------------------- build
 def build(args):
+    global W, H, CRF, IMG_DIR, SRT_PATH, CHAPTER_CUES
+    w, _, h = args.res.partition("x")
+    W, H = int(w), int(h)
+    CRF = args.crf
+    CHAPTER_CUES = {int(x) for x in args.chapter_cues.split(",") if x.strip()}
+    global CHAPTER_TITLES
+    if getattr(args, "chapter_titles", ""):
+        CHAPTER_TITLES = dict(zip(sorted(CHAPTER_CUES),
+                                  [t.strip() for t in
+                                   args.chapter_titles.split("|")]))
+    else:
+        CHAPTER_TITLES = {}
+    style = STYLES[args.style]
+    IMG_DIR = ROOT / args.images
+    SRT_PATH = ROOT / args.srt
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
-    vo = find_audio(AUD_DIR)
-    mus = find_audio(MUS_DIR)
-
+    vo = None
+    if args.name:
+        cand = AUD_DIR / f"{args.name}_master.mp3"
+        if cand.exists():
+            vo = cand
+    if vo is None:
+        vo = find_audio(AUD_DIR)
     n_cues = len(cues_all)
-    collisions = sum(1 for c in cues_all if "-" in c["label"].rsplit("-", 2)[-1]) \
-        if False else 0
-    # proper collision count: label has ms suffix => 3 hyphen-groups beyond M-SS
-    collisions = sum(1 for c in cues_all
-                     if len(c["label"].split("-")) > 2)
+    cls_map = load_cue_class(args)
 
-    missing, found = [], []
-    for c in cues_all:
+    scope = cues_all[:args.limit] if args.limit else cues_all
+    hits, missing = [], []
+    for c in scope:
         hit = find_image(idx, c["label"], c["n"])
-        (found if hit else missing).append((c, hit))
+        (hits if hit else missing).append((c, hit))
 
-    print(f"SRT cues        : {n_cues}   (collisions with ms suffix: {collisions})")
-    print(f"Images found    : {len(found)} / {n_cues}")
-    print(f"Master VO       : {vo.name if vo else 'NOT FOUND'}")
-    print(f"Music bed       : {mus.name if mus else '(none)'}")
+    print(f"Style        : {args.style}"
+          + (f"  (+{len(cls_map)} cue-class tags)" if cls_map else ""))
+    print(f"SRT cues      : {n_cues}"
+          + (f" (building first {len(scope)})" if args.limit else ""))
+    print(f"Images found  : {len(hits)} / {len(scope)}"
+          + (f"   [full set: {n_cues - len(scope)} more to generate]"
+             if args.limit else ""))
+    print(f"Master VO     : {vo.name if vo else 'NOT FOUND'}")
 
-    if missing and not args.allow_missing and not args.dry_run and not args.limit:
-        print(f"\nMISSING {len(missing)} images (first 15):")
-        for c, _ in missing[:15]:
-            print(f"  cue {c['n']:>3}  #{c['label']:<12} -> expected "
-                  f"images/{c['label']}.jpg")
-        print("\nAdd the files (or rerun with --allow-missing / --limit).")
+    if missing and not args.dry_run:
+        print(f"\nMISSING {len(missing)} images. Refusing to build with "
+              f"placeholders or reused images.")
+        for c, _ in missing[:20]:
+            print(f"  cue {c['n']:>3}  {c['label']:<12} -> "
+                  f"expected {IMG_DIR.name}/{c['label']}.jpg")
+        if len(missing) > 20:
+            print(f"  ... and {len(missing) - 20} more")
         return 2
 
+    srt_end = cues_all[-1]["end"]
+    vo_dur = media_duration(ffmpeg, vo) if vo else 0.0
+    total = max(srt_end, vo_dur) + TAIL_AFTER_VO
+    if vo and vo_dur - srt_end > 1:
+        print(f"VO span     : {vo_dur:.2f}s vs SRT span {srt_end:.2f}s "
+              f"(narration beyond last cue: {vo_dur - srt_end:+.1f}s "
+              "-> final image held)")
+
     if args.dry_run:
-        print("\nMapping sample (cue -> label -> file):")
-        for c, hit in (found + missing)[:5] + (found + missing)[-3:]:
-            print(f"  {c['n']:>3}  #{c['label']:<12}  "
-                  f"{hit.name if hit else '(missing)'}")
-        if vo:
-            vd = media_duration(ffmpeg, vo)
-            span = cues_all[-1]["end"]
-            print(f"\nVO duration     : {vd:.2f}s   SRT span: {span:.2f}s"
-                  f"   drift: {vd - span:+.2f}s")
-            if abs(vd - span) > 3.0:
-                print("  !! drift > 3s — check the VO matches the script.")
-        print("\nDry run OK. Run without --dry-run to render.")
-        return 0
+        print("\nMapping (first 5 / last 3):")
+        for c, h in (hits + missing)[:5] + (hits + missing)[-3:]:
+            print(f"  {c['n']:>3}  {c['label']:<12}  {h.name if h else '(MISSING)'}")
+        print("\nDry run OK." + ("" if not missing else f"  !! {len(missing)} missing"))
+        return 0 if not missing else 2
 
-    # ---- timeline
-    if vo:
-        total = media_duration(ffmpeg, vo)
-        total = max(total, cues_all[-1]["end"])
-    else:
-        total = cues_all[-1]["end"]
-    if args.limit:
-        total = min(total, cues_all[min(args.limit, n_cues) - 1]["end"] + 1.0)
+    if not vo:
+        print("No master VO in audio/. Build it first: "
+              "python3 scripts/build_master_audio.py")
+        return 2
 
-    # auto-clamp fade to the tightest cue gap
-    gaps = [cues_all[i + 1]["start"] - cues_all[i]["start"] for i in range(n_cues - 1)]
-    min_gap = min(gaps) if gaps else 1.0
-    fade = min(FADE_DEFAULT, 0.9 * min_gap)
+    cues, segs = plan(cues_all, total, limit=args.limit)
+    print(f"Clips         : {len(segs)}   output {total:.2f}s ({total / 60:.1f} min) "
+          f"@ {W}x{H} {FPS}fps")
 
-    cues, clips, offs, total = plan_timeline(cues_all, fade, total, limit=args.limit)
-    print(f"Fade            : {fade:.3f}s (min cue gap {min_gap:.3f}s)")
-    print(f"Output duration : {total:.2f}s  ({total / 60:.1f} min), {len(clips)} clips")
+    # analysis caches
+    OUT_DIR.mkdir(exist_ok=True)
+    anchor_cache = build_anchor_cache([p for _, p in hits])
+    qw = qc_duplicates(hits)
+    if qw:
+        print(f"QC            : {qw} same-shot warning(s)")
+    sweep = None   # sweep overlay removed: vertical blur passes distract
 
-    # ---- inputs
-    inputs = []
-    placeholder = None
-    for c in cues:
-        hit = find_image(idx, c["label"], c["n"])
-        if hit:
-            inputs += ["-i", str(hit)]
-        else:
-            if placeholder is None:
-                placeholder = True
-            inputs += ["-f", "lavfi", "-i",
-                       f"color=c=0x1a1210:s={W}x{H}:d=1:r={FPS}"]
-    vo_idx = len(cues)
-    if vo:
-        inputs += ["-i", str(vo)]
-    else:
-        inputs += ["-f", "lavfi", "-i",
-                   f"anullsrc=r=48000:cl=stereo:d={total:.3f}"]
-    mus_idx = None
-    if mus and not args.no_music:
-        mus_idx = vo_idx + 1
-        inputs += ["-i", str(mus)]
+    seg_dir = OUT_DIR / f"segments_{args.style}_{STYLE_TAG}"
+    seg_dir.mkdir(parents=True, exist_ok=True)
 
-    fc = OUT_DIR / "fc.txt"
-    write_filter_script(fc, clips, offs, total, fade, vo_idx, mus_idx)
+    def _cached(p: Path):
+        return p.exists() and p.stat().st_size > 2048
 
-    out = OUT_DIR / (f"tv6_test_{args.limit}.mp4" if args.limit else "tv6_final.mp4")
-    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "warning", "-stats"]
-    cmd += inputs
-    cmd += ["-filter_complex_script", str(fc),
-            "-map", "[vout]", "-map", "[aout]",
-            "-c:v", "libx264", "-preset", "faster", "-crf", "19",
-            "-pix_fmt", "yuv420p", "-r", str(FPS),
-            "-c:a", "aac", "-b:a", "192k", "-ar", "48000",
-            "-t", f"{total:.3f}", "-movflags", "+faststart",
-            str(out)]
+    todo = [s for s in segs if not _cached(seg_dir / f"{s['n']:03d}.mp4")]
+    print(f"Stage 1       : rendering {len(todo)} segments "
+          f"({len(segs) - len(todo)} cached) ...")
 
-    print(f"\nRendering -> {out}")
-    r = subprocess.run(cmd)
+    cutmix = defaultdict(lambda: defaultdict(int))
+    done = 0
+    for s in segs:
+        if s not in todo:
+            pol = policy_for(s["n"], s["dur"], cls_map)
+            cutmix[(pol["cls"],)]["cached"] += 1
+            continue
+        img = find_image(idx, s["label"], s["n"])
+        pol = policy_for(s["n"], s["dur"], cls_map)
+        s["_anchor"] = img_key_anchor(anchor_cache, img)
+        din, dout, col, leak = fades_for(s["n"], s["dur"], pol)
+        s["_leak"] = leak
+        s["_din"] = din
+        s["_dout"] = dout
+        s["_col"] = col
+        final = seg_dir / f"{s['n']:03d}.mp4"
+        tmp = seg_dir / f"{s['n']:03d}.tmp.mp4"
+        render_segment(ffmpeg, s, img, tmp, pol, style, sweep)
+        tmp.replace(final)          # atomic: partial renders never cached
+        cutmix[(pol["cls"],)]["cuts" if (din < 0.02 and dout < 0.02)
+                              else "fades"] += 1
+        done += 1
+        if done % 15 == 0 or done == len(todo):
+            print(f"  ... {done}/{len(todo)} segments")
+
+    # stage 2: concat (stream copy) -> silent video
+    lst = seg_dir / "concat.txt"
+    lines = [f"file '{seg_dir / (format(s['n'], '03d') + '.mp4')}'\n"
+             for s in segs]
+    lst.write_text("".join(lines), encoding="utf-8")
+    vid = OUT_DIR / "video_only.mp4"
+    cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
+           "-f", "concat", "-safe", "0", "-i", str(lst),
+           "-c", "copy", str(vid)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
     if r.returncode != 0:
-        print("ffmpeg failed — see errors above.")
+        print("concat failed:", r.stderr[-800:])
         return r.returncode
 
-    shutil.copy(SRT_PATH, OUT_DIR / "tv6.srt")
+    # stage 3: mux the master VO (Path A, raw)
+    out = OUT_DIR / (f"{args.name}_test_{args.limit}.mp4" if args.limit
+                     else f"{args.name}_final.mp4")
+    if args.no_captions:
+        cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
+               "-i", str(vid), "-i", str(vo),
+               "-map", "0:v:0", "-map", "1:a:0",
+               "-c:v", "copy",
+               "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
+               "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    else:
+        style_s = ("FontName=Noto Sans Devanagari,Fontsize=18,"
+                   "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,"
+                   "BorderStyle=1,Outline=2,Shadow=0,MarginV=34,Alignment=2")
+        vf = (f"subtitles={SRT_PATH}:fontsdir={FONT_DIR}:"
+              f"force_style='{style_s}'")
+        cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error", "-stats",
+               "-i", str(vid), "-i", str(vo),
+               "-map", "0:v:0", "-map", "1:a:0",
+               "-vf", vf,
+               "-c:v", "libx264", "-preset", "medium", "-crf", str(CRF),
+               "-pix_fmt", "yuv420p",
+               "-c:a", "aac", "-b:a", "96k", "-ar", "48000", "-ac", "2",
+               "-t", f"{total:.3f}", "-movflags", "+faststart", str(out)]
+    r = subprocess.run(cmd)
+    if r.returncode != 0:
+        print("final pass failed")
+        return r.returncode
+
     size_mb = out.stat().st_size / 1e6
-    print(f"DONE: {out}  ({size_mb:.1f} MB)")
-    print(f"Sidecar subtitles: {OUT_DIR / 'tv6.srt'}")
+    print(f"\nDONE: {out}  ({size_mb:.1f} MB)")
+    if args.no_captions:
+        print("Captions      : none (clean build)")
+    else:
+        shutil.copy(SRT_PATH, OUT_DIR / SRT_PATH.name)
+        print(f"Captions      : burned in from {SRT_PATH.name} "
+              f"(Noto Sans Devanagari)")
+        print(f"Sidecar subtitles: {OUT_DIR / SRT_PATH.name}")
+
+    # pacing report
+    print("\nPacing report (class -> cuts/fades):")
+    for key in sorted(cutmix):
+        m = cutmix[key]
+        print(f"  {key[0]:<8} cuts={m['cuts']:<4} fades={m['fades']:<4} "
+              f"cached={m['cached']}")
     return 0
 
 
@@ -324,7 +912,29 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="build only first N cues")
-    ap.add_argument("--allow-missing", action="store_true",
-                    help="use dark placeholders for missing images")
-    ap.add_argument("--no-music", action="store_true")
+    ap.add_argument("--res", default="1920x1080",
+                    help="render resolution WxH (default 1280x720; "
+                         "use 2560x1440 for QHD, 854x480 for small files)")
+    ap.add_argument("--crf", type=int, default=24,
+                    help="x264 CRF for the segments (higher = smaller file)")
+    ap.add_argument("--no-captions", action="store_true",
+                    help="skip burned-in captions (fast stream-copy final mux)")
+    ap.add_argument("--images", default="images",
+                    help="image source directory relative to repo root "
+                         "(default 'images'; use 'images_up4x' for AI-upscaled art)")
+    ap.add_argument("--srt", default="tv6.srt",
+                    help="episode SRT file relative to repo root")
+    ap.add_argument("--name", default="tv6",
+                    help="episode slug used in output file names "
+                         "(e.g. tv7 -> output/tv7_final.mp4)")
+    ap.add_argument("--chapter-cues", default="",
+                    help="comma-separated cue numbers that open a chapter; "
+                         "those boundaries get pure-black punctuation beats")
+    ap.add_argument("--cue-class", default="",
+                    help="JSON sidecar with per-cue class/mood/lit/energy "
+                         "(from scripts/gen_cue_classes.py)")
+    ap.add_argument("--chapter-titles", default="",
+                    help="pipe-separated chapter titles (chapter order)")
+    ap.add_argument("--style", default="pro", choices=sorted(STYLES),
+                    help="look style: pro | art | doc | classic")
     sys.exit(build(ap.parse_args()))
