@@ -1589,14 +1589,14 @@
   "onset": 0.508
  },
  "228": {
-  "class": "story",
+  "class": "host",
   "mood": "neutral",
   "lit": false,
   "energy": 0.958,
   "onset": 0.741
  },
  "229": {
-  "class": "story",
+  "class": "host",
   "mood": "neutral",
   "lit": false,
   "energy": 0.83,
