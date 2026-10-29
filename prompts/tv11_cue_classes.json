@@ -105,7 +105,7 @@
   "onset": 0.506
  },
  "16": {
-  "class": "punch",
+  "class": "host",
   "mood": "neutral",
   "lit": false,
   "energy": 1.0,
@@ -126,7 +126,7 @@
   "onset": 0.511
  },
  "19": {
-  "class": "story",
+  "class": "host",
   "mood": "neutral",
   "lit": false,
   "energy": 0.932,
