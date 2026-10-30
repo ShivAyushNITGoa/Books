@@ -1,0 +1,22 @@
+TV12 IMAGE GENERATION — PROGRESS
+================================
+Stage 3 (image prompts): DONE — 302/302 scene prompts + #Host plate prompt
+  prompts/tv12_image_prompts.txt   (full pack, one file, framework V7)
+  prompts/manifest.json            (TV8/TV11 schema, host_cues + chapter_cues)
+  prompts/tv12_scene_concepts.tsv  (creative layer, per-cue concepts)
+  prompts/gen_tv12_manifest.py     (assembler, re-runnable)
+
+Stage 4 (images): BLOCKED — 0/302 generated.
+  The image service (gemini-3.1-flash-image) returns 403 PERMISSION_DENIED
+  "terms of use violation / account flagged" for every request (2026-10-30).
+  Same failure PR #7 hit ("note blocked image service"). Not a prompt problem.
+
+When the service is unblocked, generate in R1 packs of 10, e.g. pack 1 =
+#Host plate -> refs/Host.jpg, then cues 1-10 -> images_tv12/0-00.jpg ... 0-35.jpg,
+using the prompt text verbatim from prompts/tv12_image_prompts.txt.
+Files must be named by bare label (0-00.jpg ... 20-30.jpg) — editing/build_video.py
+find_image() matches label / #label / cue number.
+
+Build inputs ready: tv12.srt (302 cues), tv12_label_map.txt,
+VO = "video 12 full audio.mp3" (1233.006s = exact concat of TV12 P1/P2/P3).
+Chapters (cue starts): 20,28,58,89,126,161,192,222,274,299
