@@ -1,52 +1,70 @@
 # editing/ — Talk2Society professional video-building kit
 
-Everything needed to produce a full episode video in **any new chat or
-conversation**, using only this folder + the episode's raw materials
-(VO audio, SRT). No session memory required.
+Everything needed to produce a full episode in a new chat using this folder
+and the episode's source materials. The current visual pipeline uses **video
+clips for the opening intro cues**, followed by **still images for every
+remaining cue**.
 
-## Start here in a new chat
+## Per-episode workflow
 
-1. Paste **`MASTER_PROMPT.md`** into the conversation — it is a complete
-   production prompt with all rules (R1–R6) and the full pipeline.
-2. Give the AI: the episode SRT (`tvN.srt`), the raw VO
-   (`audio/tvN_master.mp3`), and a chapter cue-start list (or ask it to
-   derive one).
-3. It will generate image prompts → images (packs of 10) → cue classes →
-   a professional edit (`--style pro`) → verified YouTube parts.
+1. Provide the episode SRT (`tvN.srt`), raw narration audio
+   (`audio/tvN_master.mp3`), and identify the intro boundary if it is not
+   clear from the SRT structure.
+2. Generate one labelled video clip for each consecutive opening/intro cue
+   in the SRT. Save clips in `video_clips_tvN/`, using the exact cue labels
+   from `tvN_label_map.txt` (for example `0-00.mp4`). No embedded speech,
+   music, text, or logos; the builder uses the supplied master VO.
+3. Generate still images for every cue after the intro, in packs of 10, and
+   save them in `images_tvN/`, again using the exact SRT cue labels. No
+   generated text in the art.
+4. Generate cue classes, then build the full video with the SRT, raw VO,
+   intro clips, still images, effects, and transitions. The builder treats
+   the clips as the opening contiguous cue block and images as the rest.
+5. Split at chapter boundaries, verify and visually spot-check the parts,
+   then commit/push the delivery parts and README to the current branch.
 
 ## Contents
 
 | File | What it is |
 |---|---|
-| `MASTER_PROMPT.md` | Paste-ready agent prompt for new chats (rules + pipeline). |
-| `EDITING_LANGUAGE.md` | Full proedit spec: camera, transitions, grade, QC, styles, tuning. |
-| `COMMANDS.md` | Copy-paste command sheet for every stage. |
-| `IMAGE_PROMPT_FRAMEWORK_v7.txt` | The image-prompt master prompt (SRT → scene prompts, Talk2Society style/identity rules). |
-| `build_video.py` | The professional builder (proedit1): motion, transitions, grade, FX, punch-ins, QC, pacing report. |
+| `MASTER_PROMPT.md` | Paste-ready production-agent prompt (current mixed-media workflow). |
+| `VIDEO_CLIP_PROMPT_FRAMEWORK.md` | Rules for making SRT-aligned intro-video prompts. |
+| `EDITING_LANGUAGE.md` | Pro-edit specification: camera, transitions, grade, QC, styles, tuning. |
+| `COMMANDS.md` | Copy-paste commands for cue classes, mixed-media build, splitting, and QA. |
+| `IMAGE_PROMPT_FRAMEWORK_v7.txt` | SRT-to-scene image prompts for the non-intro cues. |
+| `build_video.py` | Mixed-media builder: intro clips + stills, motion, transitions, grade, effects, QC, pacing report. |
 | `gen_cue_classes.py` | Cue-class intelligence sidecar generator (class/mood/lit/VO-energy). |
 | `split_parts.py` | Splits the master into <100 MB chapter parts. |
 | `verify_parts.py` | Automated delivery checks (size, streams, duration, cue frames). |
+| `TV8_RUNBOOK.md` | Historical TV8 rebuild instructions for its existing all-image assets. |
 
-All scripts are **self-contained**: they use the current working directory
-as the project root, so run them as `python3 editing/<script>.py …` from
-the folder that holds `tvN.srt`. Dependencies: `pip install
---break-system-packages pillow imageio-ffmpeg numpy` (ffmpeg comes with
-imageio-ffmpeg; no ffprobe needed).
+Run scripts from the project root (the folder containing the episode SRT,
+`audio/`, the media folders, and `editing/`). Dependencies:
+`pip install --break-system-packages pillow imageio-ffmpeg numpy` (ffmpeg is
+provided by imageio-ffmpeg; no ffprobe required).
 
-## What the builder produces
+## Builder media mapping and timing
 
-A filmic, human-edited 1920×1080 24fps video from 1 cue = 1 image = 1
-duration (strict R3 timing): eased hand-held camera moves, subject-aware
-framing, class-paced cuts/dips/fades with chapter beats, intra-cue
-punch-ins, emotional colour grading with day→night drift, bloom + lamp
-flicker on lit scenes, film grain, vignette, living-paint light sweeps —
-all chosen from the cue's class, mood, and real VO energy. Four looks:
+- An exact label-matched clip in `--videos` takes precedence over an image
+  with the same label. The video cues must form one continuous prefix of the
+  SRT; the builder rejects a clip that appears after an image cue.
+- Every cue needs exactly one source asset: one intro clip or one still.
+  The clip's source audio is discarded. Its picture is trimmed to the cue
+  window; if it ends early, its last frame is held to preserve exact timing.
+- Still images get the existing camera moves and image treatment. Intro
+  clips receive the same cue timing, grade, transitions, and effects, but no
+  image-only parallax split or source-resetting punch-in.
+- Cue windows remain frame-accurate at 24 fps; VO stays on Path A and is
+  muxed separately. No clip's embedded audio is used.
+
+The finished video uses subtle editing: class-paced cuts/dips/fades,
+per-cue grading and atmosphere, and opening/closing beats. Styles:
 `--style pro|art|doc|classic`.
 
-## Quick smoke check that the kit works
+## Smoke check
 
 ```bash
 pip install -q --break-system-packages pillow imageio-ffmpeg numpy
 python3 editing/build_video.py --dry-run --srt tvN.srt --name tvN \
-  --images imagesTvN --style pro
+  --videos video_clips_tvN --images images_tvN --style pro
 ```

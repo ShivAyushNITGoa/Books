@@ -2,15 +2,16 @@
 """
 Talk2Society video builder (professional per-episode editor)
 ============================================================
-Assembles: per-scene images + master voiceover (Path A, untouched) + the
-episode SRT into one MP4. This is not a slideshow: cue windows are cut and
-graded like an edit suite, while the R3 frame budget stays mathematically
-exact.
+Assembles per-cue media + the master voiceover (Path A, untouched) + the
+episode SRT into one MP4. Use a contiguous opening block of labelled video
+clips, followed by labelled still images for every remaining cue. Both media
+types receive the same editorial grade, timing, and transitions.
 
-Hard guarantees (unchanged from spec):
-  * EXACTLY ONE image per SRT cue - N cues -> N distinct images.
-  * Image <label> is shown only during its own cue window; never reused.
-  * Missing image => HARD FAIL (no placeholders, no silent reuse).
+Hard guarantees:
+  * EXACTLY ONE source asset per SRT cue: intro video or still image.
+  * Intro videos form one continuous prefix; still images cover the rest.
+  * Every asset is shown only during its own cue window; never reused.
+  * Missing asset => HARD FAIL (no placeholders, no silent reuse).
   * frames_i = floor(dur_i*FPS); cumulative boundary drift <= 1 frame.
   * VO is used raw (Path A): no time-stretch, no re-level, no ducking.
   * No burned captions in the clean build (R6).
@@ -58,11 +59,12 @@ QC & reports:
 Styles: --style pro|art|doc|classic  (classic = old kbv2 behaviour)
 
 Usage:
-  python3 build_video.py --dry-run --srt tv8.srt --name tv8 --images images_tv8
-  python3 build_video.py --limit 12 --res 2560x1440 --srt tv8.srt --name tv8 \
-      --images images_tv8 --cue-class prompts/cue_classes.json \
-      --chapter-cues "14,69,100,117,143,165,189,215,239,291" --style pro
-  FFMPEG_BIN=/path/to/ffmpeg python3 build_video.py ...
+  python3 editing/build_video.py --dry-run --srt tvN.srt --name tvN \
+      --videos video_clips_tvN --images images_tvN
+  python3 editing/build_video.py --limit 12 --res 1920x1080 --srt tvN.srt \
+      --name tvN --videos video_clips_tvN --images images_tvN \
+      --cue-class prompts/cue_classes.json --chapter-cues "CH" --style pro
+  FFMPEG_BIN=/path/to/ffmpeg python3 editing/build_video.py ...
 """
 import argparse
 import hashlib
@@ -76,6 +78,7 @@ from pathlib import Path
 
 ROOT = Path.cwd()  # run from the episode project root (folder with tvN.srt)
 IMG_DIR = ROOT / "images"
+VIDEO_DIR = ROOT / "video_clips"
 AUD_DIR = ROOT / "audio"
 OUT_DIR = ROOT / "output"
 SRT_PATH = ROOT / "tv6.srt"
@@ -88,11 +91,12 @@ TAIL_AFTER_VO = 2.0
 FADE_WARM = "0x160909"       # dip-through warm dark (art palette)
 FADE_DEEP = "0x120806"       # deeper warm dark for word frames
 FADE_BLACK = "black"         # punctuation only
-STYLE_TAG = "proedit1"
+STYLE_TAG = "proedit2_mixed"
 CHAPTER_CUES = set()
 CHAPTER_TITLES = {}
 LAST_CUE_N = 0
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp")
+VIDEO_EXTS = (".mp4", ".mov", ".mkv", ".webm", ".m4v")
 AUDIO_EXTS = (".mp3", ".wav", ".m4a", ".aac", ".ogg", ".flac")
 
 # per-style look parameters (subtle "invisible editing": effects never call
@@ -169,7 +173,24 @@ def index_images():
     return idx
 
 
+def index_videos(directory: Path):
+    idx = {}
+    if directory.exists():
+        for p in sorted(directory.iterdir()):
+            if p.is_file() and p.suffix.lower() in VIDEO_EXTS:
+                idx[p.stem.lower()] = p
+    return idx
+
+
 def find_image(idx, label: str, n: int):
+    for stem in (label, f"#{label}", f"{n:03d}", str(n)):
+        hit = idx.get(stem.lower())
+        if hit:
+            return hit
+    return None
+
+
+def find_video(idx, label: str, n: int):
     for stem in (label, f"#{label}", f"{n:03d}", str(n)):
         hit = idx.get(stem.lower())
         if hit:
@@ -545,10 +566,12 @@ def make_fgmask_png():
     return p
 
 
-def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
-                sweep, mode):
-    """One clip: picture -> grade -> halation -> motion graphics -> fades.
+def render_clip(ffmpeg, seg, media: Path, media_kind: str, out: Path,
+                frames, dur, pol, style, sweep, mode):
+    """One clip: still or intro video -> grade -> effects -> fades.
+    Video source audio is never mapped; the master VO is added separately.
     mode: 'full' | 'punch_a' | 'punch_b'."""
+    is_video = media_kind == "video"
     n = seg["n"]
     ax, ay = seg["_anchor"]
     z, x, y, pat = motion_script(n, frames, dur, ax, ay, pol, style)
@@ -560,9 +583,13 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
                                        seg.get("_leak", False))
 
     def pic(z, x, y):
-        return (f"scale={W}:{H}:force_original_aspect_ratio=increase:"
+        source = (f"fps={FPS},tpad=stop_mode=clone:stop_duration={dur:.3f},"
+                  f"trim=duration={dur:.3f},setpts=PTS-STARTPTS,"
+                  if is_video else "")
+        d = 1 if is_video else frames
+        return (f"{source}scale={W}:{H}:force_original_aspect_ratio=increase:"
                 f"flags=lanczos,crop={W}:{H},"
-                f"zoompan=z='{z}':x='{x}':y='{y}':d={frames}:"
+                f"zoompan=z='{z}':x='{x}':y='{y}':d={d}:"
                 f"s={W}x{H}:fps={FPS}")
 
     if mode == "full" and pol["cls"] != "word":
@@ -582,7 +609,7 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
     if style["grain"]:
         grade += f",noise=alls={style['grain']}:allf=t+u"
 
-    parallax = (mode == "full" and style["shake"] > 0 and (
+    parallax = (not is_video and mode == "full" and style["shake"] > 0 and (
         pol["cls"] in ("chapter", "host")
         or (pol["cls"] == "story" and dur >= 7.0)))
     cmd = [ffmpeg, "-y", "-hide_banner", "-loglevel", "error"]
@@ -593,8 +620,8 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
                                       {**style, "k": style["k"] * 0.55,
                                        "shake": 0.0})
         mask = make_fgmask_png()
-        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
-                "-loop", "1", "-t", f"{dur:.3f}", "-i", str(img),
+        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(media),
+                "-loop", "1", "-t", f"{dur:.3f}", "-i", str(media),
                 "-loop", "1", "-t", f"{dur:.3f}", "-i", str(mask)]
         fg = (f"[0:v]{pic(z1, x1, y1)},gblur=sigma=0.8[bgl];"
               f"[1:v]{pic(z2, x2, y2)}[fgl];"
@@ -603,7 +630,10 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
               f"[bgl][fga]overlay=0:0{tm}[pic]")
         gi = 3
     else:
-        cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(img)]
+        if is_video:
+            cmd += ["-i", str(media)]
+        else:
+            cmd += ["-loop", "1", "-t", f"{dur:.3f}", "-i", str(media)]
         fg = f"[0:v]{pic(z, x, y)}{tm}[pic]"
         gi = 1
     fg += f";[pic]{grade}[pg]"
@@ -688,15 +718,16 @@ def render_clip(ffmpeg, seg, img: Path, out: Path, frames, dur, pol, style,
 
 
 
-def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
-    """One cue -> one segment file (possibly two internal punch-in clips)."""
+def render_segment(ffmpeg, seg, media: Path, media_kind: str, out: Path,
+                   pol, style, sweep):
+    """One SRT cue -> one segment; video cues skip split-source punch-ins."""
     dur, frames = seg["dur"], seg["frames"]
-    punch = (dur >= 4.5 and style["shake"] > 0 and (
+    punch = (media_kind == "image" and dur >= 4.5 and style["shake"] > 0 and (
         pol["cls"] == "punch"
         or (pol["cls"] == "story" and _h("pk", seg["n"]) % 8 < 1)))
     if not punch:
-        render_clip(ffmpeg, seg, img, out, frames, dur, pol, style, sweep,
-                    "full")
+        render_clip(ffmpeg, seg, media, media_kind, out, frames, dur, pol,
+                    style, sweep, "full")
         return
     h = _h("punch", seg["n"])
     on = min(0.82, max(0.45, float(pol.get("onset", 0.62))))
@@ -708,9 +739,11 @@ def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
     b = OUT_DIR / f"_pb_{seg['n']:03d}.mp4"
     din, dout, col, leak = fades_for(seg["n"], dur, pol)
     seg.update(_leak=leak, _dout=dout, _col=col, _din_on_first=True)
-    render_clip(ffmpeg, seg, img, a, f1, d1, pol, style, sweep, "punch_a")
+    render_clip(ffmpeg, seg, media, media_kind, a, f1, d1, pol, style,
+                sweep, "punch_a")
     seg["_leak"] = False
-    render_clip(ffmpeg, seg, img, b, f2, d2, pol, style, sweep, "punch_b")
+    render_clip(ffmpeg, seg, media, media_kind, b, f2, d2, pol, style,
+                sweep, "punch_b")
     lst = OUT_DIR / f"_pl_{seg['n']:03d}.txt"
     lst.write_text(f"file '{a}'\nfile '{b}'\n", encoding="utf-8")
     r = subprocess.run([ffmpeg, "-y", "-hide_banner", "-loglevel", "error",
@@ -726,7 +759,7 @@ def render_segment(ffmpeg, seg, img: Path, out: Path, pol, style, sweep):
 
 # ---------------------------------------------------------------- build
 def build(args):
-    global W, H, CRF, IMG_DIR, SRT_PATH, CHAPTER_CUES
+    global W, H, CRF, IMG_DIR, VIDEO_DIR, SRT_PATH, CHAPTER_CUES
     w, _, h = args.res.partition("x")
     W, H = int(w), int(h)
     CRF = args.crf
@@ -740,10 +773,12 @@ def build(args):
         CHAPTER_TITLES = {}
     style = STYLES[args.style]
     IMG_DIR = ROOT / args.images
+    VIDEO_DIR = ROOT / args.videos
     SRT_PATH = ROOT / args.srt
     ffmpeg = find_ffmpeg()
     cues_all = parse_srt(SRT_PATH)
     idx = index_images()
+    vidx = index_videos(VIDEO_DIR)
     vo = None
     if args.name:
         cand = AUD_DIR / f"{args.name}_master.mp3"
@@ -755,26 +790,42 @@ def build(args):
     cls_map = load_cue_class(args)
 
     scope = cues_all[:args.limit] if args.limit else cues_all
-    hits, missing = [], []
+    mapped, missing = [], []
+    seen_image = False
     for c in scope:
-        hit = find_image(idx, c["label"], c["n"])
-        (hits if hit else missing).append((c, hit))
+        video = find_video(vidx, c["label"], c["n"])
+        image = find_image(idx, c["label"], c["n"])
+        if video:
+            if seen_image:
+                print(f"ERROR: intro video cue {c['n']} appears after a still-image "
+                      "cue. Intro clips must form one continuous prefix of the SRT.")
+                return 2
+            mapped.append((c, video, "video"))
+        elif image:
+            seen_image = True
+            mapped.append((c, image, "image"))
+        else:
+            missing.append(c)
 
+    n_video = sum(kind == "video" for _, _, kind in mapped)
+    n_image = sum(kind == "image" for _, _, kind in mapped)
     print(f"Style        : {args.style}"
           + (f"  (+{len(cls_map)} cue-class tags)" if cls_map else ""))
     print(f"SRT cues      : {n_cues}"
           + (f" (building first {len(scope)})" if args.limit else ""))
-    print(f"Images found  : {len(hits)} / {len(scope)}"
-          + (f"   [full set: {n_cues - len(scope)} more to generate]"
+    print(f"Assets found  : {len(mapped)} / {len(scope)} "
+          f"({n_video} intro clips, {n_image} still images)"
+          + (f"   [full set: {n_cues - len(scope)} more to map]"
              if args.limit else ""))
     print(f"Master VO     : {vo.name if vo else 'NOT FOUND'}")
 
     if missing and not args.dry_run:
-        print(f"\nMISSING {len(missing)} images. Refusing to build with "
-              f"placeholders or reused images.")
-        for c, _ in missing[:20]:
+        print(f"\nMISSING {len(missing)} assets. Refusing to build with "
+              f"placeholders or reused media.")
+        for c in missing[:20]:
             print(f"  cue {c['n']:>3}  {c['label']:<12} -> "
-                  f"expected {IMG_DIR.name}/{c['label']}.jpg")
+                  f"expected a matching video in {VIDEO_DIR.name}/ or "
+                  f"image in {IMG_DIR.name}/")
         if len(missing) > 20:
             print(f"  ... and {len(missing) - 20} more")
         return 2
@@ -785,12 +836,15 @@ def build(args):
     if vo and vo_dur - srt_end > 1:
         print(f"VO span     : {vo_dur:.2f}s vs SRT span {srt_end:.2f}s "
               f"(narration beyond last cue: {vo_dur - srt_end:+.1f}s "
-              "-> final image held)")
+              "-> final scene held)")
 
     if args.dry_run:
         print("\nMapping (first 5 / last 3):")
-        for c, h in (hits + missing)[:5] + (hits + missing)[-3:]:
-            print(f"  {c['n']:>3}  {c['label']:<12}  {h.name if h else '(MISSING)'}")
+        rows = [(c, media, kind) for c, media, kind in mapped]
+        rows += [(c, None, "missing") for c in missing]
+        for c, media, kind in rows[:5] + rows[-3:]:
+            label = f"{kind}: {media.name}" if media else "MISSING"
+            print(f"  {c['n']:>3}  {c['label']:<12}  {label}")
         print("\nDry run OK." + ("" if not missing else f"  !! {len(missing)} missing"))
         return 0 if not missing else 2
 
@@ -805,8 +859,9 @@ def build(args):
 
     # analysis caches
     OUT_DIR.mkdir(exist_ok=True)
-    anchor_cache = build_anchor_cache([p for _, p in hits])
-    qw = qc_duplicates(hits)
+    still_hits = [(c, media) for c, media, kind in mapped if kind == "image"]
+    anchor_cache = build_anchor_cache([media for _, media in still_hits])
+    qw = qc_duplicates(still_hits)
     if qw:
         print(f"QC            : {qw} same-shot warning(s)")
     sweep = None   # sweep overlay removed: vertical blur passes distract
@@ -828,9 +883,13 @@ def build(args):
             pol = policy_for(s["n"], s["dur"], cls_map)
             cutmix[(pol["cls"],)]["cached"] += 1
             continue
-        img = find_image(idx, s["label"], s["n"])
+        media = find_video(vidx, s["label"], s["n"])
+        media_kind = "video" if media else "image"
+        if media is None:
+            media = find_image(idx, s["label"], s["n"])
         pol = policy_for(s["n"], s["dur"], cls_map)
-        s["_anchor"] = img_key_anchor(anchor_cache, img)
+        s["_anchor"] = (img_key_anchor(anchor_cache, media)
+                        if media_kind == "image" else (0.5, 0.5))
         din, dout, col, leak = fades_for(s["n"], s["dur"], pol)
         s["_leak"] = leak
         s["_din"] = din
@@ -838,7 +897,7 @@ def build(args):
         s["_col"] = col
         final = seg_dir / f"{s['n']:03d}.mp4"
         tmp = seg_dir / f"{s['n']:03d}.tmp.mp4"
-        render_segment(ffmpeg, s, img, tmp, pol, style, sweep)
+        render_segment(ffmpeg, s, media, media_kind, tmp, pol, style, sweep)
         tmp.replace(final)          # atomic: partial renders never cached
         cutmix[(pol["cls"],)]["cuts" if (din < 0.02 and dout < 0.02)
                               else "fades"] += 1
@@ -920,8 +979,11 @@ if __name__ == "__main__":
     ap.add_argument("--no-captions", action="store_true",
                     help="skip burned-in captions (fast stream-copy final mux)")
     ap.add_argument("--images", default="images",
-                    help="image source directory relative to repo root "
-                         "(default 'images'; use 'images_up4x' for AI-upscaled art)")
+                    help="still-image source directory relative to repo root; "
+                         "used after intro video cues")
+    ap.add_argument("--videos", default="video_clips",
+                    help="opening intro video clips directory; matching clip "
+                         "labels take precedence over still images")
     ap.add_argument("--srt", default="tv6.srt",
                     help="episode SRT file relative to repo root")
     ap.add_argument("--name", default="tv6",

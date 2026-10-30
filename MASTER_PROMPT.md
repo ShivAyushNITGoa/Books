@@ -1,26 +1,29 @@
-# MASTER_PROMPT — Talk2Society episode production (v2, professional-builder edition)
+# MASTER_PROMPT — Talk2Society episode production (v3, mixed-media edition)
 
-> v2 (2026-10): supersedes the v1 chat contract. Adds the proedit1 builder
-> (`build_video.py --style pro`) and the cue-class intelligence layer
-> (`scripts/gen_cue_classes.py`). All v1 rules (R1–R6, Path A) are preserved
-> unchanged — v2 only upgrades the visual/editing layer.
+> v3 (2026-10): the opening intro uses generated silent video clips, while
+> all remaining SRT cues use still images. The proedit2 builder combines both
+> with the raw VO, then splits, verifies, and delivers the finished parts.
 
-End-to-end pipeline for turning one episode of narration + SRT into uploaded
-YouTube parts. Every episode: transcript/tagging → SRT → VO → prompts →
-images → build → split → verify → commit.
+End-to-end pipeline for turning one episode SRT + raw narration audio into
+uploaded YouTube parts: intro clip prompts/assets → remaining image
+prompts/assets → mixed-media build → split → verify → commit/push.
 
 ---
 
 ## 0. Standing rules (never break)
 
-- **R1 — packs of 10.** Generate images in batches of 10 (`generate_image`
-  calls in parallel, one manifest entry per call). Never one-at-a-time.
+- **R1 — intro clips + image packs.** Generate one silent video clip for
+  each consecutive opening/intro SRT cue, named with its exact cue label.
+  Then generate still images for every later cue in packs of 10 (one manifest
+  entry per image). Confirm the intro boundary with the user if unclear.
 - **R2 — single run.** The full build runs as ONE command; never stop
   mid-build to edit code. Fix issues in a smoke run first.
-- **R3 — 1 cue : 1 image : 1 duration.** `frames_i = floor(dur_i × 24)`,
-  last frame absorbs remainder; drift ≤ 1 frame. ALL effects (motion,
-  punch-ins, dips, grade) stay inside the cue's own segment or reframe the
-  cue's own image within its own window. No inserts, no echoes, no cards.
+- **R3 — 1 cue : 1 source asset : 1 duration.** Each cue uses exactly one
+  labelled intro video clip or still image. `frames_i = floor(dur_i × 24)`;
+  last frame absorbs remainder; drift ≤ 1 frame. Effects stay inside the
+  cue's own segment. Clip audio is discarded; only the supplied master VO
+  is used. No inserts, echoes, cards, or timing edits. Intro clips form one
+  contiguous opening prefix, followed by still images.
 - **R4 — Path A audio.** VO is copied/concatenated from the raw record only.
   No TTS, no re-record, no music/ambience/LUFS processing.
 - **R5 — delivery.** Few parts (typically 3–5, never more than needed),
@@ -45,29 +48,34 @@ images → build → split → verify → commit.
 0. **Transcript** — raw record → tagged transcript + `tagging_rationale.md`.
 1. **SRT** — `tvN.srt`, cues authoritative (TV8: 330).
 2. **VO** — Path A: `audio/tvN_master.mp3`.
-3. **Prompts** — `prompts/master_prompt_v7.txt` (image-prompt framework) →
-   `prompts/manifest.json` + `tvN_label_map.txt` (cue→label sole source).
-4. **Images** — R1 packs of 10 → `images_tvN/` + PROGRESS.txt.
+3. **Intro clip prompts** — use `editing/VIDEO_CLIP_PROMPT_FRAMEWORK.md`
+   for the consecutive opening cues; record the intro-end cue.
+4. **Still-image prompts/assets** — use `prompts/master_prompt_v7.txt`
+   (`editing/IMAGE_PROMPT_FRAMEWORK_v7.txt`) for all cues after the intro.
+   Keep `tvN_label_map.txt` as the sole cue-label authority. Generate intro
+   clips in `video_clips_tvN/`; generate remaining stills in packs of 10 in
+   `images_tvN/` + PROGRESS.txt.
 5. **Cue classes** (new):
-   `python3 scripts/gen_cue_classes.py --srt tvN.srt --vo audio/tvN_master.mp3
+   `python3 editing/gen_cue_classes.py --srt tvN.srt --vo audio/tvN_master.mp3
    --manifest prompts/manifest.json --labels tvN_label_map.txt
    --chapters "<cue-start list>" --out prompts/cue_classes.json`
    → per-cue class (chapter/host/word/soft/punch/story), mood, lit, VO energy.
 6. **Build** (dry-run → smoke `--limit 12` → full, one run):
-   `python3 build_video.py --res 1920x1080 --no-captions --crf 24 --srt
-   tvN.srt --name tvN --images images_tvN --chapter-cues "<chapter list>"
-   --cue-class prompts/cue_classes.json --style pro`
+   `python3 editing/build_video.py --res 1920x1080 --no-captions --crf 24
+   --srt tvN.srt --name tvN --videos video_clips_tvN --images images_tvN
+   --chapter-cues "<chapter list>" --cue-class prompts/cue_classes.json
+   --style pro`
    Styles: `pro` (filmic), `art` (dreamy), `doc` (clean), `classic` (= kbv2).
-   Cache `output/segments_{style}_proedit1`; atomic segment writes; final
+   Cache `output/segments_{style}_proedit2_mixed`; atomic segment writes; final
    total = max(SRT span, VO) + 2 s with opening fade + closing dip.
 7. **Deliver** — split into few, exact-seam parts at chapter bounds:
-   `python3 scripts/split_parts.py --name tvN --bounds "…"` (auto +2CRF
+   `python3 editing/split_parts.py --name tvN --bounds "…"` (auto +2CRF
    retry under the 97MB cap) → `cp output/tvN_2k_part*.mp4 .` →
-   `python3 scripts/verify_parts.py --ep tvN --cues <N>` (expect OVERALL
+   `python3 editing/verify_parts.py --ep tvN --cues <N>` (expect OVERALL
    PASS) → one-ffmpeg-call-per-frame spot-checks → README + commit + push.
    Integration command (concat stream-copy) is printed by the splitter.
 
-## 2. The proedit1 editing language (what the builder applies automatically)
+## 2. The proedit2 mixed-media editing language (what the builder applies automatically)
 
 Driven by cue classes + mood + lit + VO energy from `cue_classes.json`:
 
@@ -103,7 +111,7 @@ origin/arena/927251ad-books` (first copy any modified tracked files to
 keep steps short (chained long commands get aborted).
 
 **Builds are resumable.** Segment renders are atomic (`.tmp` → rename) and
-cached in `output/segments_{style}_proedit1/`; if a full build is killed or
+cached in `output/segments_{style}_proedit2_mixed/`; if a full build is killed or
 the sandbox restarts mid-run, just re-run the identical build command —
 cached segments are skipped and only the missing ones re-render. Never
 "repair" a partial segment by hand; a missing/corrupt file simply re-renders.

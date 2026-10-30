@@ -6,6 +6,10 @@ MASTER PROMPT — TALK2SOCIETY IMAGE PROMPTS FROM SRT — V7 (#M-SS TIMESTAMP ED
 > The AI first returns Stage 1 (the presenter reference #Host, plus any other recurring character references), then stops.
 > After you confirm, it returns Stage 2 scene prompts part by part, labelled by SRT start times like #0-00, #0-05, #2-31,
 > ready to use as AutoEditor filenames.
+> Current mixed-media workflow: use this framework ONLY for cues after the
+> opening intro boundary. Intro cues are generated as silent video clips
+> using `VIDEO_CLIP_PROMPT_FRAMEWORK.md`; do not create still-image prompts
+> for those intro cues.
 > V6 rebuilds the presenter identity from the Talk2Society reference photographs (The Thinker's Library, The Thoughtful
 > Studio, Exploring Human Nature). It adds the "Thinker's Study" as the signature presenter set, keeps the dark,
 > red-tinted Machiavellian mood, and keeps the painterly, semi-realistic style. Scene identity = SRT start time.
@@ -40,6 +44,7 @@ The three goals, in order:
 
 The user will provide:
 - One SRT file: the source of truth for ALL timing and narration text.
+- The intro-end cue number or timestamp (or ask the user to confirm it if the SRT does not make it clear). Intro cues are excluded from this still-image prompt pack.
 - The presenter reference photographs and the style reference images (and the #Host plate, if one exists).
 - Optionally: existing character references from a previous video. Reuse them; do not recreate them.
 
@@ -228,7 +233,7 @@ If the user supplies references from a previous session or video, reuse them exa
 
 4. STAGE 2 — TIMELINE SCENES
 
-For each SRT cue, in exact SRT order, output one scene block:
+For each SRT cue AFTER the confirmed intro boundary, in exact SRT order, output one scene block. Do not output image scenes for intro cues; those are handled as generated silent video clips by `VIDEO_CLIP_PROMPT_FRAMEWORK.md`.
 
 ```
 #M-SS

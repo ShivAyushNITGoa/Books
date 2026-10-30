@@ -1,8 +1,7 @@
-# EDITING_LANGUAGE — proedit1 professional builder spec
+# EDITING_LANGUAGE — proedit2 mixed-media professional builder spec
 
 What `editing/build_video.py` applies automatically, and how to tune it.
-Everything below stays inside R3 (1 cue : 1 image : 1 duration) — effects
-are in-segment or re-frame the cue's own image inside its own window.
+Everything below stays inside R3 (1 cue : 1 source asset : 1 duration): effects stay within the cue window and never add timeline footage.
 
 **THE SUBTLETY RULE (user-mandated):** effects and transitions must NEVER
 attract the viewer's attention to the effect. Their only job is to avoid a
@@ -23,6 +22,21 @@ Per cue, the sidecar carries:
 
 Class sources: `--chapters` list, `--labels` map (`#Host`, `#S#`/`#W#`
 word frames), text regexes, and energy z-scores.
+
+## 1.1 Mixed-media timeline
+
+- Opening/intro cues may use generated silent video clips; these must be a
+  contiguous prefix of the SRT. Every cue after the intro uses a labelled
+  still image. A matching video label takes precedence over an image label.
+- Exactly one source asset belongs to each SRT cue. Source video audio is
+  discarded; only the supplied master VO is muxed. The SRT remains the source
+  of truth for cue positions and durations.
+- Clips are normalized to 24 fps and trimmed to their cue window. If a clip
+  is short, the final frame is held; no clip is looped or time-stretched.
+  Intro clips skip still-only parallax compositing and split-source
+  punch-ins, while retaining their own grade, transitions, and effects.
+- The intro-to-image handoff is a normal adjacent cue boundary; no extra
+  transition footage or timing is inserted.
 
 ## 2. Camera & motion
 
