@@ -1,0 +1,471 @@
+{
+ "project": "Rise of Legend",
+ "episode": "Ep. 1 — The Fifth Breath",
+ "fps": 10,
+ "width": 1920,
+ "height": 1080,
+ "total_frames": 1200,
+ "total_seconds": 120.0,
+ "vo": "06_audio/vo/vo_ep01.wav",
+ "notes": "Single source of truth for the 2:00 short. One shot = one source asset = one frame count. start_frame is derived, never hand-edited.",
+ "beats": [
+  {
+   "id": 1,
+   "name": "Cold open",
+   "start_frame": 0,
+   "frames": 80
+  },
+  {
+   "id": 2,
+   "name": "The restorer",
+   "start_frame": 80,
+   "frames": 140
+  },
+  {
+   "id": 3,
+   "name": "The mark",
+   "start_frame": 220,
+   "frames": 80
+  },
+  {
+   "id": 4,
+   "name": "Break-in",
+   "start_frame": 300,
+   "frames": 140
+  },
+  {
+   "id": 5,
+   "name": "First breath",
+   "start_frame": 440,
+   "frames": 100
+  },
+  {
+   "id": 6,
+   "name": "The lesson",
+   "start_frame": 540,
+   "frames": 120
+  },
+  {
+   "id": 7,
+   "name": "The rule",
+   "start_frame": 660,
+   "frames": 80
+  },
+  {
+   "id": 8,
+   "name": "Transformation",
+   "start_frame": 740,
+   "frames": 120
+  },
+  {
+   "id": 9,
+   "name": "Rooftop fight",
+   "start_frame": 860,
+   "frames": 140
+  },
+  {
+   "id": 10,
+   "name": "The choice",
+   "start_frame": 1000,
+   "frames": 80
+  },
+  {
+   "id": 11,
+   "name": "Timir",
+   "start_frame": 1080,
+   "frames": 80
+  },
+  {
+   "id": 12,
+   "name": "Title",
+   "start_frame": 1160,
+   "frames": 40
+  }
+ ],
+ "shots": [
+  {
+   "id": "S01",
+   "beat": 1,
+   "frames": 30,
+   "start_frame": 0,
+   "seconds": 0.0,
+   "duration": 3.0,
+   "action": "Eclipse over Nandipur; the sun goes dark rim-first.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S01.png"
+  },
+  {
+   "id": "S02",
+   "beat": 1,
+   "frames": 26,
+   "start_frame": 30,
+   "seconds": 3.0,
+   "duration": 2.6,
+   "action": "City lights brown out in a wave, street by street.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S02.png"
+  },
+  {
+   "id": "S03",
+   "beat": 1,
+   "frames": 24,
+   "start_frame": 56,
+   "seconds": 5.6,
+   "duration": 2.4,
+   "action": "Macro: five stone instruments crack, one after another.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S03.png"
+  },
+  {
+   "id": "S04",
+   "beat": 2,
+   "frames": 60,
+   "start_frame": 80,
+   "seconds": 8.0,
+   "duration": 6.0,
+   "action": "Museum basement. Arin at the restoration desk, lamp low.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S04.png"
+  },
+  {
+   "id": "S05",
+   "beat": 2,
+   "frames": 50,
+   "start_frame": 140,
+   "seconds": 14.0,
+   "duration": 5.0,
+   "action": "Close: brush on palm leaf; the ink crawls against the brush.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S05.png"
+  },
+  {
+   "id": "S06",
+   "beat": 2,
+   "frames": 30,
+   "start_frame": 190,
+   "seconds": 19.0,
+   "duration": 3.0,
+   "action": "His eyes in the glass case reflection; the room dims.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S06.png"
+  },
+  {
+   "id": "S07",
+   "beat": 3,
+   "frames": 30,
+   "start_frame": 220,
+   "seconds": 22.0,
+   "duration": 3.0,
+   "action": "Palm close-up: the five-petal emblem burns into his skin.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S07.png"
+  },
+  {
+   "id": "S08",
+   "beat": 3,
+   "frames": 50,
+   "start_frame": 250,
+   "seconds": 25.0,
+   "duration": 5.0,
+   "action": "Five coloured breaths spiral up his arm and vanish.",
+   "camera": "pull",
+   "kind": "art",
+   "source": "shots/S08.png"
+  },
+  {
+   "id": "S09",
+   "beat": 4,
+   "frames": 50,
+   "start_frame": 300,
+   "seconds": 30.0,
+   "duration": 5.0,
+   "action": "Vault door cut open; sparks; Grahan Sena survey crew enters.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S09.png"
+  },
+  {
+   "id": "S10",
+   "beat": 4,
+   "frames": 40,
+   "start_frame": 350,
+   "seconds": 35.0,
+   "duration": 4.0,
+   "action": "Zoya draws her weapon, badge swinging; she is outnumbered.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S10.png"
+  },
+  {
+   "id": "S11",
+   "beat": 4,
+   "frames": 50,
+   "start_frame": 390,
+   "seconds": 39.0,
+   "duration": 5.0,
+   "action": "A pillar is rigged, then falls toward her.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S11.png"
+  },
+  {
+   "id": "S12",
+   "beat": 5,
+   "frames": 40,
+   "start_frame": 440,
+   "seconds": 44.0,
+   "duration": 4.0,
+   "action": "Arin inhales; ochre earth-armour spreads over his arm and shoulder.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S12.png"
+  },
+  {
+   "id": "S13",
+   "beat": 5,
+   "frames": 40,
+   "start_frame": 480,
+   "seconds": 48.0,
+   "duration": 4.0,
+   "action": "He catches the pillar on one shoulder; dust explodes.",
+   "camera": "pull",
+   "kind": "art",
+   "source": "shots/S13.png"
+  },
+  {
+   "id": "S14",
+   "beat": 5,
+   "frames": 20,
+   "start_frame": 520,
+   "seconds": 52.0,
+   "duration": 2.0,
+   "action": "Dust settles; Zoya stares at him.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S14.png"
+  },
+  {
+   "id": "S15",
+   "beat": 6,
+   "frames": 40,
+   "start_frame": 540,
+   "seconds": 54.0,
+   "duration": 4.0,
+   "action": "Dawn courtyard; Badi Amma circles him with a stick, blind eyes closed.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S15.png"
+  },
+  {
+   "id": "S16",
+   "beat": 6,
+   "frames": 40,
+   "start_frame": 580,
+   "seconds": 58.0,
+   "duration": 4.0,
+   "action": "Vignettes: earth stance holds; water breath heals a cut.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S16.png"
+  },
+  {
+   "id": "S17",
+   "beat": 6,
+   "frames": 40,
+   "start_frame": 620,
+   "seconds": 62.0,
+   "duration": 4.0,
+   "action": "Vignettes: fire palm, air dash, ether flicker — each one breath.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S17.png"
+  },
+  {
+   "id": "S18",
+   "beat": 7,
+   "frames": 40,
+   "start_frame": 660,
+   "seconds": 66.0,
+   "duration": 4.0,
+   "action": "He tries to hold two elements at once; the auras fight.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S18.png"
+  },
+  {
+   "id": "S19",
+   "beat": 7,
+   "frames": 40,
+   "start_frame": 700,
+   "seconds": 70.0,
+   "duration": 4.0,
+   "action": "He coughs, drops both, lands in a flowerbed. Amma laughs.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S19.png"
+  },
+  {
+   "id": "S20",
+   "beat": 8,
+   "frames": 30,
+   "start_frame": 740,
+   "seconds": 74.0,
+   "duration": 3.0,
+   "action": "Dust and gold leaf spiral in the courtyard.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S20.png"
+  },
+  {
+   "id": "S21",
+   "beat": 8,
+   "frames": 40,
+   "start_frame": 770,
+   "seconds": 77.0,
+   "duration": 4.0,
+   "action": "The palm-leaf shawl unfolds like a manuscript page.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S21.png"
+  },
+  {
+   "id": "S22",
+   "beat": 8,
+   "frames": 50,
+   "start_frame": 810,
+   "seconds": 81.0,
+   "duration": 5.0,
+   "action": "Hero shot: five chest panels ignite left to right. Hold 12 frames.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S22.png"
+  },
+  {
+   "id": "S23",
+   "beat": 9,
+   "frames": 40,
+   "start_frame": 860,
+   "seconds": 86.0,
+   "duration": 4.0,
+   "action": "Rooftop. Shunya's silhouette; all ambient sound dies.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S23.png"
+  },
+  {
+   "id": "S24",
+   "beat": 9,
+   "frames": 40,
+   "start_frame": 900,
+   "seconds": 90.0,
+   "duration": 4.0,
+   "action": "Air-dash across a rooftop gap; tiles shatter.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S24.png"
+  },
+  {
+   "id": "S25",
+   "beat": 9,
+   "frames": 30,
+   "start_frame": 940,
+   "seconds": 94.0,
+   "duration": 3.0,
+   "action": "Ether-step: he phases through the spear thrust.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S25.png"
+  },
+  {
+   "id": "S26",
+   "beat": 9,
+   "frames": 30,
+   "start_frame": 970,
+   "seconds": 97.0,
+   "duration": 3.0,
+   "action": "Fire-palm close: brass knuckles glow, impact frame.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S26.png"
+  },
+  {
+   "id": "S27",
+   "beat": 10,
+   "frames": 40,
+   "start_frame": 1000,
+   "seconds": 100.0,
+   "duration": 4.0,
+   "action": "Street below: the crowd, unaware, looking up.",
+   "camera": "pull",
+   "kind": "art",
+   "source": "shots/S27.png"
+  },
+  {
+   "id": "S28",
+   "beat": 10,
+   "frames": 40,
+   "start_frame": 1040,
+   "seconds": 104.0,
+   "duration": 4.0,
+   "action": "He looks at the seal, then at the people. He chooses.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S28.png"
+  },
+  {
+   "id": "S29",
+   "beat": 11,
+   "frames": 40,
+   "start_frame": 1080,
+   "seconds": 108.0,
+   "duration": 4.0,
+   "action": "Server-temple. Timir on the throne, face of static and gold cracks.",
+   "camera": "push",
+   "kind": "art",
+   "source": "shots/S29.png"
+  },
+  {
+   "id": "S30",
+   "beat": 11,
+   "frames": 40,
+   "start_frame": 1120,
+   "seconds": 112.0,
+   "duration": 4.0,
+   "action": "Four seals go dark; the sky dims over Nandipur.",
+   "camera": "hold",
+   "kind": "art",
+   "source": "shots/S30.png"
+  },
+  {
+   "id": "S31",
+   "beat": 12,
+   "frames": 8,
+   "start_frame": 1160,
+   "seconds": 116.0,
+   "duration": 0.8,
+   "action": "Hard cut to black.",
+   "camera": "hold",
+   "kind": "color",
+   "source": "shots/S31.png"
+  },
+  {
+   "id": "S32",
+   "beat": 12,
+   "frames": 32,
+   "start_frame": 1168,
+   "seconds": 116.8,
+   "duration": 3.2,
+   "action": "Title slam: RISE OF LEGEND — Ep. 1: The Fifth Breath.",
+   "camera": "hold",
+   "kind": "title",
+   "source": "shots/S32.png"
+  }
+ ]
+}

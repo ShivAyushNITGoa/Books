@@ -1,0 +1,75 @@
+# Legal / IP checklist — before anything is published
+
+This is a production checklist, **not legal advice**. Get an IP lawyer's read before monetising.
+
+Goal: *Rise of Legend* must be an **independent work**. Copyright protects specific expression
+(names, character designs, scripts, music, artwork), not the general idea of a transforming Indian
+superhero. Trademark protects the brand names. Personality rights protect the actors' likenesses.
+
+## 1. Names — clear before writing more
+
+- [ ] No use of **Shaktimaan**, Gangadhar, Geeta Vishwas, Kilvish, Ajooba, or any other source-show name
+      in any file, script, board, thumbnail, tag, description or SEO field.
+- [ ] New cast locked: **Arin Rathore / Pranveer / Badi Amma (Kamla Devi) / Zoya Qureshi / Timir / Shunya**
+      — see `CONCEPT.md` §3.
+- [ ] Trademark search for **"Rise of Legend"** in India (Class 9/16/25/41) and on YouTube/Instagram.
+      The phrase is crowded; prefer a distinctive logo lockup + subtitle
+      (*"Rise of Legend: The Fifth Breath"*).
+- [ ] Search each character name for existing comics/films; rename if a close match exists.
+- [ ] Domain + handle availability checked before announcing.
+
+## 2. Visual identity
+
+- [ ] No source-show costume colours/emblem/cape silhouette. Our identity = indigo + brass, five-panel
+      chest, vented half-mask, palm-leaf shawl.
+- [ ] **No likeness** of any actor from the source show (or any real person) in faces, key art,
+      thumbnails or AI generations.
+- [ ] Side-by-side check: put our hero next to the source hero — if a viewer would call it a copy,
+      redesign.
+- [ ] Fonts and textures licensed (Noto Sans Devanagari = OFL; check every other asset).
+- [ ] AI-generated art: keep prompts + seeds + dates in `04_animation/` as provenance.
+
+## 3. Story & script
+
+- [ ] No source-show episode plot, dialogue line, catchphrase, or the moral-lesson format.
+- [ ] Origin mechanism is original: the **five-breath, one-power-per-breath** rule — not "Om" activation
+      or a yogic order.
+- [ ] Supporting cast roles differ: museum restorer + cyber-crime officer, not photographer + journalist.
+- [ ] Villain concept differs: surveillance/energy magnate who monetises fear, not a dark-sorcery
+      world-conqueror.
+- [ ] Keep a dated **character bible** (`04_animation/characters/`) — your proof of independent creation.
+
+## 4. Audio
+
+- [ ] Original score commissioned or licensed in writing; **no** reuse, cover, remix or "soundalike" of
+      the source title track.
+- [ ] No AI voice cloning of any real actor or VO artist; the VO artist signs a release covering the
+      character and promotional use.
+- [ ] SFX library licences recorded in `06_audio/sfx/LICENCES.md`.
+
+## 5. Metadata & publishing
+
+- [ ] Title/description/tags never mention the source show; no "inspired by", no comparison bait.
+- [ ] Thumbnail has no third-party character, logo or actor face.
+- [ ] Platform policy: mark as **fiction/entertainment**; if the audience is children, comply with
+      YouTube's "Made for Kids" rules and COPPA-style limits on data collection.
+- [ ] Credits include: story, animation, music, VO, and an "original characters" line.
+
+## 6. Evidence log (fill in as you go)
+
+| Date | Check | Result | Link / reference |
+|---|---|---|---|
+| | Trademark "Rise of Legend" (IN) | | |
+| | Character name search | | |
+| | Actor-likeness check | | |
+| | Music licence | | |
+| | VO release | | |
+| | Lawyer review | | |
+
+## 7. Hard "do not" list
+
+1. Do not use the source show's name in any public field — not even "not Shaktimaan".
+2. Do not copy a costume, emblem, title card style or character silhouette.
+3. Do not reuse the title song, its melody, or a recognisable variation.
+4. Do not reproduce dialogue or episode plots.
+5. Do not use an actor's face or voice (real or AI-cloned).
