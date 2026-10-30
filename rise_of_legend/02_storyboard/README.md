@@ -1,25 +1,32 @@
 # 02_storyboard — one board per shot
 
-> **Prompt pack is ready:** [`PROMPTS.md`](PROMPTS.md) holds 30 copy-paste image prompts (S01–S30;
-> S31/S32 are rendered by the assembler), and [`prompts.json`](prompts.json) is the machine-readable
-> version. Regenerate both with `python3 rise_of_legend/02_storyboard/make_prompts.py`.
+> **The boards are drawn, and they are drawn by code.** [`make_boards.py`](make_boards.py) renders
+> all 30 frames (S01–S30) at 1920×1080 from flat shapes and the palette below: no stock images, no
+> third-party art, no photographic reference, no fonts. Output is therefore wholly original and
+> carries no licensing risk. It writes `04_animation/shots/S##.jpg` plus
+> `08_delivery/boards_contact_sheet.jpg`.
 >
-> **Generation status:** the image service in this workspace is currently rejecting requests
-> (provider error: account flagged, HTTP 403), so the frames are not generated yet. The prompts are
-> model-agnostic — run them in any text-to-image tool, or re-run generation here once the account
-> issue is cleared. Nothing else in the pipeline depends on how the frames are made.
+> ```bash
+> python3 rise_of_legend/02_storyboard/make_boards.py            # all 30 + contact sheet
+> python3 rise_of_legend/02_storyboard/make_boards.py --only S22 # one frame
+> ```
+>
+> [`PROMPTS.md`](PROMPTS.md) / [`prompts.json`](prompts.json) remain as an **alternative route**:
+> 30 copy-paste prompts for any text-to-image model if you ever want a painted version of the same
+> frames. S31/S32 are rendered by the assembler, not by either route.
 
-**32 boards, one per shot in `timeline.json`.** File name = shot id: `S01.png` … `S32.png`.
+**30 boards, one per shot S01–S30** (S31 is a black frame, S32 a title card, both built by the
+assembler). File name = shot id: `S01.jpg` … `S30.jpg`.
 
 ## Spec
 
 | Item | Value |
 |---|---|
-| Size | 1920×1080 px, PNG |
+| Size | 1920×1080 px, JPG q88 |
 | Framing | full frame (not 16:9 letterboxed inside a canvas) |
-| Line | grey/black line over flat grey; no final colour needed |
+| Look | flat-vector colour: indigo night, brass gold, cream; halftone + grain + vignette |
 | Camera | arrows for push/pull, arrows for movement, dotted line for the cut direction |
-| Text in the image | **none** — action text lives in `timeline.json`, never on the board |
+| Text in the image | **none** — no lettering, no watermark, no shot numbers (the only type is S32) |
 | 9:16 safety | keep faces and key action inside a centred 608×1080 column |
 
 ## How to board at 10 fps

@@ -156,8 +156,6 @@ def make_slate(shot, tl, path: Path):
                fill=brass, width=5)
         d.text((W // 2, H // 2 + 90), tl.get("episode", ""), font=f2,
                fill=(214, 200, 170), anchor="mm")
-        d.text((W // 2, H - 150), f"{shot['id']} · {shot['frames']}f",
-               font=_font(30), fill=dim, anchor="mm")
         im.save(path)
         return path
 
@@ -236,8 +234,10 @@ def build(args):
         if s.get("kind") in ("color", "title"):
             continue
         p = ART / s["source"]
-        mov = p.with_suffix(".mp4")
-        s["_src"] = mov if mov.exists() else p
+        # accept whatever still/clip actually exists for this shot
+        cands = [p.with_suffix(ext) for ext in
+                 (".mp4", ".mov", ".mkv", ".webm", ".png", ".jpg", ".jpeg", ".webp")]
+        s["_src"] = next((c for c in cands if c.exists()), p)
         if not s["_src"].exists():
             missing.append((s["id"], p))
     if missing and not args.slates:
@@ -268,9 +268,10 @@ def build(args):
     for i, s in enumerate(shots, 1):
         out = seg_dir / f"{s['id']}.mp4"
         src = None
-        if s.get("kind") == "color":
-            src = None
-        elif args.slates or not s.get("_src", Path()).exists():
+        if s.get("kind") in ("color", "title"):
+            src = None if s.get("kind") == "color" else make_slate(
+                s, tl, SLATES / f"{s['id']}.png")
+        elif args.slates or not s.get("_src") or not s["_src"].exists():
             src = make_slate(s, tl, SLATES / f"{s['id']}.png")
         else:
             src = s["_src"]
