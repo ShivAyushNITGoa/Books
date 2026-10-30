@@ -1,5 +1,14 @@
 # 02_storyboard — one board per shot
 
+> **Prompt pack is ready:** [`PROMPTS.md`](PROMPTS.md) holds 30 copy-paste image prompts (S01–S30;
+> S31/S32 are rendered by the assembler), and [`prompts.json`](prompts.json) is the machine-readable
+> version. Regenerate both with `python3 rise_of_legend/02_storyboard/make_prompts.py`.
+>
+> **Generation status:** the image service in this workspace is currently rejecting requests
+> (provider error: account flagged, HTTP 403), so the frames are not generated yet. The prompts are
+> model-agnostic — run them in any text-to-image tool, or re-run generation here once the account
+> issue is cleared. Nothing else in the pipeline depends on how the frames are made.
+
 **32 boards, one per shot in `timeline.json`.** File name = shot id: `S01.png` … `S32.png`.
 
 ## Spec

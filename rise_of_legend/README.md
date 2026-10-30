@@ -17,7 +17,8 @@ This folder is the single home for everything: story, board, animation, edit, au
 | Script & VO | `01_script/script_ep01.md`, `vo_script.md`, `vo_ep01.srt`, `shot_script.csv` | ✅ full 32-shot AV script + timed SRT |
 | Timeline (32 shots) | `timeline.json` | ✅ locked, 1,200 frames |
 | Timing animatic | `08_delivery/animatic_slates.mp4` | ✅ built with guide VO, QC PASS |
-| Storyboard | `02_storyboard/` | ⬜ empty (32 boards needed) |
+| Storyboard prompts | `02_storyboard/PROMPTS.md` | ✅ 30 shot prompts + style bible |
+| Storyboard art | `02_storyboard/`, `04_animation/shots/` | ⛔ blocked — image service 403 (account flag) |
 | Animation | `04_animation/` | ⬜ empty |
 | VO guide (3 voices) | `06_audio/vo/vo_ep01.wav` + `VOICES.md` | ✅ synthetic guide, cue-accurate |
 | VO record (human) | `06_audio/vo/` | ⬜ not recorded — replaces the guide |
@@ -35,7 +36,7 @@ rise_of_legend/
 ├── 00_admin/                   legal checklist, clearances, credits
 ├── 01_script/                  script_ep01.md (32-shot AV script), vo_script.md,
 │                              vo_ep01.srt, shot_script.csv
-├── 02_storyboard/              one board per shot: S01.png … S32.png
+├── 02_storyboard/              PROMPTS.md (30 prompts) + one board per shot: S01.png … S32.png
 ├── 03_animatic/                scratch animatic notes + review cuts
 ├── 04_animation/
 │   ├── shots/                  THE delivery point: S01.png or S01.mp4 per shot
