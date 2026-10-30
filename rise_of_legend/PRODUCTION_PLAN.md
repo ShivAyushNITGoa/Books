@@ -2,7 +2,7 @@
 
 **Project:** *Rise of Legend — Ep. 1: The Fifth Breath*
 **Deliverable:** 2:00 · 1,200 frames · 10 fps · 1920×1080 · h264 + AAC 48 kHz · Hindi VO, English subtitles
-**Authoritative inputs:** [`timeline.json`](timeline.json) (edit) · [`01_script/vo_ep01.srt`](01_script/vo_ep01.srt) (VO timing)
+**Authoritative inputs:** [`timeline.json`](timeline.json) (edit) · [`01_script/script_ep01.md`](01_script/script_ep01.md) (32-shot AV script) · [`01_script/vo_ep01.srt`](01_script/vo_ep01.srt) (VO timing)
 **Builder:** [`07_build/assemble_10fps.py`](07_build/assemble_10fps.py)
 
 ---

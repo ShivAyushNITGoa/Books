@@ -114,7 +114,7 @@
    "start_frame": 56,
    "seconds": 5.6,
    "duration": 2.4,
-   "action": "Macro: five stone instruments crack, one after another.",
+   "action": "Macro: five stone seals on Yantra Hill; the violet ether seal cracks, dust falling.",
    "camera": "hold",
    "kind": "art",
    "source": "shots/S03.png"
@@ -186,7 +186,7 @@
    "start_frame": 300,
    "seconds": 30.0,
    "duration": 5.0,
-   "action": "Vault door cut open; sparks; Grahan Sena survey crew enters.",
+   "action": "Vault door cut open; sparks; the crew lifts the keystone into a case.",
    "camera": "hold",
    "kind": "art",
    "source": "shots/S09.png"
@@ -414,7 +414,7 @@
    "start_frame": 1040,
    "seconds": 104.0,
    "duration": 4.0,
-   "action": "He looks at the seal, then at the people. He chooses.",
+   "action": "He looks at the keystone case behind him, then at the people below. He turns away.",
    "camera": "hold",
    "kind": "art",
    "source": "shots/S28.png"
@@ -438,7 +438,7 @@
    "start_frame": 1120,
    "seconds": 112.0,
    "duration": 4.0,
-   "action": "Four seals go dark; the sky dims over Nandipur.",
+   "action": "Timir's wall: the ether socket dark, the other four seals dimming. The sky dims.",
    "camera": "hold",
    "kind": "art",
    "source": "shots/S30.png"

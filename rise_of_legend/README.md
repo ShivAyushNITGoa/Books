@@ -4,6 +4,7 @@ Original Indian mythic-tech animated short. **2:00, 10 fps, 1,200 frames, 1920×
 This folder is the single home for everything: story, board, animation, edit, audio, build, delivery.
 
 > Pitch: [`CONCEPT.md`](CONCEPT.md) · Plan: [`PRODUCTION_PLAN.md`](PRODUCTION_PLAN.md) ·
+> Script: [`01_script/script_ep01.md`](01_script/script_ep01.md) ·
 > Timing animatic: [`08_delivery/animatic_slates.mp4`](08_delivery/animatic_slates.mp4)
 
 ---
@@ -13,7 +14,7 @@ This folder is the single home for everything: story, board, animation, edit, au
 | Stage | Artifact | State |
 |---|---|---|
 | Concept & legal distancing | `CONCEPT.md`, `00_admin/legal_checklist.md` | ✅ drafted |
-| Script & VO | `01_script/` | ✅ Hindi + English, SRT timed |
+| Script & VO | `01_script/script_ep01.md`, `vo_script.md`, `vo_ep01.srt`, `shot_script.csv` | ✅ full 32-shot AV script + timed SRT |
 | Timeline (32 shots) | `timeline.json` | ✅ locked, 1,200 frames |
 | Timing animatic | `08_delivery/animatic_slates.mp4` | ✅ built, QC PASS |
 | Storyboard | `02_storyboard/` | ⬜ empty (32 boards needed) |
@@ -31,7 +32,8 @@ rise_of_legend/
 ├── PRODUCTION_PLAN.md          AUTHORITATIVE editing + build plan (read this)
 ├── timeline.json               single source of truth: 12 beats, 32 shots, 1,200 frames
 ├── 00_admin/                   legal checklist, clearances, credits
-├── 01_script/                  VO script (hi/en) + vo_ep01.srt
+├── 01_script/                  script_ep01.md (32-shot AV script), vo_script.md,
+│                              vo_ep01.srt, shot_script.csv
 ├── 02_storyboard/              one board per shot: S01.png … S32.png
 ├── 03_animatic/                scratch animatic notes + review cuts
 ├── 04_animation/

@@ -40,7 +40,8 @@ life" feel and halves the drawing count versus 24.
 
 - **Nandipur** — a fictional tier-2 Indian city built around a hilltop observatory, the **Yantra Hill**.
 - **Panch-Dwar** — five gateways (earth, water, fire, air, ether) sealed by an old astronomer guild.
-  Each seal is a physical instrument, not a magic gem.
+  Each seal is a physical instrument, not a magic gem. A single brass-bound **keystone** keys all
+  five; steal it and the countdown starts (that is the museum heist).
 - **Panch Pran** — the "five breaths" technique. The guardian inhales on a five-beat cycle and holds
   **one element per breath**. Changing element costs a full exhale. This is the whole combat grammar:
   no flight-everywhere god-mode, just tactical switching.
