@@ -22,6 +22,19 @@ It is a timing/performance guide, **not** the release VO.
 
 ## Score
 
+**A bed already exists:** `music/score_ep01.wav` (120.000 s, 48 kHz mono, ≈ −27 dBFS RMS), generated
+by [`music/make_score.py`](music/make_score.py) with NumPy — sine drones, filtered noise wind, sub
+booms on the five cue anchors, a bowed shimmer and a low pulse. Nothing is sampled or downloaded, so
+the score is original by construction and carries no clearance risk.
+
+```bash
+python3 rise_of_legend/06_audio/music/make_score.py     # ~9 s to render
+```
+
+The script already obeys the two edit rules below: it is **silent for the first 7.9 s** (the whisper)
+and **hard-muted for S25** (94.0–97.4 s, the ether-step). The five sub hits land on 2.0 / 38.0 /
+60.0 / 104.0 / 117.2 s, the same anchors as the VO cues.
+
 - Original composition only. **No** source-show theme, cover, remix or soundalike.
 - Deliver stems: drums / low drone / tonal bed / transition hits, 48 kHz 24-bit WAV.
 - Two rules from the edit: **no music under the whisper** (0:00–0:08) and **total silence at S25**

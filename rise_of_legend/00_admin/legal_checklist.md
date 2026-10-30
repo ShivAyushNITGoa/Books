@@ -67,6 +67,10 @@ superhero. Trademark protects the brand names. Personality rights protect the ac
       hooded-figure/sari/crowd shapes defined in that script (`hero`, `amma`, `zoya`, `shunya`,
       `timir`, `person`), invented for this project.
 - [x] Provenance record: `04_animation/PROVENANCE.md`.
+- [x] **Score** is synthesised from code (`06_audio/music/make_score.py`, NumPy sines and filtered
+      noise). No library cue, no sample pack, no source-show theme, no soundalike arrangement.
+- [ ] If a commissioned composer is ever used instead, get a written assignment of rights and
+      replace the generated bed.
 - [ ] Before publishing, re-run the script and diff the outputs, so the shipped frames provably match
       the committed generator.
 

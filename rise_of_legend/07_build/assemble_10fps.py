@@ -286,31 +286,93 @@ def build(args):
     lst.write_text("".join(f"file '{seg_dir / (s['id'] + '.mp4')}'\n"
                            for s in shots), encoding="utf-8")
     silent = WORK / "animatic_silent.mp4"
-    run([ff, "-y", "-hide_banner", "-loglevel", "error", "-f", "concat",
-         "-safe", "0", "-i", str(lst), "-c", "copy", str(silent)])
+    if getattr(args, "fade", False):
+        # one generation only: concat + fade in a single encode
+        run([ff, "-y", "-hide_banner", "-loglevel", "error", "-f", "concat",
+             "-safe", "0", "-i", str(lst),
+             "-vf", f"fade=t=in:st=0:d=0.5,"
+                    f"fade=t=out:st={total_sec - 1.0:.3f}:d=1.0",
+             "-c:v", "libx264", "-preset", "medium", "-crf", str(args.crf),
+             "-pix_fmt", "yuv420p", "-r", str(fps), str(silent)])
+    else:
+        run([ff, "-y", "-hide_banner", "-loglevel", "error", "-f", "concat",
+             "-safe", "0", "-i", str(lst), "-c", "copy", str(silent)])
 
     # ---- mux VO
     DELIV.mkdir(exist_ok=True)
     stem = "animatic_slates" if args.slates else "ep01_animatic"
     if args.limit:
         stem += f"_first{len(shots)}"
+    if getattr(args, "name", None):
+        stem = args.name
     out = DELIV / f"{stem}.mp4"
     vo = Path(args.vo) if args.vo else ROOT / tl.get("vo", "")
     if not vo.is_absolute() and not vo.exists():
         vo = ROOT / vo
+    music = Path(args.music) if getattr(args, "music", None) else None
+    if music is not None and not music.is_absolute():
+        music = ROOT.parent / music if not music.exists() else music
+    has_music = music is not None and Path(music).exists()
     if Path(vo).exists() and not args.no_vo:
-        run([ff, "-y", "-hide_banner", "-loglevel", "error", "-i", str(silent),
-             "-i", str(vo), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy",
-             "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
-             "-t", f"{total_sec:.3f}", "-movflags", "+faststart", str(out)])
-        audio_note = f"VO muxed: {Path(vo).name}"
+        if has_music:
+            fc = (f"[2:a]volume={args.music_gain}[m];"
+                  f"[1:a]volume=1.0[v];"
+                  f"[v][m]amix=inputs=2:normalize=0:duration=longest,"
+                  f"alimiter=limit=0.95,apad=whole_dur={total_sec:.3f},"
+                  f"atrim=0:{total_sec:.3f}[a]")
+            run([ff, "-y", "-hide_banner", "-loglevel", "error", "-i", str(silent),
+                 "-i", str(vo), "-i", str(music), "-filter_complex", fc,
+                 "-map", "0:v:0", "-map", "[a]", "-c:v", "copy",
+                 "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
+                 "-t", f"{total_sec:.3f}", "-movflags", "+faststart", str(out)])
+            audio_note = f"VO + score muxed ({Path(vo).name}, {Path(music).name})"
+        else:
+            run([ff, "-y", "-hide_banner", "-loglevel", "error", "-i", str(silent),
+                 "-i", str(vo), "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy",
+                 "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
+                 "-t", f"{total_sec:.3f}", "-movflags", "+faststart", str(out)])
+            audio_note = f"VO muxed: {Path(vo).name}"
     else:
         shutil.copy(silent, out)
         audio_note = "no VO found — silent animatic"
     size = out.stat().st_size / 1e6
     print(f"\nDONE: {out.relative_to(ROOT.parent)}  ({size:.1f} MB)  {audio_note}")
+    if getattr(args, "lufs", None) is not None and not args.no_vo and Path(vo).exists():
+        normalise_loudness(ff, out, target=args.lufs)
+        size = out.stat().st_size / 1e6
+        print(f"  final size {size:.1f} MB")
     verify(ff, out, tl, total_frames, expect_audio=Path(vo).exists() and not args.no_vo)
     return 0
+
+
+# ----------------------------------------------------------------- loudness
+def normalise_loudness(ff, path: Path, target=-16.0, tp=-1.5, lra=11.0):
+    """Two-pass EBU R128 normalisation of the finished file (video is copied)."""
+    import json as _json
+    import re as _re
+    cmd = [ff, "-hide_banner", "-nostats", "-i", str(path), "-af",
+           f"loudnorm=I={target}:TP={tp}:LRA={lra}:print_format=json",
+           "-f", "null", "-"]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    blob = _re.search(r"\{[^{}]*\}", r.stderr[r.stderr.rfind("{"):] if "{" in r.stderr
+                      else "{}")
+    if not blob:
+        print("  (loudnorm: no measurement, skipping)")
+        return False
+    m = _json.loads(blob.group(0))
+    af = ("loudnorm="
+          f"I={target}:TP={tp}:LRA={lra}:linear=true"
+          f":measured_I={m['input_i']}:measured_TP={m['input_tp']}"
+          f":measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}"
+          f":offset={m['target_offset']}")
+    tmp = path.with_name(path.stem + "_norm.mp4")
+    run([ff, "-y", "-hide_banner", "-loglevel", "error", "-i", str(path),
+         "-map", "0:v:0", "-map", "0:a:0", "-c:v", "copy", "-af", af,
+         "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-ac", "2",
+         "-movflags", "+faststart", str(tmp)])
+    tmp.replace(path)
+    print(f"  loudness normalised to {target} LUFS / {tp} dBTP")
+    return True
 
 
 # ----------------------------------------------------------------- verify
@@ -351,6 +413,16 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="validate + print table")
     ap.add_argument("--limit", type=int, default=0, help="first N shots only")
     ap.add_argument("--crf", type=int, default=20)
+    ap.add_argument("--name", default=None,
+                    help="output stem in 08_delivery/ (default: ep01_animatic)")
+    ap.add_argument("--music", default=None,
+                    help="music bed to mix under the VO (e.g. 06_audio/music/score_ep01.wav)")
+    ap.add_argument("--music-gain", dest="music_gain", default=1.0, type=float,
+                    help="linear gain on the music bed (default 1.0)")
+    ap.add_argument("--lufs", type=float, default=None,
+                    help="normalise the finished mix to this LUFS (e.g. -16)")
+    ap.add_argument("--fade", action="store_true",
+                    help="0.5s fade up from black, 1.0s fade out to black")
     ap.add_argument("--vo", default="", help="override VO path")
     ap.add_argument("--no-vo", action="store_true")
     ap.add_argument("--verify", default="", help="QC an existing file")

@@ -404,9 +404,13 @@ def shunya(s, cx, base, h, alpha=1.0, rim=None):
     u = h / 100.0
     person(s, cx, base, h, BONE, alpha=alpha, lw=0.6, rim=rim)
     # bone-pale mantle and a long spear
-    s.poly([(cx - 16 * u, base - 78 * u), (cx + 16 * u, base - 78 * u),
-            (cx + 22 * u, base - 20 * u), (cx - 22 * u, base - 20 * u)],
-           BONE, alpha * 0.9)
+    mant = [(cx - 16 * u, base - 78 * u), (cx + 16 * u, base - 78 * u),
+            (cx + 21 * u, base - 22 * u), (cx + 6 * u, base - 16 * u),
+            (cx - 6 * u, base - 16 * u), (cx - 21 * u, base - 22 * u)]
+    s.poly(mant, BONE, alpha * 0.92)
+    s.poly(mant, "#9A9484", 0.0, outline="#9A9484", width=int(max(2, 2 * u)))
+    s.line([(cx, base - 74 * u), (cx, base - 26 * u)], "#BEB8A8",
+           int(max(2, 1.8 * u)), alpha * 0.8)
     s.rect([cx - 9 * u, base - 91 * u, cx + 9 * u, base - 87 * u], "#2A2F3A", alpha)
     s.line([(cx + 26 * u, base - 96 * u), (cx + 30 * u, base - 4 * u)],
            "#D8D3C5", max(4, 3.2 * u), alpha)
@@ -1052,12 +1056,12 @@ def s23(s):
     s.a[:] = 0
     top = np.linspace(0, 1, H)[:, None, None]
     s.a = hx("#20263C")[None, None, :] * (1 - top) + hx("#8A94A8")[None, None, :] * top
+    skyline(s, 690, "#39415A", 31, 0.55, 0.5)      # behind him
     s.rect([0, 700, W, H], "#0A0D16")
     s.rect([0, 680, W, 720], "#1A2032")
     shunya(s, 1240, 880, 620)
     s.rect([1080, 840, 1180, 890], "#241A2E")
     s.glow(1130, 860, 160, VIOLET, 0.35)
-    skyline(s, 690, "#39415A", 31, 0.55, 0.5)
     s.grain(3, 23)
 
 

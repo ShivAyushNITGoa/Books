@@ -4,7 +4,8 @@
 
 | File | What | QC |
 |---|---|---|
-| `ep01_animatic.mp4` | **Current cut.** All 30 boards + title, guide VO muxed. h264 CRF 23, 14.9 MB | PASS (resolution, fps, duration, frames, audio) |
+| `ep01_master.mp4` | **The film.** 30 boards + title, guide VO + generated score, fade up/down, −16.6 LUFS / −1.3 dBTP. h264 CRF 25, 16.3 MB | PASS (resolution, fps, duration, frames, audio) |
+| `ep01_animatic.mp4` | Same picture and VO, no score (clean VO reference). h264 CRF 23, 14.9 MB | PASS |
 | `boards_contact_sheet.jpg` | 6×5 grid of the 30 boards, for review | — |
 | `animatic_slates.mp4` | Older timing pass, slate cards instead of art | PASS |
 
@@ -13,6 +14,7 @@
 | File | Spec | Status |
 |---|---|---|
 | `ep01_animation.mp4` | Same cut with animated clips (inbetweens) instead of held boards | waiting on 04_animation |
+| `ep01_voice_rec.mp4` | Master with the human VO in place of the guide | waiting on `06_audio/vo/` |
 | `ep01_master_subs.mp4` | h264 CRF 19, burned Hindi+English subs, −14 LUFS | waiting on mix |
 | `ep01_vertical.mp4` | 1080×1920, 10 fps, per-shot reframe | waiting on vertical timeline |
 | `ep01_teaser_4s.mp4` | 40 frames, S22 hero shot + title, loops | waiting on S22 |
