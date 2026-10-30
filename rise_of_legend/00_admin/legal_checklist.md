@@ -46,6 +46,9 @@ superhero. Trademark protects the brand names. Personality rights protect the ac
 - [ ] No AI voice cloning of any real actor or VO artist; the VO artist signs a release covering the
       character and promotional use.
 - [ ] SFX library licences recorded in `06_audio/sfx/LICENCES.md`.
+- [ ] **Synthetic voices** (the current guide track) are stock, generic voices — not clones of any real
+      person. They are for timing only; if any synthetic voice ships in the final cut, follow the
+      platform's synthetic-media disclosure rules and credit it honestly.
 
 ## 5. Metadata & publishing
 

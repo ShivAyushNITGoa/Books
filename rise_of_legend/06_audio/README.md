@@ -9,10 +9,16 @@
 
 ## VO
 
+**A guide track already exists:** `vo/vo_ep01.wav` (120.00 s, 48 kHz mono) with three distinct
+synthetic voices — Badi Amma (whisper, lesson, title), Zoya, and Timir. See
+[`vo/VOICES.md`](vo/VOICES.md) for the voice map, provenance and rebuild command.
+It is a timing/performance guide, **not** the release VO.
+
 - Record the five lines in `01_script/vo_script.md`; total file length 2:00 with silence between lines.
 - 48 kHz / 24-bit / mono / raw. No EQ, compression, noise reduction or de-essing.
 - Peaks ≤ −6 dBFS, average ≈ −18 dBFS.
-- File name fixed: **`vo_ep01.wav`** — the builder looks for exactly this.
+- File name fixed: **`vo_ep01.wav`** — the builder looks for exactly this. Overwrite the guide with the
+  recorded artist (same name, same 120.00 s, same five cue starts) and rebuild.
 
 ## Score
 

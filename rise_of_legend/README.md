@@ -16,10 +16,11 @@ This folder is the single home for everything: story, board, animation, edit, au
 | Concept & legal distancing | `CONCEPT.md`, `00_admin/legal_checklist.md` | ✅ drafted |
 | Script & VO | `01_script/script_ep01.md`, `vo_script.md`, `vo_ep01.srt`, `shot_script.csv` | ✅ full 32-shot AV script + timed SRT |
 | Timeline (32 shots) | `timeline.json` | ✅ locked, 1,200 frames |
-| Timing animatic | `08_delivery/animatic_slates.mp4` | ✅ built, QC PASS |
+| Timing animatic | `08_delivery/animatic_slates.mp4` | ✅ built with guide VO, QC PASS |
 | Storyboard | `02_storyboard/` | ⬜ empty (32 boards needed) |
 | Animation | `04_animation/` | ⬜ empty |
-| VO record | `06_audio/vo/` | ⬜ not recorded |
+| VO guide (3 voices) | `06_audio/vo/vo_ep01.wav` + `VOICES.md` | ✅ synthetic guide, cue-accurate |
+| VO record (human) | `06_audio/vo/` | ⬜ not recorded — replaces the guide |
 | Final delivery | `08_delivery/` | ⬜ waiting on art + VO |
 
 ---

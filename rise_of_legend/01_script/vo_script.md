@@ -11,6 +11,18 @@ Timing here must match `timeline.json` and `vo_ep01.srt` exactly (all times are 
 | 4 | Timir | 1:44.0 | 1:47.5 | 1040–1075 | तुमने भीड़ चुनी… मैं उनकी उम्मीद लूँगा। | *Tumne bheed chuni… main unki umeed loonga.* | You chose the crowd… I'll take their hope. |
 | 5 | Title VO (Whisper) | 1:57.2 | 1:59.8 | 1172–1198 | पाँच साँसें। एक रक्षक। | *Paanch saansen. Ek rakshak.* | Five breaths. One guardian. |
 
+## Voice assignment (guide track)
+
+| Speaker | Voice | Lines |
+|---|---|---|
+| Badi Amma | mature feminine, warm, unhurried | 1 (whisper), 3, 5 (title) |
+| Zoya | young feminine, bright | 2 |
+| Timir | low masculine, flat | 4 |
+| Arin | *silent in episode 1* | — |
+
+A synthetic guide track is already built at `06_audio/vo/vo_ep01.wav` — see
+[`../06_audio/vo/VOICES.md`](../06_audio/vo/VOICES.md). It exists to time the cut, not to ship.
+
 ## Delivery notes
 
 1. **Whisper** — close mic, almost spoken to one person. Never processed to sound "spooky";

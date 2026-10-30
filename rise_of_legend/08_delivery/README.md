@@ -4,7 +4,7 @@
 
 | File | What | QC |
 |---|---|---|
-| `animatic_slates.mp4` | Timing pass: 120.00 s, 1,200 frames, 10 fps, 1920×1080, silent | PASS (resolution, fps, duration, frames) |
+| `animatic_slates.mp4` | Timing pass: 120.00 s, 1,200 frames, 10 fps, 1920×1080, **guide VO muxed** | PASS (resolution, fps, duration, frames, audio) |
 
 ## Planned files
 
