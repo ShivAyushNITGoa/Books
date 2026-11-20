@@ -47,14 +47,15 @@ jobs:
         working-directory: Animation
         run: |
           python3 -m venv .venv
-          .venv/bin/python -m pip install -r story/requirements.txt
-      - name: Use hosted runner browser and media encoder
+          .venv/bin/python -m pip install -r story/requirements.txt imageio-ffmpeg==0.6.0
+      - name: Use hosted Chrome and pinned wheel media encoder
+        working-directory: Animation
         shell: bash
         run: |
           BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
-          ENCODER="$(command -v ffmpeg || true)"
+          ENCODER="$(.venv/bin/python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
           if [ -z "$BROWSER" ] || [ -z "$ENCODER" ]; then
-            echo "::error::Hosted image must supply Chrome/Chromium and FFmpeg; browser=$BROWSER encoder=$ENCODER"
+            echo "::error::Production tools missing; browser=$BROWSER encoder=$ENCODER"
             exit 1
           fi
           echo "CHROMIUM_PATH=$BROWSER" >> "$GITHUB_ENV"
@@ -65,4 +66,9 @@ jobs:
         working-directory: Animation
         env:
           PYTHON: ${{ github.workspace }}/Animation/.venv/bin/python
-        run: npm run test:story:browser
+        run: |
+          if ! npm run test:story:browser > "$RUNNER_TEMP/story-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/story-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/story-test.log"
