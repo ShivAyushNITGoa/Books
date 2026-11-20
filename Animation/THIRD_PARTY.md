@@ -37,3 +37,9 @@ These reference files are supplied study material, **not declared open-source st
 - Full railroad study source: `main/Why Perfect Railroads Don't Work.mp4`, Git blob `4b0a335b070f4b6d97c4e394f90ec19e026bfc81`. Download and contact sheets remain ignored analysis output, not newly redistributed stock. Original authorship/rights are not inferred from its availability on GitHub.
 - Hosted story CI uses the pinned `imageio-ffmpeg==0.6.0` wheel for an external FFmpeg executable (BSD wrapper; bundled FFmpeg build terms apply). No wheel/encoder binary is committed. This avoids depending on a preinstalled hosted encoder or an unverified binary-download hook.
 - PocketSphinx 5.1.1 was used only for rough offline reference-audio analysis in the sandbox. It is not a shipped runtime dependency or a verified transcription service in this toolkit.
+
+## Dedicated Alexandria production
+
+`projects/alexandria/` reuses the local Three.js r170 (MIT) and Inter (SIL OFL) resources already listed above. It adds two newly AI-generated decorative **material textures**, not stock scene footage: `carved-relief.jpg` and `rose-granite.jpg`. No frame, character rig, voice, music or soundtrack is extracted from the railway reference. These textures are artistic assets, not authenticated archaeological records.
+
+The static `Caption-Heavy.ttf` font is derived from Inter at weight 850 / optical size 32 and renamed **Alexandria Caption**. Original copyright/OFL records are retained and a full OFL copy is included beside it; fontTools was used only at authoring time. See the project's `assets/README.md`. No additional Python/font tool is needed to play or render the supplied project. The delivered video deliberately contains no VO or replacement synthetic voice.

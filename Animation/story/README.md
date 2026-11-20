@@ -4,7 +4,11 @@
 
 Start with the [production blueprint](BLUEPRINT.md), [full-runtime railroad reference analysis](REFERENCE_ANALYSIS.md), and [data/extension format](FORMAT.md). A user provides the story to the assistant; the assistant authors the shot plan, world, characters and missing custom animation. The CLI executes that authored plan—it is **not an arbitrary-prose-to-finished-film AI model**.
 
-## Watch the working examples
+## Earlier technical examples — not the current quality target
+
+The user rejected these prototypes as too far from the railroad reference, including the basic synthetic voice. They remain reproducibility examples only. The [Alexandria film](../projects/alexandria/README.md) is separately authored to a supplied SRT, with no generated replacement VO.
+
+### Watch the earlier examples
 
 - [Railway: full 36.8-second portrait demo](demos/railway.mp4) · [captions](demos/railway.srt) · [editable source](examples/railway/story.json)
 - [Space garden: full 17.3-second landscape demo](demos/space-garden.mp4) · [captions](demos/space-garden.srt) · [editable source](examples/space-garden/story.json)

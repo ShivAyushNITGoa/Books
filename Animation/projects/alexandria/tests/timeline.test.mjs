@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {parseSrt} from '../../../engine/project.js';
+import {DURATION,SHOTS,stateAt} from '../timeline.js';
+const cues=parseSrt(await readFile(new URL('../captions.srt',import.meta.url),'utf8'));
+test('Alexandria keeps all 15 supplied captions at their exact four-second timestamps',()=>{assert.equal(DURATION,60);assert.equal(cues.length,15);for(let i=0;i<15;i++){assert.equal(cues[i].start,i*4);assert.equal(cues[i].end,i*4+4);assert.equal(cues[i].text.split('\n').length,2)}assert.equal(cues[0].text,'An entire royal world disappeared\nbeneath the sea.');assert.equal(cues[14].text,'And incredibly...\nsome of it is still waiting beneath the sea.')});
+test('15 deliberately authored camera shots cover the complete timeline without gaps',()=>{assert.equal(SHOTS.length,15);const ids=new Set(SHOTS.map(s=>s.id));assert.equal(ids.size,15);SHOTS.forEach((s,i)=>{assert.equal(s.start,i*4);assert.equal(s.end,i*4+4);for(const key of ['from','to','look','lookTo']){assert.equal(s[key].length,3);assert.ok(s[key].every(Number.isFinite))}assert.ok(s.fov>=35&&s.fov<=60)})});
+test('every frame has finite absolute camera and physical world state',()=>{for(let f=0;f<60*24;f++){const s=stateAt(f/24);assert.ok([...s.camera,...s.look,s.sink,s.collapse].every(Number.isFinite));assert.ok(s.u>=0&&s.u<1);assert.equal(s.index,Math.floor(f/96))}});
+test('subsidence is continuous across warning, quake and submergence; later ruins are stationary',()=>{assert.equal(stateAt(16).sink,0);assert.equal(stateAt(20).sink,-1.5);assert.equal(stateAt(24).sink,-4);assert.equal(stateAt(28).sink,-16);for(let t=16;t<28;t+=.01)assert.ok(stateAt(t+.005).sink<=stateAt(t).sink);assert.equal(stateAt(40).sink,-16);assert.equal(stateAt(54).sink,0);assert.equal(stateAt(58).sink,-16)});
+test('collapse, modern exploration and royal reconstruction remain distinct story phases',()=>{assert.equal(stateAt(28).collapse,0);assert.ok(stateAt(30).collapse>0);assert.equal(stateAt(32).collapse,1);assert.equal(stateAt(34).modern,false);assert.equal(stateAt(38).modern,true);assert.equal(stateAt(54).modern,false);assert.equal(stateAt(58).modern,true)});
+test('endpoints clamp safely and invalid times fail',()=>{assert.equal(stateAt(-1).index,0);assert.equal(stateAt(60).index,14);assert.throws(()=>stateAt(NaN),/finite/);assert.throws(()=>stateAt(Infinity),/finite/)});

@@ -24,3 +24,7 @@ Text, duration, audio, caption language/font coverage, speaker turns, cue timing
 Additional actors, locations, costume styles, specialized object interactions, new motions or lighting redesigns are engine extensions—not a reason to edit the approved reference. Preserve the existing baseline, add new assets/actions separately, and compare a short preview against the canonical video before making a new default. A new approved style/release should receive its own identity rather than replacing `locked/`.
 
 The generic engine provides reusable staging, not automatic story understanding or collision-free cinematography. Storyboards and approximate timings still require human review.
+
+## Later quality correction
+
+The user subsequently rejected the classroom's visual quality relative to the railroad reference and rejected the generic railway/space-garden demonstrations and their basic VO. The frozen classroom version remains an integrity archive, **not the current production-quality target**. For the newer supplied-SRT Alexandria production, use dedicated story-specific world/asset/action authoring under `projects/alexandria/`, preserve English timing, and do not synthesize a substitute voice. Never label the older prototypes as evidence of reference-level polish.

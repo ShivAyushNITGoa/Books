@@ -2,7 +2,11 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
-## New: story-specific worlds, cast, English voice and captions
+## Current film: Alexandria — supplied SRT, custom animation, user VO
+
+[Alexandria production](projects/alexandria/README.md) is a dedicated 60-second royal-harbour / underwater-exploration animation, not a re-run of the earlier classroom/story prototypes. It preserves the supplied SRT and exports silent clean/captioned masters for the user’s VO. The earlier classroom and railway/space-garden demos are retained as historical technical prototypes, **not accepted visual-quality benchmarks** for this film.
+
+## Story-specific worlds, cast, English voice and captions
 
 The separate [Story World Studio](story/README.md) expands beyond the classroom: custom locations, multiple characters/props, actions/camera, generated English narration, captions and MP4 assembly. Read the [production blueprint](story/BLUEPRINT.md) and [full-runtime railroad reference analysis](story/REFERENCE_ANALYSIS.md). Two complete small demos and editable source are included. The assistant authors/adapts each story; this is not a one-command arbitrary-prose-to-film model. The approved classroom release stays unchanged.
 

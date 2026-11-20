@@ -72,3 +72,11 @@ jobs:
             exit 1
           fi
           cat "$RUNNER_TEMP/story-test.log"
+      - name: Alexandria authored WebGL film review smoke test
+        working-directory: Animation
+        run: |
+          if ! node projects/alexandria/tests/browser.mjs > "$RUNNER_TEMP/alexandria-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/alexandria-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/alexandria-test.log"
