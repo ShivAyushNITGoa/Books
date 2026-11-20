@@ -29,15 +29,22 @@ type Timeline = "demo" | "film" | "scarcity";
 /* Finished renders shipped in public/demo/ (see vo/scarcity/SCRIPT.md for how they were made). */
 const DEMO_VIDEOS = [
   {
+    file: "stickworld-scarcity-30s",
+    title: "Scarcity & Attraction — Stickworld",
+    meta: "NEW · Continuous 2.5D stick-figure animation · 9:16 · 0:30 · English voice-over",
+    portrait: true,
+    mb: 0,
+  },
+  {
     file: "scarcity-attraction-30s-shorts-9x16",
-    title: "Scarcity & Attraction",
+    title: "Scarcity & Attraction — previous style",
     meta: "YouTube Shorts / Reels · 9:16 · 1080×1920 · 0:30 · English voice-over",
     portrait: true,
     mb: 20.9,
   },
   {
     file: "scarcity-attraction-30s-en",
-    title: "Scarcity & Attraction",
+    title: "Scarcity & Attraction — previous style",
     meta: "YouTube · 16:9 · 1920×1080 · 0:30 · English voice-over",
     portrait: false,
     mb: 23.4,
@@ -301,7 +308,8 @@ export default function Studio() {
 
           <div id="demo-videos" className="mt-4 rounded-2xl border border-[#3a2418] bg-[#140b08] p-4">
             <h2 className="mb-1 text-xs font-semibold tracking-[0.25em] text-[#e0b27a]">DEMO VIDEOS</h2>
-            <p className="mb-4 text-xs text-[#8d7660]">Finished renders from this studio, made with Three.js, Playwright and ffmpeg.</p>
+            <p className="mb-2 text-xs text-[#8d7660]">New: one continuous room with animated stick figures, shaded 2D props and a camera that follows the action. Previous-style demos are kept below for reference.</p>
+            <a className="mb-4 inline-block text-sm text-[#e0b27a] underline" href="/stickworld/index.html">Open interactive Stickworld scene ↗</a>
             <div className="grid items-start gap-4 md:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)]">
               {DEMO_VIDEOS.map((v) => (
                 <figure
@@ -326,7 +334,7 @@ export default function Studio() {
                         href={`/demo/${v.file}.mp4`}
                         download
                       >
-                        ⬇ MP4 ({v.mb} MB)
+                        ⬇ MP4 {v.mb ? `(${v.mb} MB)` : ""}
                       </a>
                       <a className="rounded-full border border-[#4a3020] px-3 py-1.5 text-center text-xs" href={`/demo/${v.file}.srt`} download>
                         SRT
