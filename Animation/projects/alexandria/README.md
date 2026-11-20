@@ -11,7 +11,23 @@ Selected finished exports belong in `delivery/`. At the user’s request, the co
 - `captions.srt`: exact supplied 15 cues, each four seconds; wording and line breaks retained. The escaped `--&gt;` separators have been decoded to normal SRT `-->`.
 - `poster.jpg` and `production.json`: selected frame and measured export/validation provenance.
 
-There is deliberately **no substitute synthetic VO, music or automatically stretched narration**. A future supplied VO should be aligned to this 00:00–01:00 timeline. Adding audio need not re-render the 3D animation.
+The original clean and captioned editions remain **silent and unchanged**. At the user’s subsequent request, a separate **AI-narrated edition** is now included; no music or reference soundtrack is added. A future supplied VO can still be aligned to this 00:00–01:00 timeline without re-rendering the animation.
+
+## Narrated edition (subsequently requested)
+
+- [Watch/download the complete narrated MP4](delivery/alexandria-narrated-720p.mp4): same captioned picture, with English narration from the user-selected voice. **60 seconds, 720 × 1280, 24 fps, AAC mono 48 kHz**.
+- [Standalone lossless VO](delivery/alexandria-voiceover.flac), ready to use in an editor.
+- [Measured narration manifest](delivery/narration-production.json): source hashes, explicit per-cue trim boundaries, tempo adjustments and output measurements.
+
+The script preserves every caption word; `1992` is spoken as “nineteen ninety-two.” Each of the 15 narration passages occupies its corresponding four-second caption window. Longer passages use pitch-preserving tempo adjustment (up to about 1.29×); shorter passages retain their natural rate with pauses. Source speech is not recreated by eSpeak or copied from the reference.
+
+Rebuild the mix with Python 3.11+ and FFmpeg (or set `FFMPEG_PATH`):
+
+```sh
+python3 Animation/projects/alexandria/tools/add-voiceover.py
+```
+
+The build fully decodes the result, requires 1,440 video frames, checks encoded-picture SHA-256 equality against the silent captioned master and measures the AAC track’s loudness/true peak. The selected generated source takes are included as FLAC in `assets/narration/`; no speech service or credentials are needed to rebuild the mix. Measured delivery: **−16.05 LUFS integrated, −1.39 dBTP**. These are technical checks, not a claim of matching the reference narrator’s performance.
 
 ## Art and animation direction
 

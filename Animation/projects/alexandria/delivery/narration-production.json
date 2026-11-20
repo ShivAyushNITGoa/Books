@@ -1,0 +1,177 @@
+{
+  "video": "alexandria-narrated-720p.mp4",
+  "videoSha256": "b03cf573ea421b387f0702c88d1e9877dfba751bc5cef3c7b83df37a1801168c",
+  "bytes": 37337877,
+  "voiceover": "alexandria-voiceover.flac",
+  "voiceoverSha256": "84a2b1dcc0d4c09cb2d94d3a88a4cf3e77c2aa6d0e3bebb276b55993fc830772",
+  "sourceVideoSha256": "5b73146afd6e9c64a8acfa495b56fc930241644be248611e015875cbcf2b3a70",
+  "durationSeconds": 60,
+  "frames": 1440,
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "audio": {
+    "codec": "AAC",
+    "sampleRate": 48000,
+    "channels": 1,
+    "measuredIntegratedLufs": -16.05,
+    "measuredTruePeakDbtp": -1.39
+  },
+  "pictureBitstreamUnchanged": true,
+  "fullFileDecode": "passed",
+  "narration": "User-selected English masculine narration voice-01",
+  "pronunciation": "1992 is spoken as nineteen ninety-two.",
+  "synchronization": "Each cue begins 80ms after its SRT start. Long speech is pitch-preserving time-compressed to fit 3.82s. Short speech retains its natural rate, with silence completing the 4s window.",
+  "cues": [
+    {
+      "cue": 1,
+      "source": "source-01-02.flac",
+      "trimStart": 0.1,
+      "trimEnd": 3.55,
+      "timelineStart": 0,
+      "speechOnsetSeconds": 0.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "8df448b34b2291e91bbe2561bdc23ee71ff85ff34c1f8b9d26ae46fea2ae8835"
+    },
+    {
+      "cue": 2,
+      "source": "source-01-02.flac",
+      "trimStart": 3.84,
+      "trimEnd": 7.18,
+      "timelineStart": 4,
+      "speechOnsetSeconds": 4.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "8df448b34b2291e91bbe2561bdc23ee71ff85ff34c1f8b9d26ae46fea2ae8835"
+    },
+    {
+      "cue": 3,
+      "source": "source-03-04.flac",
+      "trimStart": 0.06,
+      "trimEnd": 3.9,
+      "timelineStart": 8,
+      "speechOnsetSeconds": 8.08,
+      "tempoMultiplier": 1.005236,
+      "sourceSha256": "0c4ac6cd5abef8e478e3a4760a6004bea6e33981cc9a1495e84f2421fb600c7c"
+    },
+    {
+      "cue": 4,
+      "source": "source-03-04.flac",
+      "trimStart": 4.13,
+      "trimEnd": 9.05,
+      "timelineStart": 12,
+      "speechOnsetSeconds": 12.08,
+      "tempoMultiplier": 1.287958,
+      "sourceSha256": "0c4ac6cd5abef8e478e3a4760a6004bea6e33981cc9a1495e84f2421fb600c7c"
+    },
+    {
+      "cue": 5,
+      "source": "source-05-06.flac",
+      "trimStart": 0.1,
+      "trimEnd": 4.16,
+      "timelineStart": 16,
+      "speechOnsetSeconds": 16.08,
+      "tempoMultiplier": 1.062827,
+      "sourceSha256": "3486c287bc7a7e84594f35dca59c502102d8d44dfd4806203027d689f29acf43"
+    },
+    {
+      "cue": 6,
+      "source": "source-05-06.flac",
+      "trimStart": 4.4,
+      "trimEnd": 7.97,
+      "timelineStart": 20,
+      "speechOnsetSeconds": 20.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "3486c287bc7a7e84594f35dca59c502102d8d44dfd4806203027d689f29acf43"
+    },
+    {
+      "cue": 7,
+      "source": "source-07-08.flac",
+      "trimStart": 0.07,
+      "trimEnd": 4.21,
+      "timelineStart": 24,
+      "speechOnsetSeconds": 24.08,
+      "tempoMultiplier": 1.08377,
+      "sourceSha256": "4916e26d1795a7e5efb038f05f60277bf52da0cf7845bf6be52b9e86a3b3eba4"
+    },
+    {
+      "cue": 8,
+      "source": "source-07-08.flac",
+      "trimStart": 4.3,
+      "trimEnd": 7.8,
+      "timelineStart": 28,
+      "speechOnsetSeconds": 28.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "4916e26d1795a7e5efb038f05f60277bf52da0cf7845bf6be52b9e86a3b3eba4"
+    },
+    {
+      "cue": 9,
+      "source": "source-09-10.flac",
+      "trimStart": 0,
+      "trimEnd": 3.23,
+      "timelineStart": 32,
+      "speechOnsetSeconds": 32.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "2cf0f8eae81fd60c5661829fceeacc993f2e52cb4f586ac35871207774ca2361"
+    },
+    {
+      "cue": 10,
+      "source": "source-09-10.flac",
+      "trimStart": 3.39,
+      "trimEnd": 8.12,
+      "timelineStart": 36,
+      "speechOnsetSeconds": 36.08,
+      "tempoMultiplier": 1.23822,
+      "sourceSha256": "2cf0f8eae81fd60c5661829fceeacc993f2e52cb4f586ac35871207774ca2361"
+    },
+    {
+      "cue": 11,
+      "source": "source-11.flac",
+      "trimStart": 0.07,
+      "trimEnd": 2.18,
+      "timelineStart": 40,
+      "speechOnsetSeconds": 40.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "ad0dd5e52e6b351c3c3a1f9953ed4923ae62e124e281049cd8a34d357327d08c"
+    },
+    {
+      "cue": 12,
+      "source": "source-12.flac",
+      "trimStart": 0,
+      "trimEnd": 4.55,
+      "timelineStart": 44,
+      "speechOnsetSeconds": 44.08,
+      "tempoMultiplier": 1.191099,
+      "sourceSha256": "b519984b766a2f56612f45058b115af1a53f3b2b26f31ce5825d4fb3a62a2adc"
+    },
+    {
+      "cue": 13,
+      "source": "source-13.flac",
+      "trimStart": 0,
+      "trimEnd": 2.46,
+      "timelineStart": 48,
+      "speechOnsetSeconds": 48.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "a84bce8f5fd2791baa8eb0eb46ed77f9a113094f0a36bd6d5b4af4402a86d314"
+    },
+    {
+      "cue": 14,
+      "source": "source-14.flac",
+      "trimStart": 0.06,
+      "trimEnd": 3.35,
+      "timelineStart": 52,
+      "speechOnsetSeconds": 52.08,
+      "tempoMultiplier": 1.0,
+      "sourceSha256": "359e400953d1637dcf35c256dc40f95926c940bf7dd2155967d54954149e378f"
+    },
+    {
+      "cue": 15,
+      "source": "source-15.flac",
+      "trimStart": 0.1,
+      "trimEnd": 4.35,
+      "timelineStart": 56,
+      "speechOnsetSeconds": 56.08,
+      "tempoMultiplier": 1.112565,
+      "sourceSha256": "7445c19817f86883de42be42c5d91aa925daafb4917d2254fc21db27920b27c3"
+    }
+  ]
+}
