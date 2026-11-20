@@ -2,6 +2,10 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
+## New: story-specific worlds, cast, English voice and captions
+
+The separate [Story World Studio](story/README.md) expands beyond the classroom: custom locations, multiple characters/props, actions/camera, generated English narration, captions and MP4 assembly. Read the [production blueprint](story/BLUEPRINT.md) and [full-runtime railroad reference analysis](story/REFERENCE_ANALYSIS.md). Two complete small demos and editable source are included. The assistant authors/adapts each story; this is not a one-command arbitrary-prose-to-film model. The approved classroom release stays unchanged.
+
 ## Approved video and lock
 
 - [Watch/download the approved 30-second MP4](locked/source/public/demo/classroom-scarcity-30s-v2.mp4)
@@ -22,6 +26,7 @@ Animation/
     fonts/                Inter + Noto Devanagari and full OFL notices
     vendor/               Three.js r170 + MIT license
     project.schema.json   editor assistance; runtime checks add cross-field validation
+  story/                  custom-world blueprint, reference analysis, renderer, TTS, examples + demos
   tools/                  script import, audio preparation, static server, renderer, lock check
   templates/script.txt    editable two-speaker script starter
   examples/curiosity/     20-second portrait, different subject (silent animatic)
@@ -57,7 +62,7 @@ npm ci --ignore-scripts
 CHROMIUM_PATH=/path/to/chromium FFMPEG_PATH=/path/to/ffmpeg npm run render -- --project examples/curiosity/project.json
 ```
 
-`FFMPEG_PATH` takes precedence over ffmpeg-static; a system `ffmpeg` is the final fallback. Chromium must match the host OS and have its shared libraries installed. The tested Arena Linux sandbox used `/tmp/chromium` with `LD_LIBRARY_PATH=/tmp/al2023/lib:/tmp`; those temporary paths are **not portable assets**. A normal Playwright browser installation does not need those sandbox-specific variables. Only the archived Python tools require the Python packages declared under `locked/source/render/`.
+`FFMPEG_PATH` takes precedence over ffmpeg-static; a system `ffmpeg` is the final fallback. Chromium must match the host OS and have its shared libraries installed. The tested Arena Linux sandbox used `/tmp/chromium` with `LD_LIBRARY_PATH=/tmp/al2023/lib:/tmp`; those temporary paths are **not portable assets**. A normal Playwright browser installation does not need those sandbox-specific variables. The classroom Node pipeline needs no Python; the optional story-world baseline TTS uses Python and `story/requirements.txt`. Archived reproduction tools have separate requirements under `locked/source/render/`.
 
 ## Make a video from a new script
 

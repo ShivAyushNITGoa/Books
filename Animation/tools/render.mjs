@@ -4,11 +4,12 @@ import {spawn} from 'node:child_process';
 import {once} from 'node:events';
 import {serve,ROOT,localFile} from './server.mjs';
 import {validateProject,formatSrt} from '../engine/project.js';
+import {validateStory} from '../story/engine/story.js';
 import {ffmpegPath} from './media.mjs';
 import {writeFile} from 'node:fs/promises';
 export async function render(options={}){
  const locked=!!options.locked,projectFile=locked?null:await localFile(options.project||'examples/curiosity/project.json');
- const project=locked?{id:'approved-locked',duration:30,width:1080,height:1920,fps:30,media:{}}:validateProject(JSON.parse(await readFile(projectFile,'utf8')));
+ const project=locked?{id:'approved-locked',duration:30,width:1080,height:1920,fps:30,media:{}}:(options.story ? value=>validateStory(value,{prepared:true}) : validateProject)(JSON.parse(await readFile(projectFile,'utf8')));
  const start=Number(options.start??0),end=Number(options.end??project.duration),fps=Number(options.fps??project.fps),width=Number(options.width??project.width),height=Number(options.height??project.height);
  if(![start,end,fps,width,height].every(Number.isFinite)||start<0||end<=start||end>project.duration||!Number.isInteger(fps)||fps<1||fps>60||![width,height].every(n=>Number.isInteger(n)&&n>=160&&n<=3840&&n%2===0)||Math.abs(width/height-project.width/project.height)>.01)throw new Error('Invalid render range, fps or dimensions');
  if(locked&&(width!==1080||height!==1920))throw new Error('The locked renderer is fixed at native 1080×1920; use the reusable engine for other sizes');
@@ -27,7 +28,7 @@ export async function render(options={}){
   browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,args});
   const page=await browser.newPage({viewport:{width:720,height:1280}});
   let url=`http://127.0.0.1:${web.port}/`;
-  if(locked)url+='classroom-v2/index.html';else url+=`engine/index.html?project=${encodeURIComponent('/'+path.relative(ROOT,projectFile).split(path.sep).join('/'))}&width=${width}&height=${height}`;
+  if(locked)url+='classroom-v2/index.html';else url+=`${options.story?'story/engine':'engine'}/index.html?project=${encodeURIComponent('/'+path.relative(ROOT,projectFile).split(path.sep).join('/'))}&width=${width}&height=${height}`;
   await page.goto(url,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.renderSafe||window.renderError,{},{timeout:60000});
   const error=await page.evaluate(()=>window.renderError);if(error)throw new Error(error);
   await mkdir(path.dirname(output),{recursive:true});

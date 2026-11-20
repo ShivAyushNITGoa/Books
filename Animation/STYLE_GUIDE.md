@@ -1,5 +1,7 @@
 # Approved visual contract
 
+> Scope: this document is the approved **classroom** contract. The newer separate [story-world extension](story/BLUEPRINT.md) retains illustrative cutout characters but deliberately permits story-specific environments, multiple locations, casts and props. It does not change the frozen approved classroom film.
+
 Canonical reference: [`locked/source/public/demo/classroom-scarcity-30s-v2.mp4`](locked/source/public/demo/classroom-scarcity-30s-v2.mp4). The approved bytes and source are frozen; new projects should change **content and direction**, not silently replace this visual language.
 
 ## Keep
