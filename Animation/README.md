@@ -2,9 +2,11 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
-## Current film: Why the black box is orange — VO, one continuous camera
+## Current film: Black box — rebuilt camera and blocking
 
-[Black box production](projects/black-box/README.md) follows the user's complete airplane-recorder script with the selected English narrator. A single continuous camera dollies, orbits and descends through one connected design/search diorama: **no camera cuts**. The selected narrated MP4, captions, reproducible source takes and actual per-frame camera trace are published with the project.
+[Rebuilt production](projects/black-box-rebuilt/README.md) replaces the rejected linear staging with independent curved camera/recorder paths, front/rear/side views, left/right composition and new character blocking. The full English script and selected VO are preserved. Every delivery frame is checked for physical character clearance, projected character/recorder envelope overlap, safe framing and static-set centre sightlines. **One continuous camera, no cuts.**
+
+The [previous version](projects/black-box/README.md) is retained as a superseded iteration, not an approved example of camera direction or collision-free staging.
 
 ## Alexandria — supplied SRT and custom animation
 

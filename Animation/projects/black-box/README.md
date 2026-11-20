@@ -1,6 +1,8 @@
-# Why the black box is orange
+# Why the black box is orange — superseded iteration
 
-A new narrated **9:16 explainer with one continuous camera and no camera cuts**, authored to the user's supplied script. This is a separate production; Alexandria, the older demos and the frozen classroom archive are not replaced.
+> **Rejected staging; use the [rebuilt version](../black-box-rebuilt/README.md).** The user identified overly linear/one-sided movement, centre-pinned composition and apparent character/device intersections here. This version remains for history and shared VO resources, not as a quality benchmark or a template for future cinematography.
+
+A narrated **9:16 explainer with one continuous camera and no camera cuts**, authored to the user's supplied script. This is a separate production; Alexandria, the older demos and the frozen classroom archive are not replaced.
 
 ## Selected delivery
 
