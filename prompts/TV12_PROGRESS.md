@@ -1,13 +1,11 @@
 # TV12 image generation progress
 
-296/302 JPGs exist after batch 30. All cues 1–296 generated, through `20-04.jpg`; no pending failed images.
+302/302 scene JPGs complete after batch 31 (final six cues 297–302). All expected labels from `0-00` through `20-30` present; no missing or unexpected scene JPGs. All 302 verified landscape 1376×768 using JPEG headers. `tv12_image_verification.json` records complete image inventory, dimensions, SHA-256 hashes, and coverage results. No pending failed images.
 
-All ten batch-30 images verified 1376×768 landscape. Prior images previously verified landscape.
+Prompt archives: batches 6–31 JSON files record generation prompts from cue 50 onward (earlier retry histories included). `tv12_batch31.json` covers 297–302. `save_tv12_batch6.py` contains locked V7 suffix and cast expansions. Generation uses landscape prefix.
 
-Prompt archives: batches 6–30 JSON files record prompts from cue 50 onward (earlier retry histories included). `tv12_batch30.json` covers 287–296. `save_tv12_batch6.py` contains locked V7 suffix and cast expansions. Generation uses landscape prefix.
+`tv12_next_concepts.tsv` preserves user-supplied concepts for cues 60–302: expand {M}/{W} using batch-6 constants and append identical STYLE suffix. These are partial archives, NOT full prompt pack (cues 1–49 not archived). Full `tv12_image_prompts.txt` and `manifest.json` remain pending; do not claim these are complete. User reposted full pack in chat.
 
-`tv12_next_concepts.tsv` preserves user-supplied concepts for cues 60–302: expand {M}/{W} using batch-6 constants and append identical STYLE suffix. These are partial archives, NOT full prompt pack (cues 1–49 not archived). Full 302-prompt archive and manifest remain pending. User reposted full pack in chat.
+Canonical `refs/Host.jpg` still absent; later host scenes used `images_tv12/1-13.jpg` for continuity. No separate host plate generated. No video build performed.
 
-Canonical `refs/Host.jpg` still absent; recent host scenes use `images_tv12/1-13.jpg` for continuity.
-
-Next turn: FINAL six cues 297–302 (`20-06`, `20-14`, `20-20`, `20-25`, `20-28`, `20-30`), verify landscape and full 302-image coverage, commit. No options/proof stop. Work on current Arena branch; no push requested.
+All scene-image generation done. Work on current Arena branch; no push requested.
