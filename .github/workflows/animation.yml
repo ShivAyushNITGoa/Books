@@ -48,14 +48,21 @@ jobs:
         run: |
           python3 -m venv .venv
           .venv/bin/python -m pip install -r story/requirements.txt
-      - name: Install browser and system media encoder
-        working-directory: Animation
+      - name: Use hosted runner browser and media encoder
+        shell: bash
         run: |
-          npx playwright install --with-deps chromium
-          sudo apt-get install -y ffmpeg
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          ENCODER="$(command -v ffmpeg || true)"
+          if [ -z "$BROWSER" ] || [ -z "$ENCODER" ]; then
+            echo "::error::Hosted image must supply Chrome/Chromium and FFmpeg; browser=$BROWSER encoder=$ENCODER"
+            exit 1
+          fi
+          echo "CHROMIUM_PATH=$BROWSER" >> "$GITHUB_ENV"
+          echo "FFMPEG_PATH=$ENCODER" >> "$GITHUB_ENV"
+          "$BROWSER" --version
+          "$ENCODER" -version
       - name: Real English speech and portrait/landscape export tests
         working-directory: Animation
         env:
           PYTHON: ${{ github.workspace }}/Animation/.venv/bin/python
-          FFMPEG_PATH: /usr/bin/ffmpeg
         run: npm run test:story:browser
