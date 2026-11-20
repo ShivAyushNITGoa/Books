@@ -1,0 +1,50 @@
+{
+  "file": "black-box-rebuilt-narrated-720p.mp4",
+  "sha256": "cbfa4771d471dbfe5c468b894299a94468229b33d10283b8cf0c037935a60b87",
+  "bytes": 28686258,
+  "durationSeconds": 65.04166666666667,
+  "frames": 1561,
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC mono 48kHz",
+  "integratedLufs": -16.25,
+  "truePeakDbtp": -1.49,
+  "fullFileDecode": "passed",
+  "unexpectedBlackIntervals": 0,
+  "pictureUnchangedDuringMux": true,
+  "blocking": {
+    "clearStaticRecorderCenterSightlines": 1561,
+    "minimumPersonCarrierClearanceMeters": 1.198458781022055,
+    "maximumPersonRecorderScreenEnvelopeOverlap": 0,
+    "subjectNdcXRange": [
+      -0.41686868990430276,
+      0.3512924943945823
+    ],
+    "azimuthRangeDegrees": 625.4395274184785
+  },
+  "continuousCamera": {
+    "rigs": 1,
+    "cuts": 0,
+    "fov": 46,
+    "traceFrames": 1561,
+    "maximumFrameToFramePositionStep": 0.48384839004715585,
+    "traceSha256": "02631262f233c1a65c155147972378b72d43a1bff4a75e8f4a75d0740545f182"
+  },
+  "sourceSha256": {
+    "film.js": "7c0080e58e01da9bb8482646690049f69c5e580b462bcd39e1d73f6367b32c9b",
+    "world.js": "c41429c98c23bd786c362575e529a6fd451af61b76713326729fae6591610515",
+    "choreography.js": "59a6ca484b74fb003006c8114821caea2c8065c7391be9486df51f3a1ac29f37",
+    "camera-rig.js": "6b354ac67936c0d2efb2546158cc91aff2ce558b6f3f1c4003db077542722215",
+    "narration.json": "21220a5cf04efadfab1b9f166f87c613f4b2627fe6dc64f675d9ae94c7b9e744",
+    "script.txt": "37fd400ae17f8d5f7925226c1f958c9be1f097f05dfb5161316863459f0ebc29",
+    "../black-box/delivery/voiceover.flac": "b86fb35d3628112dbf2ca944fe62852137acce4ec7282e20c3709d67755b3e10"
+  },
+  "review": {
+    "exportedFramesVisuallyReviewed": 27,
+    "coverage": "Opening, paint reveal, broad aircraft view, reverse/end views, black hypothetical coating, wreckage/forest transition, submerged descent and exit, reflective-marking/beacon demonstration, cone comparison and ending.",
+    "technicalChecks": "Full 1561-frame camera/physical-clearance/projection telemetry; full-frame-count video+audio decode; 1561 static centre sightlines; real-WebGL repeat-seek/motion/caption checks.",
+    "limits": "Conservative world-space and clipped screen-space envelopes, not per-pixel segmentation; centre sightlines do not prove visibility of every pixel. Representative visual review is not manual inspection of every frame or a claim of reference-quality parity."
+  }
+}
