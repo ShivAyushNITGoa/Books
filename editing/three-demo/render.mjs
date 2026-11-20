@@ -24,7 +24,7 @@ try{
  await page.locator('button').evaluate(el=>el.remove());
  const root=path.resolve('../..');
  const bin=execFileSync('python3',['-c','import imageio_ffmpeg;print(imageio_ffmpeg.get_ffmpeg_exe())'],{encoding:'utf8'}).trim();
- ff=spawn(bin,['-y','-hide_banner','-loglevel','warning','-f','image2pipe','-vcodec','mjpeg','-framerate','24','-i','pipe:0','-i',path.join(root,'video 12 full audio.mp3'),'-map','0:v','-map','1:a','-t','30','-vf','scale=in_range=full:out_range=tv,format=yuv420p','-c:v','libx264','-preset','medium','-crf','20','-color_range','tv','-c:a','aac','-b:a','160k','-ar','48000','-movflags','+faststart',path.join(root,'output/tv12_demo_v3_threejs.mp4')],{stdio:['pipe','inherit','inherit']});
+ ff=spawn(bin,['-y','-hide_banner','-loglevel','warning','-f','image2pipe','-vcodec','mjpeg','-framerate','24','-i','pipe:0','-i',path.join(root,'video 12 full audio.mp3'),'-map','0:v','-map','1:a','-t','30','-vf','scale=in_range=full:out_range=tv,format=yuv420p','-c:v','libx264','-preset','medium','-crf','20','-color_range','tv','-c:a','aac','-b:a','160k','-ar','48000','-movflags','+faststart',path.join(root,'output/tv12_demo_v4_camera_styles.mp4')],{stdio:['pipe','inherit','inherit']});
  const exited=once(ff,'exit');
  for(let n=0;n<720;n++){
   await page.evaluate(t=>window.renderAt(t),n/24);
@@ -34,5 +34,5 @@ try{
   if(errors.length)throw new Error(errors.join('\n'));
  }
  ff.stdin.end();const [code]=await exited;if(code!==0)throw new Error('FFmpeg exit '+code);
- console.log('DONE: output/tv12_demo_v3_threejs.mp4');
+ console.log('DONE: output/tv12_demo_v4_camera_styles.mp4');
 }finally{if(ff&&!ff.stdin.destroyed)ff.stdin.end();if(browser)await browser.close();server.close();}
