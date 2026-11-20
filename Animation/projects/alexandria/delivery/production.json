@@ -60,6 +60,6 @@
     "coverage": "All 15 shot midpoint frames extracted from the complete captioned export, plus the longest caption at 38s and the final frame at 59.958s. Separate 3x3 filmstrip samples storm, column collapse and diver movement.",
     "limitations": "A visual frame/sequence review and complete-file decode are not a claim of reference-quality parity or manual inspection of every source frame.",
     "captionFit": "Longest line fits within the native 720px delivery frame; font size adapts to the supplied line widths.",
-    "deliveryPolicy": "Full-length MP4 masters are downloadable workspace artifacts ignored by Git; source, exact SRT, poster and this measured manifest are versioned."
+    "deliveryPolicy": "At user request, the complete captioned MP4 is published in GitHub. The clean picture master remains a downloadable workspace artifact ignored by Git."
   }
 }

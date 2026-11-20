@@ -1,3 +1,4 @@
-# Full-length picture masters are delivered as downloadable workspace artifacts.
-# Track source, exact SRT, poster and measured production manifest—not large encodes.
+# Keep generated masters out of Git unless explicitly selected for publication.
 /delivery/*.mp4
+# User-requested GitHub publication of the captioned film.
+!/delivery/alexandria-captioned-720p.mp4

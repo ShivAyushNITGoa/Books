@@ -4,7 +4,7 @@ A dedicated **60-second, 9:16 animated film** directed to the user's supplied En
 
 ## Deliverables
 
-Selected finished exports belong in local `delivery/`. The full-length MP4 masters are downloadable chat/workspace artifacts and are deliberately ignored by Git, following the bundle’s generated-output policy. Source, exact SRT, poster and measured production manifest are versioned; run the documented commands to reproduce the videos from Git.
+Selected finished exports belong in `delivery/`. At the user’s request, the complete [captioned MP4](delivery/alexandria-captioned-720p.mp4) is published in GitHub alongside the source, exact SRT, poster and production manifest. The larger clean picture master remains a downloadable workspace artifact, ignored by Git.
 
 - `alexandria-clean-720p.mp4`: clean picture master, **720 × 1280, 24 fps, 60 seconds**, **no audio track**. Native render, not an upscaled low-resolution animatic. Ready for the user's VO/edit.
 - `alexandria-captioned-720p.mp4`: same animation with the supplied English captions burned in; **no audio track**.
