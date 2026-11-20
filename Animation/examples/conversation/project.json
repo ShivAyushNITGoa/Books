@@ -1,0 +1,252 @@
+{
+  "$schema": "../../engine/project.schema.json",
+  "version": 1,
+  "id": "conversation",
+  "title": "Why should I ask another question",
+  "duration": 16,
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "timing": "approximate-word-weighted",
+  "script": "[primary] Why should I ask another question?\n[secondary] Because your first answer may not be the only one.\n[primary] So curiosity means staying open?\n[secondary] Exactly. Listen, look closer, and then decide.",
+  "media": {},
+  "board": {
+    "title": "ASK A BETTER QUESTION",
+    "subtitle": "A two-speaker example",
+    "detail": "Listen before deciding."
+  },
+  "props": {
+    "cookieJars": false,
+    "phone": false
+  },
+  "captions": [
+    {
+      "start": 0,
+      "end": 2.2857142857142856,
+      "text": "Why should I ask"
+    },
+    {
+      "start": 2.2857142857142856,
+      "end": 3.4285714285714284,
+      "text": "another question?"
+    },
+    {
+      "start": 3.4285714285714284,
+      "end": 5.7142857142857135,
+      "text": "Because your first answer"
+    },
+    {
+      "start": 5.7142857142857135,
+      "end": 8,
+      "text": "may not be the"
+    },
+    {
+      "start": 8,
+      "end": 9.142857142857142,
+      "text": "only one."
+    },
+    {
+      "start": 9.142857142857142,
+      "end": 11.428571428571429,
+      "text": "So curiosity means staying"
+    },
+    {
+      "start": 11.428571428571429,
+      "end": 12,
+      "text": "open?"
+    },
+    {
+      "start": 12,
+      "end": 12.571428571428571,
+      "text": "Exactly."
+    },
+    {
+      "start": 12.571428571428571,
+      "end": 14.857142857142858,
+      "text": "Listen, look closer, and"
+    },
+    {
+      "start": 14.857142857142858,
+      "end": 16,
+      "text": "then decide."
+    }
+  ],
+  "actors": [
+    {
+      "id": "primary",
+      "style": "hoodie",
+      "path": [
+        {
+          "t": 0,
+          "x": -1.35,
+          "z": 0.1
+        },
+        {
+          "t": 16,
+          "x": -1.2,
+          "z": 0.25
+        }
+      ],
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.4285714285714284,
+          "emotion": "curious",
+          "action": "gesture",
+          "look": 0.3
+        },
+        {
+          "start": 9.142857142857142,
+          "end": 12,
+          "emotion": "neutral",
+          "action": "idle",
+          "look": 0.3
+        }
+      ],
+      "speech": [
+        {
+          "start": 0,
+          "end": 3.4285714285714284
+        },
+        {
+          "start": 9.142857142857142,
+          "end": 12
+        }
+      ]
+    },
+    {
+      "id": "secondary",
+      "style": "waistcoat",
+      "path": [
+        {
+          "t": 0,
+          "x": 1.35,
+          "z": -1.75
+        },
+        {
+          "t": 16,
+          "x": 1.35,
+          "z": -1.75
+        }
+      ],
+      "cues": [
+        {
+          "start": 3.4285714285714284,
+          "end": 9.142857142857142,
+          "emotion": "curious",
+          "action": "gesture",
+          "look": -0.5
+        },
+        {
+          "start": 12,
+          "end": 12.571428571428571,
+          "emotion": "neutral",
+          "action": "idle",
+          "look": -0.5
+        },
+        {
+          "start": 12.571428571428571,
+          "end": 16,
+          "emotion": "neutral",
+          "action": "gesture",
+          "look": -0.5
+        }
+      ],
+      "speech": [
+        {
+          "start": 3.4285714285714284,
+          "end": 9.142857142857142
+        },
+        {
+          "start": 12,
+          "end": 12.571428571428571
+        },
+        {
+          "start": 12.571428571428571,
+          "end": 16
+        }
+      ]
+    }
+  ],
+  "camera": [
+    {
+      "t": 0,
+      "position": [
+        0.2,
+        2.6,
+        9.5
+      ],
+      "target": [
+        0,
+        1.25,
+        -0.6
+      ]
+    },
+    {
+      "t": 1.5428571428571427,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 6,
+      "position": [
+        1.9,
+        2.1,
+        5.1
+      ],
+      "target": [
+        1.2,
+        1.35,
+        -1.6
+      ]
+    },
+    {
+      "t": 10.428571428571429,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 14.114285714285714,
+      "position": [
+        1.9,
+        2.1,
+        5.1
+      ],
+      "target": [
+        1.2,
+        1.35,
+        -1.6
+      ]
+    },
+    {
+      "t": 16,
+      "position": [
+        0.3,
+        2.5,
+        9.1
+      ],
+      "target": [
+        0,
+        1.25,
+        -0.5
+      ]
+    }
+  ],
+  "foley": []
+}

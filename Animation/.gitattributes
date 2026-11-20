@@ -1,0 +1,8 @@
+# Frozen bytes must survive Windows autocrlf and other checkout filters unchanged.
+locked/** -text
+references/** -text
+# Preserve upstream files verbatim; do not lint their original whitespace.
+engine/vendor/** -text -whitespace linguist-vendored=true
+engine/fonts/** -text -whitespace linguist-vendored=true
+locked/source/public/studio/vendor/** -whitespace linguist-vendored=true
+locked/source/public/studio/fonts/** -whitespace linguist-vendored=true

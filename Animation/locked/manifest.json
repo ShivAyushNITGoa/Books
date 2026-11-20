@@ -1,0 +1,308 @@
+{
+  "release": "approved-refined-v2-1.0.0",
+  "sourceCommit": "4f52b6d",
+  "files": [
+    {
+      "path": "locked/README.md",
+      "bytes": 2435,
+      "sha256": "3f119079970fcc9f8ca6e25c3eb13b5490c0fecc19352beba83afc6da700bcf0"
+    },
+    {
+      "path": "locked/reference-style.md",
+      "bytes": 8407,
+      "sha256": "967bc745869ca0cab65d402039c2fb363b2db7cf3c92f76bafe3d5475d4c7e20"
+    },
+    {
+      "path": "locked/refined-edition.md",
+      "bytes": 6368,
+      "sha256": "a8304e0c77ea4eb40cc4fe30c9ab797c61e13b9c864ca0876c4973c63acbc357"
+    },
+    {
+      "path": "locked/source/audio/approved-mix.wav",
+      "bytes": 2880042,
+      "sha256": "16d2048bb3641fa9ebe9738160b90cf4611a38f316a3d53943f14ccd543adbc1"
+    },
+    {
+      "path": "locked/source/public/classroom-v2/index.html",
+      "bytes": 986,
+      "sha256": "8749f5dbf595fd723a6329d3f648fd8040d7f38246ba6f3724a0200610d8c2c2"
+    },
+    {
+      "path": "locked/source/public/classroom-v2/voice-envelope.json",
+      "bytes": 9048,
+      "sha256": "e6f23166d721bb581358e8d42b7b8ea616506d6f2329838f754079d587bcc4c1"
+    },
+    {
+      "path": "locked/source/public/classroom-v2/world.js",
+      "bytes": 26368,
+      "sha256": "79cf3e01c20c2aa1d4e8d389ce9f59eebbc618d496fe273d904cac7f78fcec25"
+    },
+    {
+      "path": "locked/source/public/demo/classroom-scarcity-30s-v2.jpg",
+      "bytes": 74779,
+      "sha256": "bcc0b7fdef47016288346b3b33836cebd70652243afeaa1278dcc347490239c2"
+    },
+    {
+      "path": "locked/source/public/demo/classroom-scarcity-30s-v2.mp3",
+      "bytes": 601004,
+      "sha256": "bf7c49bf2675f286e66af2bd968726fb53e417588b9139b35e029d4d35749257"
+    },
+    {
+      "path": "locked/source/public/demo/classroom-scarcity-30s-v2.mp4",
+      "bytes": 13273068,
+      "sha256": "5b844454305b96525949adcc4cb21133cf7c38515aeec3b126448180fa583a04"
+    },
+    {
+      "path": "locked/source/public/demo/classroom-scarcity-30s-v2.srt",
+      "bytes": 1755,
+      "sha256": "897f5c4baa35c94cfc77ed53bae2dd6a49c74b25865134ad496660039449a03d"
+    },
+    {
+      "path": "locked/source/public/demo/stickworld-scarcity-30s.srt",
+      "bytes": 1695,
+      "sha256": "671c97fe3e70cf4ec5bb7d12360537ea3b07516b9e89f6481438b998b702a2b2"
+    },
+    {
+      "path": "locked/source/public/studio/fonts/Inter-OFL.txt",
+      "bytes": 4377,
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57"
+    },
+    {
+      "path": "locked/source/public/studio/fonts/Inter.ttf",
+      "bytes": 876576,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    {
+      "path": "locked/source/public/studio/vendor/three/LICENSE",
+      "bytes": 1081,
+      "sha256": "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
+    },
+    {
+      "path": "locked/source/public/studio/vendor/three/three.module.js",
+      "bytes": 1314681,
+      "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+    },
+    {
+      "path": "locked/source/render/build_vo.py",
+      "bytes": 3989,
+      "sha256": "0e67c06791164f8b7a3690e7f31129a491e65e047504fada3b793cf6945cd14c"
+    },
+    {
+      "path": "locked/source/render/polish_audio.py",
+      "bytes": 2852,
+      "sha256": "781a9dc88fef18262c219148d4520968b650cc24c5992772db249d22791a79d3"
+    },
+    {
+      "path": "locked/source/render/requirements-audio.txt",
+      "bytes": 100,
+      "sha256": "185c2cf09fcb15e03c1402b5669602e26473dab859a407793f3b843266f0bce8"
+    },
+    {
+      "path": "locked/source/render/requirements-voice.txt",
+      "bytes": 39,
+      "sha256": "1fa9ddd415ba8504154794edb38e526259ab9df571699240ef8ee71dde7d8976"
+    },
+    {
+      "path": "locked/source/render/stickworld.mjs",
+      "bytes": 2675,
+      "sha256": "e67b057f62f494a9b2593911501cbc0a8fb8202d1d86ced173c0e47ced26a342"
+    },
+    {
+      "path": "locked/source/render/test-classroom-v2.mjs",
+      "bytes": 3124,
+      "sha256": "f1a19953225511ce1a3aec4d8e6b333a50bc5669c68dc906ec3df2974d11dceb"
+    },
+    {
+      "path": "locked/source/vo/scarcity/01-hook.wav",
+      "bytes": 394318,
+      "sha256": "0cf7c9be6ba20cb832540a3033efebf62100ba5faca17362ca0207657add7625"
+    },
+    {
+      "path": "locked/source/vo/scarcity/02-always.wav",
+      "bytes": 416846,
+      "sha256": "00694c9e96a7fdfd5141322aa93ad6824afd48643227eb3d2249cfa8dcc6cfb5"
+    },
+    {
+      "path": "locked/source/vo/scarcity/03-study.wav",
+      "bytes": 613454,
+      "sha256": "f89b57f69b9d9c6d07885f1628010608a9ffdbc5a690a1168ec613429518facd"
+    },
+    {
+      "path": "locked/source/vo/scarcity/04-result.wav",
+      "bytes": 301134,
+      "sha256": "5ef6bfcf96cfe2c89a6c60fa95d5f5762a2ff70c268512adfdca8e6d150de62f"
+    },
+    {
+      "path": "locked/source/vo/scarcity/05-principle.wav",
+      "bytes": 146510,
+      "sha256": "6704df6e151f08437f969893f06de138c72a38e39a1665d52656e490f74ac878"
+    },
+    {
+      "path": "locked/source/vo/scarcity/06-twist.wav",
+      "bytes": 209998,
+      "sha256": "34e14f21ab2b69f6ecf4dd9ff41fa06838fdb70a36883e61ab5ffad7dcbb9c58"
+    },
+    {
+      "path": "locked/source/vo/scarcity/07-payoff.wav",
+      "bytes": 432206,
+      "sha256": "cdbf3b64f43d3e72608042ff440b7368951f5cfce320ae7d03d4ba107111a275"
+    },
+    {
+      "path": "locked/source/vo/scarcity/08-outro.wav",
+      "bytes": 173134,
+      "sha256": "9ffe18685edec09320aa60e1c199d595287a48c5eea1bd713da06fe827be21a4"
+    },
+    {
+      "path": "locked/source/vo/scarcity/SCRIPT.md",
+      "bytes": 3274,
+      "sha256": "64c6b623f4603640e014b2de083085fd0d640d2ae2ab7682d5d8eb672ad76026"
+    },
+    {
+      "path": "locked/source/vo/scarcity/timings.json",
+      "bytes": 1877,
+      "sha256": "101428271320e66267c9f2f783e1d7bd4e347fb11ab492f1b7eb9441051d6cc4"
+    },
+    {
+      "path": "locked/source/vo/scarcity/voiceover.wav",
+      "bytes": 2880042,
+      "sha256": "28aa5169a80ea570b0c6dceee4bf310233ae1d688c6a81a755577018466c628d"
+    },
+    {
+      "path": "references/final.mp4",
+      "bytes": 13304780,
+      "sha256": "08617887693f98ca0046aec22fff17a4630f18e8f2dbdcce320f6d86a0043720"
+    },
+    {
+      "path": "references/image-1.png",
+      "bytes": 489330,
+      "sha256": "392aabcd9492d0609e0607f6a6b264c49651a771eb48699cacdfbab0c4f57a3f"
+    },
+    {
+      "path": "references/image-2.png",
+      "bytes": 379907,
+      "sha256": "4c58f77f885106ab5b397266fbc1a50e40e139fe20207cd5708299dd10c280a2"
+    },
+    {
+      "path": "references/image-3.png",
+      "bytes": 347840,
+      "sha256": "279d7463e25c3cb4dd31de09134248f1bdfe875952cfc51801b922ff2bd9fbca"
+    },
+    {
+      "path": "references/image-4.png",
+      "bytes": 406340,
+      "sha256": "44c926e184718c731c7eb1fe7c2aad3e7c7026602f285e9879398f59bc94c453"
+    },
+    {
+      "path": "references/image-5.png",
+      "bytes": 402132,
+      "sha256": "9768c9e9b078a4a820569ade65c89d40baf8869af3e9b16eea7712016a0c0252"
+    },
+    {
+      "path": "references/script-prompt.md",
+      "bytes": 4999,
+      "sha256": "46100ffb0c6653bc8b5193d65352057ae442a7c34512810ac6efc68754ed482e"
+    }
+  ],
+  "originals": [
+    {
+      "path": "../psychology-of-human-attraction/public/classroom-v2/index.html",
+      "bytes": 986,
+      "sha256": "8749f5dbf595fd723a6329d3f648fd8040d7f38246ba6f3724a0200610d8c2c2"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/classroom-v2/voice-envelope.json",
+      "bytes": 9048,
+      "sha256": "e6f23166d721bb581358e8d42b7b8ea616506d6f2329838f754079d587bcc4c1"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/classroom-v2/world.js",
+      "bytes": 26368,
+      "sha256": "79cf3e01c20c2aa1d4e8d389ce9f59eebbc618d496fe273d904cac7f78fcec25"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/01-hook.wav",
+      "bytes": 394318,
+      "sha256": "0cf7c9be6ba20cb832540a3033efebf62100ba5faca17362ca0207657add7625"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/02-always.wav",
+      "bytes": 416846,
+      "sha256": "00694c9e96a7fdfd5141322aa93ad6824afd48643227eb3d2249cfa8dcc6cfb5"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/03-study.wav",
+      "bytes": 613454,
+      "sha256": "f89b57f69b9d9c6d07885f1628010608a9ffdbc5a690a1168ec613429518facd"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/04-result.wav",
+      "bytes": 301134,
+      "sha256": "5ef6bfcf96cfe2c89a6c60fa95d5f5762a2ff70c268512adfdca8e6d150de62f"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/05-principle.wav",
+      "bytes": 146510,
+      "sha256": "6704df6e151f08437f969893f06de138c72a38e39a1665d52656e490f74ac878"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/06-twist.wav",
+      "bytes": 209998,
+      "sha256": "34e14f21ab2b69f6ecf4dd9ff41fa06838fdb70a36883e61ab5ffad7dcbb9c58"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/07-payoff.wav",
+      "bytes": 432206,
+      "sha256": "cdbf3b64f43d3e72608042ff440b7368951f5cfce320ae7d03d4ba107111a275"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/08-outro.wav",
+      "bytes": 173134,
+      "sha256": "9ffe18685edec09320aa60e1c199d595287a48c5eea1bd713da06fe827be21a4"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/SCRIPT.md",
+      "bytes": 3274,
+      "sha256": "64c6b623f4603640e014b2de083085fd0d640d2ae2ab7682d5d8eb672ad76026"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/timings.json",
+      "bytes": 1877,
+      "sha256": "101428271320e66267c9f2f783e1d7bd4e347fb11ab492f1b7eb9441051d6cc4"
+    },
+    {
+      "path": "../psychology-of-human-attraction/vo/scarcity/voiceover.wav",
+      "bytes": 2880042,
+      "sha256": "28aa5169a80ea570b0c6dceee4bf310233ae1d688c6a81a755577018466c628d"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/demo/classroom-scarcity-30s-v2.jpg",
+      "bytes": 74779,
+      "sha256": "bcc0b7fdef47016288346b3b33836cebd70652243afeaa1278dcc347490239c2"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/demo/classroom-scarcity-30s-v2.mp3",
+      "bytes": 601004,
+      "sha256": "bf7c49bf2675f286e66af2bd968726fb53e417588b9139b35e029d4d35749257"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/demo/classroom-scarcity-30s-v2.mp4",
+      "bytes": 13273068,
+      "sha256": "5b844454305b96525949adcc4cb21133cf7c38515aeec3b126448180fa583a04"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/demo/classroom-scarcity-30s-v2.srt",
+      "bytes": 1755,
+      "sha256": "897f5c4baa35c94cfc77ed53bae2dd6a49c74b25865134ad496660039449a03d"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/studio/fonts/Inter.ttf",
+      "bytes": 876576,
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    {
+      "path": "../psychology-of-human-attraction/public/studio/vendor/three/three.module.js",
+      "bytes": 1314681,
+      "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+    }
+  ]
+}

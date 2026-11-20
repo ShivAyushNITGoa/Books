@@ -1,0 +1,249 @@
+{
+  "$schema": "../../engine/project.schema.json",
+  "version": 1,
+  "id": "curiosity",
+  "title": "Curiosity starts with a question",
+  "duration": 20,
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "timing": "approximate-word-weighted",
+  "script": "Curiosity starts with a question. When something surprises you, pause before reaching for an answer. Ask what changed. Look for evidence. A good question can teach you more than a quick opinion.",
+  "media": {},
+  "board": {
+    "title": "STAY CURIOUS",
+    "subtitle": "Ask. Observe. Learn.",
+    "detail": "Good questions open new possibilities."
+  },
+  "props": {
+    "cookieJars": false,
+    "phone": false
+  },
+  "captions": [
+    {
+      "start": 0,
+      "end": 2.5,
+      "text": "Curiosity starts with a"
+    },
+    {
+      "start": 2.5,
+      "end": 3.125,
+      "text": "question."
+    },
+    {
+      "start": 3.125,
+      "end": 5.625,
+      "text": "When something surprises you,"
+    },
+    {
+      "start": 5.625,
+      "end": 8.125,
+      "text": "pause before reaching for"
+    },
+    {
+      "start": 8.125,
+      "end": 9.375,
+      "text": "an answer."
+    },
+    {
+      "start": 9.375,
+      "end": 11.25,
+      "text": "Ask what changed."
+    },
+    {
+      "start": 11.25,
+      "end": 13.125,
+      "text": "Look for evidence."
+    },
+    {
+      "start": 13.125,
+      "end": 15.625,
+      "text": "A good question can"
+    },
+    {
+      "start": 15.625,
+      "end": 18.125,
+      "text": "teach you more than"
+    },
+    {
+      "start": 18.125,
+      "end": 20,
+      "text": "a quick opinion."
+    }
+  ],
+  "actors": [
+    {
+      "id": "primary",
+      "style": "hoodie",
+      "path": [
+        {
+          "t": 0,
+          "x": -1.35,
+          "z": 0.1
+        },
+        {
+          "t": 20,
+          "x": -1.2,
+          "z": 0.25
+        }
+      ],
+      "cues": [
+        {
+          "start": 0,
+          "end": 6,
+          "emotion": "curious",
+          "action": "gesture",
+          "look": 0.5
+        },
+        {
+          "start": 6,
+          "end": 13,
+          "emotion": "neutral",
+          "action": "nod",
+          "look": 0.6
+        },
+        {
+          "start": 13,
+          "end": 20,
+          "emotion": "happy",
+          "action": "gesture",
+          "look": 0.2
+        }
+      ],
+      "speech": [
+        {
+          "start": 0,
+          "end": 3.125
+        },
+        {
+          "start": 3.125,
+          "end": 9.375
+        },
+        {
+          "start": 9.375,
+          "end": 11.25
+        },
+        {
+          "start": 11.25,
+          "end": 13.125
+        },
+        {
+          "start": 13.125,
+          "end": 20
+        }
+      ]
+    },
+    {
+      "id": "secondary",
+      "style": "waistcoat",
+      "path": [
+        {
+          "t": 0,
+          "x": 1.35,
+          "z": -1.75
+        },
+        {
+          "t": 20,
+          "x": 1.35,
+          "z": -1.75
+        }
+      ],
+      "cues": [],
+      "speech": []
+    }
+  ],
+  "camera": [
+    {
+      "t": 0,
+      "position": [
+        0.2,
+        2.6,
+        9.5
+      ],
+      "target": [
+        0,
+        1.25,
+        -0.6
+      ]
+    },
+    {
+      "t": 1.40625,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 5.9375,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 10.21875,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 12.09375,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 16.21875,
+      "position": [
+        -2.4,
+        2.05,
+        4.7
+      ],
+      "target": [
+        -1.3,
+        1.25,
+        0.1
+      ]
+    },
+    {
+      "t": 20,
+      "position": [
+        0.3,
+        2.5,
+        9.1
+      ],
+      "target": [
+        0,
+        1.25,
+        -0.5
+      ]
+    }
+  ],
+  "foley": []
+}

@@ -1,0 +1,7 @@
+# The approved Animation reference also remains at its original repository paths.
+# Preserve its exact bytes on checkout so SHA-256 lock verification is portable.
+psychology-of-human-attraction/public/classroom-v2/** -text
+psychology-of-human-attraction/public/demo/classroom-scarcity-30s-v2.* -text
+psychology-of-human-attraction/vo/scarcity/** -text
+psychology-of-human-attraction/public/studio/fonts/Inter.ttf -text
+psychology-of-human-attraction/public/studio/vendor/three/three.module.js -text

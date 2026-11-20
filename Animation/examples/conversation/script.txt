@@ -1,0 +1,4 @@
+[primary] Why should I ask another question?
+[secondary] Because your first answer may not be the only one.
+[primary] So curiosity means staying open?
+[secondary] Exactly. Listen, look closer, and then decide.

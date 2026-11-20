@@ -1,0 +1,35 @@
+name: Animation bundle
+on:
+  pull_request:
+    paths:
+      - 'Animation/**'
+      - 'psychology-of-human-attraction/**'
+      - '.github/workflows/animation.yml'
+  push:
+    paths:
+      - 'Animation/**'
+      - 'psychology-of-human-attraction/**'
+      - '.github/workflows/animation.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify frozen release and original files
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE" ] && [ "$BASE" != "0000000000000000000000000000000000000000" ]; then
+            node Animation/tools/verify-lock.mjs --strict-originals --base "$BASE"
+          else
+            node Animation/tools/verify-lock.mjs --strict-originals
+          fi
+      - name: Dependency-free unit and server tests
+        run: npm --prefix Animation test

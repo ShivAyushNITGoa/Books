@@ -1,0 +1,4 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {serve} from '../tools/server.mjs';
+test('static server supports full/range/HEAD requests and rejects private paths',async()=>{const web=await serve({port:0});try{const root=`http://127.0.0.1:${web.port}`,url=root+'/locked/source/public/demo/classroom-scarcity-30s-v2.mp4';let r=await fetch(url,{headers:{range:'bytes=0-31'}});assert.equal(r.status,206);assert.equal((await r.arrayBuffer()).byteLength,32);assert.match(r.headers.get('content-type'),/video\/mp4/);r=await fetch(url,{method:'HEAD'});assert.equal(r.status,200);assert.equal((await r.arrayBuffer()).byteLength,0);r=await fetch(url,{headers:{range:'bytes=999999999-'}});assert.equal(r.status,416);await r.text();for(const s of ['/.git/config','/.env','/node_modules/playwright/package.json','/engine/..%2f..%2f.git/config']){r=await fetch(root+s);assert.equal(r.status,404);await r.text()}}finally{await web.close()}});
