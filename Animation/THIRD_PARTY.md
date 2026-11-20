@@ -12,7 +12,7 @@
 
 ## Install-time dependencies (not vendored binaries)
 
-- `playwright` 1.55.0: Apache-2.0; package/browser installation follows its distribution notices.
+- `playwright` 1.55.1: Apache-2.0; package/browser installation follows its distribution notices.
 - `ffmpeg-static` 5.2.0: GPL-3.0-or-later package; ffmpeg build licensing depends on the distributed build. Review its notices before redistributing binaries. No ffmpeg executable is committed in this folder. `FFMPEG_PATH` permits using your own installation.
 - Chromium and its OS libraries are external runtime requirements; no browser executable is committed.
 - Archived Python tools use NumPy and imageio-ffmpeg, with requirements files included. Follow those packages' notices if redistributing their distributions. The classroom Node workflow does not require Python; optional story voice generation does.
