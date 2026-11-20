@@ -29,9 +29,16 @@ type Timeline = "demo" | "film" | "scarcity";
 /* Finished renders shipped in public/demo/ (see vo/scarcity/SCRIPT.md for how they were made). */
 const DEMO_VIDEOS = [
   {
+    file: "classroom-scarcity-30s-v2",
+    title: "Scarcity & Attraction — Refined Edition",
+    meta: "NEW · Native 1080p · Voice-driven acting, continuous prop handling & subtle Foley · 9:16 · 0:30 · English",
+    portrait: true,
+    mb: 13.3,
+  },
+  {
     file: "classroom-scarcity-30s",
-    title: "Scarcity & Attraction — Reference-style Classroom",
-    meta: "NEW · Expressive 2D cutouts in one sunlit 3D room · 9:16 · 0:30 · English voice-over",
+    title: "Scarcity & Attraction — Reference-style Classroom (v1)",
+    meta: "Previous · Expressive 2D cutouts in one sunlit 3D room · 9:16 · 0:30 · English voice-over",
     portrait: true,
     mb: 23.3,
   },
@@ -315,9 +322,9 @@ export default function Studio() {
 
           <div id="demo-videos" className="mt-4 rounded-2xl border border-[#3a2418] bg-[#140b08] p-4">
             <h2 className="mb-1 text-xs font-semibold tracking-[0.25em] text-[#e0b27a]">DEMO VIDEOS</h2>
-            <p className="mb-2 text-xs text-[#8d7660]">New: reference-directed cartoon cutouts with oversized faces, expressive poses and stick limbs in one sunlit classroom. A perspective camera follows the action; earlier demos remain below.</p>
-            <a className="mb-4 inline-block text-sm text-[#e0b27a] underline" href="/classroom/index.html">Open interactive classroom scene ↗</a>
-            <div className="grid items-start gap-4 md:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)]">
+            <p className="mb-2 text-xs text-[#8d7660]">Refined edition: voice-driven cartoon acting, continuous prop handling, smoother camera movement and quiet action sounds in one sunlit classroom. Native 1080p; earlier demos remain below for comparison.</p>
+            <a className="mb-4 inline-block text-sm text-[#e0b27a] underline" href="/classroom-v2/index.html">Open refined interactive classroom ↗</a>
+            <div className="grid items-start gap-4 md:grid-cols-2">
               {DEMO_VIDEOS.map((v) => (
                 <figure
                   key={v.file}

@@ -7,8 +7,9 @@ import { mkdir } from 'node:fs/promises';
 import ffmpeg from 'ffmpeg-static';
 const preview=process.argv.includes('--preview');
 const reference=process.argv.includes('--reference');
-const scenePath=reference?'classroom':'stickworld';
-const name=reference?'classroom-scarcity-30s':'stickworld-scarcity-30s';
+const refined=process.argv.includes('--refined');
+const scenePath=refined?'classroom-v2':reference?'classroom':'stickworld';
+const name=refined?'classroom-scarcity-30s-v2':reference?'classroom-scarcity-30s':'stickworld-scarcity-30s';
 const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--single-process','--no-zygote','--in-process-gpu','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 let encoder;
 try {
@@ -17,9 +18,9 @@ await page.goto(process.env.STUDIO_URL||`http://127.0.0.1:3000/${scenePath}/inde
 await page.waitForFunction(()=>window.renderSafe);
 await page.evaluate(()=>document.fonts.ready);
 await mkdir('renders',{recursive:true});
-if(preview){for(const t of [2,6,11,16,20,26]){await page.evaluate(t=>window.setT(t),t);await page.locator('canvas').screenshot({path:`renders/${scenePath}-${t}.png`});}}
+if(preview){for(const t of refined?[2,6,7.65,11.6,12.5,13.6,16,20,24,26,28.5]:[2,6,11,16,20,26]){await page.evaluate(t=>window.setT(t),t);await page.locator('canvas').screenshot({path:`renders/${scenePath}-${t}.png`});}}
 else {
-encoder=spawn(ffmpeg,['-y','-loglevel','warning','-f','image2pipe','-vcodec','mjpeg','-r','30','-i','pipe:0','-i','vo/scarcity/voiceover.wav','-map','0:v','-map','1:a','-vf','scale=1080:1920:flags=lanczos','-c:v','libx264','-preset','fast','-crf','20','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-t','30','-movflags','+faststart',`public/demo/${name}.mp4`],{stdio:['pipe','inherit','inherit']});
+encoder=spawn(ffmpeg,['-y','-loglevel','warning','-f','image2pipe','-vcodec','mjpeg','-r','30','-i','pipe:0','-i',refined?'renders/classroom-v2-mix.wav':'vo/scarcity/voiceover.wav','-map','0:v','-map','1:a','-vf','scale=1080:1920:flags=lanczos','-c:v','libx264','-preset','fast','-crf',refined?'23':'20','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-t','30','-movflags','+faststart',`public/demo/${name}.mp4`],{stdio:['pipe','inherit','inherit']});
 const done=new Promise((resolve,reject)=>{encoder.once('error',reject);encoder.once('exit',code=>code===0?resolve():reject(new Error(`ffmpeg exit ${code}`)))});
 encoder.stdin.on('error',e=>console.error(e.message));
 for(let f=0;f<900;f++){

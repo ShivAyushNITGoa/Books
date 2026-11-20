@@ -1,0 +1,2 @@
+# Only for polish_audio.py (the renderer itself uses the existing Node dependencies).
+numpy>=2.0,<3
