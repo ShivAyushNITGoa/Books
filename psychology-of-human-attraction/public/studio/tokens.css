@@ -1,0 +1,37 @@
+/* Style tokens — extracted from herk-edit-kit (style-library/GUIDE.md contract):
+   "Cards reference tokens, never hardcode hex or font names."
+   Palette is symbolic, 5 active hues, each with a meaning (MOTION_PHILOSOPHY Law 7). */
+:root {
+  --ink: #0a0705;
+  --ink-deep: #050302;
+  --paper: #120c09;
+  --oxblood: #8f2f33;   /* attachment · the problem */
+  --oxblood-deep: #5e1e21;
+  --gold: #e8b46a;      /* light · value · wisdom */
+  --teal: #3fbdb0;      /* clarity · the solution */
+  --cream: #f4e6cf;     /* voice · type */
+
+  --grid-line: rgba(232, 180, 106, 0.10);
+  --grid-size: 96px;
+  --edge: rgba(232, 180, 106, 0.32);
+
+  /* chrome gradient on all headlines (kit type system) */
+  --chrome: linear-gradient(180deg, #fffdf7 0%, #f3e2c6 46%, #b99a72 78%, #e6d0ad 100%);
+  /* 8-stop chrome sweep with dark bookends */
+  --sweep: linear-gradient(90deg, #14110a 0%, #14110a 15%, #5e1e21 25%, #c8504f 40%, #e8b46a 55%, #3fbdb0 70%, #14110a 85%, #14110a 100%);
+
+  /* liquid-glass card (iOS-26 tell: inner highlight) */
+  --glass: linear-gradient(135deg, rgba(255,255,255,.075) 0%, rgba(255,255,255,.025) 38%, rgba(255,255,255,.010) 62%, rgba(255,255,255,.055) 100%);
+  --glass-border: rgba(232, 180, 106, 0.28);
+  --glass-inner: inset 0 1px 0 rgba(255,255,255,.22);
+
+  /* easing dictionary (kit §4.1) */
+  --e-out: cubic-bezier(0.16, 1, 0.3, 1);        /* expo.out   */
+  --e-in: cubic-bezier(0.55, 0.06, 0.68, 0.19);  /* expo.in    */
+  --e-io: cubic-bezier(0.65, 0, 0.35, 1);        /* power2.inOut */
+  --e-back: cubic-bezier(0.34, 1.56, 0.64, 1);   /* back.out   */
+
+  --font-display: "NSerif", "NSD", serif;
+  --font-ui: "NSD", "InterLocal", system-ui, sans-serif;
+  --font-mono: "InterLocal", ui-monospace, monospace;
+}
