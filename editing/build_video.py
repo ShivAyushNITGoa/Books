@@ -636,6 +636,15 @@ def build(args):
     srt_end = cues_all[-1]["end"]
     vo_dur = media_duration(ffmpeg, vo) if vo else 0.0
     total = max(srt_end, vo_dur) + TAIL_AFTER_VO
+    if args.preview_seconds:
+        if args.preview_seconds <= 0:
+            raise ValueError('--preview-seconds must be positive')
+        total = min(total, args.preview_seconds)
+        cues_all = [c for c in cues_all if c['start'] < total]
+        if not cues_all:
+            raise ValueError('No cues in preview window')
+        if args.limit:
+            raise ValueError('Use --preview-seconds or --limit, not both')
     if vo and vo_dur - srt_end > 1:
         print(f"VO span     : {vo_dur:.2f}s vs SRT span {srt_end:.2f}s "
               f"(narration beyond last cue: {vo_dur - srt_end:+.1f}s "
@@ -665,7 +674,9 @@ def build(args):
         print(f"QC            : {qw} same-shot warning(s)")
     sweep = make_sweep_png() if style["sweep"] > 0 else None
 
-    seg_dir = OUT_DIR / f"segments_{args.style}_{STYLE_TAG}"
+    # Isolate episode, resolution and preview caches to prevent stale reuse.
+    cache_scope = f"{args.name}_{W}x{H}_crf{CRF}_preview{args.preview_seconds}"
+    seg_dir = OUT_DIR / f"segments_{args.style}_{STYLE_TAG}_{cache_scope}"
     seg_dir.mkdir(parents=True, exist_ok=True)
 
     def _cached(p: Path):
@@ -766,6 +777,8 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--limit", type=int, default=0, help="build only first N cues")
+    ap.add_argument("--preview-seconds", type=float, default=0,
+                    help="exact opening preview duration; no closing tail added")
     ap.add_argument("--res", default="1280x720",
                     help="render resolution WxH (default 1280x720; "
                          "use 2560x1440 for QHD, 854x480 for small files)")

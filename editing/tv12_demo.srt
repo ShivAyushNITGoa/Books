@@ -1,0 +1,35 @@
+1
+00:00:00,000 --> 00:00:03,000
+Provisional visual cue 1; not a transcript.
+
+2
+00:00:03,000 --> 00:00:07,000
+Provisional visual cue 2; not a transcript.
+
+3
+00:00:07,000 --> 00:00:09,000
+Provisional visual cue 3; not a transcript.
+
+4
+00:00:09,000 --> 00:00:14,000
+Provisional visual cue 4; not a transcript.
+
+5
+00:00:14,000 --> 00:00:18,000
+Provisional visual cue 5; not a transcript.
+
+6
+00:00:18,000 --> 00:00:22,000
+Provisional visual cue 6; not a transcript.
+
+7
+00:00:22,000 --> 00:00:26,000
+Provisional visual cue 7; not a transcript.
+
+8
+00:00:26,000 --> 00:00:29,000
+Provisional visual cue 8; not a transcript.
+
+9
+00:00:29,000 --> 00:00:30,000
+Provisional visual cue 9; not a transcript.
