@@ -14,3 +14,5 @@ Follow `../../THIRD_PARTY.md` for browser, Playwright, FFmpeg and package notice
 `Caption-Heavy.ttf` is a static weight-850 / optical-size-32 instantiation of the bundle's Inter variable font, created with fontTools for reproducible FFmpeg captions. The derived family is named **Alexandria Caption**; original copyright and SIL OFL records remain embedded, and `Inter-OFL.txt` is included alongside it. This is font rendering support, not a new proprietary font license.
 
 `rose-granite.jpg` is newly AI-generated neutral material artwork (weathered Egyptian rose-granite grain), used as an albedo/bump texture on actual 3D monumental statuary. It supplies surface detail, not a scene/background image. It is not a scan of a specific real recovered monument.
+
+`caption-metrics.json` records the derived font’s ASCII advance widths so the offline subtitle pass can fit the supplied lines into the same safe area without installing fontTools at runtime. It contains no narration or third-party text.

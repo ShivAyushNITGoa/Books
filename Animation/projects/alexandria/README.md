@@ -78,6 +78,7 @@ Set `CHROMIUM_PATH` / `FFMPEG_PATH` if binaries are not in the normal dependency
 | `captions.srt` | User's authoritative English text and timing |
 | `tools/render.mjs` | Native still/range/full MP4 export; no audio/TTS path |
 | `tools/burn-captions.mjs` | Burn exact captions into a completed master without re-rendering 3D |
+| `tools/finalize.mjs` | Complete-file decode/frame/format/no-audio checks and deliberate selected-artifact publication |
 | `tests/` | Timing/chronology/shot contracts plus real-WebGL 15-shot review smoke test |
 
 Review is visual as well as technical: every shot midpoint, transition/destruction ranges, exposure, actor proportions/framing, first/last frames and final full-file decode. Passing tests is not a substitute for an audience's judgment of visual quality or evidence of parity with the railway reference.
