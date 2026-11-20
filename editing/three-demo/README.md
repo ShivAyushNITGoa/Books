@@ -32,3 +32,13 @@ v4 technical QA: full decode exits 0; 720 frames / 30.00 seconds, 1280×720,
 24 fps. One mid-shot frame inspected for successful rendering. Motion, focus
 and transition quality require user review. Original narration and provisional
 filename timing are unchanged. Full rendering remains gated on approval.
+
+## Full build and GitHub delivery
+Run `python3 -u editing/three-demo/full_build.py` from the repository root.
+The full build uses all 302 manifest images and provisional filename timings,
+with the original narration plus a two-second visual tail, rounded to 24 fps.
+It renders resumable 120-second chunks, decodes each, checks the master frame
+count, pushes source and a QA report to the session branch, then publishes
+master/parts as GitHub release assets to avoid large binaries in Git history.
+A failed render or QA check stops publication. Large files remain ignored locally.
+Current full default is 720p, CRF 24; camera vocabulary cycles every nine cues.
