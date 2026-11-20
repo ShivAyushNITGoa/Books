@@ -40,15 +40,22 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6, Node 24 runtime
         with:
           node-version: '22'
-      - name: Install story production dependencies
+      - name: Install Node dependencies without binary download hooks
+        working-directory: Animation
+        run: npm ci --ignore-scripts
+      - name: Install local English speech engine
         working-directory: Animation
         run: |
-          npm ci
           python3 -m venv .venv
           .venv/bin/python -m pip install -r story/requirements.txt
+      - name: Install browser and system media encoder
+        working-directory: Animation
+        run: |
           npx playwright install --with-deps chromium
+          sudo apt-get install -y ffmpeg
       - name: Real English speech and portrait/landscape export tests
         working-directory: Animation
         env:
           PYTHON: ${{ github.workspace }}/Animation/.venv/bin/python
+          FFMPEG_PATH: /usr/bin/ffmpeg
         run: npm run test:story:browser
