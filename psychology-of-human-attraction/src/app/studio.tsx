@@ -29,9 +29,16 @@ type Timeline = "demo" | "film" | "scarcity";
 /* Finished renders shipped in public/demo/ (see vo/scarcity/SCRIPT.md for how they were made). */
 const DEMO_VIDEOS = [
   {
+    file: "classroom-scarcity-30s",
+    title: "Scarcity & Attraction — Reference-style Classroom",
+    meta: "NEW · Expressive 2D cutouts in one sunlit 3D room · 9:16 · 0:30 · English voice-over",
+    portrait: true,
+    mb: 23.3,
+  },
+  {
     file: "stickworld-scarcity-30s",
-    title: "Scarcity & Attraction — Stickworld",
-    meta: "NEW · Continuous 2.5D stick-figure animation · 9:16 · 0:30 · English voice-over",
+    title: "Scarcity & Attraction — earlier Stickworld",
+    meta: "Previous · Continuous 2.5D stick-figure animation · 9:16 · 0:30 · English voice-over",
     portrait: true,
     mb: 0,
   },
@@ -308,8 +315,8 @@ export default function Studio() {
 
           <div id="demo-videos" className="mt-4 rounded-2xl border border-[#3a2418] bg-[#140b08] p-4">
             <h2 className="mb-1 text-xs font-semibold tracking-[0.25em] text-[#e0b27a]">DEMO VIDEOS</h2>
-            <p className="mb-2 text-xs text-[#8d7660]">New: one continuous room with animated stick figures, shaded 2D props and a camera that follows the action. Previous-style demos are kept below for reference.</p>
-            <a className="mb-4 inline-block text-sm text-[#e0b27a] underline" href="/stickworld/index.html">Open interactive Stickworld scene ↗</a>
+            <p className="mb-2 text-xs text-[#8d7660]">New: reference-directed cartoon cutouts with oversized faces, expressive poses and stick limbs in one sunlit classroom. A perspective camera follows the action; earlier demos remain below.</p>
+            <a className="mb-4 inline-block text-sm text-[#e0b27a] underline" href="/classroom/index.html">Open interactive classroom scene ↗</a>
             <div className="grid items-start gap-4 md:grid-cols-[minmax(0,0.62fr)_minmax(0,1fr)]">
               {DEMO_VIDEOS.map((v) => (
                 <figure
