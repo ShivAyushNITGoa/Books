@@ -80,3 +80,11 @@ jobs:
             exit 1
           fi
           cat "$RUNNER_TEMP/alexandria-test.log"
+      - name: Black box continuous-camera WebGL smoke test
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box/tests/browser.mjs > "$RUNNER_TEMP/black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/black-box-test.log"

@@ -2,9 +2,13 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
-## Current film: Alexandria — supplied SRT, custom animation, user VO
+## Current film: Why the black box is orange — VO, one continuous camera
 
-[Alexandria production](projects/alexandria/README.md) is a dedicated 60-second royal-harbour / underwater-exploration animation, not a re-run of the earlier classroom/story prototypes. It preserves the supplied SRT and exports silent clean/captioned masters for the user’s VO. The earlier classroom and railway/space-garden demos are retained as historical technical prototypes, **not accepted visual-quality benchmarks** for this film.
+[Black box production](projects/black-box/README.md) follows the user's complete airplane-recorder script with the selected English narrator. A single continuous camera dollies, orbits and descends through one connected design/search diorama: **no camera cuts**. The selected narrated MP4, captions, reproducible source takes and actual per-frame camera trace are published with the project.
+
+## Alexandria — supplied SRT and custom animation
+
+[Alexandria production](projects/alexandria/README.md) is a dedicated 60-second royal-harbour / underwater-exploration animation, not a re-run of the earlier classroom/story prototypes. It preserves the supplied SRT and includes the original silent masters plus a subsequently requested narrated edition. The earlier classroom and railway/space-garden demos are retained as historical technical prototypes, **not accepted visual-quality benchmarks**.
 
 ## Story-specific worlds, cast, English voice and captions
 

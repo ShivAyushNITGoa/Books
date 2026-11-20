@@ -1,0 +1,198 @@
+{
+  "title": "Why the black box is orange",
+  "voice": "User-selected English narrator voice-01",
+  "fps": 24,
+  "duration": 65.04166666666667,
+  "frames": 1561,
+  "chapters": [
+    {
+      "index": 1,
+      "start": 0.35,
+      "speechEnd": 7.942937,
+      "end": 8.292937,
+      "source": "01.flac"
+    },
+    {
+      "index": 2,
+      "start": 8.292937,
+      "speechEnd": 17.290687,
+      "end": 17.640687,
+      "source": "02.flac"
+    },
+    {
+      "index": 3,
+      "start": 17.640687,
+      "speechEnd": 25.744458,
+      "end": 26.094458,
+      "source": "03.flac"
+    },
+    {
+      "index": 4,
+      "start": 26.094458,
+      "speechEnd": 32.781813,
+      "end": 33.131813,
+      "source": "04.flac"
+    },
+    {
+      "index": 5,
+      "start": 33.131812,
+      "speechEnd": 42.46625,
+      "end": 42.81625,
+      "source": "05.flac"
+    },
+    {
+      "index": 6,
+      "start": 42.81625,
+      "speechEnd": 50.36275,
+      "end": 50.71275,
+      "source": "06.flac"
+    },
+    {
+      "index": 7,
+      "start": 50.71275,
+      "speechEnd": 57.492979,
+      "end": 57.842979,
+      "source": "07.flac"
+    },
+    {
+      "index": 8,
+      "start": 57.842979,
+      "speechEnd": 64.0195,
+      "end": 64.3695,
+      "source": "08.flac"
+    }
+  ],
+  "captions": [
+    {
+      "start": 0.35,
+      "end": 3.52,
+      "text": "Imagine designing the most important recorder on an airplane\u2026"
+    },
+    {
+      "start": 3.52,
+      "end": 5.74,
+      "text": "And then painting it bright orange."
+    },
+    {
+      "start": 5.74,
+      "end": 7.942937,
+      "text": "Because that's exactly what engineers did."
+    },
+    {
+      "start": 8.292937,
+      "end": 11.192937,
+      "text": "You see, this little device records crucial flight data"
+    },
+    {
+      "start": 11.192937,
+      "end": 13.742938,
+      "text": "and cockpit conversations."
+    },
+    {
+      "start": 13.742938,
+      "end": 17.290687,
+      "text": "And if a plane crashes, investigators need to find it."
+    },
+    {
+      "start": 17.640687,
+      "end": 18.890687,
+      "text": "But there's one problem."
+    },
+    {
+      "start": 18.890687,
+      "end": 20.940687,
+      "text": "Everyone calls it the black box."
+    },
+    {
+      "start": 20.940687,
+      "end": 23.400687,
+      "text": "So you'd expect it to be black, right?"
+    },
+    {
+      "start": 23.400687,
+      "end": 25.744458,
+      "text": "Well, that would be a terrible idea."
+    },
+    {
+      "start": 26.094458,
+      "end": 27.284458,
+      "text": "After a crash,"
+    },
+    {
+      "start": 27.284458,
+      "end": 29.674458,
+      "text": "the recorder could end up buried in wreckage,"
+    },
+    {
+      "start": 29.674458,
+      "end": 31.044458,
+      "text": "hidden in forests,"
+    },
+    {
+      "start": 31.044458,
+      "end": 32.781813,
+      "text": "or lying deep underwater."
+    },
+    {
+      "start": 33.131812,
+      "end": 35.441812,
+      "text": "And a black box in all that darkness?"
+    },
+    {
+      "start": 35.441812,
+      "end": 36.721812,
+      "text": "Good luck finding it."
+    },
+    {
+      "start": 36.721812,
+      "end": 40.071812,
+      "text": "So engineers chose a completely different colour."
+    },
+    {
+      "start": 40.071812,
+      "end": 42.46625,
+      "text": "Bright, highly visible orange."
+    },
+    {
+      "start": 42.81625,
+      "end": 46.67625,
+      "text": "They also added reflective markings to help search teams spot it,"
+    },
+    {
+      "start": 46.67625,
+      "end": 50.36275,
+      "text": "and underwater locator beacons to help find it beneath the sea."
+    },
+    {
+      "start": 50.71275,
+      "end": 52.32275,
+      "text": "And here's the funny part\u2026"
+    },
+    {
+      "start": 52.32275,
+      "end": 54.93275,
+      "text": "The device everyone calls a black box"
+    },
+    {
+      "start": 54.93275,
+      "end": 57.492979,
+      "text": "is actually designed to stand out like a traffic cone."
+    },
+    {
+      "start": 57.842979,
+      "end": 59.872979,
+      "text": "Because when an airplane disappears,"
+    },
+    {
+      "start": 59.872979,
+      "end": 61.932979,
+      "text": "the last thing investigators need\u2026"
+    },
+    {
+      "start": 61.932979,
+      "end": 64.0195,
+      "text": "is a recorder that's good at hiding."
+    }
+  ],
+  "audioPolicy": "Original speech rate; no pitch shift or time stretch. Only chapter pauses added."
+}
