@@ -27,6 +27,7 @@ def main():
  probe=run('-i',part,'-map','0:v:0','-map','0:a:0','-xerror','-vf','blackdetect=d=0.1:pix_th=0.025','-progress','pipe:1','-f','null','-')
  if int(re.findall(r'^frame=(\d+)$',probe.stdout,re.M)[-1])!=timeline['frames']:raise ValueError('Frame count mismatch')
  if '720x1280' not in probe.stderr or '24 fps' not in probe.stderr:raise ValueError('Wrong picture format')
+ if '48000 Hz, mono' not in probe.stderr or 'Audio: aac' not in probe.stderr:raise ValueError('Wrong narration stream format')
  if 'black_start:' in probe.stderr:raise ValueError('Unexpected black interval')
  if stream_hash(clean)!=stream_hash(part):raise ValueError('Picture changed during narration mux')
  measure=run('-i',part,'-vn','-af','loudnorm=I=-16:TP=-1.5:LRA=7:print_format=json','-f','null','-')
