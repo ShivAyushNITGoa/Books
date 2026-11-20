@@ -4,7 +4,7 @@ A dedicated **60-second, 9:16 animated film** directed to the user's supplied En
 
 ## Deliverables
 
-Selected finished exports belong in `delivery/`:
+Selected finished exports belong in local `delivery/`. The full-length MP4 masters are downloadable chat/workspace artifacts and are deliberately ignored by Git, following the bundle’s generated-output policy. Source, exact SRT, poster and measured production manifest are versioned; run the documented commands to reproduce the videos from Git.
 
 - `alexandria-clean-720p.mp4`: clean picture master, **720 × 1280, 24 fps, 60 seconds**, **no audio track**. Native render, not an upscaled low-resolution animatic. Ready for the user's VO/edit.
 - `alexandria-captioned-720p.mp4`: same animation with the supplied English captions burned in; **no audio track**.
@@ -54,6 +54,9 @@ node projects/alexandria/tools/burn-captions.mjs
 
 # Or a separate full render with captions:
 node projects/alexandria/tools/render.mjs --width 720 --fps 24 --out output/alexandria/alexandria-captioned-720p.mp4
+
+# Validate complete native files and move selected masters into local delivery/:
+node projects/alexandria/tools/finalize.mjs
 
 # Tests:
 node --test projects/alexandria/tests/timeline.test.mjs
