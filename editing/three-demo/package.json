@@ -1,0 +1,17 @@
+{
+  "name": "three-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sparticuz/chromium": "^153.0.0",
+    "playwright-core": "^1.65.1",
+    "three": "^0.187.0"
+  }
+}

@@ -1,0 +1,61 @@
+<!doctype html><html><head><meta charset="utf-8"><title>TV12 · Three.js depth demo</title><style>body{margin:0;background:#080b10;color:white;font:14px system-ui}canvas{width:100vw;height:100vh;object-fit:contain;display:block}button{position:fixed;bottom:22px;left:22px;padding:12px 20px;border:1px solid #ffffff55;border-radius:8px;background:#172435;color:white;cursor:pointer}</style></head><body><button id="play">Play 30-second demo</button><script type="module">
+import * as THREE from '/editing/three-demo/node_modules/three/build/three.module.js';
+const W=1280,H=720;
+const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+renderer.setSize(W,H);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;
+document.body.prepend(renderer.domElement);
+const starts=[0,3,7,9,14,18,22,26,29],labels=['0-00','0-03','0-07','0-09','0-14','0-18','0-22','0-26','0-29'];
+const loader=new THREE.TextureLoader();
+const textures=await Promise.all(labels.map(l=>loader.loadAsync('/images_tv12/'+l+'.jpg')));
+textures.forEach(t=>{t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearFilter;});
+const camera=new THREE.PerspectiveCamera(42,16/9,.1,100);
+const scenes=textures.map((texture,i)=>{
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#10131a');
+ const geo=new THREE.PlaneGeometry(16.7,9.4,96,54);
+ const pos=geo.attributes.position;
+ // Heuristic bas-relief: center/lower-frame proximity, not recovered geometry.
+ for(let k=0;k<pos.count;k++){
+  const x=pos.getX(k),y=pos.getY(k);
+  const depth=Math.exp(-((x/5.5)**2+((y+.7)/4.6)**2)*1.4);
+  pos.setZ(k,depth*.42);
+ }
+ geo.computeVertexNormals();
+ const material=new THREE.MeshBasicMaterial({map:texture});
+ scene.add(new THREE.Mesh(geo,material));
+ // Sparse deterministic foreground motes supply an independent depth plane.
+ const points=new Float32Array(55*3);
+ for(let j=0;j<55;j++){points[j*3]=Math.sin(j*127.1+i)*8;points[j*3+1]=Math.sin(j*43.7)*4.7;points[j*3+2]=1+(j%7)*.32;}
+ const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(points,3));
+ const pm=new THREE.PointsMaterial({color:0xe8d8ba,size:.016,transparent:true,opacity:.16,depthWrite:false});
+ const dust=new THREE.Points(pg,pm);scene.add(dust);
+ return {scene,dust};
+});
+const targets=[0,1].map(()=>new THREE.WebGLRenderTarget(W,H));
+const mixScene=new THREE.Scene(),mixCamera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+const mixMat=new THREE.ShaderMaterial({uniforms:{a:{value:targets[0].texture},b:{value:targets[1].texture},blend:{value:0}},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=vec4(position.xy,0.,1.);}',fragmentShader:'uniform sampler2D a;uniform sampler2D b;uniform float blend;varying vec2 v;void main(){vec4 c=mix(texture2D(a,v),texture2D(b,v),blend);float vig=1.-.12*pow(length((v-.5)*1.2),2.);gl_FragColor=vec4(c.rgb*vig,1.); #include <tonemapping_fragment>\n#include <colorspace_fragment>\n}'});
+// Shader directives must begin a new line.
+mixMat.fragmentShader=mixMat.fragmentShader.replace('; #include',';\n#include');
+mixScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),mixMat));
+function drawScene(i,t,target){
+ const duration=(starts[i+1]??30)-starts[i];
+ const u=THREE.MathUtils.clamp((t-starts[i]+.35)/(duration+.7),0,1);
+ const e=u*u*(3-2*u),d=i%2? -1:1;
+ // Smooth orbit/dolly with no oscillatory shake or abrupt reframing.
+ camera.position.set(d*(-.38+.76*e),.12*Math.sin(Math.PI*e),12.5-.60*e);
+ camera.lookAt(d*.08*(e-.5),0,.16);
+ scenes[i].dust.position.x=.04*(t-starts[i]);scenes[i].dust.position.y=.018*(t-starts[i]);
+ renderer.setRenderTarget(target);renderer.render(scenes[i].scene,camera);
+}
+window.renderAt=t=>{
+ t=Math.min(29.999,Math.max(0,t));
+ let i=starts.findLastIndex(s=>s<=t),j=starts.findIndex((s,k)=>k>0&&Math.abs(t-s)<.35);
+ let a=i,b=i,blend=0;
+ if(j>0){a=j-1;b=j;let u=(t-starts[j]+.35)/.7;blend=u*u*(3-2*u);}
+ drawScene(a,t,targets[0]);drawScene(b,t,targets[1]);mixMat.uniforms.blend.value=blend;
+ renderer.setRenderTarget(null);renderer.render(mixScene,mixCamera);
+};
+window.renderAt(0);window.ready=true;
+const audio=new Audio('/video%2012%20full%20audio.mp3');let active=false;
+document.querySelector('#play').onclick=async()=>{audio.currentTime=0;await audio.play();active=true;};
+function tick(){if(active){window.renderAt(audio.currentTime);if(audio.currentTime>=30){audio.pause();active=false;}}requestAnimationFrame(tick);}tick();
+</script></body></html>
