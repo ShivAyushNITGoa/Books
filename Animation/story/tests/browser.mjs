@@ -11,7 +11,7 @@ import {validateStory} from '../engine/story.js';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const web=await serve({port:0,root:ROOT});let browser;const created=[];
 try{
- browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--enable-unsafe-swiftshader',...(process.env.CHROMIUM_PATH?['--single-process','--no-zygote','--in-process-gpu','--use-gl=angle','--use-angle=swiftshader']:[])]});
+ browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,args:['--no-sandbox','--enable-unsafe-swiftshader',...((process.env.CHROMIUM_SINGLE_PROCESS==='1'||process.env.CHROMIUM_PATH==='/tmp/chromium')?['--single-process','--no-zygote','--in-process-gpu','--use-gl=angle','--use-angle=swiftshader']:[])]});
  const page=await browser.newPage();
  for(const slug of ['railway','space-garden']){
   const out=`output/test-story-${slug}-${process.pid}`;created.push(path.join(ROOT,out));

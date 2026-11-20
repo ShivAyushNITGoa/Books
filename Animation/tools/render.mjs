@@ -24,7 +24,7 @@ export async function render(options={}){
  try{
   const {chromium}=await import('playwright');
   const args=['--no-sandbox','--enable-unsafe-swiftshader'];
-  if(process.env.CHROMIUM_PATH)args.push('--single-process','--no-zygote','--in-process-gpu','--use-gl=angle','--use-angle=swiftshader');
+  if(process.env.CHROMIUM_SINGLE_PROCESS==='1'||process.env.CHROMIUM_PATH==='/tmp/chromium')args.push('--single-process','--no-zygote','--in-process-gpu','--use-gl=angle','--use-angle=swiftshader');
   browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||undefined,args});
   const page=await browser.newPage({viewport:{width:720,height:1280}});
   let url=`http://127.0.0.1:${web.port}/`;

@@ -88,7 +88,7 @@
     "story/engine/story.js": "cdf49a45421a42f76cb0d87c99d2ec3549bb67abb1dcf9cced97ea63885846a5",
     "story/tools/prepare.mjs": "1175f57b07ac35e95019ae77169c01e2696ce96f45c4c34f3a8b813f43b65afa",
     "story/tools/tts.py": "dad04b62f94e02803cfb24a0e2783a70fff1e3e4d0959713e967c5c89d736ff8",
-    "tools/render.mjs": "95161361aed0c0546b9e8c4ad033e6cba1fbdacd119de81deb47bb6f47b148d9"
+    "tools/render.mjs": "1e0f49c5790092508cab3efb31526c4d1aa1d2a30e4d5b6a777b0cebdfff6a8f"
   },
-  "sourceHashNote": "Hashes identify reviewed source after nonvisual playback-code cleanup; re-encoding is not guaranteed byte-identical across systems."
+  "sourceHashNote": "Hashes identify reviewed source after nonvisual playback cleanup and host-specific browser-launch correction; re-encoding is not guaranteed byte-identical across systems."
 }

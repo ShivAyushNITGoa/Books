@@ -26,7 +26,7 @@ npm test
 npm run verify-lock
 ```
 
-Python is needed only to **generate the default voice**; per-scene supplied English audio can bypass TTS. No cloud key, voice model download or online runtime call. FFmpeg comes from the existing Node dependency or `FFMPEG_PATH`; Chromium can use `CHROMIUM_PATH`. External engine/browser libraries remain install-time dependencies, not Git assets. See [third-party notices](../THIRD_PARTY.md).
+Python is needed only to **generate the default voice**; per-scene supplied English audio can bypass TTS. No cloud key, voice model download or online runtime call. FFmpeg comes from the existing Node dependency or `FFMPEG_PATH`; Chromium can use `CHROMIUM_PATH`. External engine/browser libraries remain install-time dependencies, not Git assets. Full Chrome uses its normal multiprocess renderer; only the Arena `/tmp/chromium` fallback (or explicit `CHROMIUM_SINGLE_PROCESS=1`) enables the sandbox-specific single-process/GL flags. See [third-party notices](../THIRD_PARTY.md).
 
 ## Prepare → preview → export
 
