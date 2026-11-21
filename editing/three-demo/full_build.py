@@ -15,7 +15,7 @@ import imageio_ffmpeg
 ROOT=Path(__file__).resolve().parents[2]
 HERE=ROOT/'editing/three-demo'
 OUT=ROOT/'output/tv12_full_v4'
-BRANCH='arena/9b3286e3-books'
+BRANCH='arena/635bbdb1-books'
 FF=imageio_ffmpeg.get_ffmpeg_exe()
 
 def run(cmd, **kw):
@@ -57,7 +57,7 @@ def main():
     count=run([FF,'-v','error','-i',master,'-map','0:v:0','-f','framemd5','-'],capture_output=True,text=True)
     decoded=sum(1 for line in count.stdout.splitlines() if line and not line.startswith('#'))
     if decoded!=frames:raise RuntimeError(f'Expected {frames} frames, decoded {decoded}')
-    report={'status':'technical QA passed; subjective full review pending','duration_seconds':duration,'decoded_frames':decoded,'resolution':'1280x720','fps':24,'scene_count':len(timeline['scenes']),'timing':'provisional image-label timing, no authoritative SRT','style':'Three.js v4 varied smooth camera moves, simulated focus and bas-relief depth','audio':'original GitHub narration AAC encoded, no gain changes or music','parts':[{'name':p.name,'bytes':p.stat().st_size} for p in chunks],'master_sha256':hashlib.sha256(master.read_bytes()).hexdigest(),'source_fingerprint':fingerprint}
+    report={'status':'technical QA passed; subjective full review pending','duration_seconds':duration,'decoded_frames':decoded,'resolution':'1280x720','fps':24,'scene_count':len(timeline['scenes']),'timing':'provisional image-label timing, no authoritative SRT','style':'Three.js v5: 16 duration-scaled smooth camera styles, 11 smooth transition modes (windows scaled by adjacent image durations), simulated focus and bas-relief depth','audio':'original GitHub narration AAC encoded, no gain changes or music','parts':[{'name':p.name,'bytes':p.stat().st_size} for p in chunks],'master_sha256':hashlib.sha256(master.read_bytes()).hexdigest(),'source_fingerprint':fingerprint}
     report_path=HERE/'FULL_BUILD_REPORT.json'
     report_path.write_text(json.dumps(report,indent=2)+'\n')
     run(['git','add','.gitignore','editing/three-demo'])
@@ -65,8 +65,8 @@ def main():
     run(['git','push','origin',BRANCH])
     sha=subprocess.check_output(['git','rev-parse','--short','HEAD'],text=True).strip()
     tag='tv12-full-v4-'+sha
-    notes='Full TV12 at 720p/24fps using Three.js v4. Original narration, no music or captions. Timing is provisional from image labels (authoritative SRT unavailable). Includes master plus sequential parts under 100 MB. Technical decode/frame-count QA passed; subjective full-video review pending.'
-    run(['gh','release','create',tag,'--target',BRANCH,'--title','TV12 full video · Three.js v4 · 720p','--notes',notes,master,*chunks,report_path])
+    notes='Full TV12 at 720p/24fps using Three.js v5 with expanded effects: 16 duration-scaled camera styles and 11 smooth transition modes whose length follows each image duration. Original narration, no music or captions. Timing is provisional from image labels (authoritative SRT unavailable). Includes master plus sequential parts under 100 MB. Technical decode/frame-count QA passed; subjective full-video review pending.'
+    run(['gh','release','create',tag,'--target',BRANCH,'--title','TV12 full video · Three.js expanded effects · 720p','--notes',notes,master,*chunks,report_path])
     print('PUBLISHED https://github.com/ShivAyushNITGoa/Books/releases/tag/'+tag,flush=True)
 
 if __name__=='__main__':main()

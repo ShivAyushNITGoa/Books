@@ -6,6 +6,8 @@
   "render_time_reduction_percent": 24.2,
   "baseline_capture": "Playwright page screenshot",
   "optimized_capture": "direct WebGL canvas JPEG export",
+  "expanded_effects_seconds": 19.95,
+  "expanded_effects_note": "Same 96-frame window after adding 11 duration-scaled transition modes and 16 camera styles; ~0.208 s/frame on this 2-core CPU-only host (SwiftShader). Implies roughly 1.7-2 hours for 29,640 frames, plus chunk startup overhead. Short benchmark only, not a guaranteed full-video time.",
   "full_video_runtime_estimate_note": "Short benchmark only; not a guaranteed full-video time. CPU software rendering remains the limiting resource.",
-  "checks": "Both benchmark videos decoded successfully; one optimized frame inspected."
+  "checks": "Benchmark videos decoded successfully; frames at 1.0 s, 2.9 s, 3.1 s, 3.3 s and 3.6 s inspected (push-in plus feathered transition) — no blank frames, mesh edges or distortion."
 }

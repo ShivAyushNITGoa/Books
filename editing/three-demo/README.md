@@ -1,4 +1,4 @@
-# TV12 Three.js 30-second depth demo (v3)
+# TV12 Three.js full build (v5 · expanded effects)
 
 From this directory:
 
@@ -33,6 +33,32 @@ v4 technical QA: full decode exits 0; 720 frames / 30.00 seconds, 1280×720,
 and transition quality require user review. Original narration and provisional
 filename timing are unchanged. Full rendering remains gated on approval.
 
+## v5 expanded effects (current)
+`index.html` now carries a wider, fully smooth vocabulary:
+- **16 camera styles** cycling per cue: the original nine (push-in, truck
+  L→R/R→L, pull-out, pedestal, diagonal dolly, orbit, focus pull) plus arc
+  sweep, crane down, lateral sway push, dutch settle push (±~1.3° roll),
+  rise-and-open, settle drift (smoothstep two-phase) and counter orbit.
+- **11 transition modes** cycling deterministically across the 301
+  boundaries: dissolve, feathered horizontal reveal, optical zoom blend,
+  defocus dissolve, feathered vertical reveal, diagonal feathered wipe,
+  soft radial iris, warm glow dissolve, converging directional smear,
+  chromatic soft split, and counter-roll cross.
+- **Duration-driven speed and length**: each image's own duration scales
+  camera travel amplitude (`0.7–1.4×`) and the transition half-window
+  (`clamp(0.22 + 0.06 × min(neighbour durations), 0.26, 0.52)` s), so short
+  cues get brisk, tighter moves and long holds get wider, more languid ones.
+- **Seamless by construction**: camera moves and blend weights use quintic
+  easing (zero endpoint velocity/acceleration); every mode collapses to
+  identity at blend 0 and to the incoming frame at blend 1, so there are no
+  sudden screen changes — only smooth blends. Total duration, cue order and
+  narration timing are untouched; transitions only overlap around cues.
+
+v5 benchmark (96-frame opening window, same host): 19.95 s ≈ 0.208 s/frame
+→ roughly 1.7–2 hours for the 29,640-frame full render on this CPU-only
+host. See RENDER_BENCHMARK.json. Frames at 1.0/2.9/3.1/3.3/3.6 s inspected:
+clean push-in and feathered transition, no blank frames or mesh edges.
+
 ## Full build and GitHub delivery
 Run `python3 -u editing/three-demo/full_build.py` from the repository root.
 The full build uses all 302 manifest images and provisional filename timings,
@@ -41,7 +67,8 @@ It renders resumable 120-second chunks, decodes each, checks the master frame
 count, pushes source and a QA report to the session branch, then publishes
 master/parts as GitHub release assets to avoid large binaries in Git history.
 A failed render or QA check stops publication. Large files remain ignored locally.
-Current full default is 720p, CRF 24; camera vocabulary cycles every nine cues.
+Current full default is 720p, CRF 24; the branch constant must match the
+authorized session branch.
 
 ## Optimized CPU rendering
 The export path now renders/captures the canvas in one browser call, avoiding
