@@ -1,0 +1,30 @@
+{
+  "file": "character-style-5s-720p.mp4",
+  "durationSeconds": 5,
+  "width": 720,
+  "height": 1280,
+  "fps": 30,
+  "frames": 150,
+  "audio": "None; intentional silent visual test",
+  "codec": "H.264 / yuv420p / BT.709",
+  "bytes": 480187,
+  "sha256": "59935c317337dafccd08a2bfb89a03c69b4d00308ed2f7a17651b2c04b44384d",
+  "fullDecode": "passed",
+  "unexpectedBlackIntervals": 0,
+  "browserErrors": [],
+  "deterministicSeeking": true,
+  "allFrameFeatureBounds": "passed",
+  "sourceSha256": {
+    "index.html": "34f4ac2c77b868e315b0919cea2ad53cda7dc34b74a0afc538b34b740fbd763c",
+    "scene.js": "13a55c632078eba9b0f8cc6c946675920ad236d935d9321e982c676d92121f6f",
+    "render.mjs": "0e25fef49c20f0db83ae103e8a4d4fead21020656c468d0c8488be0456691e6c"
+  },
+  "technique": "Original articulated Canvas 2D illustration with gradients, independent face/head/limbs and planted/swing foot paths; not a full-3D rig or whole-body billboard",
+  "reference": "Sampled visual analysis of user-supplied history reference; no copied character artwork",
+  "scope": "Standalone five-second prototype; existing ship film unchanged",
+  "reviewLimits": {
+    "everyFrameHumanReviewed": false,
+    "referenceParityClaimed": false,
+    "full3DCharacter": false
+  }
+}
