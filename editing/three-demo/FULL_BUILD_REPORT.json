@@ -1,0 +1,59 @@
+{
+  "status": "technical QA passed; subjective full review pending",
+  "duration_seconds": 1235.0,
+  "decoded_frames": 29640,
+  "resolution": "1280x720",
+  "fps": 24,
+  "scene_count": 302,
+  "timing": "provisional image-label timing, no authoritative SRT",
+  "style": "Three.js v5: 16 duration-scaled smooth camera styles, 11 smooth transition modes (windows scaled by adjacent image durations), simulated focus and bas-relief depth",
+  "audio": "original GitHub narration AAC encoded, no gain changes or music",
+  "parts": [
+    {
+      "name": "tv12_part_01.mp4",
+      "bytes": 14884896
+    },
+    {
+      "name": "tv12_part_02.mp4",
+      "bytes": 15049472
+    },
+    {
+      "name": "tv12_part_03.mp4",
+      "bytes": 14796720
+    },
+    {
+      "name": "tv12_part_04.mp4",
+      "bytes": 14203787
+    },
+    {
+      "name": "tv12_part_05.mp4",
+      "bytes": 15681983
+    },
+    {
+      "name": "tv12_part_06.mp4",
+      "bytes": 16059145
+    },
+    {
+      "name": "tv12_part_07.mp4",
+      "bytes": 14842365
+    },
+    {
+      "name": "tv12_part_08.mp4",
+      "bytes": 14438379
+    },
+    {
+      "name": "tv12_part_09.mp4",
+      "bytes": 14751311
+    },
+    {
+      "name": "tv12_part_10.mp4",
+      "bytes": 14652904
+    },
+    {
+      "name": "tv12_part_11.mp4",
+      "bytes": 4388990
+    }
+  ],
+  "master_sha256": "fabb7c1238a2edd53409e1455c063d6a9441dbdd578df7dfe08480027decb067",
+  "source_fingerprint": "afebb65cd16bb9e22ec12ec9b7486acdbe07bf448b687a5c96383ac20a5934d6"
+}
