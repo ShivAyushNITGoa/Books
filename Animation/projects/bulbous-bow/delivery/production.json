@@ -1,0 +1,126 @@
+{
+  "file": "bulbous-bow-narrated-720p.mp4",
+  "sha256": "363d09ea643fc3a74adfd9f1e9930bff32d316bdc8241d0e32371282a6e9e83a",
+  "bytes": 55522382,
+  "title": "Why Ships Have a Strange Bulge Under Their Nose",
+  "durationSeconds": 205.25,
+  "frames": 4926,
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC mono 48kHz",
+  "integratedLufs": -16.19,
+  "truePeakDbtp": -1.36,
+  "fullFileDecode": "passed",
+  "unexpectedBlackIntervals": 0,
+  "pictureUnchangedDuringMux": true,
+  "encodedFeatureChecks": [
+    {
+      "time": 79,
+      "feature": "bulb cutaway",
+      "visibleFeaturePixels": 12077,
+      "passed": true
+    },
+    {
+      "time": 172,
+      "feature": "tow model",
+      "visibleFeaturePixels": 3377,
+      "passed": true
+    }
+  ],
+  "scriptWords": 568,
+  "scriptPreserved": true,
+  "voice": "user-selected voice-02",
+  "cameraAudit": {
+    "frames": 4926,
+    "issues": [],
+    "settledBounds": [],
+    "maximumOrientationStep": 2.9582977307170757,
+    "maximumPositionStep": 10.7330462793298,
+    "minimumTerrainClearance": 9.000000172572392,
+    "bearingRanges": {
+      "dock": 9.182652430976372,
+      "underway": 22.582843968434158,
+      "ending": 22.115301513143205
+    },
+    "repeatedOrbits": false
+  },
+  "cameraTraceSha256": "dc389df8548d97eb5707e09a97fbb0d72f1c4b8e997806523915a3bac429a16f",
+  "renderAssembly": {
+    "method": "Deterministic frame-range replacement after visual QA; contiguous 24 fps, unchanged programme time; H.264 re-encode on assembly",
+    "replacementRangesSeconds": [
+      [
+        64,
+        87,
+        "reveal-corrected"
+      ],
+      [
+        159,
+        182,
+        "laboratory-corrected"
+      ],
+      [
+        199,
+        205.25,
+        "ending-corrected"
+      ]
+    ],
+    "frames": 4926,
+    "initialPictureSha256": "89c4d92e0e95b80aba7315a8a76d9bf843f70d1fcd37a9f4a5dd976e5eeb2cfd",
+    "replacementSha256": {
+      "reveal-corrected": "a873677f85f80d0717282d171c1718467d636668aff8fa1d15247210d1739103",
+      "laboratory-corrected": "1e6ff5ad13be3cd7f66b8d7bce8b27b0fd06bf72b0d9164db04e449570a2e52b",
+      "ending-corrected": "fe8b493ca877b2de2892ce06317f274e817e51d9799f9b41e097d24a59d8132b"
+    },
+    "assembledPictureSha256": "74c52387ccdd71f832aed8dd939d9467e2f08e5e41065b38d2e78c93e96185e1"
+  },
+  "captions": {
+    "count": 83,
+    "language": "English",
+    "method": "Measured speech activity plus word weights; not forced aligned"
+  },
+  "scientificScope": "Dimensionless wave superposition diagrams, not CFD, measured resistance or fuel-saving predictions. Off-design conditions may increase resistance.",
+  "environments": [
+    "excavated dry dock",
+    "coastal ocean",
+    "ripple pond",
+    "outdoor design basin",
+    "separate naval model-testing laboratory",
+    "cargo terminal"
+  ],
+  "world": "Continuous regional terrain and time-compressed travel; full-size ships never enter the model laboratory.",
+  "reviewLimits": {
+    "manualAudioListening": false,
+    "everyFramePerceptuallyReviewed": false,
+    "referenceParityClaimed": false,
+    "checks": "All 4926 camera poses, complete encoded-file decode and representative visual samples"
+  },
+  "sourceSha256": {
+    "script.txt": "217ed69b712a1a80db0385c4d0f0c260d1049ec663e0ff5a2c06d1eec48c6f76",
+    "narration.json": "e54f20035e2cb8121306047f66af94e199faf5695d245b7ab65cdf39d33eca3f",
+    "world.js": "d08fba55f829eb387dfc68d0b70c8e9c722fc0fd3e22ca9279fdff7245560a88",
+    "film.js": "6d89a0a263d1ed47a9fd1b03346f09e35b4fa2705ec3d177abfacfb1baee9e77",
+    "index.html": "72aa0ab52b0e1ebbd292e097624e2d1f3bab3fde37161dc03f0e0b82f4409bae",
+    "audio/takes.json": "602af19ef1cbf62985ef0ac72d71abd7d460a597e83a8e6a2e1faa370a57b9f8",
+    "audio/amplitude.json": "5dcc8d322c84385999ebaf55ea95d70b9043174c752c787ba61688d8141ad090",
+    "environment/geography.js": "6137b3a5b1b36059cd8efe9dd6d42a6a818829d8cbcdaf9ec7a8a84b8d9dde3f",
+    "environment/facilities.js": "c74da77302a8845b1e597fb2314d2eb5cf173370a632fc3385d0a1b6af846d80",
+    "environment/waves.js": "3f35580dcb539bdc0a9ebb224aa2357d0bc4d8f0c3a083bc008a6be94be60390",
+    "environment/atmosphere.js": "801a153d5deb3ee353b9e5243bd727cc8023bb2b313d300c0234103012e4e9cc",
+    "direction/math.js": "217874bc9d3ac4cd96e4fd2595ec6f9cd0398308bcee86263ea8a4a53761e5c6",
+    "direction/timing.js": "7438382e6d0afb492211d88db27f4841fea68493c540ee0a4f2a3beee1f0817c",
+    "direction/camera.js": "3e1c09fa310125372358b70426b8f2a830d5127eae8b44feb6724f8cdc9ab11f",
+    "direction/choreography.js": "0704e11cead858e8b9d00720598a09fa04e9825dc45968ccf07c3330da740673",
+    "assets/drawing.js": "e748b14b3d7688c46777481a362d9f5957c077c01df91c88661886bd2cb19841",
+    "assets/ship.js": "a9409fc96305ad3cf92eb17cf4002df332bc45f06c00fe25efe8c5411385e044",
+    "tests/production.test.mjs": "b7f9605ffd646ef773dad9feaf465df064d79d7ad0c2d16ca8c690e7ac77cd1b",
+    "tests/browser.mjs": "9ea2ced203e216e383fdc5bd5ffc86a7d61824d1dcd34ad36cc13d5aa3698d2a",
+    "tools/prepare_audio.py": "bb694ec13019f667f10db515295e5d15519b4418ea1f4b05da75518375e33ff6",
+    "tools/render.mjs": "e27ba329afbc1ac1fb9963172026457f2503c19eaf6d0d90c68eee344f0fc263",
+    "tools/finish.py": "9a547e0145a47399b776dfb4f8761d351caa25746605c64e11280a0bc42cd7e3",
+    "tools/assemble_review_fixes.py": "d8dd8a980b480711a68aa499ff25740e7c2fa0eb1aa239c7e8fbc213589d84ee",
+    "ui/overlay.js": "3baae5add1fd92a95b7350e908520efc422a99ea83c1cd8f73a88e24f9d6d7a4"
+  },
+  "voiceoverSha256": "0051cb5c072224bb7ebc0c6bc8dda2ec54442a6619c897732bd413e9de5a8992"
+}

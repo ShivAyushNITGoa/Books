@@ -29,6 +29,10 @@ The user explicitly asked to list the improvements from the first black-box film
 14. **Review the complete timeline and the final encode.** Check all output-frame geometry/motion invariants, plus representative rendered transitions and actual MP4 stills. Test captions, missing resources, audio/video decode, loudness and mux integrity. Preserve requested final video/source delivery and provide a permanent GitHub link when requested.
 15. **Keep lessons and limitations explicit.** Passing tests is not user approval, every-frame perceptual review, manual audio listening or reference-film parity. Record what was actually checked and carry corrections into the next project before production begins.
 
+## Newest camera correction — bulbous-bow brief
+
+For the next ship film the user explicitly asked **not to round/circle the camera around the object and not to move repeatedly around the film as before**. This overrides any assumption that the black-box project's multi-sided camera work should become a standard orbit recipe. Use calm, purposeful staging and held explanatory views; reserve travel and height changes for genuine reveals or changes of place. Varying composition does not require circling a subject. Do not carry black-box minimum-azimuth thresholds into a brief that asks for less camera movement. The [bulbous-bow direction notes](../projects/bulbous-bow/DIRECTION.md) document the application and checks.
+
 ## Use before every new film
 
 - Read the new script and identify its required locations, geography, characters, action, visual style and audio/camera constraints.

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Why ships have a bulbous bow: a narrated illustrated journey from dry dock to ocean, wave experiments and naval model testing.">
+  <title>Why Ships Have a Strange Bulge Under Their Nose</title>
+  <style>
+    @font-face {
+      font-family: Caption;
+      src: url('../alexandria/assets/Caption-Heavy.ttf');
+      font-display: block;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #102a34;
+      color: #ecedd8;
+      font: 14px system-ui, sans-serif;
+      display: grid;
+      place-items: center;
+      min-height: 100vh;
+    }
+    main { width: min(100%, 430px); }
+    canvas { display: block; width: 100%; height: auto; }
+    nav {
+      display: flex;
+      gap: 9px;
+      align-items: center;
+      padding: 12px;
+      background: #21434e;
+    }
+    button {
+      background: #365d67;
+      color: white;
+      border: 1px solid #74989c;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:focus-visible, input:focus-visible { outline: 3px solid #ffb36c; }
+    input { flex: 1; min-width: 40px; accent-color: #eb9150; }
+    small { display: block; padding: 10px; color: #b5cbc3; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <main>
+    <canvas id="film" aria-label="Purposeful no-orbit camera journey explaining the bulbous bow with a real dry dock, ocean voyage, ripple pond and model-testing laboratory"></canvas>
+    <nav aria-label="Film playback controls">
+      <button id="play" type="button">Play</button>
+      <input id="seek" aria-label="Film timeline" type="range" min="0" max="205.25" step="0.01" value="0">
+      <button id="cc" type="button" aria-label="Toggle English captions">CC</button>
+      <span id="clock">0:00</span>
+    </nav>
+    <small>Full supplied script · Selected English narrator · No repeated camera orbits<br>Wave diagrams are explanatory, not CFD or fuel-saving measurements.</small>
+    <audio id="vo" src="delivery/voiceover.flac" preload="auto"></audio>
+  </main>
+  <script type="module" src="film.js"></script>
+</body>
+</html>

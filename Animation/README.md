@@ -6,7 +6,11 @@ The approved **Refined Edition** is preserved unchanged. This folder is a self-c
 
 Use the [first-to-latest black-box improvement history and future-production checklist](story/PRODUCTION_LESSONS.md). The user explicitly requested carrying these lessons into future videos **as required by the new script**, not copying this film's settings or treating test passes as artistic approval.
 
-## Current film: Black box — one continuous geographic journey
+## Current film: Why Ships Have a Strange Bulge Under Their Nose
+
+[Bulbous-bow production](projects/bulbous-bow/README.md) uses the complete supplied **568-word English script** and user-selected narration in a **205.25-second portrait film**. The [actual narrated MP4](projects/bulbous-bow/delivery/bulbous-bow-narrated-720p.mp4) accompanies editable source, English captions and final-file QA. Dry dock, open sea, ripple pond, outdoor design basin, a separate model-testing laboratory and cargo terminal support the explanation. Direction explicitly follows the user's newest correction: **calmer one-sided ship views, no repeated camera circling**, with partial-interference and speed/loading caveats rather than numerical CFD/fuel claims.
+
+## Previous film: Black box — one continuous geographic journey
 
 [Continuous-geography production](projects/black-box-journey/README.md) substantially rebuilds the previous film into one shared **8.5 × 8.4 km land-to-seabed field**, with a regional mixed forest (14,821 trees / seven types in the reviewed build), natural winding coast, river/estuary, connected roads/bridge, coastal recovery harbour and airport. The camera shows the route between places, with horizon/landmark reveals and a small geographic orientation inset. Exact English script and selected narration are retained; travel is explicitly time-compressed, with **no cuts, teleports or picture blending**.
 
