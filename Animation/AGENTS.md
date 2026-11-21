@@ -1,5 +1,7 @@
 # Working on this animation kit
 
+**Latest user character-style override:** do not reuse stiff whole-body billboard humans for new character work. Sampled footage analysis of the supplied history reference shows expressive **2D / layered 2.5D cartoon illustration**, not a requirement for realistic 3D humans. Use independent expressions/limbs/props, direction-specific poses and coherent staging; changing a static texture is insufficient. See `references/history-characters/ANALYSIS.md`, `references/CHARACTER_REFERENCE_REVIEW.md` and the override at the top of `STYLE_GUIDE.md`. The Dario reference remains unreviewed beyond metadata. This supersedes the historical character-default instruction below for new work only; keep all frozen approved originals intact.
+
 - Read `README.md`, `PROJECT_FORMAT.md` and `STYLE_GUIDE.md` first.
 - The user approved the Refined Edition at source commit `4f52b6d`. Treat `locked/` and the original approved files recorded in its manifest as immutable. Do not rewrite hashes to make an unintended edit pass.
 - New scripts belong in separate `projects/<slug>/` directories. Keep story-specific text/timing out of the reusable engine.

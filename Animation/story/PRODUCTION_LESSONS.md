@@ -41,6 +41,10 @@ The user subsequently requested a proportionate bulb, less apparent immersion, r
 
 The subsequent ship reference correction rejects a separately attached rounded cylinder/ellipsoid. When a user asks for an integral form, reshape the parent object's topology; hiding an intersecting primitive is not equivalent. Check connectivity, welded edges and the actual silhouette against the reference. Also distinguish “more dynamic camera” from animated props: add deliberate slow tracking/dolly/crane movement during explanation beats without undoing a prior no-circling constraint. Ray-based visual tests must sample the actual raster pixel footprint; projected-world-point rounding can otherwise confuse nearby walls/machinery with a supposedly unobstructed floor.
 
+## Latest character correction — no card-like / 2D humans
+
+The user asks to replace our card-like people with the treatment in two linked Shorts. Actual sampled analysis of the supplied history MP4 shows expressive **2D / layered 2.5D illustrated characters**: clean contours, soft shading, readable facial changes, raised-arm/group staging, tool use and profile walking poses. Do not confuse rejection of a stiff billboard implementation with a demand for photorealistic or necessarily full-3D anatomy. Make independent face/limb/prop performance and coherent view-dependent staging visible in a short preview before a long export; replacing one whole-body texture is insufficient. See [timestamped analysis and evidence](../references/history-characters/ANALYSIS.md) and [review status](../references/CHARACTER_REFERENCE_REVIEW.md). The Dario clip still needs accessible footage; the immutable archive and current ship delivery have not been restyled by this guidance update.
+
 ## Use before every new film
 
 - Read the new script and identify its required locations, geography, characters, action, visual style and audio/camera constraints.

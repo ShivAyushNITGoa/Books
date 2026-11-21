@@ -1,5 +1,14 @@
 # Approved visual contract
 
+## Latest character-direction override — illustrated acting, not stiff cards
+
+The user now explicitly rejects card-like / 2D humans and requests characters like those in these two references:
+
+- https://youtube.com/shorts/foR4BWiUd4g
+- https://youtube.com/shorts/VzSRUWRGFlk
+
+For new character work, do **not** reuse the current stiff whole-body billboard people as the default. This newer instruction supersedes that character implementation, not the immutable archive. Preserve `locked/` and the original approved files. Actual sampled footage analysis of the history reference shows **2D / layered 2.5D illustrated characters** with strong silhouettes, soft shading, facial changes, gestures, tool use and direction-specific walking poses—not a requirement for realistic 3D humans. Match expressive acting and coherent staging rather than merely changing a billboard texture. The original production technique is unverified; the Dario reference's footage is still pending. See [review status](references/CHARACTER_REFERENCE_REVIEW.md) and [timestamped analysis](references/history-characters/ANALYSIS.md). Existing exported films have not been restyled by this documentation change.
+
 **Standing instruction for future films:** apply the [black-box improvement history and production lessons](story/PRODUCTION_LESSONS.md) as required by each new script. Read that checklist before planning a new production; do not blindly copy the black-box locations, runtime or numerical thresholds.
 
 > Scope: this document is the approved **classroom** contract. The newer separate [story-world extension](story/BLUEPRINT.md) retains illustrative cutout characters but deliberately permits story-specific environments, multiple locations, casts and props. It does not change the frozen approved classroom film.
