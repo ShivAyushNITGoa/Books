@@ -6,9 +6,11 @@ The approved **Refined Edition** is preserved unchanged. This folder is a self-c
 
 Use the [first-to-latest black-box improvement history and future-production checklist](story/PRODUCTION_LESSONS.md). The user explicitly requested carrying these lessons into future videos **as required by the new script**, not copying this film's settings or treating test passes as artistic approval.
 
-## Current film: The Great Molasses Flood
+## Current film: The Great Molasses Flood — structural rebuild
 
-[Molasses-flood production](projects/molasses-flood/README.md) includes the complete **222⅔-second narrated portrait film**, 41 authored shots across nine original dimensional cartoon sets, English captions, quiet original effects, an [in-depth transcript/production plan](projects/molasses-flood/PLAN.md), and a [historical/editorial ledger](projects/molasses-flood/ACCURACY.md). It applies the latest Dario-led **character and camera** direction together. The two train-derailment lines are conservatively edited to damaged supports and a train stopping short; conflicting accounts and reconstruction limits are documented. Earlier films and locked originals remain unchanged.
+The user **rejected the first delivery**. The separate [connected-world rebuild](projects/molasses-flood-rebuilt/README.md) replaces stationary-root walking, transfer-then-frozen cameras and switched locations with world-space travel, distance-driven gait/IK, retained inundation and a continuous moving camera in one district. Read the [whole-film audit and ten-point correction ledger](projects/molasses-flood-rebuilt/ANALYSIS_AND_FIXES.md), including limitations and review evidence. Complete **222⅔-second selected narration**, 85 captions and conservative train corrections are preserved. Technical checks are not aesthetic approval.
+
+The [first molasses production](projects/molasses-flood/README.md) remains a rejected historical iteration, not a quality benchmark. Its [historical/editorial ledger](projects/molasses-flood/ACCURACY.md) still supplies the source decisions. Earlier films and locked originals remain unchanged.
 
 ## Previous film: Why Ships Have a Strange Bulge Under Their Nose
 
