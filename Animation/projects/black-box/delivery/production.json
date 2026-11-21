@@ -1,0 +1,39 @@
+{
+  "file": "black-box-continuous-narrated-720p.mp4",
+  "sha256": "793f305b8df12ace217c2c6fbb8fe94825751e8897a933a67b20efdb4c318b9b",
+  "bytes": 24341684,
+  "durationSeconds": 65.04166666666667,
+  "frames": 1561,
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC mono 48kHz",
+  "integratedLufs": -16.25,
+  "truePeakDbtp": -1.49,
+  "fullFileDecode": "passed",
+  "unexpectedBlackIntervals": 0,
+  "pictureUnchangedDuringMux": true,
+  "continuousCamera": {
+    "rigs": 1,
+    "cuts": 0,
+    "fov": 43,
+    "traceFrames": 1561,
+    "maximumFrameToFramePositionStep": 0.2707469684959683,
+    "traceSha256": "82468783d6f7aa22acef0323cb1008918a76f3af9d4f25c8eb2f577a35aaa07b"
+  },
+  "sourceSha256": {
+    "film.js": "88cdcbbeccda1ccfce4d1e56754db1ec59244a28100c3ba0ab4420009dfcaf6c",
+    "set.js": "c4865f8ef8f14210058bc21bddedb826ead982e3c329310e639191289e711a24",
+    "timeline.js": "741ec4415064923531190e180be5a89693a53ca27fcf18441d9e51e797e9477a",
+    "timeline.json": "21220a5cf04efadfab1b9f166f87c613f4b2627fe6dc64f675d9ae94c7b9e744",
+    "script.txt": "37fd400ae17f8d5f7925226c1f958c9be1f097f05dfb5161316863459f0ebc29",
+    "delivery/voiceover.flac": "b86fb35d3628112dbf2ca944fe62852137acce4ec7282e20c3709d67755b3e10"
+  },
+  "visualReview": {
+    "finishedVideoFramesReviewed": 15,
+    "coverage": "Opening, orange hook, aircraft/data, hypothetical black, wreckage, forest, underwater descent/darkness, orange reveal, reflective strips, beacon/diver, traffic cone and ending.",
+    "method": "Representative frames extracted from the complete encoded MP4, in addition to real-WebGL adjacent-frame-motion/seek tests and actual per-frame camera trace validation.",
+    "limitation": "Not a claim of manual inspection of every frame or parity with the railway reference."
+  }
+}

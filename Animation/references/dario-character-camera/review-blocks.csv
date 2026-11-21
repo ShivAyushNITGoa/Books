@@ -1,0 +1,31 @@
+atlasPage,firstFrame,lastFrameInclusive,relativeStartSeconds,relativeEndExclusiveSeconds,staging,cameraAndEditing,characterAndDepth
+1,0,179,0,6,Night city and office to laboratory,Exterior forward approach; facade/window fills frame; interior arc and host push; distinct lab transition,Host gestures; profile changes; dimensional office furnishings
+2,180,359,6,12,Laboratory host,Wide display context; front presenter; fast higher oblique move; return toward front,Arms/face change independently; props overlap at changing depths
+3,360,539,12,18,"Globe, screen, desk and bedroom approach",Push past host to globe; explicit monitor change at f408; desk sweep; clock/window/bed transfer,Host typing/seated pose; view includes back and side of head
+4,540,719,18,24,"Bedroom, auditorium, overhead control",Bed framing settles; auditorium switch; steep high-angle move; fundraising transfer,Sleeping pose; presenter reappears in new spatial context
+5,720,899,24,30,"Fundraising, rocket and seated presenter",Lateral context reveal; two-person scene; seat/host push; guarded-prop insert,Other cast shares proportions; seated limbs and expression changes
+6,900,1079,30,36,Guarded exhibit and safety display,Exhibit detail; host full/close shot; lateral transfer to safety display; wide crowd,Large arm gesture and face changes; host not always in frame
+7,1080,1259,36,42,"Aircraft, desk and ceremonial room",Exterior cut; desk close-up; wider ceremonial setting; host push; oblique/overhead transfer,"Physical task, hand gestures and foreground prop relationship"
+8,1260,1439,42,48,"Facade, meeting and signing",Exterior facade glide; meeting table angles and pullback; document detail,Foreground/background cast scale and overlap change
+9,1440,1619,48,54,Signing and storage room,Document-to-hand-to-room pullback; display transfer; exchange between host and uniformed cast; shelf detail,Pen/hand contact; role-specific costume; pointing around crate
+10,1620,1799,54,60,Storage room and luminous exhibit,Shelf lateral movement; host reveal; exhibit insert; high oblique control interaction,Head/eyelid changes; arm and prop occupy actual depth
+11,1800,1979,60,66,Exhibit and globe/data,Prop/host transfers then globe scene with changing count and turning geography,Cast replaced by diagrammatic object when idea requires
+12,1980,2159,66,72,Round table and corridor,Overhead table; successive close seated views; wider table reset; server corridor,Side/rear heads; different expressions and props at seats
+13,2160,2339,72,78,"Corridor, outside and capsule row",Sweep past racks; exterior scene; repeated capsule passes; host revealed at right,Profile host handling foreground machine/control
+14,2340,2519,78,84,Social screen and desk,Two-cast setup; screen close-up; wide reset; desk rear-to-front sweep,"Microphone, chair, head and tabletop show differential parallax"
+15,2520,2699,84,90,Office and institution,Seated host; visible dissolve outdoors; facade and host; crest insert; bench reveal,Face pose changes without whole body facing camera
+16,2700,2879,90,96,"Bench, table, calendar and office",Bench settles; table vignette; calendar insert; office shelves; landscape change,Seated worker/host in changing contextual shots
+17,2880,3059,96,102,"Landscape, clock and corridor",Landscape host; clock push; AI sign; corridor push; profile/backward-facing walk,Leg poses change; character turns away from camera at door
+18,3060,3239,102,108,Workplace and calendar,Door entrance; server insert; host interaction; calendar; exterior group,"Task-specific facing, gestures and supporting cast"
+19,3240,3419,108,114,"Exterior, driving cutaways and sign",Group setup; moving exterior/control inserts; blueprint host; sign-install rear view,Both hands toward sign; shoes supported on chair
+20,3420,3599,114,120,Door and graph hall,Door/host view settles; graph-hall wide shot; host/bar setup; widening/vertical reframing,Host scale subordinate to large graph architecture
+21,3600,3779,120,126,Graph and launch event,Graph height reads; return to host; launch audience wide; stage approach,Host reacts beside chart then presents at launch
+22,3780,3959,126,132,"Launch, office and balcony",Stage prop action; office rows; balcony foreground-rail pass; task close-up,Hands and laptop task; rear/side cast before facial reveal
+23,3960,4139,132,138,Balcony and conveyor,Retreat from host; long conveyor reveal; package push; pullback as objects multiply,Cast yields frame to explanatory props
+24,4140,4319,138,144,"Conveyor, dial and desk",Counter/racks insert; host reveal; office wide; dial detail; screen-to-host sweep,Mug/hand interaction and reaction close view
+25,4320,4499,144,150,"Desk, glass room and report",Host close-up; pull back through partition context; clipboard character; report push,Held props differ by role; foreground object occludes intentionally
+26,4500,4679,150,156,Report and robot lab,Document/page changes; desk host; robot-lab wide; robot approach; gauge setup,Robot forms and character scale follow same dimensional world
+27,4680,4859,156,162,Gauge and outdoors,Gauge plus host read; exterior circular mechanism; return to robot hall,Host watches/reaches toward gauge rather than always viewer
+28,4860,5039,162,168,"Robot hall, mechanism and drive",Lateral/forward hall moves; robot close-up; circular-device insert; car establishment,Mechanical action shares space with cast and environment
+29,5040,5219,168,174,"Driver, safety, pedal and ending transfer",Driver close-up; tunnel/safety reveal; foot/pedal insert; driver return; visible blend,Hands on wheel; task-based foot close-up; coherent facing
+30,5220,5338,174,177.96666666666667,Reset-control ending,Settled room composition with small repositioning and host gestures,Face/head/arms animate; final composition has reading time

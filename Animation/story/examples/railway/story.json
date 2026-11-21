@@ -1,0 +1,492 @@
+{
+  "version": "story-v1",
+  "id": "railway",
+  "title": "The Gap That Saved the Bridge",
+  "language": "en",
+  "width": 720,
+  "height": 1280,
+  "fps": 30,
+  "cast": [
+    {
+      "id": "engineer",
+      "name": "Maya, railway engineer",
+      "color": "#329ca6",
+      "hat": "cap"
+    },
+    {
+      "id": "owner",
+      "name": "Impatient railway owner",
+      "color": "#c79b48",
+      "hat": "tophat"
+    },
+    {
+      "id": "rival",
+      "name": "Rival builder",
+      "color": "#824d78",
+      "hat": "tophat"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "narration": "A tiny gap in a railway can look like a mistake. But removing it can destroy the whole line.",
+      "world": {
+        "kind": "canyon"
+      },
+      "camera": {
+        "target": [
+          0,
+          70,
+          0
+        ],
+        "zoom": 1,
+        "to": {
+          "target": [
+            -45,
+            65,
+            0
+          ],
+          "zoom": 1.15
+        }
+      },
+      "actors": [
+        {
+          "id": "engineer",
+          "position": [
+            -100,
+            6,
+            50
+          ],
+          "action": "work"
+        }
+      ],
+      "props": [
+        {
+          "id": "trestle",
+          "shape": "bridge",
+          "position": [
+            0,
+            -10,
+            0
+          ],
+          "size": [
+            950,
+            440,
+            90
+          ],
+          "color": "#ad855e"
+        },
+        {
+          "id": "track",
+          "shape": "rail",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            950,
+            6,
+            65
+          ],
+          "color": "#84959a"
+        },
+        {
+          "id": "train",
+          "shape": "train",
+          "position": [
+            370,
+            8,
+            0
+          ],
+          "size": [
+            160,
+            80,
+            60
+          ],
+          "color": "#345e68",
+          "to": [
+            200,
+            8,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "disagreement",
+      "narration": "Maya left space between the rails. The owner wanted a smoother ride, with no gaps at all.",
+      "world": {
+        "kind": "canyon"
+      },
+      "camera": {
+        "target": [
+          0,
+          70,
+          0
+        ],
+        "zoom": 1.5
+      },
+      "actors": [
+        {
+          "id": "engineer",
+          "position": [
+            -95,
+            0,
+            65
+          ],
+          "action": "point"
+        },
+        {
+          "id": "owner",
+          "position": [
+            90,
+            0,
+            65
+          ],
+          "action": "angry"
+        }
+      ],
+      "props": [
+        {
+          "id": "trestle",
+          "shape": "bridge",
+          "position": [
+            0,
+            -10,
+            0
+          ],
+          "size": [
+            950,
+            440,
+            90
+          ],
+          "color": "#ad855e"
+        },
+        {
+          "id": "track",
+          "shape": "rail",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            950,
+            6,
+            65
+          ],
+          "color": "#84959a"
+        }
+      ]
+    },
+    {
+      "id": "rival",
+      "narration": "Across the canyon, a rival joined every rail tightly. His train rolled quietly past the station.",
+      "world": {
+        "kind": "town"
+      },
+      "camera": {
+        "target": [
+          0,
+          70,
+          0
+        ],
+        "zoom": 0.9
+      },
+      "actors": [
+        {
+          "id": "rival",
+          "position": [
+            150,
+            0,
+            80
+          ],
+          "action": "celebrate"
+        }
+      ],
+      "props": [
+        {
+          "id": "track",
+          "shape": "rail",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1000,
+            6,
+            65
+          ],
+          "color": "#83959b",
+          "effect": "heat"
+        },
+        {
+          "id": "train",
+          "shape": "train",
+          "position": [
+            -350,
+            8,
+            0
+          ],
+          "size": [
+            200,
+            95,
+            70
+          ],
+          "color": "#a35a50",
+          "to": [
+            200,
+            8,
+            0
+          ]
+        },
+        {
+          "id": "station",
+          "shape": "sign",
+          "position": [
+            0,
+            0,
+            -130
+          ],
+          "size": [
+            220,
+            180,
+            6
+          ],
+          "color": "#f5d397",
+          "label": "SMOOTH RAILWAY"
+        }
+      ]
+    },
+    {
+      "id": "sunshine",
+      "narration": "Then summer arrived. Hot steel expands. Those little spaces gave each rail room to grow.",
+      "world": {
+        "kind": "canyon"
+      },
+      "camera": {
+        "target": [
+          0,
+          70,
+          0
+        ],
+        "zoom": 1.45,
+        "to": {
+          "target": [
+            80,
+            35,
+            0
+          ],
+          "zoom": 2.1
+        }
+      },
+      "actors": [
+        {
+          "id": "engineer",
+          "position": [
+            -110,
+            0,
+            65
+          ],
+          "action": "point"
+        }
+      ],
+      "props": [
+        {
+          "id": "trestle",
+          "shape": "bridge",
+          "position": [
+            0,
+            -10,
+            0
+          ],
+          "size": [
+            950,
+            440,
+            90
+          ],
+          "color": "#ad855e"
+        },
+        {
+          "id": "expanding-track",
+          "shape": "rail",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            850,
+            8,
+            65
+          ],
+          "color": "#b99563",
+          "effect": "heat"
+        },
+        {
+          "id": "summer",
+          "shape": "sign",
+          "position": [
+            190,
+            0,
+            -40
+          ],
+          "size": [
+            140,
+            110,
+            6
+          ],
+          "color": "#f3d68f",
+          "label": "SUMMER"
+        }
+      ]
+    },
+    {
+      "id": "pressure",
+      "narration": "The rival rails had nowhere to go. They pushed against each other, until the track bent sideways.",
+      "world": {
+        "kind": "canyon"
+      },
+      "camera": {
+        "target": [
+          0,
+          10,
+          0
+        ],
+        "zoom": 1.6
+      },
+      "actors": [],
+      "props": [
+        {
+          "id": "trestle",
+          "shape": "bridge",
+          "position": [
+            0,
+            -10,
+            0
+          ],
+          "size": [
+            950,
+            440,
+            90
+          ],
+          "color": "#ad855e"
+        },
+        {
+          "id": "buckling-track",
+          "shape": "rail",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            900,
+            8,
+            65
+          ],
+          "color": "#bf8564",
+          "effect": "buckle"
+        }
+      ]
+    },
+    {
+      "id": "resolution",
+      "narration": "Maya watched her train cross safely. What looked imperfect was exactly what made her railway work.",
+      "world": {
+        "kind": "canyon"
+      },
+      "camera": {
+        "target": [
+          0,
+          70,
+          0
+        ],
+        "zoom": 0.95,
+        "to": {
+          "target": [
+            40,
+            90,
+            0
+          ],
+          "zoom": 0.8
+        }
+      },
+      "actors": [
+        {
+          "id": "engineer",
+          "position": [
+            -180,
+            0,
+            70
+          ],
+          "action": "celebrate"
+        },
+        {
+          "id": "owner",
+          "position": [
+            30,
+            0,
+            70
+          ],
+          "action": "surprised"
+        }
+      ],
+      "props": [
+        {
+          "id": "trestle",
+          "shape": "bridge",
+          "position": [
+            0,
+            -10,
+            0
+          ],
+          "size": [
+            950,
+            440,
+            90
+          ],
+          "color": "#ad855e"
+        },
+        {
+          "id": "safe-track",
+          "shape": "rail",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            950,
+            6,
+            65
+          ],
+          "color": "#84959a",
+          "effect": "heat"
+        },
+        {
+          "id": "safe-train",
+          "shape": "train",
+          "position": [
+            -380,
+            8,
+            0
+          ],
+          "size": [
+            170,
+            85,
+            65
+          ],
+          "color": "#345e68",
+          "to": [
+            300,
+            8,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "file": "black-box-continuous-geography-720p.mp4",
+  "sha256": "a68f5210d9edff6303c03124184383b913845b2494599bfdbfc003dad322f436",
+  "bytes": 27309049,
+  "durationSeconds": 65.04166666666667,
+  "frames": 1561,
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC mono 48kHz",
+  "integratedLufs": -16.25,
+  "truePeakDbtp": -1.49,
+  "fullFileDecode": "passed",
+  "unexpectedBlackIntervals": 0,
+  "pictureUnchangedDuringMux": true,
+  "blocking": {
+    "clearStaticRecorderCenterSightlines": "every full-focus delivery frame",
+    "focusFrames": 979,
+    "minimumPersonRecorderClearanceMeters": 2.799019513592785,
+    "maximumPersonRecorderScreenEnvelopeOverlap": 6.625107866411046e-06,
+    "subjectNdcXRange": [
+      -0.441866893130784,
+      0.3924305105617421
+    ],
+    "azimuthRangeDegrees": {
+      "factory": 299.7031037096067,
+      "forest": 99.910926944349,
+      "ocean": 519.9538262313255,
+      "rescue": 139.48032599577394,
+      "airport": 355.0903057609498
+    }
+  },
+  "continuousCamera": {
+    "rigs": 1,
+    "cuts": 0,
+    "fov": 46,
+    "traceFrames": 1561,
+    "maximumFrameToFramePositionStep": 26.860316901722925,
+    "maximumFrameToFrameOrientationDegrees": 9.233963167535011,
+    "traceSha256": "89081aa817e8bb5bc9d46ad4b7f74a3d41498b5b6f598b6023738dd28cf9e98f",
+    "minimumTerrainClearanceMeters": 3.0000776226055095,
+    "motionBlending": false
+  },
+  "sourceSha256": {
+    "art.js": "bf80cce7c2a64fe9e05af2933be263ab7cc72025585ce8475a00eb4d6d666aea",
+    "camera-rig.js": "bae0c44ffbc23919ea8940a378a07630ffb2af63544dfaaade700a081c348a2d",
+    "choreography.js": "cb22c9b9c3b759308c8c23c7ac67f46a948916d0497b1a2141a23822632c27dd",
+    "world.js": "b2127cc521754553a1e9e1983080aabfc71ecc292f02641d4e227c1caab11284",
+    "film.js": "b6c58d924c51aa6209104305450f2c34a4a2aa9c5e3442dc31e58e052834bf4a",
+    "environment/field.js": "5051aec9674d021b8ca458b77ec38a2f514d534ed210ae32da113c0cf44359e8",
+    "environment/terrain.js": "27c138c925c8f969bbb7d85b35949a0dfa8ae48c2586b9f62c804a40833e7482",
+    "environment/water.js": "80e237c0edf9856b475f6d903607b98b299ecac9a933d014a0e440b8e4359bac",
+    "environment/infrastructure.js": "1a2babb836f00bfb6bf87d0c7467d927c03147635398051f4f2f2a507b1af64b",
+    "environment/vegetation.js": "0ca24d7af19642a23e543ecb7396b97f155d23b11cfdc6afaae35b6c9fd44515",
+    "environment/atmosphere.js": "f4d2aaf872419451e5c26b250d756c59c217054405a593b15c701f7d9a452310",
+    "sites/factory.js": "bf1a056f5581e80e726069a1d63700d2ca02db2fd2929bedd7f0a69628788788",
+    "sites/forest.js": "34063954282006f18150609692cf6b7945ceac37f709ec4923184005329666b9",
+    "sites/coast.js": "8985b2c55f65ea7d915fea273a7e14856cdb9ed99a5e7c13671bcc049552ac19",
+    "sites/airport.js": "e5f508dee53d7ff8df1cf79bdb97acf0d01a925977e06398add618bb45a13c3b",
+    "sites/seabed.js": "6de83264b8091fe2bb650a9fe708c42acd6cbec447710cbf8733ac3e20bfb70e",
+    "direction/curve.js": "f2630b1bfc7f271bc1fcf360a33c04996b39a172ba7fc8d49ffc2124d969aadc",
+    "direction/animation.js": "1d4a09c3ef9704e12b59e022c89bac15d2f8c00cccf94502f9b5ef6f3af39532",
+    "ui/overlay.js": "af2c7b812776d127d92fd7d4e1c298772fa4f6d7c47983ed619ba52ae3f5eb7b",
+    "narration.json": "21220a5cf04efadfab1b9f166f87c613f4b2627fe6dc64f675d9ae94c7b9e744",
+    "script.txt": "37fd400ae17f8d5f7925226c1f958c9be1f097f05dfb5161316863459f0ebc29",
+    "../black-box/delivery/voiceover.flac": "b86fb35d3628112dbf2ca944fe62852137acce4ec7282e20c3709d67755b3e10"
+  },
+  "geography": {
+    "sites": 5,
+    "indoorSites": [
+      "factory"
+    ],
+    "outdoorSites": [
+      "forest",
+      "ocean",
+      "rescue",
+      "airport"
+    ],
+    "minimumSeparationMeters": 456.95412855121464,
+    "waterExtentMeters": 10000,
+    "travel": "continuous, time-compressed aerial travel through one world; no camera cuts",
+    "story": "independent hypothetical crash examples, not one recorder crashing twice"
+  },
+  "environment": {
+    "terrain": {
+      "vertices": 99176,
+      "triangles": 197094,
+      "bounds": {
+        "minX": -3600,
+        "maxX": 4900,
+        "minZ": -3700,
+        "maxZ": 4700,
+        "seed": 49071
+      },
+      "continuousSurface": true,
+      "disconnectedOutdoorPlatforms": 0
+    },
+    "vegetation": {
+      "trees": 14821,
+      "species": [
+        {
+          "name": "Scots pine",
+          "count": 4429
+        },
+        {
+          "name": "Mountain fir",
+          "count": 3759
+        },
+        {
+          "name": "Broadleaf oak",
+          "count": 2553
+        },
+        {
+          "name": "Silver birch",
+          "count": 2533
+        },
+        {
+          "name": "Coastal acacia",
+          "count": 246
+        },
+        {
+          "name": "Young sapling",
+          "count": 982
+        },
+        {
+          "name": "Weathered snag",
+          "count": 319
+        }
+      ],
+      "shrubs": 1545,
+      "footprintMeters": {
+        "width": 3348,
+        "depth": 3564
+      },
+      "spatialInstanceBatches": 553,
+      "distribution": "coherent biomes across the entire connected region; no story-centred tree ring"
+    },
+    "infrastructure": {
+      "roadLengthMeters": 2075.022648005637,
+      "bridges": 1
+    },
+    "water": {
+      "seaWidthMeters": 10000,
+      "continuousRiver": true,
+      "artificialWaterWalls": 0
+    },
+    "independentIndoorRooms": 1,
+    "outdoorPlatformCount": 0,
+    "worldCoordinateSystem": "one Y-up metre-based geographic world"
+  },
+  "reviewLimits": {
+    "manualAudioListening": false,
+    "referenceParityClaimed": false,
+    "captions": "inherited original timing, not forced aligned"
+  },
+  "visualReview": {
+    "method": "48 representative stills decoded from the actual final MP4 and compared with source-rendered geography/transition reviews",
+    "timesSeconds": [
+      0,
+      2,
+      4.3,
+      8,
+      12.8,
+      17.4,
+      19.8,
+      20.7,
+      21.3,
+      22,
+      23,
+      24,
+      25,
+      26.2,
+      27.4,
+      28.6,
+      29.5,
+      30.3,
+      30.9,
+      31.7,
+      32.3,
+      33.2,
+      34.4,
+      35.2,
+      36,
+      37.2,
+      38,
+      38.8,
+      39.5,
+      40.6,
+      42.3,
+      44.5,
+      45.4,
+      46.2,
+      47.2,
+      47.8,
+      49.2,
+      50.2,
+      50.9,
+      51.6,
+      52.2,
+      53,
+      54,
+      55.8,
+      58,
+      61.5,
+      63,
+      65
+    ],
+    "scope": "representative visual review, not an every-frame perceptual watch or manual audio listening",
+    "focus": "continuous forest slopes and mixed trees, factory exit, headland and open sea, dive, harbour approach, return to same seabed, river/bridge corridor and airport"
+  },
+  "regressionResults": {
+    "unitTests": 52,
+    "browserRenderedPoses": 48,
+    "sourceCommit": "d96e7f8cc31e753701ca962805fb33a01117f85f",
+    "sourceGithubWorkflowRuns": [
+      44847523756,
+      44847514732
+    ],
+    "sourceGithubWorkflowConclusion": "success",
+    "originalLock": "40 bundled files and 20/20 original files unchanged"
+  }
+}

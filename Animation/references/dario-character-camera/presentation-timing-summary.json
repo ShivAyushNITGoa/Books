@@ -1,0 +1,8 @@
+{
+  "count": 5339,
+  "firstPTS": 0.0333333,
+  "lastPTS": 177.966667,
+  "minimumRoundedPTSStep": 0.03333299999999895,
+  "maximumRoundedPTSStep": 0.033334000000024844,
+  "timeConvention": "Report uses frame-relative time i/30; source presentation begins at 0.033333 seconds."
+}

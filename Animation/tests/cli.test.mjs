@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import {writeFile,mkdir,access,rm} from 'node:fs/promises';
+import path from 'node:path';
+import {randomUUID} from 'node:crypto';
+import {ROOT} from '../tools/server.mjs';
+const cli=(...args)=>spawnSync(process.execPath,['tools/cli.mjs',...args],{cwd:ROOT,encoding:'utf8'});
+test('failed init cleans up only its own newly-created project',async()=>{const id=`selftest-${randomUUID()}`,dir=path.join(ROOT,'projects',id),out=path.join(ROOT,'output',id);await mkdir(out,{recursive:true});try{await writeFile(path.join(out,'empty.txt'),'');const result=cli('init','--name',id,'--script',path.join(out,'empty.txt'));assert.equal(result.status,1);assert.match(result.stderr,/empty/i);await assert.rejects(()=>access(dir))}finally{await rm(out,{recursive:true,force:true});await rm(dir,{recursive:true,force:true})}});
+test('missing option values and protected writes fail before loading browsers/codecs',()=>{let r=cli('init','--name');assert.equal(r.status,1);assert.match(r.stderr,/Missing value/);r=cli('render','--out','locked/not-allowed.mp4');assert.equal(r.status,1);assert.match(r.stderr,/Outputs must be inside/);r=cli('prepare','--project','locked/manifest.json','--audio','irrelevant.wav');assert.equal(r.status,1);assert.match(r.stderr,/only write inside projects/)});

@@ -1,0 +1,3 @@
+[primary] Put your opening line here.
+[secondary] Add a reply, explanation, or a different point of view.
+[primary] Finish with the idea you want the viewer to remember.

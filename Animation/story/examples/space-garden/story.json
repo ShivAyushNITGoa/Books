@@ -1,0 +1,270 @@
+{
+  "version": "story-v1",
+  "id": "space-garden",
+  "title": "A Garden Above Earth",
+  "language": "en",
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "cast": [
+    {
+      "id": "botanist",
+      "name": "Ari, orbital botanist",
+      "color": "#e5a366",
+      "hat": "helmet"
+    },
+    {
+      "id": "pilot",
+      "name": "Jules, pilot",
+      "color": "#85bfc6",
+      "hat": "helmet"
+    }
+  ],
+  "scenes": [
+    {
+      "id": "problem",
+      "narration": "Far above Earth, Ari found the last seed on the station. The greenhouse had gone dark.",
+      "world": {
+        "kind": "space"
+      },
+      "camera": {
+        "target": [
+          0,
+          65,
+          0
+        ],
+        "zoom": 1.305
+      },
+      "actors": [
+        {
+          "id": "botanist",
+          "position": [
+            -80,
+            0,
+            50
+          ],
+          "action": "walk",
+          "to": [
+            20,
+            0,
+            50
+          ]
+        },
+        {
+          "id": "pilot",
+          "position": [
+            170,
+            0,
+            50
+          ],
+          "action": "surprised"
+        }
+      ],
+      "props": [
+        {
+          "id": "console",
+          "shape": "console",
+          "position": [
+            -250,
+            0,
+            -90
+          ],
+          "size": [
+            140,
+            55,
+            65
+          ],
+          "color": "#667d8e"
+        },
+        {
+          "id": "seed",
+          "shape": "plant",
+          "position": [
+            30,
+            45,
+            10
+          ],
+          "size": [
+            42,
+            70,
+            35
+          ],
+          "color": "#8eb979"
+        },
+        {
+          "id": "bench",
+          "shape": "table",
+          "position": [
+            30,
+            0,
+            10
+          ],
+          "size": [
+            150,
+            40,
+            65
+          ],
+          "color": "#bf9975"
+        }
+      ]
+    },
+    {
+      "id": "repair",
+      "narration": "Together they fixed a lamp and shared their water. One small leaf began to open.",
+      "world": {
+        "kind": "space"
+      },
+      "camera": {
+        "target": [
+          20,
+          85,
+          0
+        ],
+        "zoom": 1.6674999999999998
+      },
+      "actors": [
+        {
+          "id": "botanist",
+          "position": [
+            -60,
+            0,
+            60
+          ],
+          "action": "work"
+        },
+        {
+          "id": "pilot",
+          "position": [
+            130,
+            0,
+            55
+          ],
+          "action": "point"
+        }
+      ],
+      "props": [
+        {
+          "id": "seed",
+          "shape": "plant",
+          "position": [
+            20,
+            45,
+            0
+          ],
+          "size": [
+            60,
+            125,
+            50
+          ],
+          "color": "#8eb979",
+          "effect": "grow"
+        },
+        {
+          "id": "bench",
+          "shape": "table",
+          "position": [
+            20,
+            0,
+            0
+          ],
+          "size": [
+            160,
+            40,
+            70
+          ],
+          "color": "#bf9975"
+        },
+        {
+          "id": "lamp",
+          "shape": "lamp",
+          "position": [
+            100,
+            0,
+            -25
+          ],
+          "size": [
+            32,
+            170,
+            20
+          ],
+          "color": "#ffe4a0"
+        }
+      ]
+    },
+    {
+      "id": "home",
+      "narration": "Months later, they planted its seeds in a forest on Earth. A little care had brought a whole world back.",
+      "world": {
+        "kind": "forest"
+      },
+      "camera": {
+        "target": [
+          0,
+          85,
+          0
+        ],
+        "zoom": 1.45,
+        "to": {
+          "target": [
+            0,
+            90,
+            0
+          ],
+          "zoom": 1.16
+        }
+      },
+      "actors": [
+        {
+          "id": "botanist",
+          "position": [
+            -65,
+            0,
+            70
+          ],
+          "action": "celebrate"
+        },
+        {
+          "id": "pilot",
+          "position": [
+            95,
+            0,
+            70
+          ],
+          "action": "celebrate"
+        }
+      ],
+      "props": [
+        {
+          "id": "sapling",
+          "shape": "tree",
+          "position": [
+            15,
+            0,
+            -20
+          ],
+          "size": [
+            60,
+            150,
+            60
+          ],
+          "color": "#6aa16d"
+        },
+        {
+          "id": "watering-can",
+          "shape": "cylinder",
+          "position": [
+            -140,
+            0,
+            70
+          ],
+          "size": [
+            25,
+            30,
+            25
+          ],
+          "color": "#769fa7"
+        }
+      ]
+    }
+  ]
+}

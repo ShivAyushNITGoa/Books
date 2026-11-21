@@ -1,0 +1,516 @@
+{
+  "title": "Why Ships Have a Strange Bulge Under Their Nose",
+  "voice": "User-selected English narration voice-02",
+  "fps": 24,
+  "duration": 205.25,
+  "frames": 4926,
+  "chapters": [
+    {
+      "index": 1,
+      "start": 0.35,
+      "speechStart": 0.47,
+      "speechEnd": 28.39,
+      "end": 28.873875,
+      "duration": 28.223875,
+      "text": "Someone made a strange mistake while designing this giant ship. At least, that's what it looks like. There's a massive bump sticking out from underneath its nose. And if you're trying to build a ship that moves efficiently through water, adding an awkward-looking bulge seems like the last thing you'd want to do. But here's the twist. That strange bump isn't a mistake. It's actually designed to help the ship move faster while using less fuel. And the secret is surprisingly clever.",
+      "source": "audio/01.flac",
+      "sha256": "07a88b722736a85cd77c126f6359faa10e1fc210b4a4e416332ae0899aea37c9"
+    },
+    {
+      "index": 2,
+      "start": 28.873875,
+      "speechStart": 28.993875,
+      "speechEnd": 63.213875,
+      "end": 63.725188,
+      "duration": 34.5513125,
+      "text": "You see, when a giant cargo ship moves through the ocean, it doesn't simply push water out of its way. It creates waves. Look at the front of a moving ship. Water gets pushed aside, rises, and forms a large wave around the bow. This is called the bow wave. And creating it requires energy. The ship's engines must constantly work against the resistance created as it moves through the water. Now, engineers had a problem. They could install more powerful engines, but that would mean burning more fuel and increasing operating costs.",
+      "source": "audio/02.flac",
+      "sha256": "f7b26a6855343ac4b0ca6c8580dd8c9f8435d91cd001fd47b3974277236b0bd6"
+    },
+    {
+      "index": 3,
+      "start": 63.725187,
+      "speechStart": 63.865187,
+      "speechEnd": 84.625187,
+      "end": 85.085687,
+      "duration": 21.0605,
+      "text": "So they came up with a much stranger solution. Instead of making the engine stronger\u2026 They changed the ship's nose. They added a second nose. Not above the water. Below it. It's called a bulbous bow. It's that rounded extension sticking out from underneath the front of many large ships. And it isn't decorative. It has a very specific job.",
+      "source": "audio/03.flac",
+      "sha256": "097d0fb41eb792b337a63052b1f6556bb8a8b6b102ab7dc41039b8e15cb7dcfc"
+    },
+    {
+      "index": 4,
+      "start": 85.085688,
+      "speechStart": 85.185688,
+      "speechEnd": 104.425688,
+      "end": 104.913687,
+      "duration": 19.528,
+      "text": "As the ship moves forward, the underwater bulb pushes water around it and creates its own wave system. Now, here's where things get interesting. The bulb is carefully designed so that the waves it produces interact with the waves created by the main body of the ship. Under the right conditions, these waves can partially cancel each other out.",
+      "source": "audio/04.flac",
+      "sha256": "085110c6dfb508fd009f87ff1c8103a14186157499a0a56278078d8fe84c57e6"
+    },
+    {
+      "index": 5,
+      "start": 104.913687,
+      "speechStart": 104.993687,
+      "speechEnd": 131.833687,
+      "end": 132.253333,
+      "duration": 27.039645833333335,
+      "text": "Think about throwing two stones into a pond. Each stone creates ripples. When those ripples meet, some places become more turbulent, while other places become surprisingly calm. Something similar happens around a ship. The bulb creates a wave that can weaken part of the ship's main bow wave. And when wave-making resistance is reduced, the ship doesn't need to work as hard to maintain its speed. That can mean less engine power and lower fuel consumption.",
+      "source": "audio/05.flac",
+      "sha256": "e7fca360bb0d285526f821c9db8d0a38f1ca01e2e85341835e3ca9c781b87181"
+    },
+    {
+      "index": 6,
+      "start": 132.253333,
+      "speechStart": 132.313333,
+      "speechEnd": 156.213333,
+      "end": 156.644042,
+      "duration": 24.090708333333332,
+      "text": "But if this design is so clever, why doesn't every ship have one? Well, there's a catch. A bulbous bow doesn't work equally well at every speed. Its shape and size must be carefully matched to the ship's design and normal operating conditions. At the right speed, it can reduce resistance. But at slower speeds or under different loading conditions, that extra underwater surface can actually increase resistance.",
+      "source": "audio/06.flac",
+      "sha256": "99789ec165452abe27fb459c352e8c60d9d4d0919cad27059613e19e54fcfa70"
+    },
+    {
+      "index": 7,
+      "start": 156.644042,
+      "speechStart": 156.704042,
+      "speechEnd": 186.224042,
+      "end": 186.677208,
+      "duration": 29.733166666666666,
+      "text": "That's why naval engineers test different designs using computer simulations and miniature ship models in special water tanks. They study how water flows around the hull, how waves interact, and how much power the ship needs to move. Because these ships aren't making just one journey. They can spend years travelling between continents, carrying everything from electronics and clothing to food and machinery. Even a relatively small improvement in efficiency can become significant over thousands of operating hours.",
+      "source": "audio/07.flac",
+      "sha256": "99a2fe375103677487316db0e1903aea372d9f0a753cdb5f4f4a94ce00ff56d6"
+    },
+    {
+      "index": 8,
+      "start": 186.677208,
+      "speechStart": 186.757208,
+      "speechEnd": 204.077208,
+      "end": 204.543104,
+      "duration": 17.565895833333332,
+      "text": "So the next time you see a gigantic cargo ship crossing the ocean, take another look at its nose. That strange underwater bump isn't a design mistake. It's a carefully engineered wave-maker. A design that helps a massive vessel fight the resistance of the ocean\u2026 By creating a wave of its own.",
+      "source": "audio/08.flac",
+      "sha256": "7d723135d4c597899d18b6df1511adc632b9504c58430597bce24952ed4701a4"
+    }
+  ],
+  "captions": [
+    {
+      "start": 0.47,
+      "end": 3.17,
+      "text": "Someone made a strange mistake while designing this"
+    },
+    {
+      "start": 3.17,
+      "end": 6.13,
+      "text": "giant ship. At least, that's what it looks"
+    },
+    {
+      "start": 6.13,
+      "end": 8.51,
+      "text": "like. There's a massive bump sticking out from"
+    },
+    {
+      "start": 8.51,
+      "end": 9.85,
+      "text": "underneath its nose."
+    },
+    {
+      "start": 9.85,
+      "end": 11.83,
+      "text": "And if you're trying to build a ship"
+    },
+    {
+      "start": 11.83,
+      "end": 15.23,
+      "text": "that moves efficiently through water, adding an awkward-looking"
+    },
+    {
+      "start": 15.23,
+      "end": 18.11,
+      "text": "bulge seems like the last thing you'd want"
+    },
+    {
+      "start": 18.11,
+      "end": 19.85,
+      "text": "to do. But here's the twist."
+    },
+    {
+      "start": 19.85,
+      "end": 21.95,
+      "text": "That strange bump isn't a mistake."
+    },
+    {
+      "start": 21.95,
+      "end": 24.29,
+      "text": "It's actually designed to help the ship move"
+    },
+    {
+      "start": 24.29,
+      "end": 26.29,
+      "text": "faster while using less fuel."
+    },
+    {
+      "start": 26.29,
+      "end": 28.39,
+      "text": "And the secret is surprisingly clever."
+    },
+    {
+      "start": 28.993875,
+      "end": 31.433875,
+      "text": "You see, when a giant cargo ship moves"
+    },
+    {
+      "start": 31.433875,
+      "end": 34.413875,
+      "text": "through the ocean, it doesn't simply push water"
+    },
+    {
+      "start": 34.413875,
+      "end": 35.333875,
+      "text": "out of its way."
+    },
+    {
+      "start": 35.333875,
+      "end": 36.653875,
+      "text": "It creates waves."
+    },
+    {
+      "start": 36.653875,
+      "end": 39.493875,
+      "text": "Look at the front of a moving ship."
+    },
+    {
+      "start": 39.493875,
+      "end": 42.453875,
+      "text": "Water gets pushed aside, rises, and forms a"
+    },
+    {
+      "start": 42.453875,
+      "end": 44.253875,
+      "text": "large wave around the bow."
+    },
+    {
+      "start": 44.253875,
+      "end": 46.093875,
+      "text": "This is called the bow wave."
+    },
+    {
+      "start": 46.093875,
+      "end": 48.313875,
+      "text": "And creating it requires energy."
+    },
+    {
+      "start": 48.313875,
+      "end": 51.613875,
+      "text": "The ship's engines must constantly work against the"
+    },
+    {
+      "start": 51.613875,
+      "end": 54.393875,
+      "text": "resistance created as it moves through the water."
+    },
+    {
+      "start": 54.393875,
+      "end": 56.373875,
+      "text": "Now, engineers had a problem."
+    },
+    {
+      "start": 56.373875,
+      "end": 59.833875,
+      "text": "They could install more powerful engines, but that"
+    },
+    {
+      "start": 59.833875,
+      "end": 63.213875,
+      "text": "would mean burning more fuel and increasing operating costs."
+    },
+    {
+      "start": 63.865187,
+      "end": 65.925187,
+      "text": "So they came up with a much stranger"
+    },
+    {
+      "start": 65.925187,
+      "end": 69.085188,
+      "text": "solution. Instead of making the engine stronger\u2026"
+    },
+    {
+      "start": 69.085188,
+      "end": 71.005187,
+      "text": "They changed the ship's nose."
+    },
+    {
+      "start": 71.005187,
+      "end": 72.765187,
+      "text": "They added a second nose."
+    },
+    {
+      "start": 72.765187,
+      "end": 74.545187,
+      "text": "Not above the water."
+    },
+    {
+      "start": 74.545187,
+      "end": 76.645187,
+      "text": "Below it. It's called a bulbous bow."
+    },
+    {
+      "start": 76.645187,
+      "end": 79.585187,
+      "text": "It's that rounded extension sticking out from underneath"
+    },
+    {
+      "start": 79.585187,
+      "end": 81.525188,
+      "text": "the front of many large ships."
+    },
+    {
+      "start": 81.525188,
+      "end": 83.105187,
+      "text": "And it isn't decorative."
+    },
+    {
+      "start": 83.105187,
+      "end": 84.625187,
+      "text": "It has a very specific job."
+    },
+    {
+      "start": 85.185688,
+      "end": 87.785688,
+      "text": "As the ship moves forward, the underwater bulb"
+    },
+    {
+      "start": 87.785688,
+      "end": 90.125688,
+      "text": "pushes water around it and creates its own"
+    },
+    {
+      "start": 90.125688,
+      "end": 93.385688,
+      "text": "wave system. Now, here's where things get interesting."
+    },
+    {
+      "start": 93.385688,
+      "end": 95.865688,
+      "text": "The bulb is carefully designed so that the"
+    },
+    {
+      "start": 95.865688,
+      "end": 98.445688,
+      "text": "waves it produces interact with the waves created"
+    },
+    {
+      "start": 98.445688,
+      "end": 100.225688,
+      "text": "by the main body of the ship."
+    },
+    {
+      "start": 100.225688,
+      "end": 103.245688,
+      "text": "Under the right conditions, these waves can partially"
+    },
+    {
+      "start": 103.245688,
+      "end": 104.425688,
+      "text": "cancel each other out."
+    },
+    {
+      "start": 104.993687,
+      "end": 107.413687,
+      "text": "Think about throwing two stones into a pond."
+    },
+    {
+      "start": 107.413687,
+      "end": 109.113687,
+      "text": "Each stone creates ripples."
+    },
+    {
+      "start": 109.113687,
+      "end": 112.373687,
+      "text": "When those ripples meet, some places become more"
+    },
+    {
+      "start": 112.373687,
+      "end": 115.393687,
+      "text": "turbulent, while other places become surprisingly calm."
+    },
+    {
+      "start": 115.393687,
+      "end": 117.733688,
+      "text": "Something similar happens around a ship."
+    },
+    {
+      "start": 117.733688,
+      "end": 120.193687,
+      "text": "The bulb creates a wave that can weaken"
+    },
+    {
+      "start": 120.193687,
+      "end": 121.993687,
+      "text": "part of the ship's main bow wave."
+    },
+    {
+      "start": 121.993687,
+      "end": 125.373687,
+      "text": "And when wave-making resistance is reduced, the ship"
+    },
+    {
+      "start": 125.373687,
+      "end": 127.613687,
+      "text": "doesn't need to work as hard to maintain"
+    },
+    {
+      "start": 127.613687,
+      "end": 130.193688,
+      "text": "its speed. That can mean less engine power"
+    },
+    {
+      "start": 130.193688,
+      "end": 131.833687,
+      "text": "and lower fuel consumption."
+    },
+    {
+      "start": 132.313333,
+      "end": 134.513333,
+      "text": "But if this design is so clever, why"
+    },
+    {
+      "start": 134.513333,
+      "end": 136.413333,
+      "text": "doesn't every ship have one?"
+    },
+    {
+      "start": 136.413333,
+      "end": 138.153333,
+      "text": "Well, there's a catch."
+    },
+    {
+      "start": 138.153333,
+      "end": 140.413333,
+      "text": "A bulbous bow doesn't work equally well at"
+    },
+    {
+      "start": 140.413333,
+      "end": 142.793333,
+      "text": "every speed. Its shape and size must be"
+    },
+    {
+      "start": 142.793333,
+      "end": 145.353333,
+      "text": "carefully matched to the ship's design and normal"
+    },
+    {
+      "start": 145.353333,
+      "end": 148.273333,
+      "text": "operating conditions. At the right speed, it can"
+    },
+    {
+      "start": 148.273333,
+      "end": 151.233333,
+      "text": "reduce resistance. But at slower speeds or under"
+    },
+    {
+      "start": 151.233333,
+      "end": 154.753333,
+      "text": "different loading conditions, that extra underwater surface can"
+    },
+    {
+      "start": 154.753333,
+      "end": 156.213333,
+      "text": "actually increase resistance."
+    },
+    {
+      "start": 156.704042,
+      "end": 159.724042,
+      "text": "That's why naval engineers test different designs using"
+    },
+    {
+      "start": 159.724042,
+      "end": 162.884042,
+      "text": "computer simulations and miniature ship models in special"
+    },
+    {
+      "start": 162.884042,
+      "end": 165.564042,
+      "text": "water tanks. They study how water flows around"
+    },
+    {
+      "start": 165.564042,
+      "end": 168.464042,
+      "text": "the hull, how waves interact, and how much"
+    },
+    {
+      "start": 168.464042,
+      "end": 170.404042,
+      "text": "power the ship needs to move."
+    },
+    {
+      "start": 170.404042,
+      "end": 173.104042,
+      "text": "Because these ships aren't making just one journey."
+    },
+    {
+      "start": 173.104042,
+      "end": 176.884042,
+      "text": "They can spend years travelling between continents, carrying"
+    },
+    {
+      "start": 176.884042,
+      "end": 179.704042,
+      "text": "everything from electronics and clothing to food and"
+    },
+    {
+      "start": 179.704042,
+      "end": 183.164042,
+      "text": "machinery. Even a relatively small improvement in efficiency"
+    },
+    {
+      "start": 183.164042,
+      "end": 186.224042,
+      "text": "can become significant over thousands of operating hours."
+    },
+    {
+      "start": 186.757208,
+      "end": 188.797208,
+      "text": "So the next time you see a gigantic"
+    },
+    {
+      "start": 188.797208,
+      "end": 191.677208,
+      "text": "cargo ship crossing the ocean, take another look"
+    },
+    {
+      "start": 191.677208,
+      "end": 192.757208,
+      "text": "at its nose."
+    },
+    {
+      "start": 192.757208,
+      "end": 195.877208,
+      "text": "That strange underwater bump isn't a design mistake."
+    },
+    {
+      "start": 195.877208,
+      "end": 198.097208,
+      "text": "It's a carefully engineered wave-maker."
+    },
+    {
+      "start": 198.097208,
+      "end": 200.437208,
+      "text": "A design that helps a massive vessel fight"
+    },
+    {
+      "start": 200.437208,
+      "end": 202.357208,
+      "text": "the resistance of the ocean\u2026"
+    },
+    {
+      "start": 202.357208,
+      "end": 204.077208,
+      "text": "By creating a wave of its own."
+    }
+  ],
+  "captionTiming": "Measured speech activity plus word weights; not forced aligned",
+  "voiceoverSha256": "0051cb5c072224bb7ebc0c6bc8dda2ec54442a6619c897732bd413e9de5a8992"
+}

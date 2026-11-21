@@ -1,0 +1,42 @@
+[
+  {
+    "index": 1,
+    "file": "01.flac",
+    "text": "Someone made a strange mistake while designing this giant ship. At least, that's what it looks like. There's a massive bump sticking out from underneath its nose. And if you're trying to build a ship that moves efficiently through water, adding an awkward-looking bulge seems like the last thing you'd want to do. But here's the twist. That strange bump isn't a mistake. It's actually designed to help the ship move faster while using less fuel. And the secret is surprisingly clever."
+  },
+  {
+    "index": 2,
+    "file": "02.flac",
+    "text": "You see, when a giant cargo ship moves through the ocean, it doesn't simply push water out of its way. It creates waves. Look at the front of a moving ship. Water gets pushed aside, rises, and forms a large wave around the bow. This is called the bow wave. And creating it requires energy. The ship's engines must constantly work against the resistance created as it moves through the water. Now, engineers had a problem. They could install more powerful engines, but that would mean burning more fuel and increasing operating costs."
+  },
+  {
+    "index": 3,
+    "file": "03.flac",
+    "text": "So they came up with a much stranger solution. Instead of making the engine stronger\u2026 They changed the ship's nose. They added a second nose. Not above the water. Below it. It's called a bulbous bow. It's that rounded extension sticking out from underneath the front of many large ships. And it isn't decorative. It has a very specific job."
+  },
+  {
+    "index": 4,
+    "file": "04.flac",
+    "text": "As the ship moves forward, the underwater bulb pushes water around it and creates its own wave system. Now, here's where things get interesting. The bulb is carefully designed so that the waves it produces interact with the waves created by the main body of the ship. Under the right conditions, these waves can partially cancel each other out."
+  },
+  {
+    "index": 5,
+    "file": "05.flac",
+    "text": "Think about throwing two stones into a pond. Each stone creates ripples. When those ripples meet, some places become more turbulent, while other places become surprisingly calm. Something similar happens around a ship. The bulb creates a wave that can weaken part of the ship's main bow wave. And when wave-making resistance is reduced, the ship doesn't need to work as hard to maintain its speed. That can mean less engine power and lower fuel consumption."
+  },
+  {
+    "index": 6,
+    "file": "06.flac",
+    "text": "But if this design is so clever, why doesn't every ship have one? Well, there's a catch. A bulbous bow doesn't work equally well at every speed. Its shape and size must be carefully matched to the ship's design and normal operating conditions. At the right speed, it can reduce resistance. But at slower speeds or under different loading conditions, that extra underwater surface can actually increase resistance."
+  },
+  {
+    "index": 7,
+    "file": "07.flac",
+    "text": "That's why naval engineers test different designs using computer simulations and miniature ship models in special water tanks. They study how water flows around the hull, how waves interact, and how much power the ship needs to move. Because these ships aren't making just one journey. They can spend years travelling between continents, carrying everything from electronics and clothing to food and machinery. Even a relatively small improvement in efficiency can become significant over thousands of operating hours."
+  },
+  {
+    "index": 8,
+    "file": "08.flac",
+    "text": "So the next time you see a gigantic cargo ship crossing the ocean, take another look at its nose. That strange underwater bump isn't a design mistake. It's a carefully engineered wave-maker. A design that helps a massive vessel fight the resistance of the ocean\u2026 By creating a wave of its own."
+  }
+]

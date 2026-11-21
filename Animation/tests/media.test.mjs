@@ -1,0 +1,5 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {wav,readPcmWav,envelope,mixFoley} from '../tools/media.mjs';
+test('WAV encode/decode and voice envelope lengths',()=>{const samples=new Float32Array(48000);for(let i=4800;i<24000;i++)samples[i]=Math.sin(i*.04)*.2;const decoded=readPcmWav(wav(samples));assert.equal(decoded.rate,48000);assert.equal(decoded.samples.length,48000);const e=envelope(decoded.samples);assert.equal(e.values.length,61);assert.equal(e.values[0],0);assert.ok(e.values[20]>0);assert.throws(()=>readPcmWav(Buffer.from('not a wav')))});
+test('Foley is seeded, stays under peak limit, and does not alter the voice envelope',()=>{const voice=new Float32Array(48000).fill(.88),before=envelope(voice),events=[{time:.1,kind:'wood',gain:.15},{time:.5,kind:'paper',gain:.02}];const a=mixFoley(voice,events),b=mixFoley(voice,events);assert.deepEqual(a,b);assert.ok(a.every(x=>Math.abs(x)<.892));assert.deepEqual(envelope(voice),before);assert.notDeepEqual(a,voice)});

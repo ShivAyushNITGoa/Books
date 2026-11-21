@@ -1,0 +1,569 @@
+{
+  "fileBytes": 25199881,
+  "sha256": "a9d87577f5ab06973ee0738d4c2f85efb99edd5948e6f0130f267d6c984c13b4",
+  "width": 720,
+  "height": 1280,
+  "fps": 30.0,
+  "decodedFrames": 5339,
+  "pictureDurationSeconds": 177.96666666666667,
+  "adjacentFramePairs": 5338,
+  "allFrameAtlasPages": 30,
+  "atlasFramesPerPage": 180,
+  "overviewStepFrames": 60,
+  "largeChangeCandidates": [
+    {
+      "frame": 39,
+      "seconds": 1.3
+    },
+    {
+      "frame": 50,
+      "seconds": 1.6666666666666667
+    },
+    {
+      "frame": 141,
+      "seconds": 4.7
+    },
+    {
+      "frame": 408,
+      "seconds": 13.6
+    },
+    {
+      "frame": 466,
+      "seconds": 15.533333333333333
+    },
+    {
+      "frame": 467,
+      "seconds": 15.566666666666666
+    },
+    {
+      "frame": 468,
+      "seconds": 15.6
+    },
+    {
+      "frame": 499,
+      "seconds": 16.633333333333333
+    },
+    {
+      "frame": 500,
+      "seconds": 16.666666666666668
+    },
+    {
+      "frame": 501,
+      "seconds": 16.7
+    },
+    {
+      "frame": 502,
+      "seconds": 16.733333333333334
+    },
+    {
+      "frame": 519,
+      "seconds": 17.3
+    },
+    {
+      "frame": 520,
+      "seconds": 17.333333333333332
+    },
+    {
+      "frame": 523,
+      "seconds": 17.433333333333334
+    },
+    {
+      "frame": 565,
+      "seconds": 18.833333333333332
+    },
+    {
+      "frame": 585,
+      "seconds": 19.5
+    },
+    {
+      "frame": 612,
+      "seconds": 20.4
+    },
+    {
+      "frame": 613,
+      "seconds": 20.433333333333334
+    },
+    {
+      "frame": 614,
+      "seconds": 20.466666666666665
+    },
+    {
+      "frame": 677,
+      "seconds": 22.566666666666666
+    },
+    {
+      "frame": 788,
+      "seconds": 26.266666666666666
+    },
+    {
+      "frame": 821,
+      "seconds": 27.366666666666667
+    },
+    {
+      "frame": 885,
+      "seconds": 29.5
+    },
+    {
+      "frame": 896,
+      "seconds": 29.866666666666667
+    },
+    {
+      "frame": 936,
+      "seconds": 31.2
+    },
+    {
+      "frame": 993,
+      "seconds": 33.1
+    },
+    {
+      "frame": 1012,
+      "seconds": 33.733333333333334
+    },
+    {
+      "frame": 1080,
+      "seconds": 36.0
+    },
+    {
+      "frame": 1123,
+      "seconds": 37.43333333333333
+    },
+    {
+      "frame": 1169,
+      "seconds": 38.96666666666667
+    },
+    {
+      "frame": 1182,
+      "seconds": 39.4
+    },
+    {
+      "frame": 1203,
+      "seconds": 40.1
+    },
+    {
+      "frame": 1204,
+      "seconds": 40.13333333333333
+    },
+    {
+      "frame": 1205,
+      "seconds": 40.166666666666664
+    },
+    {
+      "frame": 1208,
+      "seconds": 40.266666666666666
+    },
+    {
+      "frame": 1302,
+      "seconds": 43.4
+    },
+    {
+      "frame": 1376,
+      "seconds": 45.86666666666667
+    },
+    {
+      "frame": 1428,
+      "seconds": 47.6
+    },
+    {
+      "frame": 1465,
+      "seconds": 48.833333333333336
+    },
+    {
+      "frame": 1466,
+      "seconds": 48.86666666666667
+    },
+    {
+      "frame": 1467,
+      "seconds": 48.9
+    },
+    {
+      "frame": 1516,
+      "seconds": 50.53333333333333
+    },
+    {
+      "frame": 1595,
+      "seconds": 53.166666666666664
+    },
+    {
+      "frame": 1641,
+      "seconds": 54.7
+    },
+    {
+      "frame": 1642,
+      "seconds": 54.733333333333334
+    },
+    {
+      "frame": 1643,
+      "seconds": 54.766666666666666
+    },
+    {
+      "frame": 1671,
+      "seconds": 55.7
+    },
+    {
+      "frame": 1720,
+      "seconds": 57.333333333333336
+    },
+    {
+      "frame": 1749,
+      "seconds": 58.3
+    },
+    {
+      "frame": 1764,
+      "seconds": 58.8
+    },
+    {
+      "frame": 1765,
+      "seconds": 58.833333333333336
+    },
+    {
+      "frame": 1766,
+      "seconds": 58.86666666666667
+    },
+    {
+      "frame": 1805,
+      "seconds": 60.166666666666664
+    },
+    {
+      "frame": 1806,
+      "seconds": 60.2
+    },
+    {
+      "frame": 1843,
+      "seconds": 61.43333333333333
+    },
+    {
+      "frame": 1990,
+      "seconds": 66.33333333333333
+    },
+    {
+      "frame": 2015,
+      "seconds": 67.16666666666667
+    },
+    {
+      "frame": 2016,
+      "seconds": 67.2
+    },
+    {
+      "frame": 2088,
+      "seconds": 69.6
+    },
+    {
+      "frame": 2089,
+      "seconds": 69.63333333333334
+    },
+    {
+      "frame": 2090,
+      "seconds": 69.66666666666667
+    },
+    {
+      "frame": 2101,
+      "seconds": 70.03333333333333
+    },
+    {
+      "frame": 2126,
+      "seconds": 70.86666666666666
+    },
+    {
+      "frame": 2184,
+      "seconds": 72.8
+    },
+    {
+      "frame": 2215,
+      "seconds": 73.83333333333333
+    },
+    {
+      "frame": 2350,
+      "seconds": 78.33333333333333
+    },
+    {
+      "frame": 2368,
+      "seconds": 78.93333333333334
+    },
+    {
+      "frame": 2369,
+      "seconds": 78.96666666666667
+    },
+    {
+      "frame": 2370,
+      "seconds": 79.0
+    },
+    {
+      "frame": 2380,
+      "seconds": 79.33333333333333
+    },
+    {
+      "frame": 2381,
+      "seconds": 79.36666666666666
+    },
+    {
+      "frame": 2382,
+      "seconds": 79.4
+    },
+    {
+      "frame": 2383,
+      "seconds": 79.43333333333334
+    },
+    {
+      "frame": 2384,
+      "seconds": 79.46666666666667
+    },
+    {
+      "frame": 2440,
+      "seconds": 81.33333333333333
+    },
+    {
+      "frame": 2684,
+      "seconds": 89.46666666666667
+    },
+    {
+      "frame": 2875,
+      "seconds": 95.83333333333333
+    },
+    {
+      "frame": 2896,
+      "seconds": 96.53333333333333
+    },
+    {
+      "frame": 3077,
+      "seconds": 102.56666666666666
+    },
+    {
+      "frame": 3124,
+      "seconds": 104.13333333333334
+    },
+    {
+      "frame": 3227,
+      "seconds": 107.56666666666666
+    },
+    {
+      "frame": 3228,
+      "seconds": 107.6
+    },
+    {
+      "frame": 3229,
+      "seconds": 107.63333333333334
+    },
+    {
+      "frame": 3262,
+      "seconds": 108.73333333333333
+    },
+    {
+      "frame": 3305,
+      "seconds": 110.16666666666667
+    },
+    {
+      "frame": 3324,
+      "seconds": 110.8
+    },
+    {
+      "frame": 3325,
+      "seconds": 110.83333333333333
+    },
+    {
+      "frame": 3327,
+      "seconds": 110.9
+    },
+    {
+      "frame": 3328,
+      "seconds": 110.93333333333334
+    },
+    {
+      "frame": 3329,
+      "seconds": 110.96666666666667
+    },
+    {
+      "frame": 3357,
+      "seconds": 111.9
+    },
+    {
+      "frame": 3445,
+      "seconds": 114.83333333333333
+    },
+    {
+      "frame": 3542,
+      "seconds": 118.06666666666666
+    },
+    {
+      "frame": 3702,
+      "seconds": 123.4
+    },
+    {
+      "frame": 3820,
+      "seconds": 127.33333333333333
+    },
+    {
+      "frame": 3830,
+      "seconds": 127.66666666666667
+    },
+    {
+      "frame": 3831,
+      "seconds": 127.7
+    },
+    {
+      "frame": 3832,
+      "seconds": 127.73333333333333
+    },
+    {
+      "frame": 3833,
+      "seconds": 127.76666666666667
+    },
+    {
+      "frame": 3880,
+      "seconds": 129.33333333333334
+    },
+    {
+      "frame": 4022,
+      "seconds": 134.06666666666666
+    },
+    {
+      "frame": 4087,
+      "seconds": 136.23333333333332
+    },
+    {
+      "frame": 4088,
+      "seconds": 136.26666666666668
+    },
+    {
+      "frame": 4117,
+      "seconds": 137.23333333333332
+    },
+    {
+      "frame": 4170,
+      "seconds": 139.0
+    },
+    {
+      "frame": 4171,
+      "seconds": 139.03333333333333
+    },
+    {
+      "frame": 4172,
+      "seconds": 139.06666666666666
+    },
+    {
+      "frame": 4173,
+      "seconds": 139.1
+    },
+    {
+      "frame": 4206,
+      "seconds": 140.2
+    },
+    {
+      "frame": 4271,
+      "seconds": 142.36666666666667
+    },
+    {
+      "frame": 4272,
+      "seconds": 142.4
+    },
+    {
+      "frame": 4275,
+      "seconds": 142.5
+    },
+    {
+      "frame": 4276,
+      "seconds": 142.53333333333333
+    },
+    {
+      "frame": 4296,
+      "seconds": 143.2
+    },
+    {
+      "frame": 4297,
+      "seconds": 143.23333333333332
+    },
+    {
+      "frame": 4342,
+      "seconds": 144.73333333333332
+    },
+    {
+      "frame": 4391,
+      "seconds": 146.36666666666667
+    },
+    {
+      "frame": 4420,
+      "seconds": 147.33333333333334
+    },
+    {
+      "frame": 4469,
+      "seconds": 148.96666666666667
+    },
+    {
+      "frame": 4565,
+      "seconds": 152.16666666666666
+    },
+    {
+      "frame": 4587,
+      "seconds": 152.9
+    },
+    {
+      "frame": 4676,
+      "seconds": 155.86666666666667
+    },
+    {
+      "frame": 4770,
+      "seconds": 159.0
+    },
+    {
+      "frame": 4841,
+      "seconds": 161.36666666666667
+    },
+    {
+      "frame": 4953,
+      "seconds": 165.1
+    },
+    {
+      "frame": 5004,
+      "seconds": 166.8
+    },
+    {
+      "frame": 5034,
+      "seconds": 167.8
+    },
+    {
+      "frame": 5064,
+      "seconds": 168.8
+    },
+    {
+      "frame": 5115,
+      "seconds": 170.5
+    },
+    {
+      "frame": 5116,
+      "seconds": 170.53333333333333
+    },
+    {
+      "frame": 5117,
+      "seconds": 170.56666666666666
+    },
+    {
+      "frame": 5118,
+      "seconds": 170.6
+    },
+    {
+      "frame": 5130,
+      "seconds": 171.0
+    },
+    {
+      "frame": 5145,
+      "seconds": 171.5
+    },
+    {
+      "frame": 5148,
+      "seconds": 171.6
+    },
+    {
+      "frame": 5149,
+      "seconds": 171.63333333333333
+    },
+    {
+      "frame": 5150,
+      "seconds": 171.66666666666666
+    }
+  ],
+  "caveats": [
+    "Affine feature flow is a screen-space diagnostic, not a measured 3D camera or focal length.",
+    "The fixed environment mask can include actors and moving graphics.",
+    "Cuts, occlusion, blur, lighting and depth parallax can invalidate a fit.",
+    "All-frame atlases are thumbnail-resolution evidence, not full-resolution facial inspection."
+  ]
+}

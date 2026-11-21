@@ -1,0 +1,65 @@
+{
+  "title": "Alexandria \u2014 Beneath the Mediterranean",
+  "generatedUTC": "2026-11-20T19:48:52.024Z",
+  "sourceCommit": "f638ce7809d84e43335969e39f317e7896e7ab8a",
+  "delivery": "Complete native 720\u00d71280 at 24 fps, 60 seconds; not a low-resolution animatic upscaled for delivery",
+  "voice": "None. User will supply/add VO. No synthetic replacement, music or audio track.",
+  "captions": "Exact user-supplied 15 four-second cues; no estimated retiming",
+  "picture": "Dedicated animated 3D harbour/ruin sets with illustrative cutout characters; no reference scene footage or soundtrack",
+  "history": "Artistic reconstruction; compressed chronology, not a surveyed archaeological model",
+  "exports": [
+    {
+      "file": "alexandria-clean-720p.mp4",
+      "width": 720,
+      "height": 1280,
+      "fps": 24,
+      "frames": 1440,
+      "durationSeconds": 60,
+      "codec": "H.264",
+      "pixelFormat": "yuv420p",
+      "audioTracks": 0,
+      "fullFileDecode": "passed",
+      "nearBlackIntervals": 0,
+      "bytes": 39198705,
+      "sha256": "943326dff11f91ed3ac5d3f7691d94b1f1a5d6091872f9963aee3a44b173ed22"
+    },
+    {
+      "file": "alexandria-captioned-720p.mp4",
+      "width": 720,
+      "height": 1280,
+      "fps": 24,
+      "frames": 1440,
+      "durationSeconds": 60,
+      "codec": "H.264",
+      "pixelFormat": "yuv420p",
+      "audioTracks": 0,
+      "fullFileDecode": "passed",
+      "nearBlackIntervals": 0,
+      "bytes": 36191344,
+      "sha256": "5b73146afd6e9c64a8acfa495b56fc930241644be248611e015875cbcf2b3a70"
+    }
+  ],
+  "captionSha256": "d1847660c5b175bfde5c8844b377d5aea156c09c9f757072f3115605cf0bb3db",
+  "sourceHashes": {
+    "film.js": "d467ec10bbba96490f01af9eb35f5eea3601ba14df91704d6cd726f1b37db8ad",
+    "timeline.js": "ddf9ce3683629c0c6b70321aba3f9b80ee1a26ea35636ed5fc1d47c785760e55",
+    "set.js": "155449dd199a33ceb06cd4cceed1baaef316112be9051204d53c3574c6a999fb",
+    "art.js": "577062885e4cd350d63c48393e61b04a7bc3537c5443398aacb689bc5c2458be",
+    "batch.js": "16b86830b75688bad67c913a5048d302670921a076c5d52e55f3c0fbc0eb1534",
+    "captions.srt": "d1847660c5b175bfde5c8844b377d5aea156c09c9f757072f3115605cf0bb3db",
+    "assets/carved-relief.jpg": "174bbd766c82064c951cd0a7b733cc60bc2337c24806b8d5f887fadb736d6701",
+    "assets/rose-granite.jpg": "84d88c5d10fe1c5a47214c01e84ec907c3eb73beb65f929eb5f466fcec3ac18a",
+    "assets/Caption-Heavy.ttf": "beb371038fcb1c11a3f61a7a54628d061e25d80823b9d33e0b5cd0e8a5401e58",
+    "assets/caption-metrics.json": "6ba8009f3324695c1bf2ebf04c615db94b406380280f5c51b13fe84b95047351",
+    "tools/render.mjs": "7b5041ef67c8a434f2f3e8acd5b839b12207e693cb4f9577fd14f5b5ac1222b0",
+    "tools/burn-captions.mjs": "956d6b5a9af366d678f403cabd88c9bea06419582fca90ec6ffe05cf7e9837b6",
+    "index.html": "3e97753b62cdcadcd692b869e89f965db495fca4e897dd4d05338d41db83b9f4"
+  },
+  "reviewContactSheet": "Animation/output/alexandria/final-contact-sheet.jpg",
+  "visualReview": {
+    "coverage": "All 15 shot midpoint frames extracted from the complete captioned export, plus the longest caption at 38s and the final frame at 59.958s. Separate 3x3 filmstrip samples storm, column collapse and diver movement.",
+    "limitations": "A visual frame/sequence review and complete-file decode are not a claim of reference-quality parity or manual inspection of every source frame.",
+    "captionFit": "Longest line fits within the native 720px delivery frame; font size adapts to the supplied line widths.",
+    "deliveryPolicy": "At user request, the complete captioned MP4 is published in GitHub. The clean picture master remains a downloadable workspace artifact ignored by Git."
+  }
+}

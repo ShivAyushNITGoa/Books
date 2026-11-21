@@ -1,0 +1,110 @@
+{
+  "file": "black-box-multilocation-narrated-720p.mp4",
+  "sha256": "740877123542e81b939b2c283504845bf4f7a3ea1a76708fc7ff88de42b23003",
+  "bytes": 25715480,
+  "durationSeconds": 65.04166666666667,
+  "frames": 1561,
+  "width": 720,
+  "height": 1280,
+  "fps": 24,
+  "videoCodec": "H.264",
+  "audioCodec": "AAC mono 48kHz",
+  "integratedLufs": -16.25,
+  "truePeakDbtp": -1.49,
+  "fullFileDecode": "passed",
+  "unexpectedBlackIntervals": 0,
+  "pictureUnchangedDuringMux": true,
+  "blocking": {
+    "clearStaticRecorderCenterSightlines": "every full-focus delivery frame",
+    "focusFrames": 1152,
+    "minimumPersonRecorderClearanceMeters": 2.799019513592785,
+    "maximumPersonRecorderScreenEnvelopeOverlap": 0,
+    "subjectNdcXRange": [
+      -0.3265017095292958,
+      0.39243285216892015
+    ],
+    "azimuthRangeDegrees": {
+      "factory": 322.2472473281829,
+      "forest": 98.67322091443188,
+      "ocean": 352.7073201220448,
+      "rescue": 245.3593531672745,
+      "airport": 355.48420588519434
+    }
+  },
+  "continuousCamera": {
+    "rigs": 1,
+    "cuts": 0,
+    "fov": 46,
+    "traceFrames": 1561,
+    "maximumFrameToFramePositionStep": 52.13846986672576,
+    "traceSha256": "63fb93e1971df7a11720baa31d9bc791ccf8e9ba05839136e53a18610c4d645a"
+  },
+  "sourceSha256": {
+    "film.js": "bee27052d9787c75a019fecc47561b8891fc646706511e1154ada51417888871",
+    "world.js": "165712843f33eec9c72c0661e5aec834fc8f79976755f9050571426c3341c09d",
+    "art.js": "bf80cce7c2a64fe9e05af2933be263ab7cc72025585ce8475a00eb4d6d666aea",
+    "choreography.js": "4332e77a51245dc373c65db964958a5a0b117e31fad2a634f6330fffad096266",
+    "camera-rig.js": "d9965d499ee1ca6fcfe2f820631b0d3c34ef43e1a75b65b561e0e7fc750eff11",
+    "narration.json": "21220a5cf04efadfab1b9f166f87c613f4b2627fe6dc64f675d9ae94c7b9e744",
+    "script.txt": "37fd400ae17f8d5f7925226c1f958c9be1f097f05dfb5161316863459f0ebc29",
+    "../black-box/delivery/voiceover.flac": "b86fb35d3628112dbf2ca944fe62852137acce4ec7282e20c3709d67755b3e10"
+  },
+  "geography": {
+    "sites": 5,
+    "indoorSites": [
+      "factory"
+    ],
+    "outdoorSites": [
+      "forest",
+      "ocean",
+      "rescue",
+      "airport"
+    ],
+    "minimumSeparationMeters": 456.9540125658161,
+    "waterExtentMeters": 8000,
+    "travel": "continuous, time-compressed aerial travel through one world; no camera cuts",
+    "story": "independent hypothetical crash examples, not one recorder crashing twice"
+  },
+  "reviewLimits": {
+    "manualAudioListening": false,
+    "referenceParityClaimed": false,
+    "captions": "inherited original timing, not forced aligned"
+  },
+  "visualReview": {
+    "method": "30 representative decoded stills from actual final MP4, plus 36 source-rendered geographic transition poses",
+    "finalEncodeTimesSeconds": [
+      0,
+      2,
+      4.3,
+      8,
+      12.8,
+      17.4,
+      21.7,
+      24.5,
+      25.8,
+      27.4,
+      28.6,
+      29.5,
+      30.7,
+      31.5,
+      32.5,
+      34,
+      36,
+      38.5,
+      40.8,
+      42.3,
+      44.5,
+      46.5,
+      47.8,
+      49.2,
+      51,
+      53.5,
+      55.8,
+      58,
+      61.5,
+      65
+    ],
+    "geography": "factory enclosure, independent outdoor forest/wreckage, open sea/dive/seabed, coastal pier and separate airport; no shared pavilion",
+    "scope": "representative visual review, not every-frame perceptual viewing or manual audio listening"
+  }
+}

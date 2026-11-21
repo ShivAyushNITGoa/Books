@@ -1,0 +1,103 @@
+1
+00:00:00,350 --> 00:00:03,520
+Imagine designing the most important recorder on an airplane…
+
+2
+00:00:03,520 --> 00:00:05,740
+And then painting it bright orange.
+
+3
+00:00:05,740 --> 00:00:07,943
+Because that's exactly what engineers did.
+
+4
+00:00:08,293 --> 00:00:11,193
+You see, this little device records crucial flight data
+
+5
+00:00:11,193 --> 00:00:13,743
+and cockpit conversations.
+
+6
+00:00:13,743 --> 00:00:17,291
+And if a plane crashes, investigators need to find it.
+
+7
+00:00:17,641 --> 00:00:18,891
+But there's one problem.
+
+8
+00:00:18,891 --> 00:00:20,941
+Everyone calls it the black box.
+
+9
+00:00:20,941 --> 00:00:23,401
+So you'd expect it to be black, right?
+
+10
+00:00:23,401 --> 00:00:25,744
+Well, that would be a terrible idea.
+
+11
+00:00:26,094 --> 00:00:27,284
+After a crash,
+
+12
+00:00:27,284 --> 00:00:29,674
+the recorder could end up buried in wreckage,
+
+13
+00:00:29,674 --> 00:00:31,044
+hidden in forests,
+
+14
+00:00:31,044 --> 00:00:32,782
+or lying deep underwater.
+
+15
+00:00:33,132 --> 00:00:35,442
+And a black box in all that darkness?
+
+16
+00:00:35,442 --> 00:00:36,722
+Good luck finding it.
+
+17
+00:00:36,722 --> 00:00:40,072
+So engineers chose a completely different colour.
+
+18
+00:00:40,072 --> 00:00:42,466
+Bright, highly visible orange.
+
+19
+00:00:42,816 --> 00:00:46,676
+They also added reflective markings to help search teams spot it,
+
+20
+00:00:46,676 --> 00:00:50,363
+and underwater locator beacons to help find it beneath the sea.
+
+21
+00:00:50,713 --> 00:00:52,323
+And here's the funny part…
+
+22
+00:00:52,323 --> 00:00:54,933
+The device everyone calls a black box
+
+23
+00:00:54,933 --> 00:00:57,493
+is actually designed to stand out like a traffic cone.
+
+24
+00:00:57,843 --> 00:00:59,873
+Because when an airplane disappears,
+
+25
+00:00:59,873 --> 00:01:01,933
+the last thing investigators need…
+
+26
+00:01:01,933 --> 00:01:04,019
+is a recorder that's good at hiding.

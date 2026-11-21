@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateProject,parseSrt,formatSrt,pathAt,wrapText} from '../engine/project.js';
+import {buildProject} from '../tools/project-builder.mjs';
+const make=()=>buildProject({id:'test',text:'[primary] Ask a question.\n[secondary] Then listen carefully.',duration:7});
+test('arbitrary script/duration, two speakers and no fixed scarcity content',()=>{const p=make();assert.equal(p.duration,7);assert.ok(p.captions.at(-1).end<=7);assert.ok(p.actors[1].speech.length);assert.equal(p.props.cookieJars,false);assert.ok(!JSON.stringify(p.captions).includes('cookie'));assert.equal(validateProject(p),p)});
+test('Hindi text survives caption generation and grapheme wrapping',()=>{const p=buildProject({id:'hindi',text:'एक सवाल पूछो। ध्यान से सुनो।',duration:11});assert.match(p.captions[0].text,/एक/);const lines=wrapText('किताबों से सीखो',s=>[...s].length*10,80);assert.ok(lines.length>1)});
+test('SRT round trip, BOM, multiline and invalid timestamps',()=>{const a=parseSrt('\uFEFF1\n00:00:00,200 --> 00:00:01,050\nOne\nTwo\n');assert.deepEqual(parseSrt(formatSrt(a)),a);assert.throws(()=>parseSrt('1\n00:80:00,000 --> 00:00:01,000\nBad'))});
+test('reject invalid projects and unsupported actions',()=>{for(const mutate of [p=>p.duration=-1,p=>p.width=333,p=>p.actors[0].cues[0].action='fly',p=>p.actors.push(p.actors[0]),p=>p.captions[0].end=100,p=>p.media.audio='https://example.org/a.mp3',p=>p.camera[0].position=[0,NaN,1]]){const p=make();mutate(p);assert.throws(()=>validateProject(p))}});
+test('motion path clamps outside keys and interpolates deterministically',()=>{const k=[{t:2,x:1,z:0},{t:6,x:5,z:2}];assert.deepEqual(pathAt(k,0,['x','z']),[1,0]);assert.deepEqual(pathAt(k,4,['x','z']),[3,1]);assert.deepEqual(pathAt(k,9,['x','z']),[5,2])});
+test('long words wrap without losing text',()=>{const word='ABCDEFGHIJKLMNOPQRSTUVWXYZ';const lines=wrapText(word,s=>s.length,5);assert.equal(lines.join(''),word);assert.ok(lines.every(s=>s.length<=5))});

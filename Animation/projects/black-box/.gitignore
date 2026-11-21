@@ -1,0 +1,3 @@
+# Publish selected final film only, not intermediate encodes.
+/delivery/*.mp4
+!/delivery/black-box-continuous-narrated-720p.mp4

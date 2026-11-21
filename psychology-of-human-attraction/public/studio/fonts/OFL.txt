@@ -1,0 +1,1 @@
+Fonts: Noto Sans/Serif Devanagari (Copyright 2022 The Noto Project Authors) and Inter (Copyright The Inter Project Authors), licensed under the SIL Open Font License 1.1 - https://scripts.sil.org/OFL

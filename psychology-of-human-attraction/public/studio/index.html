@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talk to Society — Studio Engine (code-drawn characters)</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+@font-face{font-family:"NSD";src:url("fonts/NotoSansDevanagari-Regular.ttf");font-weight:400}
+@font-face{font-family:"NSD";src:url("fonts/NotoSansDevanagari-Bold.ttf");font-weight:700}
+@font-face{font-family:"NSerif";src:url("fonts/NotoSerifDevanagari-Bold.ttf");font-weight:700}
+@font-face{font-family:"InterLocal";src:url("fonts/Inter.ttf");font-weight:100 900}
+:root{--s:1px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#000;overflow:hidden}
+body{display:grid;place-items:center;font-family:var(--font-ui);color:var(--cream)}
+#stage{position:relative;overflow:hidden;background:var(--ink-deep)}
+#gl{position:absolute;inset:0;width:100%;height:100%;display:block}
+#ov{position:absolute;inset:0;pointer-events:none}
+#ov>*{position:absolute;will-change:opacity,transform;opacity:0}
+
+/* Law 10 — one unifying texture: perspective grid + crosshair markers */
+#grid{inset:0}
+#grid .floor{position:absolute;left:-30%;right:-30%;bottom:-6%;height:52%;
+  background-image:repeating-linear-gradient(0deg,var(--grid-line) 0 1px,transparent 1px var(--grid-size)),
+                   repeating-linear-gradient(90deg,var(--grid-line) 0 1px,transparent 1px var(--grid-size));
+  transform:perspective(900px) rotateX(62deg);transform-origin:50% 100%}
+#grid .cross{position:absolute;width:calc(var(--s)*26);height:calc(var(--s)*26);opacity:.5}
+#grid .cross::before,#grid .cross::after{content:"";position:absolute;background:rgba(232,180,106,.5)}
+#grid .cross::before{left:50%;top:0;bottom:0;width:1px}
+#grid .cross::after{top:50%;left:0;right:0;height:1px}
+#vign{inset:0;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.80) 100%)}
+
+/* Law 5 — light-streak whip hides every cut */
+#streak{top:-10%;bottom:-10%;left:0;width:34%;transform:translateX(-120%) skewX(-14deg);
+  background:linear-gradient(90deg,transparent,rgba(255,214,150,.42) 45%,rgba(255,240,214,.75) 52%,rgba(255,214,150,.30) 60%,transparent);
+  filter:blur(calc(var(--s)*10));mix-blend-mode:screen}
+
+/* Law 8 — type is a character */
+#title{left:6.5%;right:6.5%;top:11%;text-align:left}
+#title .kick{font:700 calc(var(--s)*26)/1 var(--font-ui);letter-spacing:.04em;color:var(--gold);display:flex;align-items:center;gap:calc(var(--s)*16)}
+#title .kick::before{content:"";width:calc(var(--s)*54);height:calc(var(--s)*3);background:var(--accent,var(--oxblood))}
+#title .line{margin-top:calc(var(--s)*22);font:700 calc(var(--s)*var(--ts,120))/1.16 var(--font-display);letter-spacing:.01em}
+#title .w{display:inline-block;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 26px rgba(255,214,150,.22));margin-right:.28em}
+#title .w.hot{background:linear-gradient(180deg,#fff6e4 0%,#f6d9a4 45%,#e0b27a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 34px rgba(232,180,106,.55))}
+#rule-num{right:5%;top:16%;font:700 calc(var(--s)*360)/0.8 var(--font-display);
+  background:linear-gradient(180deg,rgba(143,47,51,.85),rgba(143,47,51,.12));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* tier2 glass card — never covers the face */
+#card{right:5.5%;top:33%;width:31%;padding:calc(var(--s)*30) calc(var(--s)*34);
+  background:var(--glass);border:1px solid var(--glass-border);border-left:calc(var(--s)*5) solid var(--accent,var(--oxblood));
+  box-shadow:0 24px 80px rgba(0,0,0,.6),var(--glass-inner);backdrop-filter:blur(14px) saturate(1.12)}
+#card .ico{width:calc(var(--s)*96);height:calc(var(--s)*72);color:var(--accent,var(--oxblood))}
+#card .ico svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+#card .ttl{margin-top:calc(var(--s)*14);font-size:calc(var(--s)*42);line-height:1.28;font-weight:700;color:var(--cream)}
+#card .body{margin-top:calc(var(--s)*12);font-size:calc(var(--s)*26);line-height:1.6;color:#cdbba2}
+
+/* phone mockup (beats 2–3) */
+#phone{right:6%;top:26%;width:26%;padding:calc(var(--s)*18);background:rgba(6,4,3,.9);border:1px solid rgba(232,180,106,.3);
+  box-shadow:0 26px 90px rgba(0,0,0,.7);border-radius:calc(var(--s)*30)}
+#phone .bar{display:flex;justify-content:space-between;font:600 calc(var(--s)*16)/1 "InterLocal",sans-serif;color:#9b8a72;padding:0 calc(var(--s)*8) calc(var(--s)*12)}
+#phone .msg{max-width:88%;margin:0 0 calc(var(--s)*10);padding:calc(var(--s)*12) calc(var(--s)*16);border-radius:calc(var(--s)*18);
+  font-size:calc(var(--s)*25);line-height:1.42}
+#phone .me{background:linear-gradient(135deg,#7b3236,#8f2f33);color:#fff;margin-left:auto;border-bottom-right-radius:calc(var(--s)*5)}
+#phone .them{background:rgba(255,255,255,.09);color:#e9dccb;border-bottom-left-radius:calc(var(--s)*5)}
+#phone .seen{display:block;font-size:calc(var(--s)*15);opacity:.8;margin-top:calc(var(--s)*5);text-align:right;color:var(--gold)}
+#phone .typing{display:inline-flex;gap:calc(var(--s)*6);padding:calc(var(--s)*13) calc(var(--s)*17)}
+#phone .typing i{width:calc(var(--s)*7);height:calc(var(--s)*7);border-radius:50%;background:#e9dccb;animation:tp 1s infinite}
+#phone .typing i:nth-child(2){animation-delay:.15s}#phone .typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* tier1 quote takeover */
+#quote{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 9%;
+  background:radial-gradient(ellipse at 50% 45%,rgba(10,6,4,.62),rgba(5,3,2,.93))}
+#quote .qm{font:700 calc(var(--s)*220)/0.7 var(--font-display);color:var(--oxblood)}
+#quote .qt{margin-top:calc(var(--s)*6);font:700 calc(var(--s)*104)/1.3 var(--font-display);
+  background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 40px rgba(232,180,106,.25))}
+#quote .qs{margin-top:calc(var(--s)*34);font-size:calc(var(--s)*26);color:var(--gold);display:flex;align-items:center;gap:calc(var(--s)*18)}
+#quote .qs::before,#quote .qs::after{content:"";width:calc(var(--s)*70);height:1px;background:var(--oxblood)}
+
+/* outro — Law 9, holds 6s */
+#outro{inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:calc(var(--s)*16);
+  background:radial-gradient(ellipse at 50% 55%,rgba(10,6,4,.5),rgba(4,2,2,.94))}
+#outro .mark{width:calc(var(--s)*132);height:calc(var(--s)*132);transform:rotate(45deg);border:2px solid var(--gold);
+  background:linear-gradient(135deg,var(--oxblood),#3a1315);box-shadow:0 0 70px rgba(232,180,106,.3);display:grid;place-items:center}
+#outro .mark span{transform:rotate(-45deg);font:700 calc(var(--s)*62)/1 var(--font-display);background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+#outro .brand{margin-top:calc(var(--s)*14);font:700 calc(var(--s)*64)/1.2 var(--font-display);
+  background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+#outro .l{font:400 calc(var(--s)*46)/1.5 var(--font-display);color:#d9c8ab}
+#outro .tag{margin-top:calc(var(--s)*18);font:700 calc(var(--s)*26)/1 var(--font-ui);letter-spacing:.04em;color:var(--gold)}
+
+/* captions — playbook: 1–3 words, hard swap, dark box + thin light edge, never over the mouth */
+#cap{left:50%;bottom:6.5%;transform:translateX(-50%);padding:calc(var(--s)*16) calc(var(--s)*30);
+  background:rgba(8,5,3,.82);border:1px solid rgba(255,214,150,.22);border-left:calc(var(--s)*4) solid var(--accent,var(--oxblood));
+  border-radius:calc(var(--s)*6);font-size:calc(var(--s)*52);line-height:1.3;font-weight:700;color:#fff;
+  text-shadow:0 2px 14px rgba(0,0,0,.9);white-space:nowrap}
+.portrait #cap{white-space:normal}
+#cap u{position:absolute;left:0;bottom:calc(var(--s)*-1);height:calc(var(--s)*3);background:var(--accent,var(--oxblood));text-decoration:none}
+#chip{top:calc(var(--s)*108);left:calc(var(--s)*64);display:flex;gap:calc(var(--s)*14);align-items:center;
+  padding:calc(var(--s)*10) calc(var(--s)*18);background:rgba(8,5,3,.72);border:1px solid rgba(232,180,106,.24);
+  font-size:calc(var(--s)*24);font-weight:700}
+#chip b{color:var(--gold);padding-right:calc(var(--s)*14);border-right:2px solid var(--oxblood)}
+#brand{top:calc(var(--s)*50);right:calc(var(--s)*64);display:flex;align-items:center;gap:calc(var(--s)*14);
+  font:600 calc(var(--s)*20)/1 "InterLocal","NSD",sans-serif;letter-spacing:.3em;color:var(--gold);opacity:.85}
+#brand i{width:calc(var(--s)*13);height:calc(var(--s)*13);background:var(--oxblood);border:1px solid var(--gold);transform:rotate(45deg)}
+#bar{left:0;right:0;bottom:0;height:calc(var(--s)*4);background:rgba(255,255,255,.10)}
+#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--oxblood),var(--gold))}
+#fade{inset:0;background:#000}
+
+/* 9:16 — safe zones for Shorts/Reels (UI right rail, title block bottom) */
+.portrait #title{top:9%;left:7%;right:7%}
+.portrait #title .line{--ts:104}
+.portrait #title .line{line-height:1.2}
+.portrait #rule-num{right:4%;top:13%;font-size:calc(var(--s)*220);opacity:.8}
+.portrait #card{left:5%;right:5%;top:64%;width:auto;padding:calc(var(--s)*22) calc(var(--s)*26)}
+.portrait #card .ico{width:calc(var(--s)*72);height:calc(var(--s)*54)}
+.portrait #card .ttl{font-size:calc(var(--s)*34)}
+.portrait #card .body{font-size:calc(var(--s)*22);line-height:1.5}
+.portrait #phone{left:5%;right:5%;top:60%;width:auto}
+.portrait #phone .msg{font-size:calc(var(--s)*22)}
+.portrait #cap{bottom:2.5%;font-size:calc(var(--s)*44);width:max-content;max-width:88%;white-space:normal;text-align:center}
+.portrait #quote .qt{font-size:calc(var(--s)*78)}
+.portrait #outro .l{font-size:calc(var(--s)*44)}
+.portrait #chip{top:calc(var(--s)*120);left:6%}
+.portrait #brand{top:calc(var(--s)*46);right:6%;font-size:calc(var(--s)*22)}
+</style>
+<script type="importmap">
+{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/jsm/"}}
+</script>
+</head>
+<body>
+<div id="stage">
+  <canvas id="gl"></canvas>
+  <div id="ov">
+    <div id="grid"><div class="floor"></div></div>
+    <div id="streak"></div>
+    <div id="vign"></div>
+    <div id="rule-num"></div>
+    <div id="title"><div class="kick"></div><div class="line"></div></div>
+    <div id="card"><div class="ico"></div><div class="ttl"></div><div class="body"></div></div>
+    <div id="phone"><div class="bar"><span>2:14 AM</span><span>chat</span></div><div class="msgs"></div></div>
+    <div id="quote"><div class="qm">&ldquo;</div><div class="qt"></div><div class="qs"></div></div>
+    <div id="outro"><div class="mark"><span>TTS</span></div><div class="brand"></div><div class="l"></div><div class="l"></div><div class="l"></div><div class="tag"></div></div>
+    <div id="cap"><span></span><u></u></div>
+    <div id="chip"></div>
+    <div id="brand"><i></i>TALK TO SOCIETY</div>
+    <div id="bar"><i></i></div>
+    <div id="fade"></div>
+  </div>
+</div>
+<script src="captions.js"></script>
+<script type="module" src="main.js"></script>
+</body>
+</html>

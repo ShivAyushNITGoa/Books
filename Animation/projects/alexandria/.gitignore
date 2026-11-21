@@ -1,0 +1,6 @@
+# Keep generated masters out of Git unless explicitly selected for publication.
+/delivery/*.mp4
+# User-requested GitHub publication of the captioned film.
+!/delivery/alexandria-captioned-720p.mp4
+# User-requested narrated edition; keep the silent edition unchanged.
+!/delivery/alexandria-narrated-720p.mp4

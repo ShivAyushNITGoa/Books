@@ -1,0 +1,1232 @@
+[
+  {
+    "world": "street",
+    "action": "wave",
+    "label": "BOSTON \u2022 1919",
+    "position": [
+      -17.55,
+      10.100000000000001,
+      39.150000000000006
+    ],
+    "to": [
+      -9.450000000000001,
+      6.7250000000000005,
+      31.05
+    ],
+    "target": [
+      0,
+      2,
+      0
+    ],
+    "targetTo": [
+      0,
+      2,
+      0
+    ],
+    "id": "s01",
+    "chapter": 1,
+    "start": 0,
+    "end": 3.95,
+    "text": "A 15-foot wall of brown liquid came crashing through the streets."
+  },
+  {
+    "world": "street",
+    "action": "destruction",
+    "label": "A STREET OVERWHELMED",
+    "position": [
+      -19.25,
+      8.75,
+      27.0
+    ],
+    "to": [
+      -12.5,
+      6.050000000000001,
+      18.900000000000002
+    ],
+    "target": [
+      1,
+      2,
+      0
+    ],
+    "targetTo": [
+      1,
+      2,
+      0
+    ],
+    "id": "s02",
+    "chapter": 1,
+    "start": 3.95,
+    "end": 10.15,
+    "text": "It smashed buildings, swept away horses, crushed people, and even damaged an elevated railway."
+  },
+  {
+    "world": "rescue",
+    "action": "struggle",
+    "label": "THICK. HEAVY. DIFFICULT TO ESCAPE.",
+    "position": [
+      -4,
+      3.8,
+      9
+    ],
+    "to": [
+      -2.7,
+      2.8,
+      6.8
+    ],
+    "target": [
+      -0.7,
+      1.1,
+      0
+    ],
+    "targetTo": [
+      -0.7,
+      1.1,
+      0
+    ],
+    "id": "s03",
+    "chapter": 1,
+    "start": 10.15,
+    "end": 17.13,
+    "text": "People tried to escape, but the liquid was so thick and heavy that getting out of its path was almost impossible."
+  },
+  {
+    "world": "detail",
+    "action": "reveal",
+    "label": "NOT WATER",
+    "position": [
+      4,
+      4.2,
+      10
+    ],
+    "to": [
+      2,
+      3.4,
+      8.3
+    ],
+    "target": [
+      0,
+      1.7,
+      0
+    ],
+    "targetTo": [
+      0,
+      1.7,
+      0
+    ],
+    "id": "s04",
+    "chapter": 1,
+    "start": 17.13,
+    "end": 20.65,
+    "text": "And the strangest part?\n\nThis wasn't a flood of water."
+  },
+  {
+    "world": "detail",
+    "action": "reveal",
+    "label": "NOT AN AVALANCHE",
+    "position": [
+      4,
+      4.2,
+      10
+    ],
+    "to": [
+      -2,
+      3.4,
+      8.3
+    ],
+    "target": [
+      0,
+      1.7,
+      0
+    ],
+    "targetTo": [
+      0,
+      1.7,
+      0
+    ],
+    "id": "s05",
+    "chapter": 1,
+    "start": 20.65,
+    "end": 22.29,
+    "text": "It wasn't an avalanche."
+  },
+  {
+    "world": "detail",
+    "action": "reveal",
+    "label": "MOLASSES",
+    "position": [
+      -4,
+      4.2,
+      10
+    ],
+    "to": [
+      2,
+      3.4,
+      8.3
+    ],
+    "target": [
+      0,
+      1.7,
+      0
+    ],
+    "targetTo": [
+      0,
+      1.7,
+      0
+    ],
+    "id": "s06",
+    "chapter": 1,
+    "start": 22.29,
+    "end": 24.531729,
+    "text": "It was a wave of molasses."
+  },
+  {
+    "world": "street",
+    "action": "ordinary",
+    "label": "JANUARY 15, 1919 \u2022 NORTH END",
+    "position": [
+      -43,
+      34,
+      61
+    ],
+    "to": [
+      -34,
+      27,
+      52
+    ],
+    "target": [
+      0,
+      8,
+      -30
+    ],
+    "targetTo": [
+      0,
+      8,
+      -30
+    ],
+    "id": "s07",
+    "chapter": 2,
+    "start": 24.531729,
+    "end": 32.071729,
+    "text": "On January 15, 1919, an ordinary afternoon in Boston turned into one of the most bizarre disasters in American history."
+  },
+  {
+    "world": "street",
+    "action": "foreshadow",
+    "label": "ONE STORAGE TANK",
+    "position": [
+      -43,
+      34,
+      61
+    ],
+    "to": [
+      -34,
+      27,
+      52
+    ],
+    "target": [
+      0,
+      8,
+      -30
+    ],
+    "targetTo": [
+      0,
+      8,
+      -30
+    ],
+    "id": "s08",
+    "chapter": 2,
+    "start": 32.071729,
+    "end": 36.511729,
+    "text": "And it all began with a giant storage tank that suddenly exploded."
+  },
+  {
+    "world": "street",
+    "action": "tank",
+    "label": "50 FT TALL \u2022 2.3 MILLION GALLONS",
+    "position": [
+      -43,
+      34,
+      61
+    ],
+    "to": [
+      -34,
+      27,
+      52
+    ],
+    "target": [
+      0,
+      8,
+      -30
+    ],
+    "targetTo": [
+      0,
+      8,
+      -30
+    ],
+    "id": "s09",
+    "chapter": 2,
+    "start": 36.511729,
+    "end": 44.451729,
+    "text": "The tank stood in Boston's North End. It was around 50 feet tall and contained approximately 2.3 million gallons of molasses."
+  },
+  {
+    "world": "factory",
+    "action": "barrel",
+    "label": "NOT JUST PANCAKE SYRUP",
+    "position": [
+      -5,
+      5.5,
+      14.5
+    ],
+    "to": [
+      -2.6,
+      4.6,
+      12.5
+    ],
+    "target": [
+      0,
+      1.5,
+      -0.6
+    ],
+    "targetTo": [
+      0,
+      1.5,
+      -0.6
+    ],
+    "id": "s10",
+    "chapter": 2,
+    "start": 44.451729,
+    "end": 48.316728999999995,
+    "text": "But this wasn't just some giant container of pancake syrup."
+  },
+  {
+    "world": "factory",
+    "action": "distill",
+    "label": "MOLASSES \u2192 INDUSTRIAL ALCOHOL",
+    "position": [
+      5,
+      5.5,
+      14.5
+    ],
+    "to": [
+      2.6,
+      4.6,
+      12.5
+    ],
+    "target": [
+      0,
+      1.5,
+      -0.6
+    ],
+    "targetTo": [
+      0,
+      1.5,
+      -0.6
+    ],
+    "id": "s11",
+    "chapter": 2,
+    "start": 48.316728999999995,
+    "end": 56.689521,
+    "text": "The molasses was used to produce industrial alcohol, which was needed for everything from liquor to wartime explosives."
+  },
+  {
+    "world": "leak",
+    "action": "inspect",
+    "label": "BUILT IN 1915",
+    "position": [
+      -5.5,
+      4.8,
+      11
+    ],
+    "to": [
+      -3.8,
+      3.6,
+      9
+    ],
+    "target": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "targetTo": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "id": "s12",
+    "chapter": 3,
+    "start": 56.689521,
+    "end": 62.349520999999996,
+    "text": "The company had built the tank just a few years earlier, but there was a serious problem."
+  },
+  {
+    "world": "leak",
+    "action": "drip",
+    "label": "THE WARNING WAS VISIBLE",
+    "position": [
+      -2.7,
+      3.1,
+      5.4
+    ],
+    "to": [
+      -2.2,
+      2.6,
+      4.5
+    ],
+    "target": [
+      -1.5,
+      1.4,
+      -1.5
+    ],
+    "targetTo": [
+      -1.5,
+      1.4,
+      -1.5
+    ],
+    "id": "s13",
+    "chapter": 3,
+    "start": 62.349520999999996,
+    "end": 63.429521,
+    "text": "It leaked."
+  },
+  {
+    "world": "leak",
+    "action": "bucket",
+    "label": "CHILDREN COLLECTED THE LEAKS",
+    "position": [
+      5.5,
+      4.8,
+      11
+    ],
+    "to": [
+      3.8,
+      3.6,
+      9
+    ],
+    "target": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "targetTo": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "id": "s14",
+    "chapter": 3,
+    "start": 63.429521,
+    "end": 70.199521,
+    "text": "In fact, molasses regularly seeped through its steel walls. Local children reportedly collected the dripping syrup in buckets."
+  },
+  {
+    "world": "leak",
+    "action": "paint",
+    "label": "BROWN PAINT, NOT A REPAIR",
+    "position": [
+      -5.5,
+      4.8,
+      11
+    ],
+    "to": [
+      -3.8,
+      3.6,
+      9
+    ],
+    "target": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "targetTo": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "id": "s15",
+    "chapter": 3,
+    "start": 70.199521,
+    "end": 76.343354,
+    "text": "And instead of properly fixing the problem, the company painted the tank brown to hide the leaks."
+  },
+  {
+    "world": "street",
+    "action": "ordinary",
+    "label": "AN ORDINARY JANUARY AFTERNOON",
+    "position": [
+      -10,
+      6,
+      22
+    ],
+    "to": [
+      -7,
+      4.5,
+      16
+    ],
+    "target": [
+      0,
+      2,
+      0
+    ],
+    "targetTo": [
+      0,
+      2,
+      0
+    ],
+    "id": "s16",
+    "chapter": 4,
+    "start": 76.343354,
+    "end": 78.383354,
+    "text": "Then came that January afternoon."
+  },
+  {
+    "world": "leak",
+    "action": "rumble",
+    "label": "AROUND 12:30 P.M.",
+    "position": [
+      -5.5,
+      4.8,
+      11
+    ],
+    "to": [
+      -3.8,
+      3.6,
+      9
+    ],
+    "target": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "targetTo": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "id": "s17",
+    "chapter": 4,
+    "start": 78.383354,
+    "end": 82.518354,
+    "text": "At around 12:30, people nearby heard a strange rumbling sound."
+  },
+  {
+    "world": "street",
+    "action": "rupture",
+    "label": "THE STEEL TANK RUPTURED",
+    "position": [
+      -35,
+      26,
+      40
+    ],
+    "to": [
+      -28,
+      20,
+      33
+    ],
+    "target": [
+      0,
+      7,
+      -28
+    ],
+    "targetTo": [
+      0,
+      7,
+      -28
+    ],
+    "id": "s18",
+    "chapter": 4,
+    "start": 82.518354,
+    "end": 93.843354,
+    "text": "Suddenly, the tank's steel walls began tearing apart. Its rivets burst out like machine-gun fire, and millions of gallons of molasses came crashing into the neighbourhood."
+  },
+  {
+    "world": "street",
+    "action": "wave",
+    "label": "REPORTED HEIGHT \u2248 15 FT",
+    "position": [
+      -21.6,
+      11.450000000000001,
+      33.75
+    ],
+    "to": [
+      -14.850000000000001,
+      8.75,
+      25.650000000000002
+    ],
+    "target": [
+      0,
+      2,
+      0
+    ],
+    "targetTo": [
+      0,
+      2,
+      0
+    ],
+    "id": "s19",
+    "chapter": 4,
+    "start": 93.843354,
+    "end": 99.783354,
+    "text": "The wave reportedly reached around 15 feet high and moved at an estimated 35 miles per hour."
+  },
+  {
+    "world": "street",
+    "action": "speed",
+    "label": "ESTIMATED 35 MPH \u2022 56 KM/H",
+    "position": [
+      -17.55,
+      10.100000000000001,
+      29.35
+    ],
+    "to": [
+      -10.8,
+      6.7250000000000005,
+      25.3
+    ],
+    "target": [
+      0,
+      2,
+      1
+    ],
+    "targetTo": [
+      0,
+      2,
+      1
+    ],
+    "id": "s20",
+    "chapter": 4,
+    "start": 99.783354,
+    "end": 102.6265,
+    "text": "That's roughly 56 kilometres per hour."
+  },
+  {
+    "world": "street",
+    "action": "wave",
+    "label": "FASTER THAN A PERSON COULD RUN",
+    "position": [
+      0.0,
+      5.375,
+      34.75
+    ],
+    "to": [
+      -4.050000000000001,
+      4.43,
+      26.650000000000002
+    ],
+    "target": [
+      0,
+      2,
+      1
+    ],
+    "targetTo": [
+      0,
+      2,
+      1
+    ],
+    "id": "s21",
+    "chapter": 5,
+    "start": 102.6265,
+    "end": 109.4865,
+    "text": "Imagine being on a street when a wall of thick, brown liquid comes rushing towards you faster than a car moving through a city."
+  },
+  {
+    "world": "street",
+    "action": "destruction",
+    "label": "HOMES, STREETS AND LIVELIHOODS",
+    "position": [
+      -19.200000000000003,
+      10.100000000000001,
+      27.0
+    ],
+    "to": [
+      -12.450000000000001,
+      6.050000000000001,
+      20.25
+    ],
+    "target": [
+      -3,
+      2,
+      0
+    ],
+    "targetTo": [
+      -3,
+      2,
+      0
+    ],
+    "id": "s22",
+    "chapter": 5,
+    "start": 109.4865,
+    "end": 115.5865,
+    "text": "Buildings were knocked from their foundations. Horses became trapped. Wooden houses were smashed apart."
+  },
+  {
+    "world": "street",
+    "action": "train",
+    "label": "DAMAGED SUPPORTS \u2022 TRAIN STOPPED SHORT",
+    "position": [
+      14,
+      12,
+      25
+    ],
+    "to": [
+      12,
+      8,
+      18
+    ],
+    "target": [
+      7,
+      5,
+      -1
+    ],
+    "targetTo": [
+      7,
+      5,
+      -1
+    ],
+    "id": "s23",
+    "chapter": 5,
+    "start": 115.5865,
+    "end": 121.467646,
+    "text": "The elevated railway was damaged, and an approaching train stopped short of the sagging tracks."
+  },
+  {
+    "world": "rescue",
+    "action": "struggle",
+    "label": "ESCAPE WAS NOT SIMPLE",
+    "position": [
+      -4,
+      3.8,
+      9
+    ],
+    "to": [
+      -2.7,
+      2.8,
+      6.8
+    ],
+    "target": [
+      -0.7,
+      1.1,
+      0
+    ],
+    "targetTo": [
+      -0.7,
+      1.1,
+      0
+    ],
+    "id": "s24",
+    "chapter": 6,
+    "start": 121.467646,
+    "end": 123.527646,
+    "text": "And escaping the flood wasn't easy."
+  },
+  {
+    "world": "detail",
+    "action": "viscosity",
+    "label": "DENSITY + VISCOSITY",
+    "position": [
+      -4,
+      4.2,
+      10
+    ],
+    "to": [
+      -2,
+      3.4,
+      8.3
+    ],
+    "target": [
+      0,
+      1.7,
+      0
+    ],
+    "targetTo": [
+      0,
+      1.7,
+      0
+    ],
+    "id": "s25",
+    "chapter": 6,
+    "start": 123.527646,
+    "end": 131.747646,
+    "text": "Molasses is much denser than water, and its incredible thickness made it extremely difficult for people and animals to move through."
+  },
+  {
+    "world": "rescue",
+    "action": "struggle",
+    "label": "COOLING MADE IT THICKER",
+    "position": [
+      -4,
+      3.8,
+      9
+    ],
+    "to": [
+      -2.7,
+      2.8,
+      6.8
+    ],
+    "target": [
+      -0.7,
+      1.1,
+      0
+    ],
+    "targetTo": [
+      -0.7,
+      1.1,
+      0
+    ],
+    "id": "s26",
+    "chapter": 6,
+    "start": 131.747646,
+    "end": 135.867646,
+    "text": "The more some victims struggled, the harder it became to escape."
+  },
+  {
+    "world": "rescue",
+    "action": "arrive",
+    "label": "POLICE \u2022 FIRE \u2022 NAVY \u2022 RED CROSS",
+    "position": [
+      6,
+      5.8,
+      18
+    ],
+    "to": [
+      2,
+      4.8,
+      16
+    ],
+    "target": [
+      1.5,
+      1.3,
+      0
+    ],
+    "targetTo": [
+      1.5,
+      1.3,
+      0
+    ],
+    "id": "s27",
+    "chapter": 6,
+    "start": 135.867646,
+    "end": 142.527646,
+    "text": "Rescuers rushed in, including police officers, firefighters, sailors and Red Cross workers."
+  },
+  {
+    "world": "rescue",
+    "action": "rope",
+    "label": "RESCUE, ONE PERSON AT A TIME",
+    "position": [
+      -6,
+      5.8,
+      18
+    ],
+    "to": [
+      -2,
+      4.8,
+      16
+    ],
+    "target": [
+      1.5,
+      1.3,
+      0
+    ],
+    "targetTo": [
+      1.5,
+      1.3,
+      0
+    ],
+    "id": "s28",
+    "chapter": 6,
+    "start": 142.527646,
+    "end": 146.687646,
+    "text": "But reaching people trapped beneath the sticky mass was a nightmare."
+  },
+  {
+    "world": "memorial",
+    "action": "loss",
+    "label": "21 PEOPLE KILLED \u2022 ABOUT 150 INJURED",
+    "position": [
+      0,
+      5,
+      12
+    ],
+    "to": [
+      0,
+      3.6,
+      9
+    ],
+    "target": [
+      0,
+      1.5,
+      0
+    ],
+    "targetTo": [
+      0,
+      1.5,
+      0
+    ],
+    "id": "s29",
+    "chapter": 6,
+    "start": 146.687646,
+    "end": 152.777896,
+    "text": "By the time the disaster was over, 21 people had lost their lives and around 150 were injured."
+  },
+  {
+    "world": "office",
+    "action": "evidence",
+    "label": "THIS WAS NOT JUST BAD LUCK",
+    "position": [
+      -4.5,
+      4.6,
+      11
+    ],
+    "to": [
+      -2.2,
+      3.6,
+      9.5
+    ],
+    "target": [
+      0,
+      1.3,
+      0.1
+    ],
+    "targetTo": [
+      0,
+      1.3,
+      0.1
+    ],
+    "id": "s30",
+    "chapter": 7,
+    "start": 152.777896,
+    "end": 155.470396,
+    "text": "But here's where the story gets even more disturbing."
+  },
+  {
+    "world": "office",
+    "action": "plate",
+    "label": "A PREVENTABLE STRUCTURAL FAILURE",
+    "position": [
+      4.5,
+      4.6,
+      11
+    ],
+    "to": [
+      2.2,
+      3.6,
+      9.5
+    ],
+    "target": [
+      0,
+      1.3,
+      0.1
+    ],
+    "targetTo": [
+      0,
+      1.3,
+      0.1
+    ],
+    "id": "s31",
+    "chapter": 7,
+    "start": 155.470396,
+    "end": 158.56789600000002,
+    "text": "The tank hadn't suddenly failed for no reason."
+  },
+  {
+    "world": "office",
+    "action": "measure",
+    "label": "THIN STEEL \u2022 INADEQUATE TESTING",
+    "position": [
+      -4.5,
+      4.6,
+      11
+    ],
+    "to": [
+      -2.2,
+      3.6,
+      9.5
+    ],
+    "target": [
+      0,
+      1.3,
+      0.1
+    ],
+    "targetTo": [
+      0,
+      1.3,
+      0.1
+    ],
+    "id": "s32",
+    "chapter": 7,
+    "start": 158.56789600000002,
+    "end": 168.877896,
+    "text": "Investigators discovered that its construction was seriously flawed. Its steel walls were too thin, and the tank had not been properly tested before being put into service."
+  },
+  {
+    "world": "leak",
+    "action": "inspect",
+    "label": "REPEATED LEAKS WERE IGNORED",
+    "position": [
+      5.5,
+      4.8,
+      11
+    ],
+    "to": [
+      3.8,
+      3.6,
+      9
+    ],
+    "target": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "targetTo": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "id": "s33",
+    "chapter": 7,
+    "start": 168.877896,
+    "end": 172.602896,
+    "text": "The company had also ignored warning signs, including repeated leaks."
+  },
+  {
+    "world": "court",
+    "action": "verdict",
+    "label": "THE COMPANY WAS HELD RESPONSIBLE",
+    "position": [
+      -5,
+      5.5,
+      14.5
+    ],
+    "to": [
+      -2.6,
+      4.6,
+      12.5
+    ],
+    "target": [
+      0,
+      1.5,
+      -0.6
+    ],
+    "targetTo": [
+      0,
+      1.5,
+      -0.6
+    ],
+    "id": "s34",
+    "chapter": 7,
+    "start": 172.602896,
+    "end": 177.853604,
+    "text": "After a long legal battle, the company was held responsible for the disaster."
+  },
+  {
+    "world": "street",
+    "action": "cleanup",
+    "label": "THE CLEANUP TOOK WEEKS",
+    "position": [
+      -15,
+      12,
+      30
+    ],
+    "to": [
+      -9,
+      8,
+      23
+    ],
+    "target": [
+      0,
+      1,
+      0
+    ],
+    "targetTo": [
+      0,
+      1,
+      0
+    ],
+    "id": "s35",
+    "chapter": 8,
+    "start": 177.853604,
+    "end": 181.693604,
+    "text": "And the cleanup was almost as unbelievable as the flood itself."
+  },
+  {
+    "world": "rescue",
+    "action": "wash",
+    "label": "SALT WATER + SAND",
+    "position": [
+      6,
+      5.8,
+      18
+    ],
+    "to": [
+      2,
+      4.8,
+      16
+    ],
+    "target": [
+      1.5,
+      1.3,
+      0
+    ],
+    "targetTo": [
+      1.5,
+      1.3,
+      0
+    ],
+    "id": "s36",
+    "chapter": 8,
+    "start": 181.693604,
+    "end": 190.688604,
+    "text": "Workers spent weeks removing molasses from streets, buildings and wreckage. They used salt water to wash away the syrup and spread sand to help absorb it."
+  },
+  {
+    "world": "harbor",
+    "action": "brownwater",
+    "label": "MOLASSES REACHED THE HARBOR",
+    "position": [
+      -10,
+      9,
+      18
+    ],
+    "to": [
+      -7,
+      6.5,
+      14
+    ],
+    "target": [
+      0,
+      1,
+      -3
+    ],
+    "targetTo": [
+      0,
+      1,
+      -3
+    ],
+    "id": "s37",
+    "chapter": 8,
+    "start": 190.688604,
+    "end": 195.573604,
+    "text": "Even the harbour turned brown as the sticky mixture was washed into the water."
+  },
+  {
+    "world": "office",
+    "action": "permit",
+    "label": "REVIEW \u2022 INSPECTION \u2022 ACCOUNTABILITY",
+    "position": [
+      4.5,
+      4.6,
+      11
+    ],
+    "to": [
+      2.2,
+      3.6,
+      9.5
+    ],
+    "target": [
+      0,
+      1.3,
+      0.1
+    ],
+    "targetTo": [
+      0,
+      1.3,
+      0.1
+    ],
+    "id": "s38",
+    "chapter": 8,
+    "start": 195.573604,
+    "end": 201.773604,
+    "text": "The disaster eventually helped push Massachusetts towards stricter building regulations and engineering oversight."
+  },
+  {
+    "world": "memorial",
+    "action": "remember",
+    "label": "THE GREAT MOLASSES FLOOD",
+    "position": [
+      -4,
+      4.5,
+      11
+    ],
+    "to": [
+      -2.5,
+      3.5,
+      8
+    ],
+    "target": [
+      0,
+      1.5,
+      0
+    ],
+    "targetTo": [
+      0,
+      1.5,
+      0
+    ],
+    "id": "s39",
+    "chapter": 8,
+    "start": 201.773604,
+    "end": 208.258604,
+    "text": "Today, the Great Molasses Flood is remembered as one of the strangest industrial disasters in American history."
+  },
+  {
+    "world": "street",
+    "action": "aftermath",
+    "label": "NOT A NATURAL DISASTER",
+    "position": [
+      -20,
+      18,
+      36
+    ],
+    "to": [
+      -13,
+      12,
+      28
+    ],
+    "target": [
+      0,
+      4,
+      -12
+    ],
+    "targetTo": [
+      0,
+      4,
+      -12
+    ],
+    "id": "s40",
+    "chapter": 8,
+    "start": 208.258604,
+    "end": 213.613604,
+    "text": "Because sometimes, a disaster doesn't need a hurricane, an earthquake or a tsunami."
+  },
+  {
+    "world": "leak",
+    "action": "final",
+    "label": "WARNING SIGNS MATTER",
+    "position": [
+      -5.5,
+      4.8,
+      11
+    ],
+    "to": [
+      -3.8,
+      3.6,
+      9
+    ],
+    "target": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "targetTo": [
+      0.3,
+      1.5,
+      -0.7
+    ],
+    "id": "s41",
+    "chapter": 8,
+    "start": 213.613604,
+    "end": 222.66666666666666,
+    "text": "Sometimes, all it takes is a badly built tank, millions of gallons of molasses, and a company that ignored the warning signs."
+  }
+]

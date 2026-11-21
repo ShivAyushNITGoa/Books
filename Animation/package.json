@@ -1,0 +1,24 @@
+{
+  "name": "animation-classroom-bundle",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Locked approved 2.5D reference plus a standalone script-driven classroom animation engine",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "preview": "node tools/cli.mjs serve",
+    "render": "node tools/cli.mjs render",
+    "validate": "node tools/cli.mjs validate",
+    "verify-lock": "node tools/verify-lock.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "story": "node story/tools/cli.mjs",
+    "test:story:browser": "node story/tests/browser.mjs"
+  },
+  "dependencies": {
+    "ffmpeg-static": "5.2.0",
+    "playwright": "1.55.1"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "title": "The Day a Giant Wave of Molasses Destroyed a City Street",
+  "file": "molasses-flood-rebuilt-narrated-720p.mp4",
+  "bytes": 75794909,
+  "sha256": "99eddae4a4ce53f0bdacbf4b4ac0eaa6ce605b4ac33449b3a5a1fb30f0139ffe",
+  "video": {
+    "codec": "H.264",
+    "output": [
+      720,
+      1280
+    ],
+    "rendered3dViewport": [
+      540,
+      960
+    ],
+    "overlayResolution": [
+      720,
+      1280
+    ],
+    "fps": 24,
+    "frames": 5344,
+    "duration": 222.66666666666666,
+    "pixelFormat": "yuv420p",
+    "colorspace": "BT.709"
+  },
+  "audio": {
+    "codec": "AAC",
+    "sampleRate": 48000,
+    "channels": 1,
+    "integratedLUFS": -16.04,
+    "truePeakDBTP": -1.41,
+    "narrationTakes": 8,
+    "foleyEvents": 10,
+    "music": false,
+    "sharedVoiceover": "../molasses-flood/delivery/voiceover.flac"
+  },
+  "captions": {
+    "count": 85,
+    "burnedIn": true,
+    "sidecar": "captions.srt",
+    "timing": "Measured speech activity plus word weights; not forced alignment"
+  },
+  "checks": {
+    "fullDecode": "PASS",
+    "decodedFrames": 5344,
+    "duplicates": 0,
+    "dropped": 0,
+    "projectTests": 40,
+    "repositoryTests": 52,
+    "strictOriginalLock": "LOCK OK: approved-refined-v2-1.0.0, 40 bundled files; 20/20 original files checked. Approved source 4f52b6d.",
+    "browserSamples": 143,
+    "seekChecks": 12,
+    "browserWarnings": [],
+    "reviewFrames": 41
+  },
+  "camera": {
+    "issues": [],
+    "settledBounds": [],
+    "continuous": true,
+    "frames": 5344,
+    "minSpeed": 0.08456307771541755,
+    "maxSpeed": 15.836011139954804,
+    "maxStep": 0.659698135828522,
+    "speedRatio": 187.26862323114787
+  },
+  "sourceSha256": {
+    "cast/actor.js": "4a4816313cd011c9e50188d9369a2a734be2c4e3cdd4190a01cd3688c73990cd",
+    "cast/motion.js": "a8d22adbe94b35e5d0cf981f0277bb2029425ac39ee04bfee0ebd6ea423babf3",
+    "delivery/captions.srt": "10d2a359f7ec8a1eb0e9b76e11b3fe041148126097126450012f4b25d9e7a9a3",
+    "direction/beats.json": "35d7d9096381735bac79b06df8e44acd245e945606942b2da5e53bc1c3638ce1",
+    "direction/camera.js": "76e6c8bb56d50ddb791d9844dd3ed4fb9494e526760406e1f959c4f1deaa4471",
+    "engine/geometry.js": "426117d2496593a968076f4c2c60df863dcd27f76b6043bdac43302baa877fc1",
+    "engine/math.js": "4d6b79a7662ddb1aa9eef6228d2e2dccec033cbd6bc7c6e5abe75fc69aad48a2",
+    "film.js": "6326b27c6d3210713b8994f628c192043fc4aafbded95def2e3f94b59eab70e5",
+    "index.html": "ce9e64bcf70cedf8281947d4a13eabba0be479c4273764dfbea6d1fa594b8915",
+    "narration.json": "f47de28cd7ba98273bb5e386dbcec5a2367b2bb215f544f35f25c41c2de1e561",
+    "script.txt": "b9ed4121a82fb69bdafa0f3df067ae1b50ccc0a2c1d0b15c1b22e2f2bdc21a48",
+    "ui/overlay.js": "73d7ba3618b5fdf5db6473da8d6d84721d6ce30e99a1986a3f87e4589e8ba35e",
+    "world/action-props.js": "cd5c9ed101398c3dc3289efa838bb16368e1fb6b832b2c4111ca7924e89143f0",
+    "world/district.js": "57a28f1df11ff67ae8b9f0f3e2601c5f834f93a5df6d86f78c25088787c19581",
+    "world/flood.js": "3f9b8d4e28bda42676c31e90fdf299799641db318f83d69b0f4149419355bb97",
+    "world/geography.js": "2751b8eff1754d5d5de338e093565af7b8593d17412f8eda10052d7de51cdf88",
+    "world/harbor-water.js": "6597535e996bec7e3eaebf8f966053c4b4246599e5d93be213603e2d33f6e4d6",
+    "world/index.js": "d4d54e881b1e9675cfbe8af000451ef6d37f3bedc7f0763fa0f30866284b32e1",
+    "world/tank.js": "efff17454d25666bfd96048832b3bdbf79bb24b5c5c4ca021eeacc030570d33f"
+  },
+  "limits": [
+    "Authored height-field fluid, not a calibrated fluid/structural simulation",
+    "Connected compositional geography, not an exact historical survey",
+    "Explicit rewind and time-compressed 1925/legal and remembrance staging",
+    "Procedural stylized anatomy; tests do not certify absence of every mesh intersection",
+    "No complete manual audio listening or phonetic lip-sync claim",
+    "Technical checks are not user aesthetic approval"
+  ]
+}

@@ -1,0 +1,371 @@
+[
+  {
+    "id": "s01",
+    "start": 0,
+    "end": 3.95,
+    "chapter": 1,
+    "action": "wave",
+    "label": "BOSTON \u2022 1919",
+    "text": "A 15-foot wall of brown liquid came crashing through the streets."
+  },
+  {
+    "id": "s02",
+    "start": 3.95,
+    "end": 10.15,
+    "chapter": 1,
+    "action": "destruction",
+    "label": "A STREET OVERWHELMED",
+    "text": "It smashed buildings, swept away horses, crushed people, and even damaged an elevated railway."
+  },
+  {
+    "id": "s03",
+    "start": 10.15,
+    "end": 17.13,
+    "chapter": 1,
+    "action": "struggle",
+    "label": "THICK. HEAVY. DIFFICULT TO ESCAPE.",
+    "text": "People tried to escape, but the liquid was so thick and heavy that getting out of its path was almost impossible."
+  },
+  {
+    "id": "s04",
+    "start": 17.13,
+    "end": 20.65,
+    "chapter": 1,
+    "action": "reveal",
+    "label": "NOT WATER",
+    "text": "And the strangest part?\n\nThis wasn't a flood of water."
+  },
+  {
+    "id": "s05",
+    "start": 20.65,
+    "end": 22.29,
+    "chapter": 1,
+    "action": "reveal",
+    "label": "NOT AN AVALANCHE",
+    "text": "It wasn't an avalanche."
+  },
+  {
+    "id": "s06",
+    "start": 22.29,
+    "end": 24.531729,
+    "chapter": 1,
+    "action": "reveal",
+    "label": "MOLASSES",
+    "text": "It was a wave of molasses."
+  },
+  {
+    "id": "s07",
+    "start": 24.531729,
+    "end": 32.071729,
+    "chapter": 2,
+    "action": "ordinary",
+    "label": "JANUARY 15, 1919 \u2022 NORTH END",
+    "text": "On January 15, 1919, an ordinary afternoon in Boston turned into one of the most bizarre disasters in American history."
+  },
+  {
+    "id": "s08",
+    "start": 32.071729,
+    "end": 36.511729,
+    "chapter": 2,
+    "action": "foreshadow",
+    "label": "ONE STORAGE TANK",
+    "text": "And it all began with a giant storage tank that suddenly exploded."
+  },
+  {
+    "id": "s09",
+    "start": 36.511729,
+    "end": 44.451729,
+    "chapter": 2,
+    "action": "tank",
+    "label": "50 FT TALL \u2022 2.3 MILLION GALLONS",
+    "text": "The tank stood in Boston's North End. It was around 50 feet tall and contained approximately 2.3 million gallons of molasses."
+  },
+  {
+    "id": "s10",
+    "start": 44.451729,
+    "end": 48.316728999999995,
+    "chapter": 2,
+    "action": "barrel",
+    "label": "NOT JUST PANCAKE SYRUP",
+    "text": "But this wasn't just some giant container of pancake syrup."
+  },
+  {
+    "id": "s11",
+    "start": 48.316728999999995,
+    "end": 56.689521,
+    "chapter": 2,
+    "action": "distill",
+    "label": "MOLASSES \u2192 INDUSTRIAL ALCOHOL",
+    "text": "The molasses was used to produce industrial alcohol, which was needed for everything from liquor to wartime explosives."
+  },
+  {
+    "id": "s12",
+    "start": 56.689521,
+    "end": 62.349520999999996,
+    "chapter": 3,
+    "action": "inspect",
+    "label": "BUILT IN 1915",
+    "text": "The company had built the tank just a few years earlier, but there was a serious problem."
+  },
+  {
+    "id": "s13",
+    "start": 62.349520999999996,
+    "end": 63.429521,
+    "chapter": 3,
+    "action": "drip",
+    "label": "THE WARNING WAS VISIBLE",
+    "text": "It leaked."
+  },
+  {
+    "id": "s14",
+    "start": 63.429521,
+    "end": 70.199521,
+    "chapter": 3,
+    "action": "bucket",
+    "label": "CHILDREN COLLECTED THE LEAKS",
+    "text": "In fact, molasses regularly seeped through its steel walls. Local children reportedly collected the dripping syrup in buckets."
+  },
+  {
+    "id": "s15",
+    "start": 70.199521,
+    "end": 76.343354,
+    "chapter": 3,
+    "action": "paint",
+    "label": "BROWN PAINT, NOT A REPAIR",
+    "text": "And instead of properly fixing the problem, the company painted the tank brown to hide the leaks."
+  },
+  {
+    "id": "s16",
+    "start": 76.343354,
+    "end": 78.383354,
+    "chapter": 4,
+    "action": "ordinary",
+    "label": "AN ORDINARY JANUARY AFTERNOON",
+    "text": "Then came that January afternoon."
+  },
+  {
+    "id": "s17",
+    "start": 78.383354,
+    "end": 82.518354,
+    "chapter": 4,
+    "action": "rumble",
+    "label": "AROUND 12:30 P.M.",
+    "text": "At around 12:30, people nearby heard a strange rumbling sound."
+  },
+  {
+    "id": "s18",
+    "start": 82.518354,
+    "end": 93.843354,
+    "chapter": 4,
+    "action": "rupture",
+    "label": "THE STEEL TANK RUPTURED",
+    "text": "Suddenly, the tank's steel walls began tearing apart. Its rivets burst out like machine-gun fire, and millions of gallons of molasses came crashing into the neighbourhood."
+  },
+  {
+    "id": "s19",
+    "start": 93.843354,
+    "end": 99.783354,
+    "chapter": 4,
+    "action": "wave",
+    "label": "REPORTED HEIGHT \u2248 15 FT",
+    "text": "The wave reportedly reached around 15 feet high and moved at an estimated 35 miles per hour."
+  },
+  {
+    "id": "s20",
+    "start": 99.783354,
+    "end": 102.6265,
+    "chapter": 4,
+    "action": "speed",
+    "label": "ESTIMATED 35 MPH \u2022 56 KM/H",
+    "text": "That's roughly 56 kilometres per hour."
+  },
+  {
+    "id": "s21",
+    "start": 102.6265,
+    "end": 109.4865,
+    "chapter": 5,
+    "action": "wave",
+    "label": "FASTER THAN A PERSON COULD RUN",
+    "text": "Imagine being on a street when a wall of thick, brown liquid comes rushing towards you faster than a car moving through a city."
+  },
+  {
+    "id": "s22",
+    "start": 109.4865,
+    "end": 115.5865,
+    "chapter": 5,
+    "action": "destruction",
+    "label": "HOMES, STREETS AND LIVELIHOODS",
+    "text": "Buildings were knocked from their foundations. Horses became trapped. Wooden houses were smashed apart."
+  },
+  {
+    "id": "s23",
+    "start": 115.5865,
+    "end": 121.467646,
+    "chapter": 5,
+    "action": "train",
+    "label": "DAMAGED SUPPORTS \u2022 TRAIN STOPPED SHORT",
+    "text": "The elevated railway was damaged, and an approaching train stopped short of the sagging tracks."
+  },
+  {
+    "id": "s24",
+    "start": 121.467646,
+    "end": 123.527646,
+    "chapter": 6,
+    "action": "struggle",
+    "label": "ESCAPE WAS NOT SIMPLE",
+    "text": "And escaping the flood wasn't easy."
+  },
+  {
+    "id": "s25",
+    "start": 123.527646,
+    "end": 131.747646,
+    "chapter": 6,
+    "action": "viscosity",
+    "label": "DENSITY + VISCOSITY",
+    "text": "Molasses is much denser than water, and its incredible thickness made it extremely difficult for people and animals to move through."
+  },
+  {
+    "id": "s26",
+    "start": 131.747646,
+    "end": 135.867646,
+    "chapter": 6,
+    "action": "struggle",
+    "label": "COOLING MADE IT THICKER",
+    "text": "The more some victims struggled, the harder it became to escape."
+  },
+  {
+    "id": "s27",
+    "start": 135.867646,
+    "end": 142.527646,
+    "chapter": 6,
+    "action": "arrive",
+    "label": "POLICE \u2022 FIRE \u2022 NAVY \u2022 RED CROSS",
+    "text": "Rescuers rushed in, including police officers, firefighters, sailors and Red Cross workers."
+  },
+  {
+    "id": "s28",
+    "start": 142.527646,
+    "end": 146.687646,
+    "chapter": 6,
+    "action": "rope",
+    "label": "RESCUE, ONE PERSON AT A TIME",
+    "text": "But reaching people trapped beneath the sticky mass was a nightmare."
+  },
+  {
+    "id": "s29",
+    "start": 146.687646,
+    "end": 152.777896,
+    "chapter": 6,
+    "action": "loss",
+    "label": "21 PEOPLE KILLED \u2022 ABOUT 150 INJURED",
+    "text": "By the time the disaster was over, 21 people had lost their lives and around 150 were injured."
+  },
+  {
+    "id": "s30",
+    "start": 152.777896,
+    "end": 155.470396,
+    "chapter": 7,
+    "action": "evidence",
+    "label": "THIS WAS NOT JUST BAD LUCK",
+    "text": "But here's where the story gets even more disturbing."
+  },
+  {
+    "id": "s31",
+    "start": 155.470396,
+    "end": 158.56789600000002,
+    "chapter": 7,
+    "action": "plate",
+    "label": "A PREVENTABLE STRUCTURAL FAILURE",
+    "text": "The tank hadn't suddenly failed for no reason."
+  },
+  {
+    "id": "s32",
+    "start": 158.56789600000002,
+    "end": 168.877896,
+    "chapter": 7,
+    "action": "measure",
+    "label": "THIN STEEL \u2022 INADEQUATE TESTING",
+    "text": "Investigators discovered that its construction was seriously flawed. Its steel walls were too thin, and the tank had not been properly tested before being put into service."
+  },
+  {
+    "id": "s33",
+    "start": 168.877896,
+    "end": 172.602896,
+    "chapter": 7,
+    "action": "inspect",
+    "label": "REPEATED LEAKS WERE IGNORED",
+    "text": "The company had also ignored warning signs, including repeated leaks."
+  },
+  {
+    "id": "s34",
+    "start": 172.602896,
+    "end": 177.853604,
+    "chapter": 7,
+    "action": "verdict",
+    "label": "THE COMPANY WAS HELD RESPONSIBLE",
+    "text": "After a long legal battle, the company was held responsible for the disaster."
+  },
+  {
+    "id": "s35",
+    "start": 177.853604,
+    "end": 181.693604,
+    "chapter": 8,
+    "action": "cleanup",
+    "label": "THE CLEANUP TOOK WEEKS",
+    "text": "And the cleanup was almost as unbelievable as the flood itself."
+  },
+  {
+    "id": "s36",
+    "start": 181.693604,
+    "end": 190.688604,
+    "chapter": 8,
+    "action": "wash",
+    "label": "SALT WATER + SAND",
+    "text": "Workers spent weeks removing molasses from streets, buildings and wreckage. They used salt water to wash away the syrup and spread sand to help absorb it."
+  },
+  {
+    "id": "s37",
+    "start": 190.688604,
+    "end": 195.573604,
+    "chapter": 8,
+    "action": "brownwater",
+    "label": "MOLASSES REACHED THE HARBOR",
+    "text": "Even the harbour turned brown as the sticky mixture was washed into the water."
+  },
+  {
+    "id": "s38",
+    "start": 195.573604,
+    "end": 201.773604,
+    "chapter": 8,
+    "action": "permit",
+    "label": "REVIEW \u2022 INSPECTION \u2022 ACCOUNTABILITY",
+    "text": "The disaster eventually helped push Massachusetts towards stricter building regulations and engineering oversight."
+  },
+  {
+    "id": "s39",
+    "start": 201.773604,
+    "end": 208.258604,
+    "chapter": 8,
+    "action": "remember",
+    "label": "THE GREAT MOLASSES FLOOD",
+    "text": "Today, the Great Molasses Flood is remembered as one of the strangest industrial disasters in American history."
+  },
+  {
+    "id": "s40",
+    "start": 208.258604,
+    "end": 213.613604,
+    "chapter": 8,
+    "action": "aftermath",
+    "label": "NOT A NATURAL DISASTER",
+    "text": "Because sometimes, a disaster doesn't need a hurricane, an earthquake or a tsunami."
+  },
+  {
+    "id": "s41",
+    "start": 213.613604,
+    "end": 222.66666666666666,
+    "chapter": 8,
+    "action": "final",
+    "label": "WARNING SIGNS MATTER",
+    "text": "Sometimes, all it takes is a badly built tank, millions of gallons of molasses, and a company that ignored the warning signs."
+  }
+]

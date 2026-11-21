@@ -1,0 +1,114 @@
+name: Animation bundle
+on:
+  pull_request:
+    paths:
+      - 'Animation/**'
+      - 'psychology-of-human-attraction/**'
+      - '.github/workflows/animation.yml'
+  push:
+    paths:
+      - 'Animation/**'
+      - 'psychology-of-human-attraction/**'
+      - '.github/workflows/animation.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, Node 24 runtime
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6, Node 24 runtime
+        with:
+          node-version: '22'
+      - name: Verify frozen release and original files
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE" ] && [ "$BASE" != "0000000000000000000000000000000000000000" ]; then
+            node Animation/tools/verify-lock.mjs --strict-originals --base "$BASE"
+          else
+            node Animation/tools/verify-lock.mjs --strict-originals
+          fi
+      - name: Dependency-free unit and server tests
+        run: npm --prefix Animation test
+  story-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, Node 24 runtime
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6, Node 24 runtime
+        with:
+          node-version: '22'
+      - name: Install Node dependencies without binary download hooks
+        working-directory: Animation
+        run: npm ci --ignore-scripts
+      - name: Install local English speech engine
+        working-directory: Animation
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -r story/requirements.txt imageio-ffmpeg==0.6.0
+      - name: Use hosted Chrome and pinned wheel media encoder
+        working-directory: Animation
+        shell: bash
+        run: |
+          BROWSER="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          ENCODER="$(.venv/bin/python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')"
+          if [ -z "$BROWSER" ] || [ -z "$ENCODER" ]; then
+            echo "::error::Production tools missing; browser=$BROWSER encoder=$ENCODER"
+            exit 1
+          fi
+          echo "CHROMIUM_PATH=$BROWSER" >> "$GITHUB_ENV"
+          echo "FFMPEG_PATH=$ENCODER" >> "$GITHUB_ENV"
+          "$BROWSER" --version
+          "$ENCODER" -version
+      - name: Real English speech and portrait/landscape export tests
+        working-directory: Animation
+        env:
+          PYTHON: ${{ github.workspace }}/Animation/.venv/bin/python
+        run: |
+          if ! npm run test:story:browser > "$RUNNER_TEMP/story-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/story-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/story-test.log"
+      - name: Alexandria authored WebGL film review smoke test
+        working-directory: Animation
+        run: |
+          if ! node projects/alexandria/tests/browser.mjs > "$RUNNER_TEMP/alexandria-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/alexandria-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/alexandria-test.log"
+      - name: Black box continuous-camera WebGL smoke test
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box/tests/browser.mjs > "$RUNNER_TEMP/black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/black-box-test.log"
+      - name: Rebuilt black-box camera and blocking regression review
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box-rebuilt/tests/browser.mjs > "$RUNNER_TEMP/rebuilt-black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/rebuilt-black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/rebuilt-black-box-test.log"
+      - name: Multi-location geography and continuous-camera browser review
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box-locations/tests/browser.mjs > "$RUNNER_TEMP/locations-black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/locations-black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/locations-black-box-test.log"
+      - name: Continuous geography, mixed forest and actual camera orientation review
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box-journey/tests/browser.mjs > "$RUNNER_TEMP/journey-black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/journey-black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/journey-black-box-test.log"

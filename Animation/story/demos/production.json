@@ -1,0 +1,94 @@
+{
+  "dateUTC": "2026-11-20",
+  "scope": "Two complete low-resolution baseline demos, not final reference-quality productions",
+  "voice": "local eSpeak NG en-us, newly synthesized English",
+  "captionAlignment": "text-weighted phrases inside measured scene audio; not forced word alignment",
+  "renderer": "Canvas illustrative cutouts in a procedural oblique 2.5D world",
+  "exports": [
+    {
+      "file": "railway.mp4",
+      "source": "../examples/railway/story.json",
+      "width": 360,
+      "height": 640,
+      "fps": 15,
+      "preparedDurationSeconds": 36.790333333333336,
+      "containerDuration": "00:00:36.80",
+      "video": "H264/yuv420p",
+      "audio": "AAC mono 48 kHz",
+      "fullFileDecode": "passed",
+      "sha256": "988575bf31cc65a9f611b77bc7a3667df7138c9e342b94d7accc82d6370cc64e",
+      "bytes": 1893594,
+      "scenes": [
+        {
+          "id": "hook",
+          "start": 0,
+          "end": 5.742458333333333
+        },
+        {
+          "id": "disagreement",
+          "start": 5.742458333333333,
+          "end": 11.537875
+        },
+        {
+          "id": "rival",
+          "start": 11.537875,
+          "end": 17.904645833333333
+        },
+        {
+          "id": "sunshine",
+          "start": 17.904645833333333,
+          "end": 24.201020833333335
+        },
+        {
+          "id": "pressure",
+          "start": 24.201020833333335,
+          "end": 30.473312500000002
+        },
+        {
+          "id": "resolution",
+          "start": 30.473312500000002,
+          "end": 36.790333333333336
+        }
+      ]
+    },
+    {
+      "file": "space-garden.mp4",
+      "source": "../examples/space-garden/story.json",
+      "width": 640,
+      "height": 360,
+      "fps": 15,
+      "preparedDurationSeconds": 17.278645833333332,
+      "containerDuration": "00:00:17.28",
+      "video": "H264/yuv420p",
+      "audio": "AAC mono 48 kHz",
+      "fullFileDecode": "passed",
+      "sha256": "a202c38997d37a3d81cc87f01b4eaf88b6bf2e93f7dc61b21b3becebd3ffdad3",
+      "bytes": 816227,
+      "scenes": [
+        {
+          "id": "problem",
+          "start": 0,
+          "end": 5.4838125
+        },
+        {
+          "id": "repair",
+          "start": 5.4838125,
+          "end": 10.887166666666666
+        },
+        {
+          "id": "home",
+          "start": 10.887166666666666,
+          "end": 17.278645833333332
+        }
+      ]
+    }
+  ],
+  "sourceHashes": {
+    "story/engine/world.js": "f2e23fda5d74bafc14c32cabd2d439c4b824f29996f2fca7142c99bcbd015f5a",
+    "story/engine/story.js": "cdf49a45421a42f76cb0d87c99d2ec3549bb67abb1dcf9cced97ea63885846a5",
+    "story/tools/prepare.mjs": "1175f57b07ac35e95019ae77169c01e2696ce96f45c4c34f3a8b813f43b65afa",
+    "story/tools/tts.py": "dad04b62f94e02803cfb24a0e2783a70fff1e3e4d0959713e967c5c89d736ff8",
+    "tools/render.mjs": "1e0f49c5790092508cab3efb31526c4d1aa1d2a30e4d5b6a777b0cebdfff6a8f"
+  },
+  "sourceHashNote": "Hashes identify reviewed source after nonvisual playback cleanup and host-specific browser-launch correction; re-encoding is not guaranteed byte-identical across systems."
+}

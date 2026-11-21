@@ -1,0 +1,326 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/animation/story-v1.schema.json",
+  "title": "Authored story-v1 (runtime validates additional constraints)",
+  "type": "object",
+  "properties": {
+    "version": {
+      "const": "story-v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,63}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "const": "en"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 160,
+      "maximum": 3840,
+      "multipleOf": 2
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 160,
+      "maximum": 3840,
+      "multipleOf": 2
+    },
+    "fps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "cast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "hat": {
+            "enum": [
+              "cap",
+              "tophat",
+              "helmet",
+              "none"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "color"
+        ]
+      },
+      "minItems": 0,
+      "maxItems": 30
+    },
+    "scenes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,63}$"
+          },
+          "narration": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 6000
+          },
+          "seconds": {
+            "type": "number",
+            "minimum": 0.5,
+            "maximum": 600
+          },
+          "audio": {
+            "type": "string",
+            "description": "Optional English narration file, relative to this authored story JSON."
+          },
+          "world": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "canyon",
+                  "town",
+                  "workshop",
+                  "forest",
+                  "space",
+                  "custom"
+                ]
+              },
+              "sky": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "ground": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "accent": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "camera": {
+            "type": "object",
+            "properties": {
+              "target": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "zoom": {
+                "type": "number",
+                "minimum": 0.2,
+                "maximum": 8
+              },
+              "to": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                  },
+                  "zoom": {
+                    "type": "number",
+                    "minimum": 0.2,
+                    "maximum": 8
+                  }
+                },
+                "required": [
+                  "target",
+                  "zoom"
+                ]
+              }
+            },
+            "required": [
+              "target",
+              "zoom"
+            ]
+          },
+          "actors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                },
+                "position": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "to": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "scale": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 10
+                },
+                "action": {
+                  "enum": [
+                    "idle",
+                    "talk",
+                    "walk",
+                    "point",
+                    "work",
+                    "surprised",
+                    "angry",
+                    "celebrate",
+                    "fall"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "position"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 30
+          },
+          "props": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,63}$"
+                },
+                "shape": {
+                  "enum": [
+                    "box",
+                    "cylinder",
+                    "sphere",
+                    "tree",
+                    "rock",
+                    "rail",
+                    "train",
+                    "bridge",
+                    "crane",
+                    "sign",
+                    "lamp",
+                    "plant",
+                    "console",
+                    "rocket",
+                    "table"
+                  ]
+                },
+                "position": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "to": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "size": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "maximum": 4000
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "color": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "label": {
+                  "type": "string",
+                  "maxLength": 120
+                },
+                "effect": {
+                  "enum": [
+                    "heat",
+                    "buckle",
+                    "grow",
+                    "pulse"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "shape",
+                "position"
+              ]
+            },
+            "minItems": 0,
+            "maxItems": 300
+          }
+        },
+        "required": [
+          "id",
+          "narration",
+          "world",
+          "camera",
+          "actors",
+          "props"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 100
+    }
+  },
+  "required": [
+    "version",
+    "id",
+    "title",
+    "language",
+    "width",
+    "height",
+    "fps",
+    "cast",
+    "scenes"
+  ]
+}

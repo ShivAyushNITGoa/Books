@@ -1,0 +1,2 @@
+# Optional local baseline English speech; no cloud credentials required.
+espeakng-loader==0.2.4

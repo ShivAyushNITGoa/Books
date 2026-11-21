@@ -1,0 +1,160 @@
+{
+  "title": "The Day a Giant Wave of Molasses Destroyed a City Street",
+  "file": "molasses-flood-narrated-720p.mp4",
+  "bytes": 20559904,
+  "sha256": "5e306cb774e664f332043656b8f4c962137fb3fe2107fcc7715414e30ff5d930",
+  "video": {
+    "codec": "H.264",
+    "canvas": [
+      720,
+      1280
+    ],
+    "rendered3dViewport": [
+      540,
+      960
+    ],
+    "fps": 24,
+    "frames": 5344,
+    "duration": 222.66666666666666,
+    "pixelFormat": "yuv420p",
+    "colorspace": "BT.709"
+  },
+  "audio": {
+    "codec": "AAC",
+    "rate": 48000,
+    "channels": 1,
+    "integratedLUFS": -16.04,
+    "truePeakDBTP": -1.41,
+    "loudnessRangeLU": 2.8,
+    "narrationTakes": 8,
+    "foleyEvents": 10,
+    "music": false
+  },
+  "captions": {
+    "count": 85,
+    "burnedIn": true,
+    "sidecar": "captions.srt",
+    "timing": "Speech activity plus word weights; not forced alignment"
+  },
+  "checks": {
+    "fullAudioVideoDecode": "PASS",
+    "decodedFrames": 5344,
+    "duplicateFrames": 0,
+    "droppedFrames": 0,
+    "projectTests": {
+      "passed": 7,
+      "failed": 0
+    },
+    "repositoryTests": {
+      "passed": 52,
+      "failed": 0
+    },
+    "strictOriginalLock": "LOCK OK: approved-refined-v2-1.0.0, 40 bundled files; 20/20 original files checked. Approved source 4f52b6d.",
+    "browserSamples": 164,
+    "browserErrors": [],
+    "seekChecks": [
+      {
+        "t": 0,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 23.2,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 40,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 65,
+        "pass": true,
+        "maxChannelDifference": 1,
+        "meanAbsoluteDifference": 4.340277777777778e-06,
+        "changedChannels": 16
+      },
+      {
+        "t": 74,
+        "pass": true,
+        "maxChannelDifference": 1,
+        "meanAbsoluteDifference": 3.5264756944444443e-06,
+        "changedChannels": 13
+      },
+      {
+        "t": 90,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 98,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 118,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 139,
+        "pass": true,
+        "maxChannelDifference": 1,
+        "meanAbsoluteDifference": 1.8988715277777777e-06,
+        "changedChannels": 7
+      },
+      {
+        "t": 162,
+        "pass": true,
+        "maxChannelDifference": 1,
+        "meanAbsoluteDifference": 3.2552083333333335e-06,
+        "changedChannels": 12
+      },
+      {
+        "t": 188,
+        "pass": true,
+        "maxChannelDifference": 0,
+        "meanAbsoluteDifference": 0,
+        "changedChannels": 0
+      },
+      {
+        "t": 219,
+        "pass": true,
+        "maxChannelDifference": 1,
+        "meanAbsoluteDifference": 1.3563368055555556e-06,
+        "changedChannels": 5
+      }
+    ],
+    "shots": 41,
+    "sets": 9,
+    "finalFileReviewFrames": 41
+  },
+  "runtimeSha256": {
+    "film.js": "86e6d94385f53a05152a7fc37fbcac0c32220782eb54caeb04107767f0dfcb1a",
+    "world.js": "ddcc013baa452f56be49b7041fa4da0ff929469cb8b3225651f29d67a14f71aa",
+    "direction/timeline.js": "620df741091b11e8b3399f1d533b3fe7ec364f487ecd409276a78ff7ac0c07d6",
+    "direction/shots.json": "2bb57c7f1c5c3f6f6879eb06365e53229c588cb39b64212fcc720fc518e97b66",
+    "narration.json": "f47de28cd7ba98273bb5e386dbcec5a2367b2bb215f544f35f25c41c2de1e561",
+    "script.txt": "b9ed4121a82fb69bdafa0f3df067ae1b50ccc0a2c1d0b15c1b22e2f2bdc21a48",
+    "audio/takes.json": "242cd8246cff3a0e4a5c14eb16e6dec634edf212aed25d1b48d9aecf1fa0d818"
+  },
+  "limits": [
+    "Authored geometry, not a fluid/structural simulation or surveyed geography",
+    "Saved working-script comparison, not a separately archived original chat upload",
+    "Captions are estimated, no complete manual listening or phonetic lip-sync claim",
+    "Technical checks do not imply user aesthetic approval"
+  ]
+}

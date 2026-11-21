@@ -1,0 +1,64 @@
+{
+  "file": "molasses-flood-rebuilt-narrated-720p.mp4",
+  "sha256": "99eddae4a4ce53f0bdacbf4b4ac0eaa6ce605b4ac33449b3a5a1fb30f0139ffe",
+  "decodedFrames": 5344,
+  "adjacentPairs": 5343,
+  "allFrameAtlasPages": 30,
+  "frameAtlasLocation": "Animation/output/molasses-flood-rebuilt/all-frame-audit/",
+  "newFilm": {
+    "reliableProxyPairs": 4535,
+    "environmentTranslationPixelsPerFrame": {
+      "samples": 4535,
+      "minimum": 0.0006475335229137883,
+      "median": 0.5359399915210987,
+      "p95": 4.755109687977073,
+      "maximum": 23.233908813638283
+    },
+    "adjacentMeanAbsoluteDifference": {
+      "samples": 5343,
+      "minimum": 0.2357421875,
+      "median": 3.106657986111111,
+      "p95": 10.303229166666666,
+      "maximum": 34.60588975694444
+    },
+    "largeChangeCandidates": 0
+  },
+  "camera": {
+    "frameSamples": 5344,
+    "speed": {
+      "samples": 5344,
+      "minimum": 0.08456307771541755,
+      "median": 2.3869063914981625,
+      "p95": 8.209728940499451,
+      "maximum": 15.836011139954804
+    },
+    "belowMovementThreshold": 0
+  },
+  "limits": [
+    "Each frame was machine decoded/measured, not individually manually inspected at native resolution.",
+    "Flow is a screen-space feature-fit proxy, not recovered camera ground truth.",
+    "Large-change candidates can be occlusion, fast movement, rewind, captions or actual discontinuity.",
+    "A nonblank frame test is not a composition or artistic-quality test.",
+    "Technical checks do not imply user aesthetic approval."
+  ],
+  "rejectedFilm": {
+    "reliableProxyPairs": 5294,
+    "environmentTranslationPixelsPerFrame": {
+      "samples": 5294,
+      "minimum": 0.0,
+      "median": 0.004965331173953562,
+      "p95": 0.31928293883103137,
+      "maximum": 2.874561349471708
+    },
+    "adjacentMeanAbsoluteDifference": {
+      "samples": 5343,
+      "minimum": 0.0,
+      "median": 0.06388020833333333,
+      "p95": 2.817365451388889,
+      "maximum": 79.6396484375
+    },
+    "largeChangeCandidates": 32,
+    "sourceSettledFrames": 4341,
+    "sourceSettledPercentage": 81.2312874251497
+  }
+}
