@@ -1,5 +1,7 @@
 # Approved visual contract
 
+**Standing instruction for future films:** apply the [black-box improvement history and production lessons](story/PRODUCTION_LESSONS.md) as required by each new script. Read that checklist before planning a new production; do not blindly copy the black-box locations, runtime or numerical thresholds.
+
 > Scope: this document is the approved **classroom** contract. The newer separate [story-world extension](story/BLUEPRINT.md) retains illustrative cutout characters but deliberately permits story-specific environments, multiple locations, casts and props. It does not change the frozen approved classroom film.
 
 Canonical reference: [`locked/source/public/demo/classroom-scarcity-30s-v2.mp4`](locked/source/public/demo/classroom-scarcity-30s-v2.mp4). The approved bytes and source are frozen; new projects should change **content and direction**, not silently replace this visual language.

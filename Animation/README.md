@@ -2,6 +2,10 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
+## Before making the next video
+
+Use the [first-to-latest black-box improvement history and future-production checklist](story/PRODUCTION_LESSONS.md). The user explicitly requested carrying these lessons into future videos **as required by the new script**, not copying this film's settings or treating test passes as artistic approval.
+
 ## Current film: Black box — one continuous geographic journey
 
 [Continuous-geography production](projects/black-box-journey/README.md) substantially rebuilds the previous film into one shared **8.5 × 8.4 km land-to-seabed field**, with a regional mixed forest (14,821 trees / seven types in the reviewed build), natural winding coast, river/estuary, connected roads/bridge, coastal recovery harbour and airport. The camera shows the route between places, with horizon/landmark reveals and a small geographic orientation inset. Exact English script and selected narration are retained; travel is explicitly time-compressed, with **no cuts, teleports or picture blending**.
