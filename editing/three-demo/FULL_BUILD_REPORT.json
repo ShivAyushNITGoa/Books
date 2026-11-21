@@ -1,0 +1,100 @@
+{
+  "status": "technical QA passed; subjective full review pending",
+  "episode": "tv12",
+  "render": "Three.js v4 full build (720p, 24fps, CRF 24)",
+  "duration_seconds": 1235.0,
+  "duration_human": "20:35",
+  "decoded_frames": 29640,
+  "expected_frames": 29640,
+  "resolution": "1280x720",
+  "fps": 24,
+  "video_codec": "h264 (High), limited-range yuv420p, progressive, SAR 1:1 DAR 16:9",
+  "audio_codec": "aac (LC), 48000 Hz, mono",
+  "faststart": true,
+  "stream_count": 2,
+  "scene_count": 302,
+  "timing": "provisional image-label timing, no authoritative SRT",
+  "timing_note": "Timeline derived from image timestamp filenames. No authoritative full SRT was available, so this is NOT verified transcript-level synchronization. Transitions may briefly overlap adjacent images around cue boundaries without shortening the episode or shifting the narration.",
+  "style": "Three.js v4 varied smooth camera moves (focus push-in, L-R/R-L track, pull-out reveal, rising pedestal, diagonal dolly, shallow orbit, focus pull-out, closing push), quintic easing, simulated screen-space selective focus, heuristic bas-relief depth, independent foreground motes, dissolve/reveal/zoom-blend/defocus transitions. 2.5D image-based animation in a real Three.js scene; depth is heuristic bas-relief, NOT recovered object geometry or physically accurate scene reconstruction.",
+  "audio": "original GitHub narration (git blob 40fa3fd8b35c10887ad03d9e93ebb1f9d5060bf7), AAC encoded, no gain changes or loudness normalization; no music or ambience",
+  "audio_duration_seconds": 1233.01,
+  "visual_tail_seconds": 1.99,
+  "qa": {
+    "input_images_verified": "302/302 against prompts/manifest.json SHA256; 0 missing, 0 mismatches, 0 extra",
+    "timeline_cues": "302 contiguous cues 1..302; labels ordered identically to manifest",
+    "master_full_decode": "exit 0; independently decoded 29640 frames via -f null",
+    "master_frame_count": "29640 (matches round(duration*24))",
+    "parts_decode": "11/11 parts fully decode (exit 0); durations 10x120s + 35s = 1235s",
+    "parts_max_bytes": 15871475,
+    "parts_under_100mb": true,
+    "black_gaps": "none detected (ffmpeg blackdetect d>=0.1s)",
+    "blank_frame_sample": "25 sampled frames (start, every chunk join, middle, ending) all non-blank with varied content",
+    "chunk_joins": "frames before/after each 120s join differ, confirming transitions present at joins",
+    "ending": "final image holds through narration end plus 2s visual tail",
+    "audio_continuity": "master audio is a single muxed narration stream (20:33), continuous by construction; parts carry matching narration slices",
+    "audio_no_gain": "master mean_volume -23.5 dB == source -23.5 dB (no gain/loudness processing)",
+    "subtitles": "none (exactly 2 streams: video + audio)",
+    "subjective_review": "automated technical QA only; subjective visual/motion review pending"
+  },
+  "parts": [
+    {
+      "name": "tv12_part_01.mp4",
+      "bytes": 14690369,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_02.mp4",
+      "bytes": 14939928,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_03.mp4",
+      "bytes": 14716380,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_04.mp4",
+      "bytes": 14358592,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_05.mp4",
+      "bytes": 15678776,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_06.mp4",
+      "bytes": 15871475,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_07.mp4",
+      "bytes": 14733493,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_08.mp4",
+      "bytes": 14248859,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_09.mp4",
+      "bytes": 14769323,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_10.mp4",
+      "bytes": 14538987,
+      "duration_seconds": 120.0
+    },
+    {
+      "name": "tv12_part_11.mp4",
+      "bytes": 4402970,
+      "duration_seconds": 35.0
+    }
+  ],
+  "master_bytes": 152929823,
+  "master_sha256": "3912c6e856001bd9bfab9372a11a982eb5c1164b8dae765b51fd16fc152e751b",
+  "source_fingerprint": "90ab110315432fb58c2dfed7fc38d20c1e738660ab95cc2a31108814669b901d",
+  "render_host": "2 CPU cores, software WebGL (SwiftShader); ~7.7 fps sustained render throughput; full render not near-real-time"
+}
