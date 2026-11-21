@@ -1,0 +1,122 @@
+{
+  "episode": "tv12",
+  "partial": true,
+  "scenes": [
+    {
+      "cue": 228,
+      "label": "#15-14",
+      "image": "images_tv12/15-14.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. object close-up, a portrait-bust of a bearded sage in calm shadow beside a lotus, absolute stillness, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 229,
+      "label": "#15-15",
+      "image": "images_tv12/15-15.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. still life, a worn blank-cover book with a marigold resting on it, citation stillness, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 230,
+      "label": "#15-17",
+      "image": "images_tv12/15-17.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. medium shot, the young Indian man (late twenties, short black hair, plain slate-blue shirt) facing a two-way mirror with a question-mark shape, self-inquiry, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 231,
+      "label": "#15-24",
+      "image": "images_tv12/15-24.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. wide shot, the young Indian man (late twenties, short black hair, plain slate-blue shirt) and the young Indian woman (mid-twenties, dark hair loose, plain teal-grey kurta) sharing unhurried time on a veranda, warm voluntary togetherness, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 232,
+      "label": "#15-28",
+      "image": "images_tv12/15-28.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. medium shot, the young Indian woman (mid-twenties, dark hair loose, plain teal-grey kurta) joining the young Indian man (late twenties, short black hair, plain slate-blue shirt)'s circle of lamp light by her own willing step, belonging, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 233,
+      "label": "#15-33",
+      "image": "images_tv12/15-33.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. medium shot, a figure pacing a cage-like corridor full of unread glow, anxious dependence, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 234,
+      "label": "#15-36",
+      "image": "images_tv12/15-36.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. close-up, a hand clutching another's sleeve in the dark, fearful grip, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 235,
+      "label": "#15-43",
+      "image": "images_tv12/15-43.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. two-shot, two hands laying a foundation brick together, constructive desire, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    },
+    {
+      "cue": 236,
+      "label": "#15-45",
+      "image": "images_tv12/15-45.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. medium shot, a hand adjusting marionette-strings over a small figure, control-desire, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "blocked_by_moderation",
+      "references": []
+    },
+    {
+      "cue": 237,
+      "label": "#15-52",
+      "image": "images_tv12/15-52.jpg",
+      "generation_prompt": "16:9 landscape horizontal wide canvas. wide shot, the young Indian woman (mid-twenties, dark hair loose, plain teal-grey kurta) running desperately after the young Indian man (late twenties, short black hair, plain slate-blue shirt) through a dark street, mistaken proof of love, painterly Indian editorial illustration, semi-realistic painted style close to photographic likeness, not cartoon and not photorealistic, visible brushstrokes and canvas texture, rich oxblood red and deep crimson accents, near-black and dark umber shadows, warm amber and aged brass practical light used sparingly, dark red-tinted low-key atmosphere, one controlled light source, soft controlled tonal modelling with deep shadow shapes, realistic human proportions and natural skin tones, restrained expressive faces, grounded Indian setting matching the scene's economic and location tier, clear readable silhouettes, mature graphic-novel painting sensibility, generous negative space, no text, no lettering, no numbers, no captions, no logos, no watermark, no cartoon, no caricature, no glossy 3D, no anime, no neon colours, no cinematic grading, no lens flare, no heavy bokeh, no rim light, 16:9 horizontal composition",
+      "status": "generated",
+      "references": [],
+      "dimensions": [
+        1376,
+        768
+      ]
+    }
+  ]
+}

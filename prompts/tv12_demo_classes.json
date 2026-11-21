@@ -1,0 +1,56 @@
+{
+ "1": {
+  "class": "punch",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 1.0
+ },
+ "2": {
+  "class": "soft",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.664
+ },
+ "3": {
+  "class": "story",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.746
+ },
+ "4": {
+  "class": "story",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.698
+ },
+ "5": {
+  "class": "punch",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.951
+ },
+ "6": {
+  "class": "story",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.889
+ },
+ "7": {
+  "class": "story",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.732
+ },
+ "8": {
+  "class": "story",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.832
+ },
+ "9": {
+  "class": "soft",
+  "mood": "neutral",
+  "lit": false,
+  "energy": 0.477
+ }
+}

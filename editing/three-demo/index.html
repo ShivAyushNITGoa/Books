@@ -1,0 +1,134 @@
+<!doctype html><html><head><meta charset="utf-8"><title>TV12 · Camera styles demo v4</title><style>body{margin:0;background:#080b10;color:white;font:14px system-ui}canvas{width:100vw;height:100vh;object-fit:contain;display:block}button{position:fixed;bottom:22px;left:22px;padding:12px 20px;border:1px solid #ffffff55;border-radius:8px;background:#172435;color:white;cursor:pointer}</style></head><body><button id="play">Play 30-second demo</button><script type="module">
+import * as THREE from '/editing/three-demo/node_modules/three/build/three.module.js';
+const W=1280,H=720;
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true,alpha:false,depth:false,stencil:false});
+renderer.setSize(W,H);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;
+document.body.prepend(renderer.domElement);
+const params=new URLSearchParams(location.search);
+let total=30,source=[0,3,7,9,14,18,22,26,29].map((start,i)=>({start,label:['0-00','0-03','0-07','0-09','0-14','0-18','0-22','0-26','0-29'][i],cue:i+1}));
+if(params.has('full')){
+ const timeline=await (await fetch('/editing/three-demo/timeline.json')).json();total=timeline.duration;
+ const from=Number(params.get('from')||0),to=Number(params.get('to')||total);
+ source=timeline.scenes.filter(c=>c.start<to+.35&&c.end>from-.35);
+}
+const starts=source.map(c=>c.start),labels=source.map(c=>c.label);
+const loader=new THREE.TextureLoader();
+const textures=await Promise.all(labels.map(l=>loader.loadAsync('/images_tv12/'+l+'.jpg')));
+textures.forEach(t=>{t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearFilter;});
+const camera=new THREE.PerspectiveCamera(42,16/9,.1,100);
+const scenes=textures.map((texture,i)=>{
+ const scene=new THREE.Scene();scene.background=new THREE.Color('#10131a');
+ const geo=new THREE.PlaneGeometry(16.7,9.4,24,14);
+ const pos=geo.attributes.position;
+ // Heuristic bas-relief: center/lower-frame proximity, not recovered geometry.
+ for(let k=0;k<pos.count;k++){
+  const x=pos.getX(k),y=pos.getY(k);
+  const depth=Math.exp(-((x/5.5)**2+((y+.7)/4.6)**2)*1.4);
+  pos.setZ(k,depth*.42);
+ }
+ geo.computeVertexNormals();
+ const material=new THREE.MeshBasicMaterial({map:texture});
+ scene.add(new THREE.Mesh(geo,material));
+ // Sparse deterministic foreground motes supply an independent depth plane.
+ const points=new Float32Array(55*3);
+ for(let j=0;j<55;j++){points[j*3]=Math.sin(j*127.1+i)*8;points[j*3+1]=Math.sin(j*43.7)*4.7;points[j*3+2]=1+(j%7)*.32;}
+ const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(points,3));
+ const pm=new THREE.PointsMaterial({color:0xe8d8ba,size:.016,transparent:true,opacity:.16,depthWrite:false});
+ const dust=new THREE.Points(pg,pm);scene.add(dust);
+ return {scene,dust};
+});
+const targets=[0,1].map(()=>new THREE.WebGLRenderTarget(W,H));
+const mixScene=new THREE.Scene(),mixCamera=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+const mixMat=new THREE.ShaderMaterial({
+ uniforms:{a:{value:targets[0].texture},b:{value:targets[1].texture},blend:{value:0},mode:{value:0},focusA:{value:new THREE.Vector2(.5,.5)},focusB:{value:new THREE.Vector2(.5,.5)},blurA:{value:0},blurB:{value:0}},
+ vertexShader:`varying vec2 v;void main(){v=uv;gl_Position=vec4(position.xy,0.,1.);}`,
+ fragmentShader:`
+ uniform sampler2D a,b;
+ uniform float blend,mode,blurA,blurB;
+ uniform vec2 focusA,focusB;
+ varying vec2 v;
+ vec4 focused(sampler2D tex,vec2 uv,vec2 center,float amount){
+   float r=smoothstep(.15,.65,length((uv-center)*vec2(1.0,.5625)));
+   vec2 d=vec2(1./1280.,1./720.)*(r*1.6+amount);
+   vec4 c=texture2D(tex,clamp(uv,.001,.999))*.4;
+   c+=texture2D(tex,clamp(uv+d,.001,.999))*.15;
+   c+=texture2D(tex,clamp(uv-d,.001,.999))*.15;
+   c+=texture2D(tex,clamp(uv+vec2(d.x,-d.y),.001,.999))*.15;
+   c+=texture2D(tex,clamp(uv+vec2(-d.x,d.y),.001,.999))*.15;
+   return c;
+ }
+ void main(){
+   float pulse=sin(blend*3.14159265);
+   vec2 ua=v,ub=v;
+   float weight=blend;
+   if(mode>.5&&mode<1.5){ // feathered horizontal reveal
+     weight=1.-smoothstep(blend*1.6-.3-.22,blend*1.6-.3+.22,v.x);
+     if(blend<.001)weight=0.;if(blend>.999)weight=1.;
+   }
+   if(mode>1.5&&mode<2.5){ // restrained optical zoom blend
+     ua=(v-.5)*(1.-pulse*.035)+.5;
+     ub=(v-.5)*(1.+pulse*.025)+.5;
+   }
+   float defocus=(mode>2.5&&mode<3.5)?pulse*3.:0.;
+   vec4 c=mix(focused(a,ua,focusA,blurA+defocus),focused(b,ub,focusB,blurB+defocus),weight);
+   float vig=1.-.10*pow(length((v-.5)*1.2),2.);
+   gl_FragColor=vec4(c.rgb*vig,1.);
+   #include <tonemapping_fragment>
+   #include <colorspace_fragment>
+ }`
+});
+mixScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),mixMat));
+// Per-shot camera vocabulary and approximate screen-space focus targets.
+const shots=[
+ {style:'focus push-in',focus:[.52,.52]},
+ {style:'left-to-right track',focus:[.56,.52]},
+ {style:'pull-out reveal',focus:[.48,.48]},
+ {style:'right-to-left track',focus:[.52,.48]},
+ {style:'rising pedestal',focus:[.5,.58]},
+ {style:'diagonal dolly',focus:[.52,.52]},
+ {style:'shallow orbit',focus:[.5,.52]},
+ {style:'focus pull-out',focus:[.50,.52]},
+ {style:'gentle closing push',focus:[.5,.5]}
+];
+window.shotStyles=shots;
+function drawScene(i,t,target){
+ const duration=(source[i].end??starts[i+1]??total)-starts[i];
+ const u=THREE.MathUtils.clamp((t-starts[i]+.35)/(duration+.7),0,1);
+ const e=u*u*u*(u*(u*6.-15.)+10.); // quintic easing: zero end velocity/acceleration
+ let x=0,y=0,z=11.6,tx=0,ty=0;
+ switch((source[i].cue-1)%9){
+  case 0:z=12.-1.35*e;tx=.12*e;break;
+  case 1:x=-.65+1.3*e;z=11.25;tx=x*.35;break;
+  case 2:z=10.8+1.2*e;break;
+  case 3:x=.65-1.3*e;z=11.25;tx=x*.35;break;
+  case 4:y=-.30+.60*e;z=11.7-.4*e;ty=y*.3;break;
+  case 5:x=-.45+.9*e;y=-.2+.4*e;z=11.8-.9*e;tx=x*.3;ty=y*.3;break;
+  case 6:x=.62*Math.sin((e-.5)*1.6);y=.12*Math.sin(e*Math.PI);z=11.4-.35*Math.sin(e*Math.PI);break;
+  case 7:z=10.8+1.05*e;x=.2-.4*e;break;
+  default:z=11.7-.55*e;
+ }
+ camera.position.set(x,y,z);camera.lookAt(tx,ty,.16);
+ scenes[i].dust.position.x=.04*(t-starts[i]);scenes[i].dust.position.y=.018*(t-starts[i]);
+ renderer.setRenderTarget(target);renderer.render(scenes[i].scene,camera);
+ return {focus:shots[(source[i].cue-1)%9].focus,blur:(source[i].cue-1)%9===0?(1-e)*1.3:(source[i].cue-1)%9===7?e*.8:0};
+}
+window.renderAt=t=>{
+ t=Math.min(total-.001,Math.max(starts[0],t));
+ let i=starts.findLastIndex(s=>s<=t),j=starts.findIndex((s,k)=>k>0&&Math.abs(t-s)<.35);
+ let a=i,b=i,blend=0;
+ if(j>0){a=j-1;b=j;let u=(t-starts[j]+.35)/.7;blend=u*u*(3-2*u);}
+ const fa=drawScene(a,t,targets[0]);
+ // No second scene render/copy outside the short transition windows.
+ const fb=a===b?fa:drawScene(b,t,targets[1]);
+ const uniforms=mixMat.uniforms;
+ uniforms.b.value=a===b?targets[0].texture:targets[1].texture;
+ uniforms.blend.value=blend;uniforms.mode.value=j>0?(source[j].cue-2)%4:0;
+ uniforms.focusA.value.set(...fa.focus);uniforms.focusB.value.set(...fb.focus);
+ uniforms.blurA.value=fa.blur;uniforms.blurB.value=fb.blur;
+ renderer.setRenderTarget(null);renderer.render(mixScene,mixCamera);
+};
+window.renderAt(Number(params.get('from')||0));window.ready=true;
+const audio=new Audio('/video%2012%20full%20audio.mp3');let active=false;
+document.querySelector('#play').onclick=async()=>{audio.currentTime=0;await audio.play();active=true;};
+function tick(){if(active){window.renderAt(audio.currentTime);if(audio.currentTime>=total){audio.pause();active=false;}}requestAnimationFrame(tick);}tick();
+</script></body></html>

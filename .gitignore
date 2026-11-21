@@ -1,0 +1,5 @@
+# Local render caches and derived audio; original repository VO remains tracked.
+/output/
+/audio/
+__pycache__/
+node_modules/
