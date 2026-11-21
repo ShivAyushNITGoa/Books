@@ -1,0 +1,11 @@
+{
+  "test": "96 frames, opening 4 seconds including transition, 1280x720, 24 fps, same host, sequential runs",
+  "baseline_seconds": 21.71,
+  "optimized_seconds": 16.45,
+  "speedup": 1.32,
+  "render_time_reduction_percent": 24.2,
+  "baseline_capture": "Playwright page screenshot",
+  "optimized_capture": "direct WebGL canvas JPEG export",
+  "full_video_runtime_estimate_note": "Short benchmark only; not a guaranteed full-video time. CPU software rendering remains the limiting resource.",
+  "checks": "Both benchmark videos decoded successfully; one optimized frame inspected."
+}

@@ -42,3 +42,20 @@ count, pushes source and a QA report to the session branch, then publishes
 master/parts as GitHub release assets to avoid large binaries in Git history.
 A failed render or QA check stops publication. Large files remain ignored locally.
 Current full default is 720p, CRF 24; camera vocabulary cycles every nine cues.
+
+## Optimized CPU rendering
+The export path now renders/captures the canvas in one browser call, avoiding
+Playwright screenshot compositor/font synchronization. Outside transitions it
+renders the scene once and binds that texture to both blend inputs. Geometry
+uses 24×14 subdivisions instead of 96×54 for the shallow relief. MSAA and unused
+canvas depth/stencil buffers are disabled; textured images and the focus shader
+remain, though extremely fine edges can differ from the MSAA version. Resolution
+and temporal sampling remain native 1280×720 / 24fps; no frame interpolation.
+
+Controlled 96-frame opening benchmark (including a transition): original
+21.71 seconds; optimized 16.45 seconds — 1.32× throughput, 24.2% less render time.
+See RENDER_BENCHMARK.json. This short test is not a full-video runtime guarantee.
+An experimental fused material path was tested and rejected as slower.
+Both benchmark videos decoded successfully; an optimized frame was inspected.
+Run exports with `RENDER_CAPTURE=screenshot` and `RENDER_PAGE=/path.html` for
+comparison testing. These options are not used by the normal full build.

@@ -1,7 +1,7 @@
 <!doctype html><html><head><meta charset="utf-8"><title>TV12 · Camera styles demo v4</title><style>body{margin:0;background:#080b10;color:white;font:14px system-ui}canvas{width:100vw;height:100vh;object-fit:contain;display:block}button{position:fixed;bottom:22px;left:22px;padding:12px 20px;border:1px solid #ffffff55;border-radius:8px;background:#172435;color:white;cursor:pointer}</style></head><body><button id="play">Play 30-second demo</button><script type="module">
 import * as THREE from '/editing/three-demo/node_modules/three/build/three.module.js';
 const W=1280,H=720;
-const renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});
+const renderer=new THREE.WebGLRenderer({antialias:false,preserveDrawingBuffer:true,alpha:false,depth:false,stencil:false});
 renderer.setSize(W,H);renderer.setPixelRatio(1);renderer.outputColorSpace=THREE.SRGBColorSpace;
 document.body.prepend(renderer.domElement);
 const params=new URLSearchParams(location.search);
@@ -18,7 +18,7 @@ textures.forEach(t=>{t.colorSpace=THREE.SRGBColorSpace;t.minFilter=THREE.LinearF
 const camera=new THREE.PerspectiveCamera(42,16/9,.1,100);
 const scenes=textures.map((texture,i)=>{
  const scene=new THREE.Scene();scene.background=new THREE.Color('#10131a');
- const geo=new THREE.PlaneGeometry(16.7,9.4,96,54);
+ const geo=new THREE.PlaneGeometry(16.7,9.4,24,14);
  const pos=geo.attributes.position;
  // Heuristic bas-relief: center/lower-frame proximity, not recovered geometry.
  for(let k=0;k<pos.count;k++){
@@ -117,9 +117,12 @@ window.renderAt=t=>{
  let i=starts.findLastIndex(s=>s<=t),j=starts.findIndex((s,k)=>k>0&&Math.abs(t-s)<.35);
  let a=i,b=i,blend=0;
  if(j>0){a=j-1;b=j;let u=(t-starts[j]+.35)/.7;blend=u*u*(3-2*u);}
- const fa=drawScene(a,t,targets[0]),fb=drawScene(b,t,targets[1]);
+ const fa=drawScene(a,t,targets[0]);
+ // No second scene render/copy outside the short transition windows.
+ const fb=a===b?fa:drawScene(b,t,targets[1]);
  const uniforms=mixMat.uniforms;
- uniforms.blend.value=blend;uniforms.mode.value=j>0?(j-1)%4:0;
+ uniforms.b.value=a===b?targets[0].texture:targets[1].texture;
+ uniforms.blend.value=blend;uniforms.mode.value=j>0?(source[j].cue-2)%4:0;
  uniforms.focusA.value.set(...fa.focus);uniforms.focusB.value.set(...fb.focus);
  uniforms.blurA.value=fa.blur;uniforms.blurB.value=fb.blur;
  renderer.setRenderTarget(null);renderer.render(mixScene,mixCamera);
