@@ -1,5 +1,7 @@
 # Black box — five distant locations, one continuous camera
 
+> **Superseded after partial improvement.** The user described this version as “a bit good” but requested a much larger, mixed, continuous landscape and a clearer geographic journey. See [the subsequent continuous-geography production](../black-box-journey/README.md) and its [detailed analysis](../black-box-journey/ANALYSIS.md). This document describes the historical separate-location iteration.
+
 Replacement for **both rejected black-box iterations**, specifically correcting the second version's single-room geography. A forest and underwater exhibit inside a hangar is **not** an acceptable substitute for separate story locations.
 
 ## Delivery

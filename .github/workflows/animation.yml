@@ -104,3 +104,11 @@ jobs:
             exit 1
           fi
           cat "$RUNNER_TEMP/locations-black-box-test.log"
+      - name: Continuous geography, mixed forest and actual camera orientation review
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box-journey/tests/browser.mjs > "$RUNNER_TEMP/journey-black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/journey-black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/journey-black-box-test.log"

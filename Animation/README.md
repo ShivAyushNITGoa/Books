@@ -2,11 +2,11 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
-## Current film: Black box — five distant locations
+## Current film: Black box — one continuous geographic journey
 
-[Multi-location production](projects/black-box-locations/README.md) corrects the rejected single-room staging: an enclosed factory, remote outdoor forest, open-ocean seabed, coastal recovery pier and separate airport apron. Every pair of sites is more than 400 metres apart in one physical landscape. A continuous camera uses time-compressed aerial travel between them, with no cuts. The exact English script, selected narrator, left/right composition, multilateral views and collision safeguards are retained.
+[Continuous-geography production](projects/black-box-journey/README.md) substantially rebuilds the previous film into one shared **8.5 × 8.4 km land-to-seabed field**, with a regional mixed forest (14,821 trees / seven types in the reviewed build), natural winding coast, river/estuary, connected roads/bridge, coastal recovery harbour and airport. The camera shows the route between places, with horizon/landmark reveals and a small geographic orientation inset. Exact English script and selected narration are retained; travel is explicitly time-compressed, with **no cuts, teleports or picture blending**.
 
-Both [first version](projects/black-box/README.md) and [second version](projects/black-box-rebuilt/README.md) are retained as **rejected/superseded iterations**, not approved examples. The second version's curved camera and passing technical tests did not fix its fundamental error: co-locating forest, water and factory as exhibits inside a room.
+Read the [deep review and design rationale](projects/black-box-journey/ANALYSIS.md). The [previous multi-location film](projects/black-box-locations/README.md) was described by the user as a partial improvement, but its small forest and disconnected terrain plates required further recreation. Earlier [first](projects/black-box/README.md) and [second](projects/black-box-rebuilt/README.md) films remain rejected historical iterations, not approved examples.
 
 ## Alexandria — supplied SRT and custom animation
 
