@@ -2,11 +2,11 @@
 
 The approved **Refined Edition** is preserved unchanged. This folder is a self-contained resource bundle for making new script-driven videos in the same **flat, expressive cartoon-character / dimensional classroom** style.
 
-## Current film: Black box — rebuilt camera and blocking
+## Current film: Black box — five distant locations
 
-[Rebuilt production](projects/black-box-rebuilt/README.md) replaces the rejected linear staging with independent curved camera/recorder paths, front/rear/side views, left/right composition and new character blocking. The full English script and selected VO are preserved. Every delivery frame is checked for physical character clearance, projected character/recorder envelope overlap, safe framing and static-set centre sightlines. **One continuous camera, no cuts.**
+[Multi-location production](projects/black-box-locations/README.md) corrects the rejected single-room staging: an enclosed factory, remote outdoor forest, open-ocean seabed, coastal recovery pier and separate airport apron. Every pair of sites is more than 400 metres apart in one physical landscape. A continuous camera uses time-compressed aerial travel between them, with no cuts. The exact English script, selected narrator, left/right composition, multilateral views and collision safeguards are retained.
 
-The [previous version](projects/black-box/README.md) is retained as a superseded iteration, not an approved example of camera direction or collision-free staging.
+Both [first version](projects/black-box/README.md) and [second version](projects/black-box-rebuilt/README.md) are retained as **rejected/superseded iterations**, not approved examples. The second version's curved camera and passing technical tests did not fix its fundamental error: co-locating forest, water and factory as exhibits inside a room.
 
 ## Alexandria — supplied SRT and custom animation
 

@@ -96,3 +96,11 @@ jobs:
             exit 1
           fi
           cat "$RUNNER_TEMP/rebuilt-black-box-test.log"
+      - name: Multi-location geography and continuous-camera browser review
+        working-directory: Animation
+        run: |
+          if ! node projects/black-box-locations/tests/browser.mjs > "$RUNNER_TEMP/locations-black-box-test.log" 2>&1; then
+            tail -n 30 "$RUNNER_TEMP/locations-black-box-test.log" | sed 's/%/%25/g; s/^/::error::/'
+            exit 1
+          fi
+          cat "$RUNNER_TEMP/locations-black-box-test.log"

@@ -1,5 +1,7 @@
 # The black box — rebuilt staging and cinematography
 
+> **REJECTED / SUPERSEDED for geography.** The user rejected this version because forest, water and testing still occupy a single pavilion. Passing camera/blocking tests does not make that environment acceptable. See [the new genuinely separate-location production](../black-box-locations/README.md). This file documents the historical iteration, not an approved template.
+
 **This is the replacement for the rejected linear version in `../black-box/`.** The world layout, recorder/carrier, character blocking, camera route and composition system are newly authored. The user's complete script, approved English VO and caption timing are deliberately preserved—not regenerated or sped up.
 
 ## Watch / download
