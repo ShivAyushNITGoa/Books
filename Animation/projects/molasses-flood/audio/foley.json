@@ -1,0 +1,66 @@
+{
+  "seed": 19190115,
+  "description": "Original quiet procedural noise/metal/water cues, no music or distress calls",
+  "events": [
+    {
+      "start": 0.2,
+      "duration": 3,
+      "kind": "wash",
+      "gain": 0.013
+    },
+    {
+      "start": 4.15,
+      "duration": 3,
+      "kind": "wood",
+      "gain": 0.016
+    },
+    {
+      "start": 78.583354,
+      "duration": 3,
+      "kind": "rumble",
+      "gain": 0.013
+    },
+    {
+      "start": 82.718354,
+      "duration": 6,
+      "kind": "rumble",
+      "gain": 0.025
+    },
+    {
+      "start": 94.04335400000001,
+      "duration": 3,
+      "kind": "wash",
+      "gain": 0.013
+    },
+    {
+      "start": 99.983354,
+      "duration": 2.84314599999999,
+      "kind": "wash",
+      "gain": 0.013
+    },
+    {
+      "start": 102.8265,
+      "duration": 3,
+      "kind": "wash",
+      "gain": 0.013
+    },
+    {
+      "start": 109.68650000000001,
+      "duration": 3,
+      "kind": "wood",
+      "gain": 0.016
+    },
+    {
+      "start": 115.7865,
+      "duration": 3,
+      "kind": "metal",
+      "gain": 0.012
+    },
+    {
+      "start": 181.89360399999998,
+      "duration": 6,
+      "kind": "wash",
+      "gain": 0.014
+    }
+  ]
+}

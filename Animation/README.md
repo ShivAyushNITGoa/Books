@@ -6,7 +6,11 @@ The approved **Refined Edition** is preserved unchanged. This folder is a self-c
 
 Use the [first-to-latest black-box improvement history and future-production checklist](story/PRODUCTION_LESSONS.md). The user explicitly requested carrying these lessons into future videos **as required by the new script**, not copying this film's settings or treating test passes as artistic approval.
 
-## Current film: Why Ships Have a Strange Bulge Under Their Nose
+## Current film: The Great Molasses Flood
+
+[Molasses-flood production](projects/molasses-flood/README.md) includes the complete **222⅔-second narrated portrait film**, 41 authored shots across nine original dimensional cartoon sets, English captions, quiet original effects, an [in-depth transcript/production plan](projects/molasses-flood/PLAN.md), and a [historical/editorial ledger](projects/molasses-flood/ACCURACY.md). It applies the latest Dario-led **character and camera** direction together. The two train-derailment lines are conservatively edited to damaged supports and a train stopping short; conflicting accounts and reconstruction limits are documented. Earlier films and locked originals remain unchanged.
+
+## Previous film: Why Ships Have a Strange Bulge Under Their Nose
 
 [Bulbous-bow production](projects/bulbous-bow/README.md) uses the complete supplied **568-word English script** and user-selected narration in a **205.25-second portrait film**. The [actual narrated MP4](projects/bulbous-bow/delivery/bulbous-bow-narrated-720p.mp4) accompanies editable source, English captions and final-file QA. Dry dock, open sea, ripple pond, outdoor design basin, a separate model-testing laboratory and cargo terminal support the explanation. Direction explicitly follows the user's newest correction: **calmer one-sided ship views, no repeated camera circling**, with partial-interference and speed/loading caveats rather than numerical CFD/fuel claims.
 
