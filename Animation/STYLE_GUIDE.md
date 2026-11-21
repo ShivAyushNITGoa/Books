@@ -1,13 +1,15 @@
 # Approved visual contract
 
-## Latest character-direction override — illustrated acting, not stiff cards
+## Latest override — Dario character style AND camera handling
 
-The user now explicitly rejects card-like / 2D humans and requests characters like those in these two references:
+The user rejected the five-second illustrated engineer test. The primary target for the next character/camera test is now the supplied [Dario reference](references/dario-character-camera/ANALYSIS.md), not merely the history video's illustrated acting.
 
-- https://youtube.com/shorts/foR4BWiUd4g
-- https://youtube.com/shorts/VzSRUWRGFlk
+- **Characters:** stylized dimensional cartoon forms—large pale rounded heads, small egg/bean torsos, clustered hair, very thin dark tubular limbs, rounded hands/shoes, and simple drawn-looking facial marks that stay attached to the head. Not realistic anatomy, whole-body human billboards or another flat thick-outline engineer.
+- **Camera:** authored perspective position AND aim, real depth parallax, front/three-quarter/profile/rear consistency, motivated short arcs and height changes, hand/prop inserts, and quick transfers into readable settles. A 1.2% full-picture zoom does not reproduce this handling.
+- **Staging/render:** purposeful task interactions, consistent warm dimensional sets, soft shading/occlusion, restrained fine contours and image-led composition. Do not copy source logos/likeness by default or claim the creator's software/rig is known.
+- **Review:** the analysis covers all 5,339 frames in thumbnail atlases plus per-frame measurements and selected native-resolution details. It does not claim full-resolution human inspection of every frame or recovered 3D camera ground truth.
 
-For new character work, do **not** reuse the current stiff whole-body billboard people as the default. This newer instruction supersedes that character implementation, not the immutable archive. Preserve `locked/` and the original approved files. Actual sampled footage analysis of the history reference shows **2D / layered 2.5D illustrated characters** with strong silhouettes, soft shading, facial changes, gestures, tool use and direction-specific walking poses—not a requirement for realistic 3D humans. Match expressive acting and coherent staging rather than merely changing a billboard texture. The original production technique is unverified; the Dario reference's footage is still pending. See [review status](references/CHARACTER_REFERENCE_REVIEW.md) and [timestamped analysis](references/history-characters/ANALYSIS.md). Existing exported films have not been restyled by this documentation change.
+See [the analysis](references/dario-character-camera/ANALYSIS.md), [every-frame atlas](references/dario-character-camera/frames.html) and [review status](references/CHARACTER_REFERENCE_REVIEW.md). The old five-second sample is rejected, not an approved template. The frozen `locked/` archive remains unchanged. This newer direction supersedes the historical character default below for new reference-led work; it does not silently restyle the delivered ship film or replace its accepted narration.
 
 **Standing instruction for future films:** apply the [black-box improvement history and production lessons](story/PRODUCTION_LESSONS.md) as required by each new script. Read that checklist before planning a new production; do not blindly copy the black-box locations, runtime or numerical thresholds.
 

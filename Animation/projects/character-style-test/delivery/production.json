@@ -26,5 +26,6 @@
     "everyFrameHumanReviewed": false,
     "referenceParityClaimed": false,
     "full3DCharacter": false
-  }
+  },
+  "userReview": "Rejected: not the requested character style or camera handling; see references/dario-character-camera/ANALYSIS.md"
 }

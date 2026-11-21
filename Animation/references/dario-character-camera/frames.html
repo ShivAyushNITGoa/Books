@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dario reference — every-frame atlas</title>
+<style>:root{color-scheme:dark}body{background:#171b22;color:#f7eddb;font:16px/1.5 system-ui;margin:24px auto;padding:0 18px;max-width:1100px}h1{font-size:26px}a{color:#eec88b}nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap;position:sticky;top:0;background:#171b22f5;padding:12px 0}button,select{padding:8px 12px;background:#303b46;border:1px solid #6e7986;border-radius:6px;color:inherit;font:inherit}img{display:block;max-width:100%;height:auto;border:1px solid #515b68}small{color:#c6c9c9}#range{font-variant-numeric:tabular-nums}button{cursor:pointer}</style>
+<h1>Dario reference: every-frame atlas</h1>
+<p><a href="ANALYSIS.md">Read the analysis</a> · <a href="per-frame-audit.csv" download>Download the per-frame audit</a> · <a href="review-blocks.csv">Review-block observations</a></p>
+<p><strong>5,339 frames, 30 fps, 30 pages.</strong> Each page has up to 180 consecutive frames: read left-to-right, then top-to-bottom. Every source frame is included once. The last page has unused dark cells, not black source-video frames.</p>
+<p><small>Thumbnails are 64 × 114 pixels. This is complete temporal coverage, not native-resolution facial inspection. Frame-relative time = frame number ÷ 30; source presentation PTS starts approximately 0.0333 s later. Optical-flow diagnostics do not recover true 3D camera coordinates.</small></p>
+<nav><button id="prev">← Previous</button><select id="page" aria-label="Atlas page"></select><button id="next">Next →</button><span id="range"></span><a id="full" target="_blank" rel="noopener">Open image</a></nav>
+<img id="atlas" alt="Sequential frame atlas">
+<script>
+const select=document.querySelector('#page'),image=document.querySelector('#atlas');
+for(let p=1;p<=30;p++){const o=document.createElement('option');o.value=p;o.textContent=`Page ${p} / 30`;select.append(o)}
+function show(p){p=Math.max(1,Math.min(30,Number(p)||1));select.value=p;const start=(p-1)*180,end=Math.min(5338,p*180-1),file=`frames/all-frames-${String(p).padStart(2,'0')}.jpg`;image.src=file;image.alt=`Frames ${start}–${end}, in sequence`;document.querySelector('#range').textContent=`f${start}–f${end} · ${(start/30).toFixed(3)}–${((end+1)/30).toFixed(3)} s`;document.querySelector('#full').href=file;document.querySelector('#prev').disabled=p===1;document.querySelector('#next').disabled=p===30;history.replaceState(null,'',`#${p}`)}
+select.onchange=()=>show(select.value);document.querySelector('#prev').onclick=()=>show(+select.value-1);document.querySelector('#next').onclick=()=>show(+select.value+1);document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')show(+select.value-1);if(e.key==='ArrowRight')show(+select.value+1)});show(location.hash.slice(1)||1);
+</script></html>

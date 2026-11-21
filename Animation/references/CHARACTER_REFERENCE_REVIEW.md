@@ -1,37 +1,29 @@
-# Character-style reference review
+# Character and camera reference review — latest user correction
 
-## Latest user direction
+## Primary target: Dario character style + camera handling
 
-Deeply analyze the two supplied Shorts and replace the current card-like people with the references' character treatment. Preserve the frozen original projects and accepted narration unless separately requested otherwise.
+The user rejected the five-second illustrated engineer: **“this is not the style i want.”** They supplied the Dario MP4 and explicitly requested deep frame-by-frame study of **both characters and camera motion**. Do not keep iterating the rejected flat illustration as the target.
 
-**Important clarification from actual footage:** the supplied history reference itself has a 2D / layered 2.5D illustrated appearance. Do not translate the user's rejection of our flat card-like people into an unsupported requirement for realistic 3D humans. The target is expressive, shaded, articulated cartoon acting with coherent staging—not another static whole-body billboard. The original renderer/rig of the reference is not known from its pixels.
+- **[Detailed character + camera analysis](dario-character-camera/ANALYSIS.md)**
+- **[All 5,339 frames in sequential thumbnail atlases](dario-character-camera/frames.html)**
+- [Per-frame measurement table](dario-character-camera/per-frame-audit.csv), [30 review blocks](dario-character-camera/review-blocks.csv).
+- Source: repository branch `arena/f575cde5-books`, commit `ac3e309b651f48f102a5bbb31923ff4da0ce7abf`, `Dario Amodei_ Why Claude’s Creator Fears AI.mp4`.
 
-## Review status
+All 5,339 frames were decoded, measured and represented in 30 inspected thumbnail atlas pages. Selected native-resolution frames and larger temporal sequences support the detailed character/camera conclusions. This is not full-resolution human inspection of every frame; feature-flow estimates are not recovered 3D camera coordinates. Complete A/V decode passed; audio was not manually listened to.
 
-### History reference — sampled footage analysis completed
+### Required visual direction
 
-- Original link: https://youtube.com/shorts/VzSRUWRGFlk
-- Title: **Judaism, Christianity, Islam in 4,000 Years**; channel shown by the fetched page: **AnimatedHistoryLore**.
-- User supplied the MP4 in this repository on `main`; retrieved with Git without changing the working branch.
-- **[Detailed analysis, provenance, timestamped evidence, motion samples and implementation requirements](history-characters/ANALYSIS.md)**.
-- Approximately 160.85 seconds, 720 × 1280, 30 fps. Reviewed four-second timeline samples, full-resolution detail images and quarter-second motion sequences. Full source A/V decode passed; no manual audio listening or every-frame viewing claimed.
+- Rounded pale spherical heads, compact egg/bean bodies, clustered hair, thin dark tubular limbs and rounded hands/shoes.
+- Simple drawn-looking facial features on a dimensional head; meaningful expression/gaze/head changes, coherent front/side/back views and task/prop interaction.
+- Consistent stylized dimensional scenery, soft shading/occlusion and fine contour accents—not realistic anatomy or a whole-human billboard.
+- Actual perspective camera movement and independently authored aim: depth parallax, motivated arcs, height changes, prop inserts and quick transfer / readable-settle rhythm. Not another largely static composition with a tiny overall zoom.
 
-### Dario reference — footage still required
+## Secondary reference: history video
 
-- https://youtube.com/shorts/foR4BWiUd4g
-- Page title: **Dario Amodei: Why Claude’s Creator Fears AI**; channel shown: **Afterhour Theory**.
-- Page metadata was accessible, not playable footage. No visual/temporal analysis or comparison with the history reference is claimed.
-- Supply a repository MP4 or upload the clip to complete the second analysis.
+The earlier [history-reference report](history-characters/ANALYSIS.md) remains an honest sampled analysis of **Judaism, Christianity, Islam in 4,000 Years**. It is not the primary style target after the latest correction. The two videos should not be flattened into one generic “cartoon” label; their dimensionality, line treatment, staging and camera language differ.
 
-## Carry-forward production requirements
+## Implementation status
 
-- Large readable faces; designed silhouettes; clean dark outlines; controlled soft shading; character-specific hair/costume/props.
-- Independent expression, gaze, head, limb and prop performance—not just translation/rotation of a canvas texture.
-- Intentional front/three-quarter/profile presentation, grounded movement and meaningful reactions/task interactions.
-- Test coherence with the actual environment, camera, lighting cues and captions. No card edge or billboard spin when the camera changes bearing.
-- Do not infer software, modeling method, full anatomical realism or exact lip-sync quality from the reviewed frames.
-- Make a short original worker/engineer preview before another long full-film export. A suitable technique may be articulated illustration or a stylized depth-aware rig; reference fidelity is a visual outcome, not a technology label.
+The [old five-second test](../projects/character-style-test/README.md) is explicitly **rejected**, not approved. Its MP4 is retained as historical evidence. No new matched Dario-style test or restyled ship export is claimed by this analysis update.
 
-## Scope and implementation status
-
-A subsequent user request for a five-second test is now implemented in [the standalone character-style prototype](../projects/character-style-test/README.md): an original articulated illustrated engineer walks in, reacts and points to a ship model. The silent 720 × 1280 / 30 fps MP4 is exactly five seconds. This tests the illustrated treatment, not a full-3D human rig or complete profile turnaround; reference parity and user approval are not claimed. The existing ship film is unchanged. Confirm whether to restyle that film, apply this direction to future films, or both before another full-film export. Preserve the integral bow, accepted voice/script/timing, flotation, floor stability and slow non-circling camera corrections unless the user changes them.
+Read the corrective analysis before making the next sample. It supplies a proposed five-second direction plan and concrete character/camera acceptance requirements. Preserve the immutable archive, accepted scripts/voice assets and existing ship corrections; do not silently overwrite the long delivered film merely while analyzing a reference.

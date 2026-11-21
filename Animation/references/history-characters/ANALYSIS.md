@@ -1,5 +1,7 @@
 # Character reference analysis: *Judaism, Christianity, Islam in 4,000 Years*
 
+> **Latest user correction:** the five-second history-derived engineer test was rejected. The [Dario character + camera analysis](../dario-character-camera/ANALYSIS.md) is now the primary direction for the next test. The observations below describe this history reference, not approval of that rejected prototype.
+
 ## Executive finding
 
 **The useful target is an expressive illustrated character system, not a static human picture placed on a camera-facing card.** The reference's visible treatment is predominantly 2D / layered 2.5D cartoon illustration, with soft shading and staged depth. It is not evidence that realistic full-3D human meshes are required. Equally, the finished pixels cannot establish whether the creator used vector rigs, drawn sprites, 3D assistance, generated imagery or some combination.
@@ -142,4 +144,4 @@ Acceptance is visual **and** technical: expressive silhouette and face at final 
 
 This report completes a detailed **sampled visual/temporal analysis of the supplied history reference**, not of both original links. The Dario video still needs an accessible file. This does not certify the video's historical/theological claims, identify its production software, establish original rig structure or license, or claim manual audio review / every-frame viewing.
 
-Guidelines are updated. After this analysis the user requested a five-second character test; [the standalone illustrated engineer prototype](../../projects/character-style-test/README.md) now demonstrates a short entrance, expression change and targeted gesture. It is not a full-3D rig, complete view turnaround, newly restyled ship MP4 or proof of reference parity. Whether to revise the existing ship film, apply this to future films, or both remains unconfirmed. Do not silently rerender the full film on an unresolved scope assumption.
+Guidelines are updated. After this analysis the user requested a five-second character test; [the standalone illustrated engineer prototype](../../projects/character-style-test/README.md) now demonstrates a short entrance, expression change and targeted gesture. The user subsequently rejected that prototype. It is not a full-3D rig, complete view turnaround, newly restyled ship MP4 or proof of reference parity. Whether to revise the existing ship film, apply this to future films, or both remains unconfirmed. Do not silently rerender the full film on an unresolved scope assumption.

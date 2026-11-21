@@ -1,6 +1,8 @@
-# Five-second character-style test
+# Five-second character-style test — REJECTED
 
-[Watch/download the MP4](delivery/character-style-5s-720p.mp4) · **5.00 seconds · 720 × 1280 · 30 fps · 150 frames · intentionally silent**
+**User review: rejected.** The user said this is not the desired style and now requests the Dario reference’s character design **and camera handling**. Do not use this flat illustration / near-static-camera test as an approved template. See the [corrective analysis](../../references/dario-character-camera/ANALYSIS.md). This file is retained as iteration history, not silently replaced.
+
+[Watch/download the rejected MP4](delivery/character-style-5s-720p.mp4) · **5.00 seconds · 720 × 1280 · 30 fps · 150 frames · intentionally silent**
 
 An original cartoon engineer in an illustrated harbor workshop, based on the design/acting findings in the [history-reference analysis](../../references/history-characters/ANALYSIS.md). This is a standalone visual prototype for user review, not a replacement of the existing ship film or a claim of reference parity.
 
