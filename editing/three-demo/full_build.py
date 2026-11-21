@@ -42,7 +42,14 @@ def main():
         stamp=dest.with_suffix('.complete')
         if not(dest.exists() and stamp.exists() and stamp.read_text()==fingerprint):
             env={**os.environ,'RENDER_FULL':'1','RENDER_FROM':str(start),'RENDER_TO':str(end),'RENDER_OUTPUT':str(dest.relative_to(ROOT))}
-            run(['node','render.mjs'],cwd=HERE,env=env)
+            # Chromium occasionally SIGSEGVs at launch on this host; retry.
+            for attempt in range(3):
+                try:
+                    run(['node','render.mjs'],cwd=HERE,env=env)
+                    break
+                except subprocess.CalledProcessError:
+                    if attempt==2:raise
+                    print(f'RENDER RETRY {attempt+2}/3 for chunk {index}',flush=True)
             run([FF,'-v','error','-i',dest,'-f','null','-'])
             if dest.stat().st_size>=100_000_000:raise RuntimeError(f'Part exceeds 100 MB: {dest}')
             stamp.write_text(fingerprint)
