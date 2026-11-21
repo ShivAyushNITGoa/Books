@@ -2,6 +2,7 @@ import * as T from '../../../engine/vendor/three.module.js';
 import {bulbSurfacePoints} from '../assets/ship.js';
 import {stateAt, DURATION} from './choreography.js';
 
+export const FILM_FOV = 50;
 let track;
 function orientationAt(time) {
   const rate = 60;
@@ -29,6 +30,7 @@ function orientationAt(time) {
 
 /** One physical camera: no turntable, object-centred orbit or replacement rig. */
 export function setCamera(camera, state) {
+  if(camera.fov!==FILM_FOV){camera.fov=FILM_FOV;camera.updateProjectionMatrix();}
   camera.position.set(...state.eye);
   camera.quaternion.copy(orientationAt(state.t));
   camera.updateMatrixWorld(true);

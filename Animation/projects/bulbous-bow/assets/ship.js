@@ -1,112 +1,95 @@
 import * as T from '../../../engine/vendor/three.module.js';
 import {batchStatic} from './drawing.js';
-import {mix, clamp, smooth} from '../direction/math.js';
+import {mix, clamp, smooth, sample} from '../direction/math.js';
 
-export const SHIP = Object.freeze({length: 132, beam: 25, draft: 10.4, deckY: 8.2,
-  bowZ: -66, bulbZ: -68.8, afloatOffset: 2.0});
-// Single fair body: 3.7 m maximum width, 6 m beyond the nominal stem,
-// rather than the previous 20.6 m ellipsoid and separate spherical connector.
-export const BULB = Object.freeze({frontZ:-72, rearZ:-60.4, radiusX:1.85, radiusY:1.7, centreY:-6.8, slope:.095});
-export function bulbSurfacePoints() {
-  const points=[],centreZ=(BULB.frontZ+BULB.rearZ)/2,rz=(BULB.rearZ-BULB.frontZ)/2;
-  for(let i=0;i<=48;i++){
-    const phi=i/48*Math.PI,z=centreZ-rz*Math.cos(phi),s=Math.sin(phi);
-    for(let j=0;j<=32;j++){
-      const theta=j/32*Math.PI*2;
-      points.push([BULB.radiusX*s*Math.cos(theta),BULB.centreY+BULB.slope*(z-centreZ)+BULB.radiusY*s*Math.sin(theta),z]);
-    }
-  }
-  return points;
-}
-export function bulbGeometry() {
-  const points=bulbSurfacePoints(),indices=[],rows=points.length/33;
-  for(let i=0;i<rows-1;i++)for(let j=0;j<32;j++){
-    const a=i*33+j,b=a+1,n=a+33;indices.push(a,b,n,b,n+1,n);
-  }
-  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points.flat(),3));
-  g.setIndex(indices);
-  const centreZ=(BULB.frontZ+BULB.rearZ)/2,rz=(BULB.rearZ-BULB.frontZ)/2;
-  const normals=points.flatMap(([x,y,z])=>{
-    const ny=(y-BULB.centreY-BULB.slope*(z-centreZ))/(BULB.radiusY**2);
-    return new T.Vector3(x/BULB.radiusX**2,ny,(z-centreZ)/rz**2-BULB.slope*ny).normalize().toArray();
-  });
-  g.setAttribute('normal',new T.Float32BufferAttribute(normals,3));return g;
-}
+export const SHIP = Object.freeze({length:132, beam:25, draft:10.4, deckY:8.2,
+  bowZ:-66, bulbZ:-68.8, afloatOffset:2});
+export const BULB = Object.freeze({frontZ:-72, rootZ:-60, bottomY:-10.0, shoulderY:-3.5});
 
-const STATIONS = [
-  [-66, 0.24], [-63, 3.4], [-57, 7.2], [-46, 10.9], [-28, 12.5],
-  [0, 12.5], [30, 12.2], [48, 11.5], [59, 9.2], [66, 4.6],
-];
-function halfBeam(z) {
-  let i = 0;
-  while (i < STATIONS.length - 2 && z > STATIONS[i + 1][0]) i++;
-  const a = STATIONS[i], b = STATIONS[i + 1];
-  return mix(a[1], b[1], smooth((z - a[0]) / (b[0] - a[0])));
+// User-reference silhouette: a rounded forefoot, full rising shoulder and
+// concave fairing into the stem. These are the HULL's stem stations, not a
+// second object's centreline or an intersecting primitive.
+export const STEM = Object.freeze([
+  [-10.4,-61.8],[-10,-64],[-9.4,-67.3],[-8.6,-70.5],[-7.5,-72],
+  [-6.5,-71.9],[-5.5,-70.8],[-4.5,-68.3],[-3.5,-65.6],[-2.4,-65.15],
+  [0,-66],[8.2,-68.5],
+].map(Object.freeze));
+const STATIONS=[[-66,0],[-63,3.4],[-57,7.2],[-46,10.9],[-28,12.5],
+  [0,12.5],[30,12.2],[48,11.5],[59,9.2],[66,4.6]];
+function halfBeam(z){
+  let i=0;while(i<STATIONS.length-2&&z>STATIONS[i+1][0])i++;
+  const a=STATIONS[i],b=STATIONS[i+1];
+  return mix(a[1],b[1],smooth((z-a[0])/(b[0]-a[0])));
+}
+export function stemZ(y,bulb=true){
+  return bulb ? sample(STEM,clamp(y,-SHIP.draft,SHIP.deckY),1,1)[0]
+    : -66+mix(4,-2.5,(y+SHIP.draft)/(SHIP.draft+SHIP.deckY));
+}
+function sectionScale(y){
+  return y< -8 ? mix(.30,.80,clamp((y+10.4)/2.4)) : y<0 ? mix(.80,1,(y+8)/8) : 1;
+}
+export function hullPoint(y,u,side=1,bulb=true){
+  const front=stemZ(y,bulb),z=mix(front,66,u),scale=sectionScale(y);
+  // A shared fair waterline joins the extended stem to the actual ship beam.
+  // There is no cylindrical neck, duplicate skin, internal cap or root seam.
+  const join=-46;
+  const w=z<join ? halfBeam(join)*scale*Math.sin(clamp((z-front)/(join-front))*Math.PI/2)**1.1
+    : halfBeam(z)*scale;
+  return [side*w,y,z];
 }
 
-/** Real closed hull sections, not a scaled rectangular box with a ball glued on. */
-export function hullBand(minimumY, maximumY, bands) {
-  const positions = [], indices = [];
-  const stations = 66;
-  for (let s = 0; s <= stations; s++) {
-    const z = -66 + s / stations * 132;
-    const w = halfBeam(z);
-    for (const side of [-1, 1]) {
-      for (let b = 0; b <= bands; b++) {
-        const y = mix(minimumY, maximumY, b / bands);
-        const shape = y < -8 ? mix(0.3, 0.80, clamp((y + 10.4) / 2.4))
-          : y < 0 ? mix(0.80, 1, (y + 8) / 8) : 1;
-        const bow = 1 - smooth((z + 66) / 12);
-        const rake = bow * mix(4, -2.5, (y + 10.4) / 18.6);
-        positions.push(side * w * shape, y, z + rake);
-      }
+/** One closed, welded, indexed hull including bulb, stem, keel and deck.
+ * The red/navy/cream paint changes material groups, NOT the underlying mesh.
+ * Every edge has two incident triangles, including at the bulb's shoulder.
+ */
+export function hullGeometry({bulb=true,miniature=false}={}){
+  const ns=miniature?48:80,nl=miniature?32:48,nu=miniature?12:20;
+  const ys=Array.from({length:nl+1},(_,i)=>mix(-SHIP.draft,0,i/nl));
+  ys.push(...Array.from({length:nu},(_,i)=>(i+1)/nu*SHIP.deckY));
+  const ring=ns*2+1,positions=[],indices=[],groups=[];
+  for(const y of ys){
+    for(let i=0;i<=ns;i++)positions.push(...hullPoint(y,(i/ns)**1.3,1,bulb));
+    for(let i=ns;i>0;i--)positions.push(...hullPoint(y,(i/ns)**1.3,-1,bulb));
+  }
+  for(let row=0;row<ys.length-1;row++){
+    const start=indices.length;
+    for(let j=0;j<ring;j++){
+      const a=row*ring+j,b=row*ring+(j+1)%ring,n=a+ring,m=b+ring;
+      indices.push(a,n,b,b,n,m);
     }
+    groups.push([start,indices.length-start,ys[row+1]<=0?0:1]);
   }
-  const row = 2 * (bands + 1);
-  for (let s = 0; s < stations; s++) {
-    for (let side = 0; side < 2; side++) {
-      for (let b = 0; b < bands; b++) {
-        const a = s * row + side * (bands + 1) + b, n = a + row;
-        if (side) indices.push(a, n, a + 1, a + 1, n, n + 1);
-        else indices.push(a, a + 1, n, a + 1, n + 1, n);
-      }
-    }
-  }
-  // Fore and aft end caps are visible in the dry dock and broad departure.
-  for (const s of [0, stations]) {
-    const base = s * row;
-    for (let b = 0; b < bands; b++) {
-      const a = base + b, c = base + bands + 1 + b;
-      if (!s) indices.push(a, c, a + 1, c, c + 1, a + 1);
-      else indices.push(a, a + 1, c, c, a + 1, c + 1);
-    }
-  }
-  // Correct exterior winding. The original sides and end caps faced inward,
-  // so above-water plating vanished under back-face culling: a false deep-draft
-  // appearance that cannot be repaired by simply raising the ship.
-  for(let i=0;i<indices.length;i+=3)[indices[i+1],indices[i+2]]=[indices[i+2],indices[i+1]];
-  if(minimumY===-SHIP.draft)for(let s=0;s<stations;s++){
-    const a=s*row,c=a+bands+1,n=a+row;indices.push(a,c,n,c,n+bands+1,n);
-  }
-  const geometry = new T.BufferGeometry();
-  geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
-  geometry.setIndex(indices); geometry.computeVertexNormals();
+  const bottom=positions.length/3;positions.push(0,-SHIP.draft,0);
+  const top=positions.length/3;positions.push(0,SHIP.deckY,0);
+  let start=indices.length;
+  for(let j=0;j<ring;j++)indices.push(bottom,j,(j+1)%ring);
+  groups.push([start,indices.length-start,0]);start=indices.length;
+  const offset=(ys.length-1)*ring;
+  for(let j=0;j<ring;j++)indices.push(top,offset+(j+1)%ring,offset+j);
+  groups.push([start,indices.length-start,2]);
+  const geometry=new T.BufferGeometry();
+  geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));
+  geometry.setIndex(indices);geometry.computeVertexNormals();
+  const paint=[];
+  for(const g of groups){const last=paint.at(-1);if(last&&last[2]===g[2]&&last[0]+last[1]===g[0])last[1]+=g[1];else paint.push([...g]);}
+  for(const g of paint)geometry.addGroup(...g);
+  geometry.computeBoundingSphere();
+  geometry.userData={integratedBulb:bulb,connectedHullSkins:1,independentBulbMeshes:0,ringVertices:ring,rows:ys.length};
   return geometry;
 }
 
-export function deckGeometry() {
-  const shape = new T.Shape();
-  for (let i = 0; i <= 66; i++) {
-    const z = -66 + i * 2, width = halfBeam(z);
-    if (!i) shape.moveTo(-width, -(z-2.5*(1-smooth((z+66)/12)))) ; else shape.lineTo(-width, -(z-2.5*(1-smooth((z+66)/12))));
+let featurePoints;
+export function bulbSurfacePoints(){
+  if(!featurePoints){
+    featurePoints=[];
+    for(let y=-9.9;y<=-3.5+.001;y+=.2)for(let u=0;u<=.115+.001;u+=.005){
+      for(const side of [-1,1]){const p=hullPoint(y,u,side);if(p[2]<-63.8)featurePoints.push(p);}
+    }
   }
-  for (let i = 66; i >= 0; i--) {
-    const z = -66 + i * 2; shape.lineTo(halfBeam(z), -(z-2.5*(1-smooth((z+66)/12))));
-  }
-  shape.closePath();
-  const geometry = new T.ShapeGeometry(shape);
-  geometry.rotateX(-Math.PI / 2); geometry.translate(0, SHIP.deckY, 0);
-  return geometry;
+  return featurePoints;
+}
+export function exposedBulbWidth(){
+  return 2*Math.max(...bulbSurfacePoints().filter(p=>p[2]<-68.5).map(p=>Math.abs(p[0])));
 }
 
 function addContainers(parent, k, miniature) {
@@ -140,14 +123,8 @@ export function buildShip(parent, k, {scale = 1, bulb = true, miniature = false,
   const {mesh, box, cyl, ball, rod, label, M, material} = k;
   const root = new T.Group(); root.scale.setScalar(scale); parent.add(root);
   root.name = name;
-  const lower = mesh(root, hullBand(-10.4, 0, 6), M.red);
-  const upper = mesh(root, hullBand(0, 8.2, 3), M.navy);
-  const deck = mesh(root, deckGeometry(), M.cream);
-  deck.material = deck.material.clone(); deck.material.side = T.DoubleSide;
-  const bulbGroup = new T.Group(); root.add(bulbGroup);
-  if (bulb) {
-    mesh(bulbGroup, bulbGeometry(), M.red);
-  }
+  const skin=mesh(root,hullGeometry({bulb,miniature}),[M.red,M.navy,M.cream]);
+  skin.name='Continuous hull, integral forefoot and flared stem';
   const count = addContainers(root, k, miniature);
   // Aft accommodation/bridge, with genuine depth on every visible facade.
   box(root, 0, 14.1, 51, 20, 12, 16, M.white);
@@ -187,6 +164,6 @@ export function buildShip(parent, k, {scale = 1, bulb = true, miniature = false,
     }
   }
   batchStatic(root, new Set([propeller])); batchStatic(propeller);
-  return {root, propeller, bulb: bulbGroup, containers: count, scale, length: 132 * scale,
-    bowPoint: [0, -7.1, -72], lower, upper};
+  return {root, propeller, skin, integratedBulb: bulb, containers: count, scale, length: 132 * scale,
+    bowPoint: [0, -7.5, -72], lower: skin, upper: skin};
 }

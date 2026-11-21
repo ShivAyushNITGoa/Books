@@ -90,7 +90,7 @@ def main():
         'scientificScope':'Dimensionless wave superposition diagrams, not CFD, measured resistance or fuel-saving predictions. Off-design conditions may increase resistance.',
         'environments':['excavated dry dock','coastal ocean','ripple pond','outdoor design basin','separate naval model-testing laboratory','cargo terminal'],
         'world':'Continuous regional terrain and time-compressed travel; full-size ships never enter the model laboratory.',
-        'reviewRevision':'Proportional single-piece bulb, outward hull faces, higher flotation, separated lab foundation, livelier world action; see REVISION.md',
+        'reviewRevision':'Reference-shaped integral welded hull/forefoot (no separate bulb mesh), slow tracking/dolly/crane explanation rails; prior higher flotation and stable separated lab foundation preserved; see REVISION.md',
         'worldStatistics':json.loads((output/'browser-test.json').read_text())['stats'] if (output/'browser-test.json').exists() else None,
         'reviewLimits':{'manualAudioListening':False,'everyFramePerceptuallyReviewed':False,'referenceParityClaimed':False,'checks':'All 4926 camera poses, complete encoded-file decode and representative visual samples'},
         'sourceSha256':{str(p.relative_to(P)):digest(p) for p in sources},

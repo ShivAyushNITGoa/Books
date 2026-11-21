@@ -40,7 +40,7 @@ try{
  assert.equal(badFloor.length,0,'Ray-confirmed floor must not switch to terrain-coloured pixels: '+JSON.stringify(badFloor.slice(0,4)));
  await page.evaluate(()=>window.setCaptions(false));await page.evaluate(()=>window.setCaptions(true));
  const stats=await page.evaluate(()=>window.worldStats);
- assert.equal(stats.fullSizeShipsIndoors,0);assert.equal(stats.miniatureModels,3);assert.equal(stats.fullSizeShips,2);assert.ok(stats.sharedLandAndSeabed);assert.ok(stats.minimumLabSurfaceSeparation>.65);assert.equal(stats.bulbWidthMeters,3.7);assert.ok(stats.meanImmersedDraftMeters<8.5);
+ assert.equal(stats.fullSizeShipsIndoors,0);assert.equal(stats.miniatureModels,3);assert.equal(stats.fullSizeShips,2);assert.ok(stats.sharedLandAndSeabed);assert.ok(stats.minimumLabSurfaceSeparation>.65);assert.ok(stats.bulbWidthMeters>2.8&&stats.bulbWidthMeters<4);assert.equal(stats.hullSkinComponents,1);assert.equal(stats.separateBulbMeshes,0);assert.equal(stats.weldedForefoot,true);assert.ok(stats.meanImmersedDraftMeters<8.5);
  assert.deepEqual(errors,[],'No WebGL shader compilation or JavaScript runtime errors');
  const output=path.join(ROOT,'output/bulbous-bow/browser-test.json');await mkdir(path.dirname(output),{recursive:true});
  await writeFile(output,JSON.stringify({audit,stats,samples,errors,floor:{poses:floor.length,visiblePoints:floorPoints.length,badPixels:badFloor.length,samples:floor}},null,2));

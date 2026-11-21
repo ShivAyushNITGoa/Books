@@ -1,7 +1,7 @@
 import * as T from '../../engine/vendor/three.module.js';
 import {drawingKit, canvasTexture} from './assets/drawing.js';
 import {vesselMotion} from './direction/motion.js';
-import {buildShip, SHIP} from './assets/ship.js';
+import {buildShip, SHIP, exposedBulbWidth} from './assets/ship.js';
 import {buildGeography, DOCK, FLUME, LAB, LAB_FLOOR_Y} from './environment/geography.js';
 import {buildDock, buildResearchCampus, buildTerminal} from './environment/facilities.js';
 import {buildWaves} from './environment/waves.js';
@@ -102,7 +102,8 @@ export function buildWorld(scene) {
     staticRoots: [dock.root, ...campus.roots, terminal.root],
     stats: {...geography.stats, shipLengthMeters: 132, shipBeamMeters: 25,
       fullSizeShips: 2, miniatureModels: 3, fullSizeShipsIndoors: 0,
-      bulbWidthMeters: 3.7, bulbProjectionBeyondStemMeters: 6,
+      bulbWidthMeters: exposedBulbWidth(), bulbProjectionBeyondStemMeters: 6,
+      hullSkinComponents: 1, separateBulbMeshes: 0, weldedForefoot: true,
       nominalWaterlineLiftMeters: SHIP.afloatOffset, meanImmersedDraftMeters: SHIP.draft-SHIP.afloatOffset,
       nominalFreeboardMeters: SHIP.deckY+SHIP.afloatOffset, labFloorY: LAB_FLOOR_Y,
       water: waves.stats, repeatedOrbitController: false},

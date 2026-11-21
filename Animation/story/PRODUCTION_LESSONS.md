@@ -37,6 +37,10 @@ For the next ship film the user explicitly asked **not to round/circle the camer
 
 The user subsequently requested a proportionate bulb, less apparent immersion, removal of model-lab floor flicker and slightly more dynamic action. Before the next export, validate attachments against their parent object's scale; inspect exterior face winding before compensating with waterline/position changes; keep floors, terrain and decals physically separated rather than coplanar; and add motivated prop/water/actor activity without reviving repeated camera orbits. The [ship revision report](../projects/bulbous-bow/REVISION.md) records the actual causes, corrections and regression tests.
 
+## Continuous forms and restrained moving cameras
+
+The subsequent ship reference correction rejects a separately attached rounded cylinder/ellipsoid. When a user asks for an integral form, reshape the parent object's topology; hiding an intersecting primitive is not equivalent. Check connectivity, welded edges and the actual silhouette against the reference. Also distinguish “more dynamic camera” from animated props: add deliberate slow tracking/dolly/crane movement during explanation beats without undoing a prior no-circling constraint. Ray-based visual tests must sample the actual raster pixel footprint; projected-world-point rounding can otherwise confuse nearby walls/machinery with a supposedly unobstructed floor.
+
 ## Use before every new film
 
 - Read the new script and identify its required locations, geography, characters, action, visual style and audio/camera constraints.

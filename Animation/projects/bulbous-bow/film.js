@@ -91,18 +91,24 @@ function auditCamera() {
 // Scene depth, not an arbitrary screen rectangle, determines which pixels are
 // genuinely unobstructed floor. This hook is never run during frame export.
 function sampleLabFloor() {
-  const ray=new T.Raycaster(),target=new T.Vector3(),direction=new T.Vector3();
+  const ray=new T.Raycaster(),target=new T.Vector3();
   const roots=[...world.staticRoots,world.geography.terrain,world.tankModel.root];
   const samples=[];
   for(const x of [-228,-226,-224,-192,-190,-188])for(let z=-745;z<=-655;z+=3){
     target.set(x,world.stats.labFloorY,z);
     const p=target.clone().project(camera);
     if(p.z>=1||Math.abs(p.x)>.9||p.y>.3||p.y<-.55)continue;
-    const distance=target.distanceTo(camera.position);
-    ray.set(camera.position,direction.copy(target).sub(camera.position).normalize());ray.far=distance+.1;
-    const hit=ray.intersectObjects(roots,true)[0];
-    if(!hit||Math.abs(hit.distance-distance)>.04||hit.face.normal.y<.9)continue;
     const px=Math.round((p.x+1)*WIDTH/2),py=Math.round((1-p.y)*HEIGHT/2);
+    // Test the raster pixel footprint, not just the projected world point.
+    // At grazing angles one pixel of rounding can land on a wall or machine.
+    let clear=true;
+    for(const dx of [-1,0,1])for(const dy of [-1,0,1]){
+      ray.setFromCamera(new T.Vector2((px+dx+.5)/WIDTH*2-1,1-(py+dy+.5)/HEIGHT*2),camera);
+      ray.far=1000;
+      const hit=ray.intersectObjects(roots,true)[0];
+      if(!hit||Math.abs(hit.point.y-world.stats.labFloorY)>.04||hit.face.normal.y<.9)clear=false;
+    }
+    if(!clear)continue;
     const [r,g,b]=ctx.getImageData(px,py,1,1).data;
     samples.push({point:[x,world.stats.labFloorY,z],screen:[px,py],pixel:[r,g,b],slabColor:r>80&&r>=g*.97&&r>b*1.05});
   }

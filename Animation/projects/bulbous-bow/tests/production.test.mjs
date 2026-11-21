@@ -7,7 +7,7 @@ import {setCamera,focusPoints,projectedEnvelope} from '../direction/camera.js';
 import {vesselMotion} from '../direction/motion.js';
 import {heightAt,LAB_FLOOR_Y} from '../environment/geography.js';
 import {interference,conditionAt} from '../environment/waves.js';
-import {SHIP,BULB,bulbSurfacePoints,hullBand,deckGeometry} from '../assets/ship.js';
+import {SHIP,BULB,bulbSurfacePoints,hullGeometry,exposedBulbWidth,stemZ} from '../assets/ship.js';
 const file=name=>new URL('../'+name,import.meta.url);
 const narration=JSON.parse(readFileSync(file('narration.json'),'utf8'));
 const normalize=s=>s.replace(/\s+/g,' ').trim();
@@ -75,33 +75,56 @@ test('all 4926 delivery poses protect focus, ground, hull and dock walls',()=>{
 });
 
 
-test('bulb is proportionate and faired as one surface, not two intersecting lobes',()=>{
- assert.equal(BULB.radiusX*2,3.7);
- assert.ok((BULB.radiusX*2)/SHIP.beam<.16);
+test('bulb is a proportionate extension of a single welded closed hull',()=>{
+ assert.ok(exposedBulbWidth()>2.8&&exposedBulbWidth()/SHIP.beam<.16);
  assert.ok((SHIP.bowZ-BULB.frontZ)/SHIP.length<.05);
- const points=bulbSurfacePoints();
- assert.ok(points.every(p=>p.every(Number.isFinite)));
- assert.ok(Math.max(...points.map(p=>p[1]))< -4.9);
+ assert.ok(bulbSurfacePoints().every(p=>p.every(Number.isFinite)));
+ assert.equal(stemZ(-7.5),-72);assert.ok(stemZ(-3.5)>-66);
+ for(const miniature of [false,true])for(const bulb of [false,true]){
+  const g=hullGeometry({miniature,bulb}),idx=g.index.array,edges=new Map(),adj=new Map();
+  for(let i=0;i<idx.length;i+=3)for(let j=0;j<3;j++){
+   const a=idx[i+j],b=idx[i+(j+1)%3],key=a<b?`${a},${b}`:`${b},${a}`;
+   const e=edges.get(key)||{count:0,direction:0};e.count++;e.direction+=a<b?1:-1;edges.set(key,e);
+   if(!adj.has(a))adj.set(a,[]);adj.get(a).push(b);
+  }
+  for(const e of edges.values()){assert.equal(e.count,2,'closed two-manifold skin');assert.equal(e.direction,0,'consistent outward winding');}
+  const seen=new Set(),stack=[0];while(stack.length){const v=stack.pop();if(seen.has(v))continue;seen.add(v);stack.push(...adj.get(v));}
+  assert.equal(seen.size,g.attributes.position.count,'bulb and hull share all topology, with no separate component');
+  assert.equal(g.attributes.position.count-edges.size+idx.length/3,2,'closed genus-zero hull');
+  assert.equal(g.userData.independentBulbMeshes,0);g.dispose();
+ }
 });
-test('hull side winding points OUTWARD and the top deck faces upward',()=>{
- const g=hullBand(-10.4,0,6),p=g.attributes.position;
- const a=new T.Vector3(),b=new T.Vector3(),c=new T.Vector3(),n=new T.Vector3();
- let checked=0;
+test('integrated hull sides point outward, keel down and deck up',()=>{
+ const g=hullGeometry(),p=g.attributes.position,a=new T.Vector3(),b=new T.Vector3(),c=new T.Vector3(),n=new T.Vector3();
+ let sides=0,top=0,bottom=0;
  for(let i=0;i<g.index.count;i+=3){
   a.fromBufferAttribute(p,g.index.getX(i));b.fromBufferAttribute(p,g.index.getX(i+1));c.fromBufferAttribute(p,g.index.getX(i+2));
   n.crossVectors(b.clone().sub(a),c.clone().sub(a)).normalize();
   const x=(a.x+b.x+c.x)/3,z=(a.z+b.z+c.z)/3;
-  if(Math.abs(z)<25&&Math.abs(n.x)>.5){assert.ok(n.x*x>0);checked++;}
+  if(Math.abs(z)<25&&Math.abs(n.x)>.5){assert.ok(n.x*x>0);sides++;}
+  if(a.y===b.y&&b.y===c.y&&a.y>8){assert.ok(n.y>.99);top++;}
+  if(a.y===b.y&&b.y===c.y&&a.y< -10){assert.ok(n.y<-.99);bottom++;}
  }
- assert.ok(checked>100);g.dispose();
- const deck=deckGeometry();for(let i=0;i<deck.attributes.normal.count;i++)assert.ok(deck.attributes.normal.getY(i)>.99);deck.dispose();
+ assert.ok(sides>100&&top>100&&bottom>100);g.dispose();
+});
+test('explanation camera moves slowly without static holds or repeated orbits',()=>{
+ for(const [start,end,maxSpeed] of [[11,16,3],[69,77.5,3],[126,150,2]]){
+  const first=stateAt(start).eye,last=stateAt(end).eye;
+  assert.ok(Math.hypot(...first.map((v,i)=>last[i]-v))>3);
+  for(let t=start;t<end;t+=.1){
+   const a=stateAt(t),b=stateAt(Math.min(t+.1,end));
+   const relative=s=>s.eye.map((v,i)=>v-(s.focusKind==='sea-bulb'?s.ship[i]:0));
+   const x=relative(a),y=relative(b);
+   assert.ok(Math.hypot(...x.map((v,i)=>y[i]-v))/.1<maxSpeed,`slow camera at ${t}`);
+  }
+ }
 });
 test('ship rides higher without exposing the bulb or turning sea response into exaggerated motion',()=>{
  for(let i=0;i<4926;i++){
   const m=vesselMotion(i/24),draft=SHIP.draft-m.heave,freeboard=SHIP.deckY+m.heave;
   assert.ok(draft>8.2&&draft<8.6);assert.ok(freeboard>10);
   assert.ok(Math.abs(m.pitch)<.002&&Math.abs(m.roll)<.002);
-  assert.ok(m.heave+BULB.centreY+BULB.radiusY< -2.8);
+  assert.ok(m.heave+BULB.shoulderY< -1.3);
  }
  assert.notEqual(vesselMotion(1).heave,vesselMotion(2).heave);
 });

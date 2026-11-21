@@ -4,7 +4,7 @@ A complete **205.25-second narrated portrait film** using the user's entire supp
 
 ## Review revision
 
-The current film incorporates the user's requested corrections: a **smaller single-piece bulb**, restored outward-facing hull plating and a **higher-riding ship**, a lab floor physically separated from the terrain to remove depth flicker, and more active wakes, sea response, pond impacts and testing machinery. English VO, full script and duration are unchanged. See [the changes, geometric causes and regression checks](REVISION.md).
+The current film incorporates the user's requested corrections: a **reference-shaped bow integrated into one welded hull mesh**, restored outward-facing hull plating and a **higher-riding ship**, a lab floor physically separated from the terrain to remove depth flicker, and slow camera tracking/dolly/crane moves as well as active wakes, sea response, pond impacts and testing machinery. English VO, full script and duration are unchanged. See [the changes, geometric causes and regression checks](REVISION.md).
 
 ## Delivery
 
@@ -27,7 +27,7 @@ The MP4 is the finished deliverable; the browser animation is editable productio
 | 120–157 s | An outdoor model-design basin connects efficiency with speed/loading and contrasts matched and off-design conditions. |
 | 157–176 s | Camera enters an actual separate naval laboratory, where a carriage tows a miniature model and screens show schematic measurements. |
 | 176–187 s | Travel past a working cargo terminal connects many voyages with operating economics. |
-| 187–205.25 s | Return to the ocean for the final wave-maker reveal, then a short ending hold. |
+| 187–205.25 s | Return to the ocean for the final wave-maker reveal, with a slow final approach. |
 
 This is a continuous, time-compressed geographic journey, not a real-time shipyard flight. Two full-size ships occupy the dry dock and ocean; **only miniature models** are in the model-testing facilities. People use the established flat illustrated character drawing on upright billboards, not full 3D human meshes.
 
@@ -39,7 +39,7 @@ The pond analogy is explicitly an analogy, not a literal hydrodynamic model of a
 
 ## Source map
 
-- `assets/ship.js`: parametric hull bands, bulb, deck, bridge, containers, fittings, propeller and miniature variants.
+- `assets/ship.js`: single welded parametric hull/forefoot/deck, bridge, containers, fittings, propeller and miniature variants.
 - `environment/geography.js`: shared coastal terrain/seabed, excavated dock, garden grading and regional trees.
 - `environment/facilities.js`: dock engineering structures, pond garden, outdoor basin, separate tow-tank building and cargo terminal.
 - `environment/waves.js`: ocean/bow wave shaders, two-source pond surface, model-basin waves and underwater tracers.
