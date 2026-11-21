@@ -41,7 +41,7 @@ def main():
     if 'black_start:' in probe.stderr:raise ValueError('Unexpected black interval')
     if picture_hash(part)!=picture_hash(clean):raise ValueError('Pictures changed in mux')
     feature_checks=[]
-    for t,x,y,w,h in [(79,50,260,200,130),(172,40,275,220,95)]:
+    for t,x,y,w,h in [(79,75,292,90,75),(172,40,275,220,95)]:
         image=subprocess.run([FF,'-v','error','-ss',str(t),'-i',str(part),'-frames:v','1',
                               '-vf','scale=360:640','-pix_fmt','rgb24','-f','rawvideo','-'],
                              capture_output=True,check=True).stdout
@@ -52,6 +52,20 @@ def main():
                 visible+=int(r>40 and r>g*1.2 and r>b*1.2) if t==79 else int(r>140 and g>130)
         if visible<=300:raise ValueError(f'Encoded feature occluded at {t}s: {visible} pixels')
         feature_checks.append({'time':t,'feature':'bulb cutaway' if t==79 else 'tow model','visibleFeaturePixels':visible,'passed':True})
+    floor_report=json.loads((output/'browser-test.json').read_text())['floor']
+    encoded_floor={'sampledPoses':floor_report['poses'],'visiblePoints':0,'badPixels':0}
+    for pose in floor_report['samples']:
+        if not pose['points']:continue
+        image=subprocess.run([FF,'-v','error','-ss',str(pose['time']),'-i',str(part),'-frames:v','1',
+                              '-vf','scale=360:640','-pix_fmt','rgb24','-f','rawvideo','-'],
+                             capture_output=True,check=True).stdout
+        for point in pose['points']:
+            x,y=point['screen'];i=(y*360+x)*3;r,g,b=image[i:i+3]
+            encoded_floor['visiblePoints']+=1
+            # Small codec/scaling tolerance; terrain-green remains rejected.
+            if not (r>70 and r>=g*.94 and r>b*1.02):encoded_floor['badPixels']+=1
+    if encoded_floor['visiblePoints']<30 or encoded_floor['badPixels']:
+        raise ValueError('Encoded floor pixel instability: '+str(encoded_floor))
     measured=run('-i',part,'-vn','-af','loudnorm=I=-16:TP=-1.5:LRA=7:print_format=json','-f','null','-')
     levels=json.loads(re.findall(r'\{[^{}]*"input_i"[^{}]*\}',measured.stderr,re.S)[-1])
     if abs(float(levels['input_i'])+16)>1 or float(levels['input_tp'])>-.5:raise ValueError('Voice levels out of bounds')
@@ -68,7 +82,7 @@ def main():
         'width':720,'height':1280,'fps':24,'videoCodec':'H.264','audioCodec':'AAC mono 48kHz',
         'integratedLufs':float(levels['input_i']),'truePeakDbtp':float(levels['input_tp']),
         'fullFileDecode':'passed','unexpectedBlackIntervals':0,'pictureUnchangedDuringMux':True,
-        'encodedFeatureChecks':feature_checks,
+        'encodedFeatureChecks':feature_checks,'encodedFloorTemporalCheck':encoded_floor,
         'scriptWords':568,'scriptPreserved':True,'voice':'user-selected voice-02',
         'cameraAudit':audit,'cameraTraceSha256':digest(clean.with_suffix('.camera.json')),
         'renderAssembly':json.loads(clean.with_suffix('.assembly.json').read_text()) if clean.with_suffix('.assembly.json').exists() else 'Full deterministic export',
@@ -76,6 +90,8 @@ def main():
         'scientificScope':'Dimensionless wave superposition diagrams, not CFD, measured resistance or fuel-saving predictions. Off-design conditions may increase resistance.',
         'environments':['excavated dry dock','coastal ocean','ripple pond','outdoor design basin','separate naval model-testing laboratory','cargo terminal'],
         'world':'Continuous regional terrain and time-compressed travel; full-size ships never enter the model laboratory.',
+        'reviewRevision':'Proportional single-piece bulb, outward hull faces, higher flotation, separated lab foundation, livelier world action; see REVISION.md',
+        'worldStatistics':json.loads((output/'browser-test.json').read_text())['stats'] if (output/'browser-test.json').exists() else None,
         'reviewLimits':{'manualAudioListening':False,'everyFramePerceptuallyReviewed':False,'referenceParityClaimed':False,'checks':'All 4926 camera poses, complete encoded-file decode and representative visual samples'},
         'sourceSha256':{str(p.relative_to(P)):digest(p) for p in sources},
         'voiceoverSha256':digest(P/'delivery/voiceover.flac'),

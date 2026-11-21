@@ -1,6 +1,6 @@
 import * as T from '../../../engine/vendor/three.module.js';
 import {batchStatic, canvasTexture} from '../assets/drawing.js';
-import {DOCK, POND, FLUME, LAB, heightAt} from './geography.js';
+import {DOCK, POND, FLUME, LAB, LAB_FLOOR_Y, heightAt} from './geography.js';
 import {hash} from '../direction/math.js';
 
 function crane(parent, k, x, z, height, reach) {
@@ -96,7 +96,7 @@ export function buildResearchCampus(scene, k) {
 
   const lab = new T.Group(); lab.position.set(...LAB); scene.add(lab);
   lab.name = 'Naval research tow tank: only scale models are indoors';
-  box(lab, 0, -0.14, 0, 58, 0.28, 100, M.cream);
+  box(lab, 0, LAB_FLOOR_Y-LAB[1]-.36, 0, 58, .72, 100, M.cream);
   for (const x of [-29, 29]) box(lab, x, 12, 0, 0.3, 24, 100, M.teal);
   // Front and rear openings are real, aligned with the camera's one-way rail.
   for (const z of [-50, 50]) {
@@ -113,7 +113,7 @@ export function buildResearchCampus(scene, k) {
   for (const x of [-6.5, 6.5]) box(lab, x, 2, 0, 0.55, 4, 76, M.steel);
   for (const z of [-38, 38]) box(lab, 0, 2, z, 13, 4, 0.5, M.steel);
   for (const x of [-9, 9]) {
-    box(lab, x, 0.04, 0, 0.2, 0.08, 84, M.yellow);
+    box(lab, x, .065, 0, 0.2, .025, 84, M.yellow);
     box(lab, x, 5.7, 0, 0.24, 0.4, 84, M.steel);
   }
   const labScreens = [screen(lab, k, -18, 7.4, -23, 'FLOW FIELD / SCHEMATIC', 8), screen(lab, k, 18, 7.4, -23, 'TOW FORCE / RELATIVE', 8)];
@@ -129,8 +129,13 @@ export function buildResearchCampus(scene, k) {
   }
   box(carriage, 0, 9.5, 0, 20, 0.6, 3, M.yellow);
   rod(carriage, [0, 9.5, 0], [0, 3, 0], 0.055, M.steel);
-  batchStatic(garden); batchStatic(outdoor); batchStatic(lab, new Set([carriage])); batchStatic(carriage);
-  return {roots: [garden, outdoor, lab], lab, outdoor, carriage, screens: [outdoorScreen, ...labScreens]};
+  const wheels=[];
+  for(const x of [-9,9])for(const z of [-1.7,1.7]){
+    const wheel=cyl(carriage,x,6,z,.55,.30,M.navy);wheel.rotation.z=Math.PI/2;wheel.userData.axle=wheel.quaternion.clone();wheels.push(wheel);
+  }
+  const lamps=[ball(carriage,-8.5,8.35,0,.22,.22,.22,M.red),ball(carriage,8.5,8.35,0,.22,.22,.22,M.green)];
+  batchStatic(garden); batchStatic(outdoor); batchStatic(lab, new Set([carriage])); batchStatic(carriage,new Set([...wheels,...lamps]));
+  return {roots: [garden, outdoor, lab], lab, outdoor, carriage, wheels, lamps, floorY: LAB_FLOOR_Y, screens: [outdoorScreen, ...labScreens]};
 }
 
 export function buildTerminal(scene, k) {

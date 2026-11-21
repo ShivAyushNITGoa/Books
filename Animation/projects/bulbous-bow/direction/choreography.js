@@ -1,11 +1,12 @@
 import {DURATION, FPS, CHAPTERS} from './timing.js';
 import {clamp, mix, ramp, sample} from './math.js';
+import {vesselMotion} from './motion.js';
 import {conditionAt} from '../environment/waves.js';
 export {DURATION, FPS, CHAPTERS};
 
 export function shipPosition(time) {
   const underway = Math.max(0, time - 28);
-  return [230 + underway * 0.30, 0, -320 - underway * 1.65];
+  return [230 + underway * 0.30, vesselMotion(time).heave, -320 - underway * 1.65];
 }
 const add = (a, b) => a.map((value, i) => value + b[i]);
 const dock = (t, eye, aim) => [t, ...add([-420, 0, 0], eye), ...add([-420, 0, 0], aim)];
@@ -59,8 +60,8 @@ export const KEYS = [
   sea(187.0, [127, 44, -117], [0, 1, -10]),
   sea(193.0, [91, 28, -104], [0, -1, -50]),
   sea(198.5, [57, 13, -90], [0, -3, -66]),
-  sea(202.5, [34, 0.5, -85], [-0.7, -6.8, -70]),
-  sea(DURATION, [27, -2.8, -84], [0.6, -6.8, -70]),
+  sea(202.5, [42, 0.5, -85], [-0.7, -6.8, -70]),
+  sea(DURATION, [38, -2.8, -84], [0.6, -6.8, -70]),
 ];
 
 export function stateAt(time) {
@@ -73,9 +74,9 @@ export function stateAt(time) {
   const modelZ = -666 - clamp(t - 158, 0, 17) * 3.2;
   let focus, focusKind, viewLabel;
   if (t < 24) {
-    focus = [-420, -6.9, -72]; focusKind = 'dry-bulb'; viewLabel = 'Dry dock · hull inspection';
+    focus = [-420, -6.8, -68.8]; focusKind = 'dry-bulb'; viewLabel = 'Dry dock · hull inspection';
   } else if (t < 105) {
-    focus = add(shipPosition(t), [0, t > 64 && t < 85 ? -6.9 : 0, -70]);
+    focus = add(shipPosition(t), [0, t > 64 && t < 85 ? -6.8 : 0, t > 64 && t < 85 ? -68.8 : -70]);
     focusKind = t > 64 && t < 85 ? 'sea-bulb' : 'bow-wave'; viewLabel = t > 64 && t < 85 ? 'Below the waterline' : 'Underway · bow and water';
   } else if (t < 120) {
     focus = [-165, 6.5, -450]; focusKind = 'pond'; viewLabel = 'Two-stone ripple analogy';
@@ -86,7 +87,7 @@ export function stateAt(time) {
   } else if (t < 186) {
     focus = [-110, 10, -915]; focusKind = 'trade'; viewLabel = 'Cargo terminal · repeated voyages';
   } else {
-    focus = add(shipPosition(t), [0, t > 200 ? -6.9 : 1, t > 200 ? -71 : -48]);
+    focus = add(shipPosition(t), [0, t > 200 ? -6.8 : 1, t > 200 ? -68.8 : -48]);
     focusKind = 'final-voyage'; viewLabel = 'Open ocean · engineered efficiency';
   }
   const windows = [[7,22],[34,61],[68,83],[89,102],[110,118],[125,152],[161,173],[191,197.5],[201,DURATION+1]];

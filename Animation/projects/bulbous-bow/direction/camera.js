@@ -1,4 +1,5 @@
 import * as T from '../../../engine/vendor/three.module.js';
+import {bulbSurfacePoints} from '../assets/ship.js';
 import {stateAt, DURATION} from './choreography.js';
 
 let track;
@@ -63,15 +64,8 @@ export function projectedEnvelope(points, camera) {
 export function focusPoints(state) {
   const p = state.focus;
   if (['dry-bulb', 'sea-bulb'].includes(state.focusKind) || state.focusKind==='final-voyage' && state.t>200) {
-    const centreZ = state.focusKind==='dry-bulb' ? -67.6 : state.ship[2]-67.6;
-    const out=[];
-    for(let lat=0;lat<=8;lat++)for(let lon=0;lon<20;lon++){
-      const phi=lat/8*Math.PI,theta=lon/20*Math.PI*2;
-      const z=centreZ+Math.sin(phi)*Math.cos(theta)*10.3;
-      if(z>centreZ+5.1)continue; // Neck is blended into/occluded by the hull.
-      out.push(new T.Vector3(p[0]+Math.sin(phi)*Math.sin(theta)*3.05,-6.9+Math.cos(phi)*3.15,z));
-    }
-    return out;
+    const origin = state.focusKind==='dry-bulb' ? [-420,0,0] : state.ship;
+    return bulbSurfacePoints().filter(v=>v[2]<-63.8).map(v=>new T.Vector3(v[0]+origin[0],v[1]+origin[1],v[2]+origin[2]));
   }
   const size = ['dry-bulb', 'sea-bulb'].includes(state.focusKind) ? [3.2, 3.3, 6.3]
     : state.focusKind === 'tank-model' ? [0.9, 0.8, 4.2]

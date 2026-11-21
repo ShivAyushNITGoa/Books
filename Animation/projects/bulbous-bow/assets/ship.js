@@ -2,7 +2,37 @@ import * as T from '../../../engine/vendor/three.module.js';
 import {batchStatic} from './drawing.js';
 import {mix, clamp, smooth} from '../direction/math.js';
 
-export const SHIP = Object.freeze({length: 132, beam: 25, draft: 10.4, bowZ: -66, bulbZ: -69});
+export const SHIP = Object.freeze({length: 132, beam: 25, draft: 10.4, deckY: 8.2,
+  bowZ: -66, bulbZ: -68.8, afloatOffset: 2.0});
+// Single fair body: 3.7 m maximum width, 6 m beyond the nominal stem,
+// rather than the previous 20.6 m ellipsoid and separate spherical connector.
+export const BULB = Object.freeze({frontZ:-72, rearZ:-60.4, radiusX:1.85, radiusY:1.7, centreY:-6.8, slope:.095});
+export function bulbSurfacePoints() {
+  const points=[],centreZ=(BULB.frontZ+BULB.rearZ)/2,rz=(BULB.rearZ-BULB.frontZ)/2;
+  for(let i=0;i<=48;i++){
+    const phi=i/48*Math.PI,z=centreZ-rz*Math.cos(phi),s=Math.sin(phi);
+    for(let j=0;j<=32;j++){
+      const theta=j/32*Math.PI*2;
+      points.push([BULB.radiusX*s*Math.cos(theta),BULB.centreY+BULB.slope*(z-centreZ)+BULB.radiusY*s*Math.sin(theta),z]);
+    }
+  }
+  return points;
+}
+export function bulbGeometry() {
+  const points=bulbSurfacePoints(),indices=[],rows=points.length/33;
+  for(let i=0;i<rows-1;i++)for(let j=0;j<32;j++){
+    const a=i*33+j,b=a+1,n=a+33;indices.push(a,b,n,b,n+1,n);
+  }
+  const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(points.flat(),3));
+  g.setIndex(indices);
+  const centreZ=(BULB.frontZ+BULB.rearZ)/2,rz=(BULB.rearZ-BULB.frontZ)/2;
+  const normals=points.flatMap(([x,y,z])=>{
+    const ny=(y-BULB.centreY-BULB.slope*(z-centreZ))/(BULB.radiusY**2);
+    return new T.Vector3(x/BULB.radiusX**2,ny,(z-centreZ)/rz**2-BULB.slope*ny).normalize().toArray();
+  });
+  g.setAttribute('normal',new T.Float32BufferAttribute(normals,3));return g;
+}
+
 const STATIONS = [
   [-66, 0.24], [-63, 3.4], [-57, 7.2], [-46, 10.9], [-28, 12.5],
   [0, 12.5], [30, 12.2], [48, 11.5], [59, 9.2], [66, 4.6],
@@ -15,7 +45,7 @@ function halfBeam(z) {
 }
 
 /** Real closed hull sections, not a scaled rectangular box with a ball glued on. */
-function hullBand(minimumY, maximumY, bands) {
+export function hullBand(minimumY, maximumY, bands) {
   const positions = [], indices = [];
   const stations = 66;
   for (let s = 0; s <= stations; s++) {
@@ -51,24 +81,31 @@ function hullBand(minimumY, maximumY, bands) {
       else indices.push(a, a + 1, c, c, a + 1, c + 1);
     }
   }
+  // Correct exterior winding. The original sides and end caps faced inward,
+  // so above-water plating vanished under back-face culling: a false deep-draft
+  // appearance that cannot be repaired by simply raising the ship.
+  for(let i=0;i<indices.length;i+=3)[indices[i+1],indices[i+2]]=[indices[i+2],indices[i+1]];
+  if(minimumY===-SHIP.draft)for(let s=0;s<stations;s++){
+    const a=s*row,c=a+bands+1,n=a+row;indices.push(a,c,n,c,n+bands+1,n);
+  }
   const geometry = new T.BufferGeometry();
   geometry.setAttribute('position', new T.Float32BufferAttribute(positions, 3));
   geometry.setIndex(indices); geometry.computeVertexNormals();
   return geometry;
 }
 
-function deckGeometry() {
+export function deckGeometry() {
   const shape = new T.Shape();
   for (let i = 0; i <= 66; i++) {
     const z = -66 + i * 2, width = halfBeam(z);
-    if (!i) shape.moveTo(-width, z); else shape.lineTo(-width, z);
+    if (!i) shape.moveTo(-width, -(z-2.5*(1-smooth((z+66)/12)))) ; else shape.lineTo(-width, -(z-2.5*(1-smooth((z+66)/12))));
   }
   for (let i = 66; i >= 0; i--) {
-    const z = -66 + i * 2; shape.lineTo(halfBeam(z), z);
+    const z = -66 + i * 2; shape.lineTo(halfBeam(z), -(z-2.5*(1-smooth((z+66)/12))));
   }
   shape.closePath();
   const geometry = new T.ShapeGeometry(shape);
-  geometry.rotateX(Math.PI / 2); geometry.translate(0, 8.2, 0);
+  geometry.rotateX(-Math.PI / 2); geometry.translate(0, SHIP.deckY, 0);
   return geometry;
 }
 
@@ -109,8 +146,7 @@ export function buildShip(parent, k, {scale = 1, bulb = true, miniature = false,
   deck.material = deck.material.clone(); deck.material.side = T.DoubleSide;
   const bulbGroup = new T.Group(); root.add(bulbGroup);
   if (bulb) {
-    ball(bulbGroup, 0, -6.9, -67.6, 3.05, 3.15, 10.3, M.red);
-    ball(bulbGroup, 0, -6.2, -61.8, 3.5, 3.65, 5.3, M.red);
+    mesh(bulbGroup, bulbGeometry(), M.red);
   }
   const count = addContainers(root, k, miniature);
   // Aft accommodation/bridge, with genuine depth on every visible facade.
@@ -152,5 +188,5 @@ export function buildShip(parent, k, {scale = 1, bulb = true, miniature = false,
   }
   batchStatic(root, new Set([propeller])); batchStatic(propeller);
   return {root, propeller, bulb: bulbGroup, containers: count, scale, length: 132 * scale,
-    bowPoint: [0, -6.9, -74], lower, upper};
+    bowPoint: [0, -7.1, -72], lower, upper};
 }

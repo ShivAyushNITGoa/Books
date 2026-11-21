@@ -4,6 +4,8 @@ export const DOCK = [-420, 0, 0];
 export const POND = [-165, 6.5, -450];
 export const FLUME = [-180, 7.8, -575];
 export const LAB = [-200, 6, -700];
+export const LAB_FLOOR_Y = 6.04;
+export const LAB_SUBGRADE_Y = 5.35;
 
 export function coastX(z) {
   return -60 + 70 * Math.sin(z / 400) - 500 * Math.exp(-(((z + 150) / 100) ** 2));
@@ -19,6 +21,9 @@ export function heightAt(x, z) {
   y = mix(y, 6, campus * ramp(-120, -160, x));
   const garden = 1-ramp(24,48,Math.hypot(x+165,(z+450)*1.25));
   y=mix(y,6,garden);
+  // Never leave the coastal heightfield coplanar with the laboratory slab.
+  const underLab=(1-ramp(29.5,33,Math.abs(x+200)))*(1-ramp(50.5,54,Math.abs(z+700)));
+  y=mix(y,LAB_SUBGRADE_Y,underLab);
   // This is a deliberately excavated dry dock; its physical retaining walls
   // cover the boundary. Outdoor terrain elsewhere has no square set floors.
   if (x > -459 && x < -381 && z > -100 && z < 100) y = -14;
@@ -32,8 +37,8 @@ export function buildGeography(scene, k) {
     for (let v = denseLow; v <= denseHigh; v += 15) values.add(v);
     return [...values].sort((a, b) => a - b);
   }
-  const xs = axis(-4400, 2600, -570, 600, [-460, -459, -381, -380]);
-  const zs = axis(-4150, 2850, -1050, 150, [-101, -100, 100, 101]);
+  const xs = axis(-4400, 2600, -570, 600, [-460, -459, -381, -380, -233, -229.5, -170.5, -167]);
+  const zs = axis(-4150, 2850, -1050, 150, [-101, -100, 100, 101, -754, -750.5, -649.5, -646]);
   const positions = [], colors = [], indices = [], color = new T.Color();
   for (let iz = 0; iz < zs.length; iz++) {
     for (let ix = 0; ix < xs.length; ix++) {
@@ -75,5 +80,9 @@ export function buildGeography(scene, k) {
     dummy.updateMatrix(); bark.setMatrixAt(i, dummy.matrix);
   }
   leaf.computeBoundingSphere(); bark.computeBoundingSphere(); scene.add(leaf, bark);
-  return {terrain, trees: trees.length, stats: {worldWidthMeters: 7000, sharedLandAndSeabed: true, regionalTrees: trees.length}};
+  const floorVertices=[];
+  for(let i=0;i<positions.length;i+=3)if(positions[i]>=-229.5&&positions[i]<=-170.5&&positions[i+2]>=-750.5&&positions[i+2]<=-649.5)floorVertices.push(positions[i+1]);
+  const maxTerrainBelowSlab=Math.max(...floorVertices);
+  return {terrain, trees: trees.length, stats: {worldWidthMeters: 7000, sharedLandAndSeabed: true, regionalTrees: trees.length,
+    labFloorY:LAB_FLOOR_Y,maxTerrainBelowSlab,minimumLabSurfaceSeparation:LAB_FLOOR_Y-maxTerrainBelowSlab}};
 }

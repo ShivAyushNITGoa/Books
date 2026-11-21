@@ -1,5 +1,7 @@
 # Direction, implementation choices and checks
 
+These notes document the original production and the issues caught during its first export. For the user's subsequent proportional-bulb, waterline, floor-flicker and activity corrections, see the current [revision report](REVISION.md). Current measurements are in `delivery/production.json`.
+
 ## What the new correction changes
 
 The previous production had gradually acquired more elaborate camera travel. That improvement was not a licence to keep orbiting every new subject. The user's new instruction is specific: do not round the camera around the object and do not repeatedly move across the film as before.

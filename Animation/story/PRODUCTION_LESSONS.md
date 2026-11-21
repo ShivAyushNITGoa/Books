@@ -33,6 +33,10 @@ The user explicitly asked to list the improvements from the first black-box film
 
 For the next ship film the user explicitly asked **not to round/circle the camera around the object and not to move repeatedly around the film as before**. This overrides any assumption that the black-box project's multi-sided camera work should become a standard orbit recipe. Use calm, purposeful staging and held explanatory views; reserve travel and height changes for genuine reveals or changes of place. Varying composition does not require circling a subject. Do not carry black-box minimum-azimuth thresholds into a brief that asks for less camera movement. The [bulbous-bow direction notes](../projects/bulbous-bow/DIRECTION.md) document the application and checks.
 
+## Ship-review corrections to carry forward
+
+The user subsequently requested a proportionate bulb, less apparent immersion, removal of model-lab floor flicker and slightly more dynamic action. Before the next export, validate attachments against their parent object's scale; inspect exterior face winding before compensating with waterline/position changes; keep floors, terrain and decals physically separated rather than coplanar; and add motivated prop/water/actor activity without reviving repeated camera orbits. The [ship revision report](../projects/bulbous-bow/REVISION.md) records the actual causes, corrections and regression tests.
+
 ## Use before every new film
 
 - Read the new script and identify its required locations, geography, characters, action, visual style and audio/camera constraints.

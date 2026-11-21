@@ -87,6 +87,28 @@ function auditCamera() {
     repeatedOrbits: Object.values(bearingRanges).some(range => range > 90)};
 }
 
+// QA-only: compare ray-confirmed slab pixels across moving-camera lab frames.
+// Scene depth, not an arbitrary screen rectangle, determines which pixels are
+// genuinely unobstructed floor. This hook is never run during frame export.
+function sampleLabFloor() {
+  const ray=new T.Raycaster(),target=new T.Vector3(),direction=new T.Vector3();
+  const roots=[...world.staticRoots,world.geography.terrain,world.tankModel.root];
+  const samples=[];
+  for(const x of [-228,-226,-224,-192,-190,-188])for(let z=-745;z<=-655;z+=3){
+    target.set(x,world.stats.labFloorY,z);
+    const p=target.clone().project(camera);
+    if(p.z>=1||Math.abs(p.x)>.9||p.y>.3||p.y<-.55)continue;
+    const distance=target.distanceTo(camera.position);
+    ray.set(camera.position,direction.copy(target).sub(camera.position).normalize());ray.far=distance+.1;
+    const hit=ray.intersectObjects(roots,true)[0];
+    if(!hit||Math.abs(hit.distance-distance)>.04||hit.face.normal.y<.9)continue;
+    const px=Math.round((p.x+1)*WIDTH/2),py=Math.round((1-p.y)*HEIGHT/2);
+    const [r,g,b]=ctx.getImageData(px,py,1,1).data;
+    samples.push({point:[x,world.stats.labFloorY,z],screen:[px,py],pixel:[r,g,b],slabColor:r>80&&r>=g*.97&&r>b*1.05});
+  }
+  return samples;
+}
+
 function playback() {
   const audio = document.querySelector('#vo'), button = document.querySelector('#play');
   button.onclick = async () => {
@@ -112,6 +134,7 @@ async function init() {
     world = buildWorld(scene);
     window.setT = render; window.setCaptions = enabled => { cc = enabled; render(time); };
     window.auditCamera = auditCamera; window.worldStats = world.stats; window.filmDuration = DURATION;
+    window.sampleLabFloor = sampleLabFloor;
     render(0); playback(); window.renderSafe = true;
   } catch (error) { window.renderError = error.stack; console.error(error); }
 }

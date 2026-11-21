@@ -2,6 +2,10 @@
 
 A complete **205.25-second narrated portrait film** using the user's entire supplied English script (568 body words). The new direction deliberately avoids the previous film's repeated object-centred camera journeys: explanations are held from one side, with purposeful travel between actual outdoor and indoor settings.
 
+## Review revision
+
+The current film incorporates the user's requested corrections: a **smaller single-piece bulb**, restored outward-facing hull plating and a **higher-riding ship**, a lab floor physically separated from the terrain to remove depth flicker, and more active wakes, sea response, pond impacts and testing machinery. English VO, full script and duration are unchanged. See [the changes, geometric causes and regression checks](REVISION.md).
+
 ## Delivery
 
 - [Watch/download the narrated film](delivery/bulbous-bow-narrated-720p.mp4) — H.264/AAC, **720 × 1280, 24 fps, 4,926 frames**.

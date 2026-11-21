@@ -1,7 +1,8 @@
 import * as T from '../../engine/vendor/three.module.js';
 import {drawingKit, canvasTexture} from './assets/drawing.js';
-import {buildShip} from './assets/ship.js';
-import {buildGeography, DOCK, FLUME, LAB} from './environment/geography.js';
+import {vesselMotion} from './direction/motion.js';
+import {buildShip, SHIP} from './assets/ship.js';
+import {buildGeography, DOCK, FLUME, LAB, LAB_FLOOR_Y} from './environment/geography.js';
 import {buildDock, buildResearchCampus, buildTerminal} from './environment/facilities.js';
 import {buildWaves} from './environment/waves.js';
 import {buildAtmosphere} from './environment/atmosphere.js';
@@ -12,8 +13,8 @@ export const CAST = [
   {id: 'dock-engineer', kind: 'engineer', x: -398, y: -13.73, z: -58},
   {id: 'dock-surveyor', kind: 'search', x: -441, y: 7.5, z: -45},
   {id: 'basin-engineer', kind: 'engineer', x: -166, y: 6.4, z: -574},
-  {id: 'tank-engineer', kind: 'engineer', x: -215, y: 6.02, z: -710},
-  {id: 'data-engineer', kind: 'engineer', x: -177, y: 6.02, z: -719},
+  {id: 'tank-engineer', kind: 'engineer', x: -215, y: LAB_FLOOR_Y + .02, z: -710},
+  {id: 'data-engineer', kind: 'engineer', x: -177, y: LAB_FLOOR_Y + .02, z: -719},
 ];
 function buildCast(scene, k) {
   return CAST.map(spec => {
@@ -64,6 +65,13 @@ function drawMonitors(screens, state) {
       }
     }
     c.fillStyle = '#b5d1c0'; c.font = '18px Caption'; c.fillText('SCHEMATIC / RELATIVE VALUES ONLY', 24, 380);
+    // Live sampling cursor and measurement dots make the ongoing test legible.
+    const cursor=24+((t*.11)%1)*580;
+    c.strokeStyle='#efc16a';c.lineWidth=2;c.beginPath();c.moveTo(cursor,65);c.lineTo(cursor,350);c.stroke();
+    for(let i=0;i<8;i++){
+      const x=40+i*72,y=272+Math.sin(i*.8-t*1.3)*24;
+      c.fillStyle='#f0c780';c.beginPath();c.arc(x,y,3.8,0,Math.PI*2);c.fill();
+    }
     screen.texture.needsUpdate = true;
   }
 }
@@ -94,13 +102,22 @@ export function buildWorld(scene) {
     staticRoots: [dock.root, ...campus.roots, terminal.root],
     stats: {...geography.stats, shipLengthMeters: 132, shipBeamMeters: 25,
       fullSizeShips: 2, miniatureModels: 3, fullSizeShipsIndoors: 0,
+      bulbWidthMeters: 3.7, bulbProjectionBeyondStemMeters: 6,
+      nominalWaterlineLiftMeters: SHIP.afloatOffset, meanImmersedDraftMeters: SHIP.draft-SHIP.afloatOffset,
+      nominalFreeboardMeters: SHIP.deckY+SHIP.afloatOffset, labFloorY: LAB_FLOOR_Y,
       water: waves.stats, repeatedOrbitController: false},
     update(state, camera) {
       oceanShip.root.position.set(...state.ship);
-      oceanShip.propeller.rotation.z = state.t * 3.2;
-      outdoorModel.root.position.set(FLUME[0], FLUME[1] + mix(0, -0.28, ramp(145, 153, state.t)), -570 - 10 * ramp(123, 152, state.t));
-      tankModel.root.position.set(LAB[0], LAB[1] + 2.8, state.modelZ);
+      const motion=vesselMotion(state.t);
+      oceanShip.root.rotation.set(motion.pitch,0,motion.roll);
+      oceanShip.propeller.rotation.z = state.t * 4.8;
+      outdoorModel.propeller.rotation.z=state.t*5.5;
+      tankModel.propeller.rotation.z=state.t*6.2;
+      outdoorModel.root.position.set(FLUME[0], FLUME[1] + .15 + .025*Math.sin(state.t*2) + mix(0, -0.28, ramp(145, 153, state.t)), -570 - 10 * ramp(123, 152, state.t));
+      tankModel.root.position.set(LAB[0], LAB[1] + 2.91 + .012*Math.sin(state.t*3), state.modelZ);
       campus.carriage.position.z = state.modelZ - LAB[2];
+      for(const wheel of campus.wheels)wheel.quaternion.copy(wheel.userData.axle).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,1,0),(state.modelZ+666)/.55));
+      campus.lamps.forEach((lamp,i)=>lamp.scale.setScalar(.18+.05*(.5+.5*Math.sin(state.t*4+i*Math.PI))));
       drawMonitors(campus.screens, state);
       for (const person of people) {
         drawPerson(person, state.t, camera.position);
